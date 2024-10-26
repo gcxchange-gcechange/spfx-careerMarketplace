@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "career-marketplace-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/careerMarketplace/CareerMarketplaceWebPart.js",
+          "manifest": "./src/webparts/careerMarketplace/CareerMarketplaceWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CareerMarketplaceWebPartStrings": "lib/webparts/careerMarketplace/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+  }
+}
