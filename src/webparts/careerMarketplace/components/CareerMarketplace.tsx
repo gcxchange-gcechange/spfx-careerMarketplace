@@ -3,7 +3,11 @@ import * as React from 'react';
 import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
-import ReusableTextField from './ReusableTextField';
+import PosterInfo from './PosterInfo';
+import { Stack } from '@fluentui/react';
+import Details from './Details';
+import Requirements from './Requirements';
+
 
 export interface ICareerMarketplaceState {
   currentPage: number;
@@ -19,21 +23,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     };
   }
 
-  // private next = (): void => {
-  //   const nextPage = this.state.currentPage + 1;
-  //   this.setState({
-  //     currentPage: nextPage
-  //   })
+  private next = (value: any): void => {
+    console.log("VALUE",value)
+    const nextPage = this.state.currentPage + 1;
+    this.setState({
+      currentPage: nextPage
+    })
 
-  // }
+  }
 
-  // private prev = (): void => {
-  //   const prevPage = this.state.currentPage -1 ;
-  //   this.setState({
-  //     currentPage: prevPage
-  //   })
+  private prev = (): void => {
+    const prevPage = this.state.currentPage -1 ;
+    this.setState({
+      currentPage: prevPage
+    })
 
-  // }
+  }
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
@@ -43,16 +48,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       {
         title: 'First',
         content: (
-          <ReusableTextField id={'1'} name={'first'} title={'first title'}/>
+          <PosterInfo/>
         ),
       },
       {
         title: 'Second',
-        content: 'Second-content',
+        content: (
+          <Details/>
+        ),
       },
       {
         title: 'Last',
-        content: 'Last-content',
+        content: (
+          <Requirements/>
+        ),
       },
     ];
    
@@ -67,8 +76,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           items={items}
         />
         </div>
-        <div>
-          <CustomButton name={'next'}/>
+        <div>{steps[currentPage].content}</div>
+        <div style={{marginTop: '20px'}}>
+          <Stack horizontal horizontalAlign={'space-between'}>
+            <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
+            <CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next(this.state.currentPage)}/>
+          </Stack>
         </div>
       </section>
     );
