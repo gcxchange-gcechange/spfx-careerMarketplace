@@ -9,6 +9,7 @@ import Details from './Details';
 import Requirements from './Requirements';
 
 
+
 export interface ICareerMarketplaceState {
   currentPage: number;
 }
@@ -23,22 +24,30 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     };
   }
 
-  private next = (value: any): void => {
-    console.log("VALUE",value)
+  private next = (): void => {
     const nextPage = this.state.currentPage + 1;
-    this.setState({
-      currentPage: nextPage
-    })
+
+    if (this.state.currentPage < 2) {
+      this.setState({
+        currentPage: nextPage
+      })
+    }
 
   }
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
-    this.setState({
-      currentPage: prevPage
-    })
 
+    if(this.state.currentPage > 0 ) {
+      this.setState({
+        currentPage: prevPage
+      })
+    }
   }
+
+  
+
+
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
@@ -80,7 +89,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         <div style={{marginTop: '20px'}}>
           <Stack horizontal horizontalAlign={'space-between'}>
             <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
-            <CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next(this.state.currentPage)}/>
+            <CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next()}/>
           </Stack>
         </div>
       </section>
