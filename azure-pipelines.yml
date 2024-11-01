@@ -87,13 +87,16 @@ stages:
   jobs:
 
 ############################################################
-## installs: npm dependencies 
+## installs: npm dependencies and jest-junit
 ############################################################
     - job: run_tests
       displayName: Install test dependencies 
       steps:
-        - script: npm install
+        - script: npm install 
           displayName: Install test dependencies
+
+        - script: npm install --save-dev jest-junit
+          displayName: Install jest-junit
 
 ############################################################
 ## executes: gulp build
@@ -106,7 +109,7 @@ stages:
 ############################################################
 ## executes: tests
 ############################################################
-        - script: npm test
+        - script: npm run jest
           displayName: Run unit test scripts
           continueOnError: true 
 
