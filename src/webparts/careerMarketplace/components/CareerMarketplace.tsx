@@ -1,3 +1,6 @@
+jest.mock('../../../../assets/sig-en.svg', () => 'mocked-sig-en');
+jest.mock('../../../../assets/wmms.svg', () => 'mocked-wmms');
+
 import * as React from 'react';
 //import styles from './CareerMarketplace.module.scss';
 import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
