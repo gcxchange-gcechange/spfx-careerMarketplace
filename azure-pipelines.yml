@@ -182,7 +182,7 @@ stages:
                 displayName: Upload to SharePoint package to the App Catalog
 
 ############################################################
-## deploys: the *.sppkg package to the app-catalog
+## installs/enables: the *.sppkg package to the site in particular 
 ############################################################
-              - script:  m365 spo app deploy --debug --verbose --name $(SpPkgFilename) -u https://devgcx.sharepoint.com/sites/appcatalog --appCatalogScope tenant --skipFeatureDeployment
-                displayName: Deploy to SharePoint package to the App Catalog
+              - script:  m365 spo app install --id 9565BAC2-0225-42BA-B1B9-9FB5AAF9EC85 --siteUrl https://devgcx.sharepoint.com/
+                displayName: Installs/Enables to a particular SharePoint site within App Catalog
