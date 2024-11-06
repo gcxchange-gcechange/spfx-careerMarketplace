@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import { DefaultButton, PrimaryButton, ThemeProvider} from '@fluentui/react';
 
@@ -5,7 +6,7 @@ export interface ICustomButtonProps {
   id: string;
   name: string;
   buttonType: 'primary' | 'secondary';
-  onClick: (value:any) => void ;
+  onClick: (value: any) => void ;
 }
 
 

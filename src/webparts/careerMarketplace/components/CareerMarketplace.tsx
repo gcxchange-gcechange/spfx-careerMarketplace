@@ -38,7 +38,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
 
-    if(this.state.currentPage > 0 ) {
+    if (this.state.currentPage > 0 ) {
       this.setState({
         currentPage: prevPage
       })
