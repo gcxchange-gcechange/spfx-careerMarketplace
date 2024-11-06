@@ -12,7 +12,14 @@ import Requirements from './Requirements';
 
 export interface ICareerMarketplaceState {
   currentPage: number;
+  name: string;
+  department: string;
+  workEmail: string;
+  jobTitleEn: string;
+  jobTitleFr: string;
+  jobType: string;
 }
+
 
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
@@ -21,6 +28,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     super(props);
     this.state = {
       currentPage: 0,
+      name: "",
+      department: "",
+      workEmail: "",
+      jobTitleEn: "",
+      jobTitleFr: "",
+      jobType: ""
     };
   }
 

@@ -5,10 +5,12 @@ export interface IReusableTextFieldProps {
   id: string;
   name: string;
   title: string;
+  onChange?: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => void;
 }
 
 
 export default class ReusableTextField extends React.Component<IReusableTextFieldProps> {
+
 
   public customLabel = (): JSX.Element => {
     return (
@@ -27,7 +29,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     return (
       <div>
         <TextField
-          {...this.props} onRenderLabel={this.customLabel}
+          {...this.props} onRenderLabel={this.customLabel} 
         />
       </div>
     )
