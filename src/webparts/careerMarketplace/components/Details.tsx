@@ -17,12 +17,17 @@ export default class Details extends React.Component<IDetailsProps> {
   public render(): React.ReactElement<IDetailsProps>{
     return (
       <div>
-       
        <ReusableTextField id={"5"} name={"jobTitleEn"} title={"Job Title (EN)"} onChange={this.onChangeTextValue}/>
        <ReusableTextField id={"6"} name={"jobTitleFr"} title={"Job Title (FR)"} onChange={this.onChangeTextValue}/>
        <ReusableTextField id={"7"} name={"jobType"} title={"Job Type"} onChange={this.onChangeTextValue}/>
        <ReusableDropdownField id={"8"} name={"program"} title={"Program area"} options={"programs"} />
        <ReusableDropdownField id={"9"} name={"classification"} title={"Classification"} options={"classifications"}/>
+       <ReusableTextField id={"10"} name={"level"} title={"Level"} onChange={this.onChangeTextValue} />
+       <ReusableTextField id={"11"} name={"numOfOpps"} title={"Number of opportunities"} onChange={this.onChangeTextValue} />
+       <ReusableTextField id={"12"} name={"duration"} title={"Duration"} onChange={this.onChangeTextValue} />
+       <ReusableTextField id={"13"} name={"deadline"} title={"Application deadline"} onChange={this.onChangeTextValue} />
+       <ReusableTextField id={"14"} name={"jobDescriptionEn"} title={"Job Description (EN)"} onChange={this.onChangeTextValue}/>
+       <ReusableTextField id={"15"} name={"jobDescriptionFr"} title={"Job Description (FR)"} onChange={this.onChangeTextValue}/>
       </div>
     )
   }
