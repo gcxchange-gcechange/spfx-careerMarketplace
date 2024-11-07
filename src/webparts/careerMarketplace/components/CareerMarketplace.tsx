@@ -8,6 +8,7 @@ import { Stack, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 import Review from './Review';
+import {AadHttpClient, HttpClientResponse, IHttpClientOptions} from '@microsoft/sp-http';
 
 
 
@@ -25,6 +26,7 @@ export interface ICareerMarketplaceState {
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
+  
   public constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
     super(props);
     this.state = {
@@ -59,7 +61,41 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
+  public submit =(): void => {
+
+    const clientId = "123"
+    const url = "www.google.ca"
+
+    const requestHeaders: Headers = new Headers();
+    requestHeaders.append("Content-type", "application/json");
+    requestHeaders.append("Cache-Control", "no-cache");
+
+    const postOptions: IHttpClientOptions= {
+      headers: requestHeaders,
+      body: `{
+
+      }`
+    }
+    try {
+      this.props.context.aadHttpClientFactory
+      .getClient(clientId)
+      .then((client: AadHttpClient): void => {
+        client
+        .post(url, AadHttpClient.configurations.v1, postOptions)
+        .then((response: HttpClientResponse) : Promise<string> => {
+          return response.json();
+        })
+        
+      })
+    }
+    catch(error){
+      console.log(error)
+    }
+    
+  }
+
   
+
 
 
 

@@ -27,9 +27,13 @@
 
 :global {
 
-  .ant-steps .ant-steps-item-process .ant-steps-item-icon {
-    background-color: '#03787c';
-    border-color: '#03787c';
+  div.ant-steps {
+    width: 50%;
+  }
+
+  div.ant-steps .ant-steps-item-process .ant-steps-item-icon {
+    background-color: '#03787c'!important;
+    border-color: '#03787c'!important;
   }
 }
 
