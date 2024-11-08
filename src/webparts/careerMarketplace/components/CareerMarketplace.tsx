@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
-//import styles from './CareerMarketplace.module.scss';
+import styles from './CareerMarketplace.module.scss';
 import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
@@ -8,6 +10,7 @@ import { Stack, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 import Review from './Review';
+import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 
 
 
@@ -59,6 +62,82 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
+  private submit = (): void => {
+    console.log("submit");
+
+      const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+      const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity";
+  
+      const requestHeaders: Headers = new Headers();
+      requestHeaders.append("Content-type", "application/json");
+      requestHeaders.append("Cache-Control", "no-cache");
+  
+      const postOptions: IHttpClientOptions= {
+        headers: requestHeaders,
+        body: `{
+
+              "ContactObjectId": null,
+              "ContactName": "Oliver Postlethwaite",
+              "DepartmentLookupId": "1",
+              "ContactEmail": "opostlet@tbs-sct.gc.ca",
+              "JobTitleEn": "xUnit Test",
+              "JobTitleFr": "FR-Function App job test",
+              "JobTypeLookupId": [ "2", "3" ],
+              "ProgramAreaLookupId": "1",
+              "ClassificationCodeLookupId": "1",
+              "ClassificationLevelLookupId": "1",
+              "NumberOfOpportunities": "1",
+              "DurationLookupId": "1",
+              "ApplicationDeadlineDate": "2024-11-08T00:00:00",
+              "JobDescriptionEn": "Job Description En",
+              "JobDescriptionFr": "Job Description Fr",
+              "EssentialSkills": "Typing",
+              "WorkScheduleLookupId": "1",
+              "LocationLookupId": "1",
+              "SecurityClearanceLookupId": "1",
+              "LanguageRequirementLookupId": "1",
+              "WorkArrangementLookupId": "1",
+              "ApprovedStaffing": true,
+              "AssetSkills": "none",
+              "CityLookupId": "1"
+        }`,
+
+      };
+
+      try {
+        this.props.context.aadHttpClientFactory
+        .getClient(clientId)
+        .then((client: AadHttpClient): void => {
+          client
+          .post(url, AadHttpClient.configurations.v1, postOptions)
+          .then((response: HttpClientResponse) => {
+            console.log('RESPONSE:', response.json());
+            return response.json();
+          })
+          
+        })
+      }
+      catch(error){
+        console.log(error)
+      }
+      
+  };
+
+
+  public handleOnChangeTextField = (event: any, value: string): void => {
+
+    const eventName = event;
+    const inputValue = value;
+    
+    console.log("Event",event);
+    console.log("Value",value);
+
+    this.setState ({
+      ...this.state,
+      [eventName]: inputValue
+    })
+
+  }
   
 
 
@@ -100,7 +179,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         step: 1,
         title: 'Information',
         content: (
-          <PosterInfo/>
+          <PosterInfo handleOnChange={this.handleOnChangeTextField}/>
         ),
       },
       {
@@ -134,17 +213,25 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         <ThemeProvider applyTo='body' theme={myTheme}>
           <section>
             <div>
+              <h2>Title</h2>
+            </div>
+            <div className={styles.stepper}>
             <Steps
               current={currentPage}
               labelPlacement="vertical"
               items={items}
+              
             />
             </div>
             <div>{steps[currentPage].content}</div>
             <div style={{marginTop: '20px'}}>
               <Stack horizontal horizontalAlign={'space-between'}>
                 <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
-                <CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next()}/>
+                { currentPage === 3 ? 
+                  <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
+                :
+                  <CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next()}/>
+                }
               </Stack>
             </div>
           </section>

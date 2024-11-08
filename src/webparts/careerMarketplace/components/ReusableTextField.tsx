@@ -1,5 +1,6 @@
 import { Label, Stack, StackItem, TextField } from '@fluentui/react';
 import * as React from 'react';
+import styles from './CareerMarketplace.module.scss';
 
 export interface IReusableTextFieldProps {
   id: string;
@@ -13,6 +14,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
 
 
   public customLabel = (): JSX.Element => {
+
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem >
@@ -29,7 +31,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     return (
       <div>
         <TextField
-          {...this.props} onRenderLabel={this.customLabel} 
+          {...this.props} onRenderLabel={this.customLabel}  className={styles.labelStyle}
         />
       </div>
     )

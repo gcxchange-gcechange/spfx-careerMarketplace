@@ -5,7 +5,7 @@ import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-property-pane';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'CareerMarketplaceWebPartStrings';
@@ -14,6 +14,7 @@ import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 
 export interface ICareerMarketplaceWebPartProps {
   description: string;
+  context: WebPartContext;
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
@@ -24,6 +25,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
       CareerMarketplace,
       {
         description: this.properties.description,
+        context: this.context
         
       }
     );

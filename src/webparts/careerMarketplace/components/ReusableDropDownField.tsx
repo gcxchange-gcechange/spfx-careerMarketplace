@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Dropdown, IDropdownOption, Label, Stack, StackItem} from '@fluentui/react';
+import styles from './CareerMarketplace.module.scss';
 
 export interface IReusableDropdownFieldProps {
   id: string;
@@ -61,7 +62,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
     return (
       <div>
         <Dropdown
-          options={dropdownOptions} onRenderLabel={this.customLabel}/>
+          options={dropdownOptions} onRenderLabel={this.customLabel} className={styles.labelStyle}/>
       </div>
     )
   }

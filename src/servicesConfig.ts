@@ -1,6 +1,6 @@
 export interface servicesConfig {
 
-  clientId: "";
+  clientId: "jhjhgh";
   apiUrl: "",
 
 }
