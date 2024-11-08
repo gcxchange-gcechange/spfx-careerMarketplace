@@ -28,6 +28,7 @@ export interface ICareerMarketplaceState {
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
+  
   public constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
     super(props);
     this.state = {
@@ -65,8 +66,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private submit = (): void => {
     console.log("submit");
 
-      const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-      const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity";
+      const clientId = "c1";
+      const url = "CreateJobOpportunity";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
