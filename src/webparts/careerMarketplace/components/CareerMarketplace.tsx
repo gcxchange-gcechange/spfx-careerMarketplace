@@ -11,17 +11,23 @@ import Details from './Details';
 import Requirements from './Requirements';
 import Review from './Review';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
+import { getSP } from '../../../pnpConfig';
+import { SPFI } from '@pnp/sp';
+
 
 
 
 export interface ICareerMarketplaceState {
   currentPage: number;
-  name: string;
+  contactName: string;
   department: string;
   workEmail: string;
   jobTitleEn: string;
   jobTitleFr: string;
   jobType: string;
+  jobDescriptionEn: string;
+  jobDescriptionFr: string;
+  city: string[];
 }
 
 
@@ -29,16 +35,19 @@ export interface ICareerMarketplaceState {
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
   
-  public constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
+  constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
     super(props);
     this.state = {
       currentPage: 0,
-      name: "",
+      contactName: "",
       department: "",
       workEmail: "",
       jobTitleEn: "",
       jobTitleFr: "",
-      jobType: ""
+      jobType: "",
+      jobDescriptionEn: "",
+      jobDescriptionFr: "",
+      city: []
     };
   }
 
@@ -78,11 +87,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         body: `{
 
               "ContactObjectId": null,
-              "ContactName": "Oliver Postlethwaite",
+              "ContactName": "${this.state.contactName}",
               "DepartmentLookupId": "1",
-              "ContactEmail": "opostlet@tbs-sct.gc.ca",
-              "JobTitleEn": "xUnit Test",
-              "JobTitleFr": "FR-Function App job test",
+              "ContactEmail": "${this.state.workEmail}",
+              "JobTitleEn": "${this.state.jobTitleEn}",
+              "JobTitleFr": "${this.state.jobTitleFr}",
               "JobTypeLookupId": [ "2", "3" ],
               "ProgramAreaLookupId": "1",
               "ClassificationCodeLookupId": "1",
@@ -90,8 +99,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "NumberOfOpportunities": "1",
               "DurationLookupId": "1",
               "ApplicationDeadlineDate": "2024-11-08T00:00:00",
-              "JobDescriptionEn": "Job Description En",
-              "JobDescriptionFr": "Job Description Fr",
+              "JobDescriptionEn": "${this.state.jobDescriptionEn}",
+              "JobDescriptionFr": "${this.state.jobDescriptionFr}",
               "EssentialSkills": "Typing",
               "WorkScheduleLookupId": "1",
               "LocationLookupId": "1",
@@ -139,8 +148,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     })
 
   }
-  
 
+  public getDropdownList = async (): Promise<void> => {
+    const _sp: SPFI = getSP(this.props.context);
+
+    
+    console.log("LIST",_sp);
+    console.log("list", this.props.list);
+
+   const itemsA: any[]=  await _sp.web.lists.getById(this.props.list[0]).items();
+
+    console.log(itemsA)
+  }
+
+  public async componentDidUpdate(): Promise<void> {
+    
+  }
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
