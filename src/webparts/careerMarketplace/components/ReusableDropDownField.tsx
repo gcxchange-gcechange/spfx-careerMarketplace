@@ -1,16 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
-import { Dropdown, IDropdownOption, Label, Stack, StackItem} from '@fluentui/react';
+import { Dropdown, IDropdownOption, IDropdownStyles, Label, Stack, StackItem} from '@fluentui/react';
 import styles from './CareerMarketplace.module.scss';
 
 export interface IReusableDropdownFieldProps {
   id: string;
   name: string;
   title: string;
-  options: 'classifications'| 'programs' | 'skills';
+  options?: any[];
+  onChange?: (item: IDropdownOption) => void;
 }
 
 
 export default class ReusableDropdownField extends React.Component<IReusableDropdownFieldProps> {
+
+
+  public handleDropdownChange = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
+    console.log("item", item)
+      
+  };
+  
 
   public customLabel = (): JSX.Element => {
     return (
@@ -27,42 +36,17 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
   public render(): React.ReactElement<IReusableDropdownFieldProps> {
 
-    const classifications: IDropdownOption[] = [
-      {key: '1', text: "1"},
-      {key: '2', text: "2"},
-    ]
-
-    const programs: IDropdownOption[] = [
-      {key: 'p1', text: "p1"},
-      {key: 'p2', text: "p2"},
-    ]
-
-    const skills: IDropdownOption[] = [
-      {key: 's1', text: "s1"},
-      {key: 's2', text: "s2"}, 
-    ]
-
-    let dropdownOptions: IDropdownOption[] = [];
-
-    switch (this.props.options) {
-      case 'classifications':
-        dropdownOptions = classifications;
-        break;
-      case 'programs':
-        dropdownOptions = programs;
-        break;
-      case 'skills':
-        dropdownOptions = skills;
-        break;
-      default:
-       
+    const dropdownStyle: Partial<IDropdownStyles> = {
+      callout: {
+        maxHeight:'500px'
+      }
     }
-
+   
 
     return (
       <div>
         <Dropdown
-          options={dropdownOptions} onRenderLabel={this.customLabel} className={styles.labelStyle}/>
+          options={this.props.options as IDropdownOption[]} onRenderLabel={this.customLabel} className={styles.labelStyle} styles={dropdownStyle} onChange={this.handleDropdownChange} />
       </div>
     )
   }

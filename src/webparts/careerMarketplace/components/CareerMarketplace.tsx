@@ -6,7 +6,7 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import { Stack, ThemeProvider, createTheme } from '@fluentui/react';
+import { IDropdownOption, Stack, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 import Review from './Review';
@@ -20,7 +20,7 @@ import { SPFI } from '@pnp/sp';
 export interface ICareerMarketplaceState {
   currentPage: number;
   contactName: string;
-  department: string;
+  department: any[];
   workEmail: string;
   jobTitleEn: string;
   jobTitleFr: string;
@@ -40,7 +40,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state = {
       currentPage: 0,
       contactName: "",
-      department: "",
+      department: [],
       workEmail: "",
       jobTitleEn: "",
       jobTitleFr: "",
@@ -149,21 +149,50 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
-  public getDropdownList = async (): Promise<void> => {
+  public handleDropDownItem = (item: IDropdownOption):void => {
+
+  }
+
+  public _getDropdownList = async (): Promise<void> => {
     const _sp: SPFI = getSP(this.props.context);
+
+  
 
     
     console.log("LIST",_sp);
     console.log("list", this.props.list);
+    if(this.state.currentPage === 0) {
+      const itemsA = await _sp.web.lists.getById(this.props.list[3]).items();
 
-   const itemsA: any[]=  await _sp.web.lists.getById(this.props.list[0]).items();
+      const dataArray = itemsA.map((data) => ({ key: data.Id, text: data.NameEn }));
 
-    console.log(itemsA)
+      console.log("DA",dataArray);
+      this.setState({
+        department: dataArray
+      })
+      
+      
+    } else if (this.state.currentPage === 1 ) {
+      const items2 = await _sp.web.lists.getById(this.props.list[1]).items();
+      console.log(items2)
+    }
+
+
   }
 
-  public async componentDidUpdate(): Promise<void> {
-    
+  public async componentDidMount(): Promise<void> {
+    await this._getDropdownList()
   }
+
+  public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
+    if (this.state.currentPage !== prevState.currentPage) {
+        console.log("I changed pages")
+        await this._getDropdownList()
+    }
+  }
+
+
+
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
@@ -203,7 +232,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         step: 1,
         title: 'Information',
         content: (
-          <PosterInfo handleOnChange={this.handleOnChangeTextField}/>
+          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} />
         ),
       },
       {

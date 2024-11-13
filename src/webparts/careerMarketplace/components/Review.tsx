@@ -35,8 +35,8 @@ export default class Review extends React.Component<IReviewProps> {
                         <ReusableTextField id={"5"} name={"jobTitleEn"} title={"Job Title (EN)"} onChange={this.onChangeTextValue}/>
                         <ReusableTextField id={"6"} name={"jobTitleFr"} title={"Job Title (FR)"} onChange={this.onChangeTextValue}/>
                         <ReusableTextField id={"7"} name={"jobType"} title={"Job Type"} onChange={this.onChangeTextValue}/>
-                        <ReusableDropdownField id={"8"} name={"program"} title={"Program area"} options={"programs"} />
-                        <ReusableDropdownField id={"9"} name={"classification"} title={"Classification"} options={"classifications"}/>
+                        <ReusableDropdownField id={"8"} name={"program"} title={"Program area"}  />
+                        <ReusableDropdownField id={"9"} name={"classification"} title={"Classification"} />
                         <ReusableTextField id={"10"} name={"level"} title={"Level"} onChange={this.onChangeTextValue} />
                         <ReusableTextField id={"11"} name={"numOfOpps"} title={"Number of opportunities"} onChange={this.onChangeTextValue} />
                         </StackItem>
@@ -45,7 +45,7 @@ export default class Review extends React.Component<IReviewProps> {
                         <ReusableTextField id={"13"} name={"deadline"} title={"Application deadline"} onChange={this.onChangeTextValue} />
                         <ReusableTextField id={"14"} name={"jobDescriptionEn"} title={"Job Description (EN)"} onChange={this.onChangeTextValue}/>
                         <ReusableTextField id={"15"} name={"jobDescriptionFr"} title={"Job Description (FR)"} onChange={this.onChangeTextValue}/>
-                        <ReusableDropdownField id={"16"} name={"skill"} title={"Skill"} options={"skills"} />
+                        <ReusableDropdownField id={"16"} name={"skill"} title={"Skill"}  />
                         <ReusableTextField id={"17"} name={"time"} title={"Time in hours"} onChange={this.onChangeTextValue}/>
                         <ReusableTextField id={"18"} name={"location"} title={"Location"} onChange={this.onChangeTextValue}/>
                         <ReusableTextField id={"19"} name={"language"} title={"Language requirements"} onChange={this.onChangeTextValue}/>

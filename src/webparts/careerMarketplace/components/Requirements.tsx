@@ -21,7 +21,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
       </div>
       <div>
-        <ReusableDropdownField id={"16"} name={"skill"} title={"Skill"} options={"skills"}/>
+        <ReusableDropdownField id={"16"} name={"skill"} title={"Skill"} />
         <ReusableTextField id={"17"} name={"time"} title={"Time in hours"}/>
         <ReusableTextField id={"18"} name={"location"} title={"Location"}/>
         <ReusableTextField id={"19"} name={"language"} title={"Language requirements"}/>
