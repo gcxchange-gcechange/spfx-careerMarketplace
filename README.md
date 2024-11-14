@@ -44,6 +44,9 @@ Short summary on functionality and used technologies.
 
 - Clone this repository
 - Ensure that you are at the solution folder
+- [sharepoint environment](https://learn.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment):
+  - `npm install -g gulp-cli yo @microsoft/generator-sharepoint --global`
+- generate the certificate; `gulp trust-dev-cert`
 - in the command-line run:
   - **npm install**
   - **gulp serve**
