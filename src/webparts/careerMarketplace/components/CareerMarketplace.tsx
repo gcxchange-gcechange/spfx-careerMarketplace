@@ -28,6 +28,9 @@ export interface ICareerMarketplaceState {
   jobDescriptionEn: string;
   jobDescriptionFr: string;
   city: string[];
+  programArea: any[];
+  classificationCode: any[];
+  classificationLevel: any[];
 }
 
 
@@ -47,7 +50,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       jobType: "",
       jobDescriptionEn: "",
       jobDescriptionFr: "",
-      city: []
+      city: [],
+      programArea:[],
+      classificationCode: [],
+      classificationLevel: []
     };
   }
 
@@ -161,30 +167,45 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("LIST",_sp);
     console.log("list", this.props.list);
 
-    this.props.list.map(async (listId: string) => {
-      if (currentPage === 0 && listId === 'ee941d16-2a92-4d84-83fc-acc26611f9b7' ) {
-        const itemsA = await _sp.web.lists.getById('ee941d16-2a92-4d84-83fc-acc26611f9b7').items();
-  
-        const dataArray = itemsA.map((data) => ({ key: data.Id, text: data.NameEn }));
-  
-        console.log("DA",dataArray);
+    const listArray: string[] = [];
+
+    this.props.list.map(async (listItems: any) => {
+      console.log(listItems); 
+
+      const itemTitle = listItems.title; 
+      listArray.push(itemTitle);
+    
+  });
+
+    console.log("lA", listArray);
+
+    if (currentPage === 0 ) {
+      const departments = await _sp.web.lists.getByTitle('department').items();
+      const dataArray = departments.map((data) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           department: dataArray
         }) 
-      }
-      else if (currentPage === 1) {
-        console.log("page1")
-      }
+    }
 
-    })
-
-   
-      
-      
-    // } else if (this.state.currentPage === 1 ) {
-    //   const items2 = await _sp.web.lists.getById(this.props.list[1]).items();
-    //   console.log(items2)
-    // }
+    else if (currentPage === 1 ) {
+      const programArea = await _sp.web.lists.getByTitle('ProgramArea').items();
+      const dataResult1 = programArea.map((data) => ({ key: data.Id, text: data.NameEn }));
+      this.setState({
+        programArea: dataResult1
+      }) 
+      const classificationCode = await _sp.web.lists.getByTitle('ClassificationCode').items();
+      console.log('cCode', classificationCode);
+      const dataResult2 = classificationCode.map((data) => ({ key: data.Id, text: data.NameEn }));
+      this.setState({
+        classificationCode: dataResult2
+      }) 
+      const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
+      console.log('cLevel', classificationLevel);
+      const dataResult3 = classificationLevel.map((data) => ({ key: data.Id, text: data.NameEn }));
+      this.setState({
+        classificationLevel: dataResult3
+      }) 
+    }
 
 
   }
@@ -246,9 +267,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       },
       {
         step:2,
-        title: 'Details',
+        title: 'Details', 
         content: (
-          <Details/>
+          <Details programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel}/>
         ),
       },
       {

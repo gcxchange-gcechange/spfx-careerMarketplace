@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import ReusableTextField from './ReusableTextField';
 import ReusableDropdownField from './ReusableDropDownField';
 
 export interface IDetailsProps {
+  programArea: any[],
+  classificationCode: any[],
+  classificationLevel: any[]
 
 }
 
@@ -24,9 +28,9 @@ export default class Details extends React.Component<IDetailsProps> {
        <ReusableTextField id={"5"} name={"jobTitleEn"} title={"Job Title (EN)"} onChange={this.onChangeTextValue}/>
        <ReusableTextField id={"6"} name={"jobTitleFr"} title={"Job Title (FR)"} onChange={this.onChangeTextValue}/>
        <ReusableTextField id={"7"} name={"jobType"} title={"Job Type"} onChange={this.onChangeTextValue}/>
-       <ReusableDropdownField id={"8"} name={"programArea"} title={"Program area"} />
-       <ReusableDropdownField id={"9"} name={"classification"} title={"Classification"} />
-       <ReusableDropdownField id={"10"} name={"level"} title={"Clasification Level"} />
+       <ReusableDropdownField id={"8"} name={"programArea"} title={"Program area"} options={this.props.programArea} />
+       <ReusableDropdownField id={"9"} name={"classification"} title={"Classification"} options={this.props.classificationCode}/>
+       <ReusableDropdownField id={"10"} name={"level"} title={"Clasification Level"} options={this.props.classificationLevel}/>
        <ReusableTextField id={"11"} name={"numOfOpps"} title={"Number of opportunities"} onChange={this.onChangeTextValue} />
        <ReusableTextField id={"12"} name={"duration"} title={"Duration"} onChange={this.onChangeTextValue} />
        <ReusableTextField id={"13"} name={"deadline"} title={"Application deadline"} onChange={this.onChangeTextValue} />
