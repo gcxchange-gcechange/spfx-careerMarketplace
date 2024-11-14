@@ -26,7 +26,7 @@ export default class Details extends React.Component<IDetailsProps> {
        <ReusableTextField id={"7"} name={"jobType"} title={"Job Type"} onChange={this.onChangeTextValue}/>
        <ReusableDropdownField id={"8"} name={"programArea"} title={"Program area"} />
        <ReusableDropdownField id={"9"} name={"classification"} title={"Classification"} />
-       <ReusableTextField id={"10"} name={"level"} title={"Level"} onChange={this.onChangeTextValue} />
+       <ReusableDropdownField id={"10"} name={"level"} title={"Clasification Level"} />
        <ReusableTextField id={"11"} name={"numOfOpps"} title={"Number of opportunities"} onChange={this.onChangeTextValue} />
        <ReusableTextField id={"12"} name={"duration"} title={"Duration"} onChange={this.onChangeTextValue} />
        <ReusableTextField id={"13"} name={"deadline"} title={"Application deadline"} onChange={this.onChangeTextValue} />

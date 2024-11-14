@@ -18,7 +18,7 @@ import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/sp
 export interface ICareerMarketplaceWebPartProps {
   description: string;
   context: WebPartContext;
-  list: string | string [];
+  list: string [];
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
@@ -103,7 +103,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                   onGetErrorMessage: undefined,
                   deferredValidationTime: 0,
                   key: 'listPickerFieldId',
-                  filter: "Hidden eq false and BaseType eq 0"
+                  filter: "Hidden eq false and BaseType eq 0",
+                  includeListTitleAndUrl: true
                 })
               ]
             }
