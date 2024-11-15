@@ -45,12 +45,14 @@ export default class Review extends React.Component<IReviewProps> {
                         <ReusableTextField id={"13"} name={"deadline"} title={"Application deadline"} onChange={this.onChangeTextValue} />
                         <ReusableTextField id={"14"} name={"jobDescriptionEn"} title={"Job Description (EN)"} onChange={this.onChangeTextValue}/>
                         <ReusableTextField id={"15"} name={"jobDescriptionFr"} title={"Job Description (FR)"} onChange={this.onChangeTextValue}/>
-                        <ReusableDropdownField id={"16"} name={"skill"} title={"Skill"}  />
-                        <ReusableTextField id={"17"} name={"time"} title={"Time in hours"} onChange={this.onChangeTextValue}/>
-                        <ReusableTextField id={"18"} name={"location"} title={"Location"} onChange={this.onChangeTextValue}/>
-                        <ReusableTextField id={"19"} name={"language"} title={"Language requirements"} onChange={this.onChangeTextValue}/>
-                        <ReusableTextField id={"20"} name={"wrkArrangment"} title={"Work arrangement"} onChange={this.onChangeTextValue}/>
-                        <ReusableTextField id={"21"} name={"approvedStaffing"} title={"Approved Staffing"} onChange={this.onChangeTextValue}/>
+                        <ReusableTextField id={"16"} name={"essentialSkill"} title={"Essential Skill"} />
+                        <ReusableTextField id={"17"} name={"assetSkill"} title={"Asset Skill"} />
+                        <ReusableDropdownField id={"18"} name={"time"} title={"Time in hours"}/>
+                        <ReusableDropdownField id={"19"} name={"location"} title={"Location"}/>
+                        <ReusableDropdownField id={"20"} name={"city"} title={"City"}/>
+                        <ReusableDropdownField id={"21"} name={"language"} title={"Language requirements"} />
+                        <ReusableDropdownField  id={"22"} name={"wrkArrangment"} title={"Work arrangement"}/>
+                        <ReusableTextField id={"23"} name={"approvedStaffing"} title={"Approved Staffing"} onChange={this.onChangeTextValue}/>
                         </StackItem>
                     </Stack>
                 </div>

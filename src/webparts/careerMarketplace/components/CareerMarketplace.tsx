@@ -9,7 +9,7 @@ import PosterInfo from './PosterInfo';
 import { IDropdownOption, Stack, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
-import Review from './Review';
+//import Review from './Review';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
 import { SPFI } from '@pnp/sp';
@@ -24,13 +24,19 @@ export interface ICareerMarketplaceState {
   workEmail: string;
   jobTitleEn: string;
   jobTitleFr: string;
-  jobType: string;
+  jobType: any[];
   jobDescriptionEn: string;
   jobDescriptionFr: string;
   city: string[];
   programArea: any[];
   classificationCode: any[];
   classificationLevel: any[];
+  location: any[];
+  security: any[];
+  language: any[];
+  workArrangement: any[];
+  duration: any[];
+  allLists: any[];
 }
 
 
@@ -47,13 +53,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       workEmail: "",
       jobTitleEn: "",
       jobTitleFr: "",
-      jobType: "",
+      jobType: [],
       jobDescriptionEn: "",
       jobDescriptionFr: "",
       city: [],
       programArea:[],
       classificationCode: [],
-      classificationLevel: []
+      classificationLevel: [],
+      location: [],
+      security: [],
+      language: [],
+      workArrangement: [],
+      duration: [],
+
+      allLists: []
     };
   }
 
@@ -159,58 +172,136 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
+  public _getAllLists = async (): Promise<void> => {
+    const _sp: SPFI = getSP(this.props.context);
+    const allLists =  await _sp.web.lists();
+    console.log('all',allLists)
+
+    const allListNames: string[] = [];
+    
+    allLists.map(async(lists) => {
+      const listName = lists.Title;
+      allListNames.push(listName)
+    })
+
+    console.log("all", allListNames);
+
+    this.setState({
+      allLists: allListNames
+    })
+  }
+
   public _getDropdownList = async (): Promise<void> => {
     const {currentPage} = this.state;
     const _sp: SPFI = getSP(this.props.context);
 
-    
-    console.log("LIST",_sp);
-    console.log("list", this.props.list);
-
-    const listArray: string[] = [];
-
-    this.props.list.map(async (listItems: any) => {
-      console.log(listItems); 
-
-      const itemTitle = listItems.title; 
-      listArray.push(itemTitle);
-    
-  });
-
-    console.log("lA", listArray);
 
     if (currentPage === 0 ) {
-      const departments = await _sp.web.lists.getByTitle('department').items();
-      const dataArray = departments.map((data) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          department: dataArray
-        }) 
+      const departments = await _sp.web.lists.getByTitle('Department').items();
+      if ( departments) {
+        const dataArray = departments.map((data) => ({ key: data.Id, text: data.NameEn }));
+          this.setState({
+            department: dataArray
+          }) 
+      } else {
+        console.log('List Department not found')
+      }
     }
 
     else if (currentPage === 1 ) {
+      const jobType = await _sp.web.lists.getByTitle('JobType').items();
       const programArea = await _sp.web.lists.getByTitle('ProgramArea').items();
-      const dataResult1 = programArea.map((data) => ({ key: data.Id, text: data.NameEn }));
-      this.setState({
-        programArea: dataResult1
-      }) 
       const classificationCode = await _sp.web.lists.getByTitle('ClassificationCode').items();
-      console.log('cCode', classificationCode);
-      const dataResult2 = classificationCode.map((data) => ({ key: data.Id, text: data.NameEn }));
-      this.setState({
-        classificationCode: dataResult2
-      }) 
       const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
-      console.log('cLevel', classificationLevel);
-      const dataResult3 = classificationLevel.map((data) => ({ key: data.Id, text: data.NameEn }));
-      this.setState({
-        classificationLevel: dataResult3
-      }) 
+      const duration = await _sp.web.lists.getByTitle('Duration').items();
+
+      if (jobType) {
+        const dataResult = programArea.map((data) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          programArea: dataResult
+        }) 
+      } else  if (programArea) {
+        const dataResult = programArea.map((data) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          programArea: dataResult
+        }) 
+      } else if (classificationCode) {
+        const dataResult = classificationCode.map((data) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          classificationCode: dataResult
+        }) 
+
+      } else if (classificationLevel) {
+        console.log('cLevel', classificationLevel);
+        const dataResult = classificationLevel.map((data) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          classificationLevel: dataResult
+        }) 
+
+      } else if (duration) {
+        const dataResult = duration.map((data) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          classificationCode: dataResult
+        }) 
+      }
+       else {
+        console.log("List does not exist")
+       }
+
+    }
+    else if (currentPage === 2) {
+      console.log("page 2")
+      const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
+      const location = await _sp.web.lists.getByTitle('Location').items();
+      const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
+      const workArrangment = await _sp.web.lists.getByTitle('').items();
+
+      if (languageReq) {
+        const dataResult = languageReq.map((data) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          language: dataResult
+        }) 
+
+      } else {
+        console.log("Language list does not exist")
+       }
+      
+      if (location) {
+        const dataResult = location.map((data) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          location: dataResult
+        }) 
+
+      } else {
+        console.log("Language list does not exist")
+       }
+      
+      if (securityClearance) {
+        const dataResult = securityClearance.map((data) => ({key: data.Id, text: data.NameEn}))
+          this.setState({
+            security: dataResult
+          })
+
+      } else {
+        console.log("Language list does not exist")
+       }
+      
+      if (workArrangment) {
+        const dataResult = workArrangment.map((data) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          workArrangement: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
+      
     }
 
 
   }
 
   public async componentDidMount(): Promise<void> {
+    await this._getAllLists()
     await this._getDropdownList()
   }
 
@@ -262,14 +353,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         step: 1,
         title: 'Information',
         content: (
-          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} />
+          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} userInfo={this.props.userDisplayName} />
         ),
       },
       {
         step:2,
         title: 'Details', 
         content: (
-          <Details programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel}/>
+          <Details programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel} jobType={this.state.jobType} duration={this.state.duration}/>
         ),
       },
       {
@@ -283,7 +374,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         step: 4,
         title: 'Review',
         content: (
-          <Review/>
+          <>
+          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} userInfo={this.props.userDisplayName} />
+          <Details programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel}  jobType={this.state.jobType} duration={this.state.duration}/>
+          </>
+
+          // <Review/>
         ),
       },
       

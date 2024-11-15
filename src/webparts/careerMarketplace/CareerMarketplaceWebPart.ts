@@ -12,13 +12,13 @@ import * as strings from 'CareerMarketplaceWebPartStrings';
 import CareerMarketplace from './components/CareerMarketplace';
 import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
-import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
+ 
  
 
 export interface ICareerMarketplaceWebPartProps {
   description: string;
   context: WebPartContext;
-  list: string [];
+  userDisplayName: string;
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
@@ -30,7 +30,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
       {
         description: this.properties.description,
         context: this.context,
-        list: this.properties.list
+        userDisplayName: this.context.pageContext.user.displayName,
         
       }
     );
@@ -89,22 +89,6 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
-                }),
-                PropertyFieldListPicker('list', {
-                  label: 'Select a list',
-                  multiSelect: true,
-                  selectedList: this.properties.list,
-                  includeHidden: false,
-                  orderBy: PropertyFieldListPickerOrderBy.Title,
-                  disabled: false,
-                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                  properties: this.properties,
-                  context: this.context as any,
-                  onGetErrorMessage: undefined,
-                  deferredValidationTime: 0,
-                  key: 'listPickerFieldId',
-                  filter: "Hidden eq false and BaseType eq 0",
-                  includeListTitleAndUrl: true
                 })
               ]
             }

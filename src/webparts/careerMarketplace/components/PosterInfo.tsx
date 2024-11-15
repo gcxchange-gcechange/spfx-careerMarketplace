@@ -9,6 +9,7 @@ export interface IPosterInfoProps {
   handleOnChange: (event: string, newValue?: string) => void;
   handleDropDownItem: (item: IDropdownOption) => void;
   items: any[];
+  userInfo: string;
 }
 
 
@@ -41,10 +42,9 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
         </div>
         <div>
-          <ReusableTextField id={"1"} name={"contactName"} title={"Full name"} onChange={this.onChangeTextValue}/>
+          <ReusableTextField id={"1"} name={"contactName"} title={"Full name"} />
           <ReusableDropdownField id={"2"} name={"department"} title={"Department"} options={this.props.items} onChange={this.onChangeDropDownItem}/>
-          <ReusableTextField id={"3"} name={"workEmail"} title={"Work Email"} onChange={this.onChangeTextValue}/>
-          <ReusableTextField id={"4"} name={"phone"} title={"Phone number"} onChange={this.onChangeTextValue}/>
+          <ReusableTextField id={"3"} name={"workEmail"} title={"Work Email"} />
         </div>
       </>
     )
