@@ -4,5 +4,6 @@ export interface ICareerMarketplaceProps {
   description: string;
   context: WebPartContext;
   userDisplayName: string;
+  workEmail: string;
 
 }

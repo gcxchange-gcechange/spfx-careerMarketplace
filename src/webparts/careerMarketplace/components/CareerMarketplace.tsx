@@ -27,7 +27,7 @@ export interface ICareerMarketplaceState {
   jobType: any[];
   jobDescriptionEn: string;
   jobDescriptionFr: string;
-  city: string[];
+  city: any[];
   programArea: any[];
   classificationCode: any[];
   classificationLevel: any[];
@@ -36,7 +36,11 @@ export interface ICareerMarketplaceState {
   language: any[];
   workArrangement: any[];
   duration: any[];
+  wrkSchedule: any[];
+  province: any[];
+  region:any[];
   allLists: any[];
+
 }
 
 
@@ -48,7 +52,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     super(props);
     this.state = {
       currentPage: 0,
-      contactName: "",
+      contactName: `${this.props.userDisplayName}`,
       department: [],
       workEmail: "",
       jobTitleEn: "",
@@ -65,6 +69,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       language: [],
       workArrangement: [],
       duration: [],
+      wrkSchedule: [],
+      province: [],
+      region:[],
 
       allLists: []
     };
@@ -192,6 +199,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public _getDropdownList = async (): Promise<void> => {
+
     const {currentPage} = this.state;
     const _sp: SPFI = getSP(this.props.context);
 
@@ -216,32 +224,49 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const duration = await _sp.web.lists.getByTitle('Duration').items();
 
       if (jobType) {
+        const dataResult = jobType.map((data) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          jobType: dataResult
+        }) 
+      }
+      else {
+        console.log("List does not exist")
+       }
+      
+      if (programArea) {
         const dataResult = programArea.map((data) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           programArea: dataResult
         }) 
-      } else  if (programArea) {
-        const dataResult = programArea.map((data) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          programArea: dataResult
-        }) 
-      } else if (classificationCode) {
+      } else {
+        console.log("List does not exist")
+       }
+      
+      if (classificationCode) {
         const dataResult = classificationCode.map((data) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           classificationCode: dataResult
         }) 
 
-      } else if (classificationLevel) {
+      } else {
+        console.log("List does not exist")
+       }
+      
+      if (classificationLevel) {
         console.log('cLevel', classificationLevel);
         const dataResult = classificationLevel.map((data) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           classificationLevel: dataResult
         }) 
 
-      } else if (duration) {
+      } else {
+        console.log("List does not exist")
+       }
+      
+      if (duration) {
         const dataResult = duration.map((data) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
-          classificationCode: dataResult
+          duration: dataResult
         }) 
       }
        else {
@@ -254,7 +279,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
       const location = await _sp.web.lists.getByTitle('Location').items();
       const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
-      const workArrangment = await _sp.web.lists.getByTitle('').items();
+      const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
+      const wrkSchedule = await _sp.web.lists.getByTitle('WorkSchedule').items();
+      const city =  await _sp.web.lists.getByTitle('City').items();
+      const province =  await _sp.web.lists.getByTitle('Province').items();
+      const region =  await _sp.web.lists.getByTitle('Region').items();
 
       if (languageReq) {
         const dataResult = languageReq.map((data) => ({ key: data.Id, text: data.NameEn }));
@@ -294,6 +323,40 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       } else {
        console.log(" list does not exist")
       }
+
+      if (wrkSchedule) {
+        const dataResult = wrkSchedule.map((data) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          wrkSchedule: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
+      if (city) {
+        const dataResult = city.map((data) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          city: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
+      if (province) {
+        const dataResult = province.map((data) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          province: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
+      if (region) {
+        const dataResult = region.map((data) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          region: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
+      
       
     }
 
@@ -353,21 +416,43 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         step: 1,
         title: 'Information',
         content: (
-          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} userInfo={this.props.userDisplayName} />
+          <PosterInfo 
+            handleOnChange={this.handleOnChangeTextField} 
+            items={this.state.department} 
+            handleDropDownItem={this.handleDropDownItem} 
+            userInfo={this.props.userDisplayName} 
+            workEmail = {this.props.workEmail}
+          />
         ),
       },
       {
         step:2,
         title: 'Details', 
         content: (
-          <Details programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel} jobType={this.state.jobType} duration={this.state.duration}/>
+          <Details 
+            programArea={this.state.programArea} 
+            classificationCode={this.state.classificationCode} 
+            classificationLevel={this.state.classificationLevel} 
+            jobType={this.state.jobType} 
+            duration={this.state.duration}/>
         ),
       },
       {
         step: 3,
         title: 'Requirements',
         content: (
-          <Requirements/>
+          <Requirements
+            language = {this.state.language}
+            location = {this.state.location}
+            security = {this.state.security}
+            workArrangment = {this.state.workArrangement}
+            city={this.state.city}
+            wrkSchedule = {this.state.wrkSchedule}
+            province = {this.state.province}
+            region = {this.state.region}
+            
+
+          />
         ),
       },
       {
@@ -375,7 +460,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Review',
         content: (
           <>
-          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} userInfo={this.props.userDisplayName} />
+          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} userInfo={this.props.userDisplayName} workEmail={this.props.workEmail}/>
           <Details programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel}  jobType={this.state.jobType} duration={this.state.duration}/>
           </>
 
