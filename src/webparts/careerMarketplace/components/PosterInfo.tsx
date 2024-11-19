@@ -2,15 +2,17 @@
 import * as React from 'react';
 import ReusableTextField from './ReusableTextField';
 import ReusableDropdownField from './ReusableDropDownField';
-import { IDropdownOption } from '@fluentui/react';
-//import { IDropdownOption } from '@fluentui/react';
+
 
 export interface IPosterInfoProps {
   handleOnChange: (event: string, newValue?: string) => void;
-  handleDropDownItem: (item: IDropdownOption) => void;
+  handleDropDownItem: (event: any, item: any) => void;
   items: any[];
   userInfo: string;
   workEmail: string;
+  currentPage: number;
+  readOnly: boolean;
+  values: [{}];
 }
 
 
@@ -26,26 +28,35 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   }
 
-  public onChangeDropDownItem = (item: IDropdownOption): void => {
+  public onChangeDropDownItem = (event: any, item: any): void => {
+    console.log("EVENTID", event.target.id);
+    const eventId = event.target.id
+    console.log("ITEM", item)
     if (item) {
       
-      this.props.handleDropDownItem(  item);
+      this.props.handleDropDownItem(eventId, item);
     }
   }
 
 
   public render(): React.ReactElement<IPosterInfoProps>{
 
-    console.log("Items", this.props.userInfo)
+    const isReadOnly = this.props.currentPage !== 0;
+
+    console.log("Values", this.props.values)
     return (
       <>      
         <div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+          {
+            this.props.currentPage === 0 && (
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+            )
+          }
         </div>
         <div>
-          <ReusableTextField id={"1"} name={"contactName"} title={"Full name"} defaultValue={this.props.userInfo}/>
-          <ReusableDropdownField id={"2"} name={"department"} title={"Department"} options={this.props.items} onChange={this.onChangeDropDownItem}/>
-          <ReusableTextField id={"3"} name={"workEmail"} title={"Work Email"} defaultValue={this.props.workEmail} />
+          <ReusableTextField id={"contactName"} name={"contactName"} title={"Full name"} defaultValue={this.props.userInfo} readOnly={isReadOnly}/>
+          <ReusableDropdownField id={"department"} name={"department"} title={"Department"} options={this.props.items} onChange={this.onChangeDropDownItem} readOnly={isReadOnly} defaultValue={""}/>
+          <ReusableTextField id={"workEmail"} name={"workEmail"} title={"Work Email"} defaultValue={this.props.workEmail} readOnly={isReadOnly}/>
         </div>
       </>
     )

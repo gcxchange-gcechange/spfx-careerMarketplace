@@ -6,7 +6,7 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import { IDropdownOption, Stack, ThemeProvider, createTheme } from '@fluentui/react';
+import {  Stack, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 //import Review from './Review';
@@ -20,7 +20,7 @@ import { SPFI } from '@pnp/sp';
 export interface ICareerMarketplaceState {
   currentPage: number;
   contactName: string;
-  department: any[];
+  departmentList: any[];
   workEmail: string;
   jobTitleEn: string;
   jobTitleFr: string;
@@ -40,6 +40,7 @@ export interface ICareerMarketplaceState {
   province: any[];
   region:any[];
   allLists: any[];
+  values: [{department: string, region: string}]
 
 }
 
@@ -53,7 +54,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state = {
       currentPage: 0,
       contactName: `${this.props.userDisplayName}`,
-      department: [],
+      departmentList: [],
       workEmail: "",
       jobTitleEn: "",
       jobTitleFr: "",
@@ -73,7 +74,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       province: [],
       region:[],
 
-      allLists: []
+      allLists: [],
+
+      values: [{department: "", region: ""}]
     };
   }
 
@@ -175,7 +178,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
-  public handleDropDownItem = (item: IDropdownOption):void => {
+  public handleDropDownItem = (event: any, item: any):void => {
+    console.log("ITEM", item)
+    console.log("E", event);
+    const newValue:any = this.state.values.map((val) => {
+      console.log(val)
+      if(val === event) {
+        console.log("hello")
+      }
+      return newValue
+    })
+
+   this.setState({...this.state, [event]: item})
+
+
+    // this.setState((prevState) => ({
+    //   values: {
+    //     ...prevState.values,
+    //     [event]: item
+
+    //   }
+    // }))
 
   }
 
@@ -209,7 +232,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if ( departments) {
         const dataArray = departments.map((data) => ({ key: data.Id, text: data.NameEn }));
           this.setState({
-            department: dataArray
+            departmentList: dataArray
           }) 
       } else {
         console.log('List Department not found')
@@ -418,10 +441,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         content: (
           <PosterInfo 
             handleOnChange={this.handleOnChangeTextField} 
-            items={this.state.department} 
-            handleDropDownItem={this.handleDropDownItem} 
+            items={this.state.departmentList} 
             userInfo={this.props.userDisplayName} 
             workEmail = {this.props.workEmail}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            readOnly= {false}
+            values={this.state.values}
           />
         ),
       },
@@ -434,7 +460,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             classificationCode={this.state.classificationCode} 
             classificationLevel={this.state.classificationLevel} 
             jobType={this.state.jobType} 
-            duration={this.state.duration}/>
+            duration={this.state.duration}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+          />
         ),
       },
       {
@@ -450,6 +479,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             wrkSchedule = {this.state.wrkSchedule}
             province = {this.state.province}
             region = {this.state.region}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
             
 
           />
@@ -460,8 +491,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Review',
         content: (
           <>
-          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} userInfo={this.props.userDisplayName} workEmail={this.props.workEmail}/>
-          <Details programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel}  jobType={this.state.jobType} duration={this.state.duration}/>
+          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.departmentList} handleDropDownItem={this.handleDropDownItem} userInfo={this.props.userDisplayName} workEmail={this.props.workEmail} currentPage= {this.state.currentPage} readOnly={false} values={this.state.values}/>
+          <Details handleDropDownItem={this.handleDropDownItem} programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel}  jobType={this.state.jobType} duration={this.state.duration} currentPage= {this.state.currentPage}/>
           </>
 
           // <Review/>

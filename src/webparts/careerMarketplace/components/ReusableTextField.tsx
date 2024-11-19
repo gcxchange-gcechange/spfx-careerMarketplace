@@ -8,6 +8,7 @@ export interface IReusableTextFieldProps {
   title: string;
   onChange?: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => void;
   defaultValue?: string;
+  readOnly?: boolean;
 }
 
 
