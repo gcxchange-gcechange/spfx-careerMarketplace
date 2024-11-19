@@ -183,13 +183,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("E", event);
     const newValue:any = this.state.values.map((val) => {
       console.log(val)
-      if(val === event) {
+      if(Object.keys(val) === event) {
         console.log("hello")
+        return {...this.state.values, event: item.text}
       }
-      return newValue
-    })
+      return val
+    });
 
-   this.setState({...this.state, [event]: item})
+   this.setState({values: newValue})
 
 
     // this.setState((prevState) => ({
