@@ -17,16 +17,17 @@ import { SPFI } from '@pnp/sp';
 
 
 
+
 export interface ICareerMarketplaceState {
   currentPage: number;
   contactName: string;
-  departmentList: any[];
   workEmail: string;
   jobTitleEn: string;
   jobTitleFr: string;
-  jobType: any[];
   jobDescriptionEn: string;
   jobDescriptionFr: string;
+  departmentList: any[];
+  jobType: any[];
   city: any[];
   programArea: any[];
   classificationCode: any[];
@@ -39,8 +40,22 @@ export interface ICareerMarketplaceState {
   wrkSchedule: any[];
   province: any[];
   region:any[];
-  allLists: any[];
-  values: [{department: string, region: string}]
+  values: {
+    department: string, 
+    jobType: string,
+    programArea: string,
+    classificationCode: string,
+    classificationLevel: string,
+    duration: string, 
+    language: string, 
+    location: string, 
+    security: string,
+    city: string, 
+    province: string,
+    region: string, 
+    workArrangment: string, 
+    wrkSchedule: string, 
+  }
 
 }
 
@@ -54,13 +69,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state = {
       currentPage: 0,
       contactName: `${this.props.userDisplayName}`,
-      departmentList: [],
       workEmail: "",
       jobTitleEn: "",
       jobTitleFr: "",
-      jobType: [],
       jobDescriptionEn: "",
       jobDescriptionFr: "",
+      departmentList: [],
+      jobType: [],
       city: [],
       programArea:[],
       classificationCode: [],
@@ -74,9 +89,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       province: [],
       region:[],
 
-      allLists: [],
-
-      values: [{department: "", region: ""}]
+      values: {
+        department: "", 
+        jobType: "",
+        programArea: "",
+        classificationCode: "",
+        classificationLevel: "",
+        language: "", 
+        location: "", 
+        security: "",
+        city: "", 
+        province: "",
+        region: "", 
+        workArrangment: "", 
+        duration: "", 
+        wrkSchedule: "", 
+      }
     };
   }
 
@@ -178,49 +206,37 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
-  public handleDropDownItem = (event: any, item: any):void => {
-    console.log("ITEM", item)
-    console.log("E", event);
-    const newValue:any = this.state.values.map((val) => {
-      console.log(val)
-      if(Object.keys(val) === event) {
-        console.log("hello")
-        return {...this.state.values, event: item.text}
+  public handleDropDownItem = (valueName: any, value: any):void => {
+ 
+
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        [valueName]: value
+
       }
-      return val
-    });
-
-   this.setState({values: newValue})
-
-
-    // this.setState((prevState) => ({
-    //   values: {
-    //     ...prevState.values,
-    //     [event]: item
-
-    //   }
-    // }))
+    }))
 
   }
 
-  public _getAllLists = async (): Promise<void> => {
-    const _sp: SPFI = getSP(this.props.context);
-    const allLists =  await _sp.web.lists();
-    console.log('all',allLists)
+  // public _getAllLists = async (): Promise<void> => {
+  //   const _sp: SPFI = getSP(this.props.context);
+  //   const allLists =  await _sp.web.lists();
+  //   console.log('all',allLists)
 
-    const allListNames: string[] = [];
+  //   const allListNames: string[] = [];
     
-    allLists.map(async(lists) => {
-      const listName = lists.Title;
-      allListNames.push(listName)
-    })
+  //   allLists.map(async(lists) => {
+  //     const listName = lists.Title;
+  //     allListNames.push(listName)
+  //   })
 
-    console.log("all", allListNames);
+  //   console.log("all", allListNames);
 
-    this.setState({
-      allLists: allListNames
-    })
-  }
+  //   this.setState({
+  //     allLists: allListNames
+  //   })
+  // }
 
   public _getDropdownList = async (): Promise<void> => {
 
@@ -388,7 +404,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public async componentDidMount(): Promise<void> {
-    await this._getAllLists()
     await this._getDropdownList()
   }
 
@@ -464,6 +479,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             duration={this.state.duration}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
+            values={this.state.values}
           />
         ),
       },
@@ -482,6 +498,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             region = {this.state.region}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
+            values={this.state.values}
             
 
           />
@@ -492,8 +509,39 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Review',
         content: (
           <>
-          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.departmentList} handleDropDownItem={this.handleDropDownItem} userInfo={this.props.userDisplayName} workEmail={this.props.workEmail} currentPage= {this.state.currentPage} readOnly={false} values={this.state.values}/>
-          <Details handleDropDownItem={this.handleDropDownItem} programArea={this.state.programArea} classificationCode={this.state.classificationCode} classificationLevel={this.state.classificationLevel}  jobType={this.state.jobType} duration={this.state.duration} currentPage= {this.state.currentPage}/>
+          <PosterInfo 
+            handleOnChange={this.handleOnChangeTextField} 
+            items={this.state.departmentList} 
+            userInfo={this.props.userDisplayName} 
+            workEmail = {this.props.workEmail}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            readOnly= {false}
+            values={this.state.values}
+          />
+           <Details 
+            programArea={this.state.programArea} 
+            classificationCode={this.state.classificationCode} 
+            classificationLevel={this.state.classificationLevel} 
+            jobType={this.state.jobType} 
+            duration={this.state.duration}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            values={this.state.values}
+          />
+          <Requirements
+            language = {this.state.language}
+            location = {this.state.location}
+            security = {this.state.security}
+            workArrangment = {this.state.workArrangement}
+            city={this.state.city}
+            wrkSchedule = {this.state.wrkSchedule}
+            province = {this.state.province}
+            region = {this.state.region}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            values={this.state.values}
+          />
           </>
 
           // <Review/>

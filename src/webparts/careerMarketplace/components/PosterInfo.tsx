@@ -1,18 +1,23 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import ReusableTextField from './ReusableTextField';
 import ReusableDropdownField from './ReusableDropDownField';
+import { IDropdownOption } from '@fluentui/react';
 
 
 export interface IPosterInfoProps {
   handleOnChange: (event: string, newValue?: string) => void;
   handleDropDownItem: (event: any, item: any) => void;
-  items: any[];
+  items: IDropdownOption[];
   userInfo: string;
   workEmail: string;
   currentPage: number;
   readOnly: boolean;
-  values: [{}];
+  values: {
+    department: any,  
+  }
 }
 
 
@@ -28,22 +33,22 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   }
 
-  public onChangeDropDownItem = (event: any, item: any): void => {
+  public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     console.log("EVENTID", event.target.id);
-    const eventId = event.target.id
+    const eventName = event.target.id
     console.log("ITEM", item)
     if (item) {
-      
-      this.props.handleDropDownItem(eventId, item);
+      this.props.handleDropDownItem(eventName, item);
     }
   }
 
 
-  public render(): React.ReactElement<IPosterInfoProps>{
+
+  public render( ): React.ReactElement<IPosterInfoProps>{
 
     const isReadOnly = this.props.currentPage !== 0;
-
-    console.log("Values", this.props.values)
+    console.log("values",this.props.values.department)
+   
     return (
       <>      
         <div>
@@ -55,7 +60,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
         </div>
         <div>
           <ReusableTextField id={"contactName"} name={"contactName"} title={"Full name"} defaultValue={this.props.userInfo} readOnly={isReadOnly}/>
-          <ReusableDropdownField id={"department"} name={"department"} title={"Department"} options={this.props.items} onChange={this.onChangeDropDownItem} readOnly={isReadOnly} defaultValue={""}/>
+          <ReusableDropdownField id={"department"} name={"department"} title={"Department"} options={this.props.items} onChange={this.onChangeDropDownItem} readOnly={isReadOnly} selectedKey={this.props.values.department.key}/>
           <ReusableTextField id={"workEmail"} name={"workEmail"} title={"Work Email"} defaultValue={this.props.workEmail} readOnly={isReadOnly}/>
         </div>
       </>
