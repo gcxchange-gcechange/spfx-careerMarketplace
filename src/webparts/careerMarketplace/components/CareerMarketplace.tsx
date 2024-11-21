@@ -35,7 +35,7 @@ export interface ICareerMarketplaceState {
   location: any[];
   security: any[];
   language: any[];
-  workArrangement: any[];
+  wrkArrangement: any[];
   duration: any[];
   wrkSchedule: any[];
   province: any[];
@@ -53,7 +53,7 @@ export interface ICareerMarketplaceState {
     city: string, 
     province: string,
     region: string, 
-    workArrangment: string, 
+    wrkArrangment: string, 
     wrkSchedule: string, 
   }
 
@@ -83,7 +83,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       location: [],
       security: [],
       language: [],
-      workArrangement: [],
+      wrkArrangement: [],
       duration: [],
       wrkSchedule: [],
       province: [],
@@ -95,14 +95,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         programArea: "",
         classificationCode: "",
         classificationLevel: "",
+        duration: "", 
         language: "", 
         location: "", 
         security: "",
         city: "", 
         province: "",
         region: "", 
-        workArrangment: "", 
-        duration: "", 
+        wrkArrangment: "", 
         wrkSchedule: "", 
       }
     };
@@ -284,6 +284,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       
       if (classificationCode) {
         const dataResult = classificationCode.map((data) => ({ key: data.Id, text: data.NameEn }));
+        console.log("ClassCode data", dataResult)
         this.setState({
           classificationCode: dataResult
         }) 
@@ -358,7 +359,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if (workArrangment) {
         const dataResult = workArrangment.map((data) => ({key: data.Id, text: data.NameEn}))
         this.setState({
-          workArrangement: dataResult
+          wrkArrangement: dataResult
         })
       } else {
        console.log(" list does not exist")
@@ -373,7 +374,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        console.log(" list does not exist")
       }
       if (city) {
-        const dataResult = city.map((data) => ({key: data.Id, text: data.NameEn}))
+        console.log("CITYLIST", city)
+        const dataResult = city.map((data) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
         this.setState({
           city: dataResult
         })
@@ -389,7 +391,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        console.log(" list does not exist")
       }
       if (region) {
-        const dataResult = region.map((data) => ({key: data.Id, text: data.NameEn}))
+        console.log("Region List",region)
+        const dataResult = region.map((data) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
         this.setState({
           region: dataResult
         })
@@ -449,6 +452,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }});
 
     const {currentPage} = this.state;
+    console.log("VALUES", this.state.values)
 
     const steps = [
       {
@@ -491,7 +495,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             language = {this.state.language}
             location = {this.state.location}
             security = {this.state.security}
-            workArrangment = {this.state.workArrangement}
+            wrkArrangment = {this.state.wrkArrangement}
             city={this.state.city}
             wrkSchedule = {this.state.wrkSchedule}
             province = {this.state.province}
@@ -533,7 +537,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             language = {this.state.language}
             location = {this.state.location}
             security = {this.state.security}
-            workArrangment = {this.state.workArrangement}
+            wrkArrangment = {this.state.wrkArrangement}
             city={this.state.city}
             wrkSchedule = {this.state.wrkSchedule}
             province = {this.state.province}
