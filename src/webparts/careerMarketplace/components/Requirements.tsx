@@ -73,6 +73,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={"Essential Skill"}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.essentialSkill}
+            multiline={true}
             readOnly={isReadOnly}
           />
           <ReusableTextField
@@ -81,6 +82,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={"Asset Skill"}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.assetSkill}
+            multiline={true}
             readOnly={isReadOnly}
           />
           <ReusableDropdownField

@@ -141,6 +141,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={"Job Description (EN)"}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionEn}
+            multiline={true}
             readOnly={isReadOnly}
           />
           <ReusableTextField
@@ -149,6 +150,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={"Job Description (FR)"}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
+            multiline={true}
             readOnly={isReadOnly}
           />
         </div>

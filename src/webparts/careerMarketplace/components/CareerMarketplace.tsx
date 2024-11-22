@@ -6,7 +6,7 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import {  Stack, ThemeProvider, createTheme } from '@fluentui/react';
+import {  IStackTokens, Stack, StackItem, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 //import Review from './Review';
@@ -433,6 +433,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
+    const customSpacingStackTokens: IStackTokens = {
+      childrenGap: '3%',
+    };
     
     const myTheme = createTheme({
       palette: {
@@ -525,41 +528,47 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Review',
         content: (
           <>
-          <PosterInfo 
-            handleOnChange={this.handleOnChangeTextField} 
-            items={this.state.departmentList} 
-            userInfo={this.props.userDisplayName} 
-            workEmail = {this.props.workEmail}
-            currentPage= {this.state.currentPage}
-            handleDropDownItem={this.handleDropDownItem}
-            readOnly= {false}
-            values={this.state.values}
-          />
-           <Details 
-            programArea={this.state.programArea} 
-            classificationCode={this.state.classificationCode} 
-            classificationLevel={this.state.classificationLevel} 
-            jobType={this.state.jobType} 
-            duration={this.state.duration}
-            currentPage= {this.state.currentPage}
-            handleDropDownItem={this.handleDropDownItem}
-            handleOnChange={this.handleOnChangeTextField} 
-            values={this.state.values}
-          />
-          <Requirements
-            language = {this.state.language}
-            location = {this.state.location}
-            security = {this.state.security}
-            wrkArrangment = {this.state.wrkArrangement}
-            city={this.state.city}
-            wrkSchedule = {this.state.wrkSchedule}
-            province = {this.state.province}
-            region = {this.state.region}
-            currentPage= {this.state.currentPage}
-            handleDropDownItem={this.handleDropDownItem}
-            handleOnChange={this.handleOnChangeTextField} 
-            values={this.state.values}
-          />
+          <Stack horizontal wrap tokens={customSpacingStackTokens}>
+            <StackItem grow={1} styles={{ root: { maxWidth: '45%' } }} >
+              <PosterInfo 
+                handleOnChange={this.handleOnChangeTextField} 
+                items={this.state.departmentList} 
+                userInfo={this.props.userDisplayName} 
+                workEmail = {this.props.workEmail}
+                currentPage= {this.state.currentPage}
+                handleDropDownItem={this.handleDropDownItem}
+                readOnly= {false}
+                values={this.state.values}
+              />
+              <Details 
+                programArea={this.state.programArea} 
+                classificationCode={this.state.classificationCode} 
+                classificationLevel={this.state.classificationLevel} 
+                jobType={this.state.jobType} 
+                duration={this.state.duration}
+                currentPage= {this.state.currentPage}
+                handleDropDownItem={this.handleDropDownItem}
+                handleOnChange={this.handleOnChangeTextField} 
+                values={this.state.values}
+              />
+            </StackItem>
+            <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
+              <Requirements
+                language = {this.state.language}
+                location = {this.state.location}
+                security = {this.state.security}
+                wrkArrangment = {this.state.wrkArrangement}
+                city={this.state.city}
+                wrkSchedule = {this.state.wrkSchedule}
+                province = {this.state.province}
+                region = {this.state.region}
+                currentPage= {this.state.currentPage}
+                handleDropDownItem={this.handleDropDownItem}
+                handleOnChange={this.handleOnChangeTextField} 
+                values={this.state.values}
+              />
+            </StackItem>
+          </Stack>
           </>
 
           // <Review/>

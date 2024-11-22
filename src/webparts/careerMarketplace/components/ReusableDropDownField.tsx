@@ -10,6 +10,7 @@ export interface IReusableDropdownFieldProps {
   options?: any[];
   onChange: (event: any, item: any) => void;
   readOnly?: boolean;
+  disabled?: boolean;
   selectedKey?: string[];
   defaultSelectedKey? : string[];
   
