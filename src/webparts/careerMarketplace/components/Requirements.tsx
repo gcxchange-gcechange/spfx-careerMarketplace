@@ -46,22 +46,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const isReadOnly = this.props.currentPage !== 2;
 
-    //const provinceItems = [];
-    // if(this.props.values.region.key >= 3 && this.props.values.region.key <= 5) {
-    //   provinceItems.push({key: "9", text: "Ontario"})
-    // }
-    console.log("LIST", this.props.province)
-    console.log("Re", this.props.region)
-    console.log("city", this.props.city)
-    console.log("VALUES",this.props.values)
-
-    const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.region.provinceId);
-    const filteredCities = this.props.city.filter((item) => item.key === this.props.values.province.provinceId)
-
-    console.log("filteredRegions",filteredRegions);
-    console.log("filetedCities", filteredCities );
-
-
+    const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
+    const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
 
     return (
       <>
@@ -116,7 +102,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"city"}
             name={"city"}
             title={"City"}
-            options={this.props.city}
+            options={filteredCities}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.city.key}

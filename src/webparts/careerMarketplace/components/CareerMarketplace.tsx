@@ -247,7 +247,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if (currentPage === 0 ) {
       const departments = await _sp.web.lists.getByTitle('Department').items();
       if ( departments) {
-        const dataArray = departments.map((data) => ({ key: data.Id, text: data.NameEn }));
+        const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn }));
           this.setState({
             departmentList: dataArray
           }) 
@@ -264,7 +264,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const duration = await _sp.web.lists.getByTitle('Duration').items();
 
       if (jobType) {
-        const dataResult = jobType.map((data) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           jobType: dataResult
         }) 
@@ -274,7 +274,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        }
       
       if (programArea) {
-        const dataResult = programArea.map((data) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = programArea.map((data:any) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           programArea: dataResult
         }) 
@@ -283,7 +283,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        }
       
       if (classificationCode) {
-        const dataResult = classificationCode.map((data) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = classificationCode.map((data:any) => ({ key: data.Id, text: data.NameEn }));
         console.log("ClassCode data", dataResult)
         this.setState({
           classificationCode: dataResult
@@ -295,7 +295,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       
       if (classificationLevel) {
         console.log('cLevel', classificationLevel);
-        const dataResult = classificationLevel.map((data) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           classificationLevel: dataResult
         }) 
@@ -305,7 +305,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        }
       
       if (duration) {
-        const dataResult = duration.map((data) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = duration.map((data:any) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           duration: dataResult
         }) 
@@ -327,7 +327,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const region =  await _sp.web.lists.getByTitle('Region').items();
 
       if (languageReq) {
-        const dataResult = languageReq.map((data) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           language: dataResult
         }) 
@@ -337,7 +337,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        }
       
       if (location) {
-        const dataResult = location.map((data) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = location.map((data:any) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
           location: dataResult
         }) 
@@ -347,7 +347,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        }
       
       if (securityClearance) {
-        const dataResult = securityClearance.map((data) => ({key: data.Id, text: data.NameEn}))
+        const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn}))
           this.setState({
             security: dataResult
           })
@@ -357,7 +357,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        }
       
       if (workArrangment) {
-        const dataResult = workArrangment.map((data) => ({key: data.Id, text: data.NameEn}))
+        const dataResult = workArrangment.map((data:any) => ({key: data.Id, text: data.NameEn}))
         this.setState({
           wrkArrangement: dataResult
         })
@@ -366,7 +366,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
 
       if (wrkSchedule) {
-        const dataResult = wrkSchedule.map((data) => ({key: data.Id, text: data.NameEn}))
+        const dataResult = wrkSchedule.map((data:any) => ({key: data.Id, text: data.NameEn}))
         this.setState({
           wrkSchedule: dataResult
         })
@@ -375,7 +375,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
       if (city) {
         console.log("CITYLIST", city)
-        const dataResult = city.map((data) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
+        const dataResult = city.map((data:any) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
         this.setState({
           city: dataResult
         })
@@ -383,7 +383,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
        console.log(" list does not exist")
       }
       if (province) {
-        const dataResult = province.map((data) => ({key: data.Id, text: data.NameEn}))
+        console.log("PROVINCELIST", province)
+        const dataResult = province.map((data:any) => ({key: data.Id, text: data.NameEn}))
         this.setState({
           province: dataResult
         })
@@ -392,7 +393,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
       if (region) {
         console.log("Region List",region)
-        const dataResult = region.map((data) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
+        const dataResult = region.map((data:any) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
         this.setState({
           region: dataResult
         })
