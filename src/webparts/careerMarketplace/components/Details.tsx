@@ -11,7 +11,14 @@ export interface IDetailsProps {
   duration: any[];
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
+  handleOnChange: (event: string, newValue?: string) => void;
   values: {
+    jobTitleEn: string;
+    jobTitleFr: string;
+    jobDescriptionEn: string;
+    jobDescriptionFr: string;
+    numOfOpps: string;
+    deadline: string;
     jobType: any;
     programArea: any;
     classificationCode: any;
@@ -21,16 +28,16 @@ export interface IDetailsProps {
 }
 
 export default class Details extends React.Component<IDetailsProps> {
-  public onChangeTextValue = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    console.log(event.target.name);
+
+  public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
+    const eventName = event.target.name;
+    if (value) {
+      this.props.handleOnChange(eventName, value)
+    }
   };
 
   public onChangeDropDownItem = (event: any, item: any): void => {
-    console.log("EVENTID", event.target.id);
     const eventId = event.target.id;
-    console.log("ITEM", item);
     if (item) {
       this.props.handleDropDownItem(eventId, item);
     }
@@ -56,6 +63,7 @@ export default class Details extends React.Component<IDetailsProps> {
             name={"jobTitleEn"}
             title={"Job Title (EN)"}
             onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.jobTitleEn}
             readOnly={isReadOnly}
           />
           <ReusableTextField
@@ -63,6 +71,7 @@ export default class Details extends React.Component<IDetailsProps> {
             name={"jobTitleFr"}
             title={"Job Title (FR)"}
             onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.jobDescriptionFr}
             readOnly={isReadOnly}
           />
           <ReusableDropdownField
@@ -106,6 +115,7 @@ export default class Details extends React.Component<IDetailsProps> {
             name={"numOfOpps"}
             title={"Number of opportunities"}
             onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.numOfOpps}
             readOnly={isReadOnly}
           />
           <ReusableDropdownField
@@ -114,14 +124,15 @@ export default class Details extends React.Component<IDetailsProps> {
             title={"Duration"}
             options={this.props.duration}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
             selectedKey={this.props.values.duration.key}
+            readOnly={isReadOnly}
           />
           <ReusableTextField
             id={"deadline"}
             name={"deadline"}
             title={"Application deadline"}
             onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.deadline}
             readOnly={isReadOnly}
           />
           <ReusableTextField
@@ -129,6 +140,7 @@ export default class Details extends React.Component<IDetailsProps> {
             name={"jobDescriptionEn"}
             title={"Job Description (EN)"}
             onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.jobDescriptionEn}
             readOnly={isReadOnly}
           />
           <ReusableTextField
@@ -136,6 +148,7 @@ export default class Details extends React.Component<IDetailsProps> {
             name={"jobDescriptionFr"}
             title={"Job Description (FR)"}
             onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.jobDescriptionFr}
             readOnly={isReadOnly}
           />
         </div>

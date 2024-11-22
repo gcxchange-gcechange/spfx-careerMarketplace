@@ -20,12 +20,6 @@ import { SPFI } from '@pnp/sp';
 
 export interface ICareerMarketplaceState {
   currentPage: number;
-  contactName: string;
-  workEmail: string;
-  jobTitleEn: string;
-  jobTitleFr: string;
-  jobDescriptionEn: string;
-  jobDescriptionFr: string;
   departmentList: any[];
   jobType: any[];
   city: any[];
@@ -40,8 +34,18 @@ export interface ICareerMarketplaceState {
   wrkSchedule: any[];
   province: any[];
   region:any[];
+
   values: {
+    jobTitleEn: string;
+    jobTitleFr: string;
+    jobDescriptionEn: string;
+    jobDescriptionFr: string;
+    numOfOpps: string;
+    deadline: string;
     department: string, 
+    essentialSkill: string;
+    assetSkill: string;
+    approvedStaffing: string;
     jobType: string,
     programArea: string,
     classificationCode: string,
@@ -68,12 +72,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     super(props);
     this.state = {
       currentPage: 0,
-      contactName: `${this.props.userDisplayName}`,
-      workEmail: "",
-      jobTitleEn: "",
-      jobTitleFr: "",
-      jobDescriptionEn: "",
-      jobDescriptionFr: "",
       departmentList: [],
       jobType: [],
       city: [],
@@ -90,6 +88,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       region:[],
 
       values: {
+        jobTitleEn: "",
+        jobTitleFr: "",
+        jobDescriptionEn: "",
+        jobDescriptionFr: "",
+        numOfOpps: "",
+        deadline: "",
+        essentialSkill: "",
+        assetSkill: "",
+        approvedStaffing: "",
         department: "", 
         jobType: "",
         programArea: "",
@@ -144,11 +151,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         body: `{
 
               "ContactObjectId": null,
-              "ContactName": "${this.state.contactName}",
+              "ContactName": "${this.props.userDisplayName}",
               "DepartmentLookupId": "1",
-              "ContactEmail": "${this.state.workEmail}",
-              "JobTitleEn": "${this.state.jobTitleEn}",
-              "JobTitleFr": "${this.state.jobTitleFr}",
+              "ContactEmail": "${this.props.workEmail}",
+              "JobTitleEn": "${this.state.values.jobTitleEn}",
+              "JobTitleFr": "${this.state.values.jobTitleFr}",
               "JobTypeLookupId": [ "2", "3" ],
               "ProgramAreaLookupId": "1",
               "ClassificationCodeLookupId": "1",
@@ -156,10 +163,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "NumberOfOpportunities": "1",
               "DurationLookupId": "1",
               "ApplicationDeadlineDate": "2024-11-08T00:00:00",
-              "JobDescriptionEn": "${this.state.jobDescriptionEn}",
-              "JobDescriptionFr": "${this.state.jobDescriptionFr}",
+              "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
+              "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "EssentialSkills": "Typing",
-              "WorkScheduleLookupId": "1",
+              "WorkScheduleLookupId": "${this.state.values.wrkSchedule}",
               "LocationLookupId": "1",
               "SecurityClearanceLookupId": "1",
               "LanguageRequirementLookupId": "1",
@@ -199,16 +206,18 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("Event",event);
     console.log("Value",value);
 
-    this.setState ({
-      ...this.state,
-      [eventName]: inputValue
-    })
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        [eventName]: inputValue
+
+      }
+    }))
 
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
  
-
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
@@ -484,6 +493,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             duration={this.state.duration}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
             values={this.state.values}
           />
         ),
@@ -503,6 +513,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             region = {this.state.region}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
             values={this.state.values}
             
 
@@ -532,6 +543,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             duration={this.state.duration}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
             values={this.state.values}
           />
           <Requirements
@@ -545,6 +557,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             region = {this.state.region}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
             values={this.state.values}
           />
           </>

@@ -14,7 +14,11 @@ export interface IRequirementsProps {
   wrkSchedule: any[];
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
+  handleOnChange: (event: string, newValue?: string) => void;
   values: {
+    essentialSkill: string;
+    assetSkill: string;
+    approvedStaffing: string;
     language: any;
     location: any;
     security: any;
@@ -29,9 +33,13 @@ export interface IRequirementsProps {
 
 export default class Requirements extends React.Component<IRequirementsProps> {
 
-  // public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>):void => {
-  //   console.log("eventTarget", event.target.name);
-  // }
+  public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
+    const eventName = event.target.name;
+    console.log(event.target.name);
+    if (value) {
+      this.props.handleOnChange(eventName, value)
+    }
+  };
 
   public onChangeDropDownItem = (event: any, item: any): void => {
     const eventName = event.target.id;
@@ -63,12 +71,16 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"essentialSkill"}
             name={"essentialSkill"}
             title={"Essential Skill"}
+            onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.essentialSkill}
             readOnly={isReadOnly}
           />
           <ReusableTextField
             id={"assetSkill"}
             name={"assetSkill"}
             title={"Asset Skill"}
+            onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.assetSkill}
             readOnly={isReadOnly}
           />
           <ReusableDropdownField
@@ -147,6 +159,9 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"approvedStaffing"}
             name={"approvedStaffing"}
             title={"Approved Staffing"}
+            onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.approvedStaffing}
+            readOnly={isReadOnly}
           />
         </div>
       </>
