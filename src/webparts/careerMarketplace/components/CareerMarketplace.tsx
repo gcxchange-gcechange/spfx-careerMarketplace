@@ -41,7 +41,7 @@ export interface ICareerMarketplaceState {
     jobDescriptionEn: string;
     jobDescriptionFr: string;
     numOfOpps: string;
-    deadline: string;
+    deadline: Date | null | undefined;
     department: string, 
     essentialSkill: string;
     assetSkill: string;
@@ -93,7 +93,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobDescriptionEn: "",
         jobDescriptionFr: "",
         numOfOpps: "",
-        deadline: "",
+        deadline: new(Date),
         essentialSkill: "",
         assetSkill: "",
         approvedStaffing: "",
@@ -226,6 +226,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
     }))
 
+  }
+
+  public handleOnDateChange=(date: Date | null | undefined):void => {
+    console.log(date)
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        deadline: date
+
+      }
+    }))
   }
 
   // public _getAllLists = async (): Promise<void> => {
@@ -497,6 +508,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
             handleOnChange={this.handleOnChangeTextField} 
+            handleOnDateChange={this.handleOnDateChange}
             values={this.state.values}
           />
         ),
@@ -549,6 +561,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 currentPage= {this.state.currentPage}
                 handleDropDownItem={this.handleDropDownItem}
                 handleOnChange={this.handleOnChangeTextField} 
+                handleOnDateChange={this.handleOnDateChange}
                 values={this.state.values}
               />
             </StackItem>

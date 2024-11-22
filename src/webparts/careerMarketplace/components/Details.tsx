@@ -2,6 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
+import { DatePicker } from "@fluentui/react";
 
 export interface IDetailsProps {
   programArea: any[];
@@ -12,13 +13,14 @@ export interface IDetailsProps {
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
   handleOnChange: (event: string, newValue?: string) => void;
+  handleOnDateChange: (date: Date) => void
   values: {
     jobTitleEn: string;
     jobTitleFr: string;
     jobDescriptionEn: string;
     jobDescriptionFr: string;
     numOfOpps: string;
-    deadline: string;
+    deadline: any;
     jobType: any;
     programArea: any;
     classificationCode: any;
@@ -42,6 +44,15 @@ export default class Details extends React.Component<IDetailsProps> {
       this.props.handleDropDownItem(eventId, item);
     }
   };
+
+  public onSelectedDate = (date: Date | null | undefined) :void => {
+    console.log("DATE",date)
+
+    if(date) {
+      this.props.handleOnDateChange(date)
+    }
+
+  }
 
   public render(): React.ReactElement<IDetailsProps> {
 
@@ -135,6 +146,15 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.deadline}
             readOnly={isReadOnly}
           />
+            <DatePicker
+            id={"deadline"}
+            label={"Application deadline"}
+            isRequired
+            ariaLabel="Select a date"
+            onSelectDate={this.onSelectedDate}
+            disabled={isReadOnly} 
+          />
+
           <ReusableTextField
             id={"jobDescriptionEn"}
             name={"jobDescriptionEn"}
