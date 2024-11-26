@@ -13,7 +13,6 @@ import Review from './Review';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
 import { SPFI } from '@pnp/sp';
-import Complete from './Complete';
 
 
 
@@ -277,11 +276,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           <section>
             <div>
               <h2>Title</h2>
-            </div>
-            <div>
-             
-                <Complete/>
-           
             </div>
             <div className={styles.stepper}>
               <Steps
