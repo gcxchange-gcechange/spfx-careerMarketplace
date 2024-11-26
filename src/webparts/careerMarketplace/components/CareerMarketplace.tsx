@@ -41,7 +41,7 @@ export interface ICareerMarketplaceState {
     jobDescriptionEn: string;
     jobDescriptionFr: string;
     numOfOpps: string;
-    deadline: Date | null | undefined;
+    deadline: Date | undefined;
     department: string, 
     essentialSkill: string;
     assetSkill: string;
@@ -228,7 +228,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
-  public handleOnDateChange=(date: Date | null | undefined):void => {
+  public handleOnDateChange=(date: Date | undefined):void => {
     console.log(date)
     this.setState((prevState) => ({
       values: {
