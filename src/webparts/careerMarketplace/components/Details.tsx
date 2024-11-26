@@ -45,7 +45,7 @@ export default class Details extends React.Component<IDetailsProps> {
     }
   };
 
-  public onSelectedDate = (date: Date | null | undefined) :void => {
+  public onSelectedDate = (date: Date |  undefined) :void => {
     console.log("DATE",date)
 
     if(date) {
