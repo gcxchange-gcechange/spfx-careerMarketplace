@@ -5,7 +5,6 @@ import ReusableDropdownField from "./ReusableDropDownField";
 
 export interface IRequirementsProps {
   language: any[];
-  location: any[];
   city: any[];
   province: any[];
   region: any[];

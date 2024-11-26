@@ -47,17 +47,17 @@ export interface ICareerMarketplaceState {
     assetSkill: string;
     approvedStaffing: string;
     jobType: string,
-    programArea: string,
-    classificationCode: string,
-    classificationLevel: string,
-    duration: string, 
-    language: string, 
+    programArea: any,
+    classificationCode: any,
+    classificationLevel: any,
+    duration: any, 
+    language: any, 
     location: string, 
-    security: string,
-    city: string, 
-    province: string,
-    region: string, 
-    wrkArrangment: string, 
+    security: any,
+    city: any, 
+    province: any,
+    region: any, 
+    wrkArrangment: any, 
     wrkSchedule: string, 
   }
 
@@ -157,23 +157,23 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
               "JobTypeLookupId": [ "2", "3" ],
-              "ProgramAreaLookupId": "1",
-              "ClassificationCodeLookupId": "1",
-              "ClassificationLevelLookupId": "1",
+              "ProgramAreaLookupId": "${this.state.values.programArea.key}",
+              "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
+              "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
               "NumberOfOpportunities": "${this.state.values.numOfOpps}",
-              "DurationLookupId": "1",
+              "DurationLookupId": "${this.state.values.duration.key}",
               "ApplicationDeadlineDate": "2024-11-08T00:00:00",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "EssentialSkills": "${this.state.values.essentialSkill}",
               "WorkScheduleLookupId": "${this.state.values.wrkSchedule}",
               "LocationLookupId": "1",
-              "SecurityClearanceLookupId": "1",
-              "LanguageRequirementLookupId": "1",
-              "WorkArrangementLookupId": "1",
+              "SecurityClearanceLookupId": "${this.state.values.security.key}",
+              "LanguageRequirementLookupId": "${this.state.values.language.key}",
+              "WorkArrangementLookupId": "${this.state.values.wrkArrangment.key}",
               "ApprovedStaffing": true,
               "AssetSkills": "${this.state.values.assetSkill}",
-              "CityLookupId": "1"
+              "CityLookupId": "${this.state.values.city.key}"
         }`,
 
       };
@@ -338,7 +338,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     else if (currentPage === 2) {
       console.log("page 2")
       const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
-      const location = await _sp.web.lists.getByTitle('Location').items();
       const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
       const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
       const wrkSchedule = await _sp.web.lists.getByTitle('WorkSchedule').items();
@@ -356,15 +355,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         console.log("Language list does not exist")
        }
       
-      if (location) {
-        const dataResult = location.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          location: dataResult
-        }) 
-
-      } else {
-        console.log("Language list does not exist")
-       }
       
       if (securityClearance) {
         const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn}))
@@ -519,7 +509,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         content: (
           <Requirements
             language = {this.state.language}
-            location = {this.state.location}
             security = {this.state.security}
             wrkArrangment = {this.state.wrkArrangement}
             city={this.state.city}
@@ -568,7 +557,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
               <Requirements
                 language = {this.state.language}
-                location = {this.state.location}
                 security = {this.state.security}
                 wrkArrangment = {this.state.wrkArrangement}
                 city={this.state.city}
