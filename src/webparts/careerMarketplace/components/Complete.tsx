@@ -1,4 +1,6 @@
+import { IImageProps, ImageFit } from '@fluentui/react';
 import * as React from 'react';
+
 
 
 export interface ICompleteProps {
@@ -12,11 +14,17 @@ export default class Complete extends React.Component<ICompleteProps> {
 
   public render(): React.ReactElement<ICompleteProps>{
 
+    const imageProps: Partial<IImageProps>= {
+      src: (require("../assets/complete.png")),
+      width: 400,
+      imageFit: ImageFit.contain
+    }
+
 
     return (
       <>      
           <div>
-            <img src="" alt={'people high five'}/>
+            <img {...imageProps} alt={'people high five'}/>
           </div>
           <div>
             <p>Congratualtions! You have created a new opportunity</p>
