@@ -13,6 +13,7 @@ import Review from './Review';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
 import { SPFI } from '@pnp/sp';
+import Complete from './Complete';
 
 
 
@@ -277,15 +278,21 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             <div>
               <h2>Title</h2>
             </div>
-            <div className={styles.stepper}>
-            <Steps
-              current={currentPage}
-              labelPlacement="vertical"
-              items={items}
-              
-            />
+            <div>
+              {this.state.currentPage === 4 && (
+                <Complete/>
+              )}
             </div>
-            <div>{steps[currentPage].content}</div>
+            <div className={styles.stepper}>
+              <Steps
+                current={currentPage}
+                labelPlacement="vertical"
+                items={items}
+              />
+            </div>
+            <div>
+              {steps[currentPage].content}
+            </div>
             <div style={{marginTop: '20px'}}>
               <Stack horizontal horizontalAlign={'space-between'}>
                 <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
