@@ -22,14 +22,17 @@ export default class Complete extends React.Component<ICompleteProps> {
 
 
     return (
-      <>      
-          <div>
-            <img {...imageProps} alt={'people high five'}/>
-          </div>
-          <div>
-            <p>Congratualtions! You have created a new opportunity</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          </div>
+      <>   
+        <div>
+          <h2>Complete</h2>
+        </div>
+        <div style={{display:'flex', justifyContent: 'center'}}>
+          <img {...imageProps} alt={'people high five'}/>
+        </div>
+        <div>
+          <p>Congratualtions! You have created a new opportunity</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
          
       </>
     )
