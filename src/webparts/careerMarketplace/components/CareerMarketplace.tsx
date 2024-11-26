@@ -279,9 +279,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               <h2>Title</h2>
             </div>
             <div>
-              {this.state.currentPage === 4 && (
+             
                 <Complete/>
-              )}
+           
             </div>
             <div className={styles.stepper}>
               <Steps
