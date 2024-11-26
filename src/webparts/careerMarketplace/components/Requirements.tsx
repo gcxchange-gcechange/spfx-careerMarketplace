@@ -121,15 +121,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.city.key}
           />
-          <ReusableDropdownField
-            id={"location"}
-            name={"location"}
-            title={"Location"}
-            options={this.props.location}
-            onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
-            selectedKey={this.props.values.location.key}
-          />
+ 
           <ReusableDropdownField
             id={"security"}
             name={"security"}

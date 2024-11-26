@@ -138,14 +138,7 @@ export default class Details extends React.Component<IDetailsProps> {
             selectedKey={this.props.values.duration.key}
             readOnly={isReadOnly}
           />
-          <ReusableTextField
-            id={"deadline"}
-            name={"deadline"}
-            title={"Application deadline"}
-            onChange={this.onChangeTextValue}
-            defaultValue={this.props.values.deadline}
-            readOnly={isReadOnly}
-          />
+ 
             <DatePicker
             id={"deadline"}
             label={"Application deadline"}

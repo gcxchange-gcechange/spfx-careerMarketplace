@@ -42,7 +42,7 @@ export interface ICareerMarketplaceState {
     jobDescriptionFr: string;
     numOfOpps: string;
     deadline: Date | undefined;
-    department: string, 
+    department: any, 
     essentialSkill: string;
     assetSkill: string;
     approvedStaffing: string;
@@ -152,7 +152,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
               "ContactObjectId": null,
               "ContactName": "${this.props.userDisplayName}",
-              "DepartmentLookupId": "${this.state.values.department}",
+              "DepartmentLookupId": "${this.state.values.department.key}",
               "ContactEmail": "${this.props.workEmail}",
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
