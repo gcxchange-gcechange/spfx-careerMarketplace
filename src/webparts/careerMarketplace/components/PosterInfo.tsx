@@ -1,52 +1,83 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
-import ReusableTextField from './ReusableTextField';
-import ReusableDropdownField from './ReusableDropDownField';
-import { IDropdownOption } from '@fluentui/react';
-//import { IDropdownOption } from '@fluentui/react';
+import * as React from "react";
+import ReusableTextField from "./ReusableTextField";
+import ReusableDropdownField from "./ReusableDropDownField";
+import { IDropdownOption } from "@fluentui/react";
 
 export interface IPosterInfoProps {
   handleOnChange: (event: string, newValue?: string) => void;
-  handleDropDownItem: (item: IDropdownOption) => void;
-  items: any[];
+  handleDropDownItem: (event: any, item: any) => void;
+  items: IDropdownOption[];
+  userInfo: string;
+  workEmail: string;
+  currentPage: number;
+  readOnly: boolean;
+  values: {
+    department: any;
+  };
 }
 
-
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
-
-  public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>):void => {
+  public onChangeTextValue = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     console.log(event.target.name);
 
     const eventName = event.target.name;
     const inputValue = event.target.value;
 
     this.props.handleOnChange(eventName, inputValue);
+  };
 
-  }
-
-  public onChangeDropDownItem = (item: IDropdownOption): void => {
+  public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
+    console.log("EVENTID", event.target.id);
+    const eventName = event.target.id;
+    console.log("ITEM", item);
     if (item) {
-      
-      this.props.handleDropDownItem(  item);
+      this.props.handleDropDownItem(eventName, item);
     }
-  }
+  };
 
+  public render(): React.ReactElement<IPosterInfoProps> {
+    const isReadOnly = this.props.currentPage !== 0;
 
-  public render(): React.ReactElement<IPosterInfoProps>{
-
-    console.log("Items", this.props.items)
     return (
-      <>      
+      <>
         <div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+          {this.props.currentPage === 0 && (
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+            </p>
+          )}
         </div>
         <div>
-          <ReusableTextField id={"1"} name={"contactName"} title={"Full name"} onChange={this.onChangeTextValue}/>
-          <ReusableDropdownField id={"2"} name={"department"} title={"Department"} options={this.props.items} onChange={this.onChangeDropDownItem}/>
-          <ReusableTextField id={"3"} name={"workEmail"} title={"Work Email"} onChange={this.onChangeTextValue}/>
-          <ReusableTextField id={"4"} name={"phone"} title={"Phone number"} onChange={this.onChangeTextValue}/>
+          <ReusableTextField
+            id={"contactName"}
+            name={"contactName"}
+            title={"Full name"}
+            defaultValue={this.props.userInfo}
+            disabled={isReadOnly}
+          />
+          <ReusableDropdownField
+            id={"department"}
+            name={"department"}
+            title={"Department"}
+            options={this.props.items}
+            onChange={this.onChangeDropDownItem}
+            disabled={isReadOnly}
+            selectedKey={this.props.values.department.key}
+          />
+          <ReusableTextField
+            id={"workEmail"}
+            name={"workEmail"}
+            title={"Work Email"}
+            defaultValue={this.props.workEmail}
+            readOnly={isReadOnly}
+          />
         </div>
       </>
-    )
+    );
   }
 }
