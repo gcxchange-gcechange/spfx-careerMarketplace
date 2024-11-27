@@ -165,7 +165,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
               "NumberOfOpportunities": "${this.state.values.numOfOpps}",
               "DurationLookupId": "${this.state.values.duration.key}",
-              "ApplicationDeadlineDate": "2024-11-27T00:00:00",
+              "ApplicationDeadlineDate": "${this.state.values.deadline}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "EssentialSkills": "${this.state.values.essentialSkill}",
@@ -239,10 +239,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const month = formatDate.getMonth();
     const day = formatDate.getDate();
 
-    const hour = formatDate.toTimeString().slice(-2);
-    console.log("H",hour)
+    const time = formatDate.toTimeString().slice(0, 8);
 
-    const formattedDate: any = year +"-" + month + "-" + day+"-" + hour
+
+    const formattedDate: any = year +"-" + month + "-" + day+"T" + time
     console.log("formatDate", formattedDate);
 
     this.setState((prevState) => ({
