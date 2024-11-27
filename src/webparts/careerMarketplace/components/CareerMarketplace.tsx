@@ -13,6 +13,7 @@ import Requirements from './Requirements';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
 import { SPFI } from '@pnp/sp';
+import PageTitle from './PageTitle';
 
 
 
@@ -585,7 +586,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         <ThemeProvider applyTo='body' theme={myTheme}>
           <section>
             <div>
-              <h2>Title</h2>
+              <PageTitle currentPage={this.state.currentPage}/>
             </div>
             <div className={styles.stepper}>
               <Steps
