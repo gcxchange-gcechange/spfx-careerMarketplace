@@ -7,6 +7,10 @@ export interface IReusableTextFieldProps {
   name: string;
   title: string;
   onChange?: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => void;
+  defaultValue?: string;
+  readOnly?: boolean;
+  disabled?: boolean;
+  multiline?: boolean;
 }
 
 
@@ -31,7 +35,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     return (
       <div>
         <TextField
-          {...this.props} onRenderLabel={this.customLabel}  className={styles.labelStyle}
+          {...this.props} onRenderLabel={this.customLabel}  className={styles.labelStyle} 
         />
       </div>
     )

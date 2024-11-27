@@ -6,10 +6,10 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import { IDropdownOption, Stack, ThemeProvider, createTheme } from '@fluentui/react';
+import {  IStackTokens, Stack, StackItem, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
-import Review from './Review';
+//import Review from './Review';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
 import { SPFI } from '@pnp/sp';
@@ -17,17 +17,50 @@ import { SPFI } from '@pnp/sp';
 
 
 
+
 export interface ICareerMarketplaceState {
   currentPage: number;
-  contactName: string;
-  department: any[];
-  workEmail: string;
-  jobTitleEn: string;
-  jobTitleFr: string;
-  jobType: string;
-  jobDescriptionEn: string;
-  jobDescriptionFr: string;
-  city: string[];
+  departmentList: any[];
+  jobType: any[];
+  city: any[];
+  programArea: any[];
+  classificationCode: any[];
+  classificationLevel: any[];
+  location: any[];
+  security: any[];
+  language: any[];
+  wrkArrangement: any[];
+  duration: any[];
+  wrkSchedule: any[];
+  province: any[];
+  region:any[];
+
+  values: {
+    jobTitleEn: string;
+    jobTitleFr: string;
+    jobDescriptionEn: string;
+    jobDescriptionFr: string;
+    numOfOpps: string;
+    deadline: Date | undefined;
+    department: any, 
+    essentialSkill: string;
+    assetSkill: string;
+    approvedStaffing: string;
+    jobType: string,
+    programArea: any,
+    classificationCode: any,
+    classificationLevel: any,
+    duration: any, 
+    language: any, 
+    location: string, 
+    security: any,
+    city: any, 
+    province: any,
+    region: any, 
+    wrkArrangment: any, 
+    wrkSchedule: string, 
+  }
+
 }
 
 
@@ -39,15 +72,46 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     super(props);
     this.state = {
       currentPage: 0,
-      contactName: "",
-      department: [],
-      workEmail: "",
-      jobTitleEn: "",
-      jobTitleFr: "",
-      jobType: "",
-      jobDescriptionEn: "",
-      jobDescriptionFr: "",
-      city: []
+      departmentList: [],
+      jobType: [],
+      city: [],
+      programArea:[],
+      classificationCode: [],
+      classificationLevel: [],
+      location: [],
+      security: [],
+      language: [],
+      wrkArrangement: [],
+      duration: [],
+      wrkSchedule: [],
+      province: [],
+      region:[],
+
+      values: {
+        jobTitleEn: "",
+        jobTitleFr: "",
+        jobDescriptionEn: "",
+        jobDescriptionFr: "",
+        numOfOpps: "",
+        deadline: new(Date),
+        essentialSkill: "",
+        assetSkill: "",
+        approvedStaffing: "",
+        department: "", 
+        jobType: "",
+        programArea: "",
+        classificationCode: "",
+        classificationLevel: "",
+        duration: "", 
+        language: "", 
+        location: "", 
+        security: "",
+        city: "", 
+        province: "",
+        region: "", 
+        wrkArrangment: "", 
+        wrkSchedule: "", 
+      }
     };
   }
 
@@ -87,29 +151,29 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         body: `{
 
               "ContactObjectId": null,
-              "ContactName": "${this.state.contactName}",
-              "DepartmentLookupId": "1",
-              "ContactEmail": "${this.state.workEmail}",
-              "JobTitleEn": "${this.state.jobTitleEn}",
-              "JobTitleFr": "${this.state.jobTitleFr}",
+              "ContactName": "${this.props.userDisplayName}",
+              "DepartmentLookupId": "${this.state.values.department.key}",
+              "ContactEmail": "${this.props.workEmail}",
+              "JobTitleEn": "${this.state.values.jobTitleEn}",
+              "JobTitleFr": "${this.state.values.jobTitleFr}",
               "JobTypeLookupId": [ "2", "3" ],
-              "ProgramAreaLookupId": "1",
-              "ClassificationCodeLookupId": "1",
-              "ClassificationLevelLookupId": "1",
-              "NumberOfOpportunities": "1",
-              "DurationLookupId": "1",
+              "ProgramAreaLookupId": "${this.state.values.programArea.key}",
+              "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
+              "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
+              "NumberOfOpportunities": "${this.state.values.numOfOpps}",
+              "DurationLookupId": "${this.state.values.duration.key}",
               "ApplicationDeadlineDate": "2024-11-08T00:00:00",
-              "JobDescriptionEn": "${this.state.jobDescriptionEn}",
-              "JobDescriptionFr": "${this.state.jobDescriptionFr}",
-              "EssentialSkills": "Typing",
-              "WorkScheduleLookupId": "1",
+              "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
+              "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
+              "EssentialSkills": "${this.state.values.essentialSkill}",
+              "WorkScheduleLookupId": "${this.state.values.wrkSchedule}",
               "LocationLookupId": "1",
-              "SecurityClearanceLookupId": "1",
-              "LanguageRequirementLookupId": "1",
-              "WorkArrangementLookupId": "1",
+              "SecurityClearanceLookupId": "${this.state.values.security.key}",
+              "LanguageRequirementLookupId": "${this.state.values.language.key}",
+              "WorkArrangementLookupId": "${this.state.values.wrkArrangment.key}",
               "ApprovedStaffing": true,
-              "AssetSkills": "none",
-              "CityLookupId": "1"
+              "AssetSkills": "${this.state.values.assetSkill}",
+              "CityLookupId": "${this.state.values.city.key}"
         }`,
 
       };
@@ -142,49 +206,213 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("Event",event);
     console.log("Value",value);
 
-    this.setState ({
-      ...this.state,
-      [eventName]: inputValue
-    })
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        [eventName]: inputValue
+
+      }
+    }))
 
   }
 
-  public handleDropDownItem = (item: IDropdownOption):void => {
+  public handleDropDownItem = (valueName: any, value: any):void => {
+ 
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        [valueName]: value
+
+      }
+    }))
 
   }
+
+  public handleOnDateChange=(date: Date | undefined):void => {
+    console.log(date)
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        deadline: date
+
+      }
+    }))
+  }
+
+  // public _getAllLists = async (): Promise<void> => {
+  //   const _sp: SPFI = getSP(this.props.context);
+  //   const allLists =  await _sp.web.lists();
+  //   console.log('all',allLists)
+
+  //   const allListNames: string[] = [];
+    
+  //   allLists.map(async(lists) => {
+  //     const listName = lists.Title;
+  //     allListNames.push(listName)
+  //   })
+
+  //   console.log("all", allListNames);
+
+  //   this.setState({
+  //     allLists: allListNames
+  //   })
+  // }
 
   public _getDropdownList = async (): Promise<void> => {
+
     const {currentPage} = this.state;
     const _sp: SPFI = getSP(this.props.context);
 
-    
-    console.log("LIST",_sp);
-    console.log("list", this.props.list);
 
-    this.props.list.map(async (listId: string) => {
-      if (currentPage === 0 && listId === 'ee941d16-2a92-4d84-83fc-acc26611f9b7' ) {
-        const itemsA = await _sp.web.lists.getById('ee941d16-2a92-4d84-83fc-acc26611f9b7').items();
-  
-        const dataArray = itemsA.map((data) => ({ key: data.Id, text: data.NameEn }));
-  
-        console.log("DA",dataArray);
+    if (currentPage === 0 ) {
+      const departments = await _sp.web.lists.getByTitle('Department').items();
+      if ( departments) {
+        const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+          this.setState({
+            departmentList: dataArray
+          }) 
+      } else {
+        console.log('List Department not found')
+      }
+    }
+
+    else if (currentPage === 1 ) {
+      const jobType = await _sp.web.lists.getByTitle('JobType').items();
+      const programArea = await _sp.web.lists.getByTitle('ProgramArea').items();
+      const classificationCode = await _sp.web.lists.getByTitle('ClassificationCode').items();
+      const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
+      const duration = await _sp.web.lists.getByTitle('Duration').items();
+
+      if (jobType) {
+        const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn }));
         this.setState({
-          department: dataArray
+          jobType: dataResult
         }) 
       }
-      else if (currentPage === 1) {
-        console.log("page1")
+      else {
+        console.log("List does not exist")
+       }
+      
+      if (programArea) {
+        const dataResult = programArea.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          programArea: dataResult
+        }) 
+      } else {
+        console.log("List does not exist")
+       }
+      
+      if (classificationCode) {
+        const dataResult = classificationCode.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        console.log("ClassCode data", dataResult)
+        this.setState({
+          classificationCode: dataResult
+        }) 
+
+      } else {
+        console.log("List does not exist")
+       }
+      
+      if (classificationLevel) {
+        console.log('cLevel', classificationLevel);
+        const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          classificationLevel: dataResult
+        }) 
+
+      } else {
+        console.log("List does not exist")
+       }
+      
+      if (duration) {
+        const dataResult = duration.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          duration: dataResult
+        }) 
+      }
+       else {
+        console.log("List does not exist")
+       }
+
+    }
+    else if (currentPage === 2) {
+      console.log("page 2")
+      const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
+      const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
+      const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
+      const wrkSchedule = await _sp.web.lists.getByTitle('WorkSchedule').items();
+      const city =  await _sp.web.lists.getByTitle('City').items();
+      const province =  await _sp.web.lists.getByTitle('Province').items();
+      const region =  await _sp.web.lists.getByTitle('Region').items();
+
+      if (languageReq) {
+        const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          language: dataResult
+        }) 
+
+      } else {
+        console.log("Language list does not exist")
+       }
+      
+      
+      if (securityClearance) {
+        const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn}))
+          this.setState({
+            security: dataResult
+          })
+
+      } else {
+        console.log("Language list does not exist")
+       }
+      
+      if (workArrangment) {
+        const dataResult = workArrangment.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          wrkArrangement: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
       }
 
-    })
-
-   
+      if (wrkSchedule) {
+        const dataResult = wrkSchedule.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          wrkSchedule: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
+      if (city) {
+        console.log("CITYLIST", city)
+        const dataResult = city.map((data:any) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
+        this.setState({
+          city: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
+      if (province) {
+        console.log("PROVINCELIST", province)
+        const dataResult = province.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          province: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
+      if (region) {
+        console.log("Region List",region)
+        const dataResult = region.map((data:any) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
+        this.setState({
+          region: dataResult
+        })
+      } else {
+       console.log(" list does not exist")
+      }
       
       
-    // } else if (this.state.currentPage === 1 ) {
-    //   const items2 = await _sp.web.lists.getById(this.props.list[1]).items();
-    //   console.log(items2)
-    // }
+    }
 
 
   }
@@ -206,6 +434,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
+    const customSpacingStackTokens: IStackTokens = {
+      childrenGap: '3%',
+    };
     
     const myTheme = createTheme({
       palette: {
@@ -235,34 +466,113 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }});
 
     const {currentPage} = this.state;
+    console.log("VALUES", this.state.values)
 
     const steps = [
       {
         step: 1,
         title: 'Information',
         content: (
-          <PosterInfo handleOnChange={this.handleOnChangeTextField} items={this.state.department} handleDropDownItem={this.handleDropDownItem} />
+          <PosterInfo 
+            handleOnChange={this.handleOnChangeTextField} 
+            items={this.state.departmentList} 
+            userInfo={this.props.userDisplayName} 
+            workEmail = {this.props.workEmail}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            readOnly= {false}
+            values={this.state.values}
+          />
         ),
       },
       {
         step:2,
-        title: 'Details',
+        title: 'Details', 
         content: (
-          <Details/>
+          <Details 
+            programArea={this.state.programArea} 
+            classificationCode={this.state.classificationCode} 
+            classificationLevel={this.state.classificationLevel} 
+            jobType={this.state.jobType} 
+            duration={this.state.duration}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
+            handleOnDateChange={this.handleOnDateChange}
+            values={this.state.values}
+          />
         ),
       },
       {
         step: 3,
         title: 'Requirements',
         content: (
-          <Requirements/>
+          <Requirements
+            language = {this.state.language}
+            security = {this.state.security}
+            wrkArrangment = {this.state.wrkArrangement}
+            city={this.state.city}
+            wrkSchedule = {this.state.wrkSchedule}
+            province = {this.state.province}
+            region = {this.state.region}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
+            values={this.state.values}
+            
+
+          />
         ),
       },
       {
         step: 4,
         title: 'Review',
         content: (
-          <Review/>
+          <>
+          <Stack horizontal wrap tokens={customSpacingStackTokens}>
+            <StackItem grow={1} styles={{ root: { maxWidth: '45%' } }} >
+              <PosterInfo 
+                handleOnChange={this.handleOnChangeTextField} 
+                items={this.state.departmentList} 
+                userInfo={this.props.userDisplayName} 
+                workEmail = {this.props.workEmail}
+                currentPage= {this.state.currentPage}
+                handleDropDownItem={this.handleDropDownItem}
+                readOnly= {false}
+                values={this.state.values}
+              />
+              <Details 
+                programArea={this.state.programArea} 
+                classificationCode={this.state.classificationCode} 
+                classificationLevel={this.state.classificationLevel} 
+                jobType={this.state.jobType} 
+                duration={this.state.duration}
+                currentPage= {this.state.currentPage}
+                handleDropDownItem={this.handleDropDownItem}
+                handleOnChange={this.handleOnChangeTextField} 
+                handleOnDateChange={this.handleOnDateChange}
+                values={this.state.values}
+              />
+            </StackItem>
+            <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
+              <Requirements
+                language = {this.state.language}
+                security = {this.state.security}
+                wrkArrangment = {this.state.wrkArrangement}
+                city={this.state.city}
+                wrkSchedule = {this.state.wrkSchedule}
+                province = {this.state.province}
+                region = {this.state.region}
+                currentPage= {this.state.currentPage}
+                handleDropDownItem={this.handleDropDownItem}
+                handleOnChange={this.handleOnChangeTextField} 
+                values={this.state.values}
+              />
+            </StackItem>
+          </Stack>
+          </>
+
+          // <Review/>
         ),
       },
       

@@ -8,17 +8,23 @@ export interface IReusableDropdownFieldProps {
   name: string;
   title: string;
   options?: any[];
-  onChange?: (item: IDropdownOption) => void;
+  onChange: (event: any, item: any) => void;
+  readOnly?: boolean;
+  disabled?: boolean;
+  selectedKey?: string[];
+  defaultSelectedKey? : string[];
+  
 }
 
 
 export default class ReusableDropdownField extends React.Component<IReusableDropdownFieldProps> {
 
 
-  public handleDropdownChange = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
-    console.log("item", item)
-      
-  };
+  // public handleDropdownChange = (event:any, item: any): void => {
+  //   console.log("item", item)
+  //   console.log("event", event)
+  //      this.props.onChange(event, item)
+  // };
   
 
   public customLabel = (): JSX.Element => {
@@ -46,7 +52,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
     return (
       <div>
         <Dropdown
-          options={this.props.options as IDropdownOption[]} onRenderLabel={this.customLabel} className={styles.labelStyle} styles={dropdownStyle} onChange={this.handleDropdownChange} />
+          options={this.props.options as IDropdownOption[]} onRenderLabel={this.customLabel} className={styles.labelStyle} styles={dropdownStyle} {...this.props}/>
       </div>
     )
   }
