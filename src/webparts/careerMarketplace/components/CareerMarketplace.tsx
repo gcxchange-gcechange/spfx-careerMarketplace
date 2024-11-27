@@ -180,6 +180,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       };
 
+      console.log("BODY", postOptions.body)
       try {
         this.props.context.aadHttpClientFactory
         .getClient(clientId)
@@ -232,10 +233,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleOnDateChange=(date: Date | undefined):void => {
     console.log(date)
+
+    const formatDate = new Date(`${date}`);
+    const year = formatDate.getFullYear();
+    const month = formatDate.getMonth();
+    const day = formatDate.getDate();
+
+    const hour = formatDate.toTimeString().slice(-2);
+    console.log("H",hour)
+
+    const formattedDate: any = year +"-" + month + "-" + day+"-" + hour
+    console.log("formatDate", formattedDate);
+
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
-        deadline: date
+        deadline: formattedDate
 
       }
     }))
