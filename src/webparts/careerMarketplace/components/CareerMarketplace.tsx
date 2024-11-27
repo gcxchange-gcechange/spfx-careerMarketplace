@@ -48,7 +48,7 @@ export interface ICareerMarketplaceState {
     essentialSkill: string;
     assetSkill: string;
     approvedStaffing: string;
-    jobType: any,
+    jobType: any[],
     programArea: any,
     classificationCode: any,
     classificationLevel: any,
@@ -101,7 +101,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         assetSkill: "",
         approvedStaffing: "",
         department: "", 
-        jobType: "",
+        jobType: [],
         programArea: "",
         classificationCode: "",
         classificationLevel: "",
@@ -142,17 +142,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private submit = (): void => {
     console.log("submit");
 
-    const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-    const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity";
+    const clientId = "c121 ";
+    const url = "https://ap";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
       requestHeaders.append("Cache-Control", "no-cache");
-      requestHeaders.append('Access-Control-Allow-Origin', 'https://devgcx.sharepoint.com/');
-      requestHeaders.append('Access-Control-Allow-Credentials', 'true');
-      requestHeaders.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-      requestHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  
+      
       const postOptions: IHttpClientOptions= {
         headers: requestHeaders,
         body: `{
@@ -163,7 +159,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ContactEmail": "${this.props.workEmail}",
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
-              "JobTypeLookupId": "${this.state.values.jobType.key}",
+              "JobTypeLookupId": "${this.state.values.jobType}",
               "ProgramAreaLookupId": "${this.state.values.programArea.key}",
               "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
@@ -193,13 +189,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           .post(url, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
             console.log('RESPONSE:', response);
+            if (response.status) {
+              console.log(response.status);
+            }
             return response.json();
           })
           
         })
       }
       catch(error){
-        console.log(error)
+        console.log("ERROR",error)
       }
       
   };
