@@ -35,6 +35,7 @@ export interface ICareerMarketplaceState {
   wrkSchedule: any[];
   province: any[];
   region:any[];
+  validationStatus: number;
 
   values: {
     jobTitleEn: string;
@@ -47,7 +48,7 @@ export interface ICareerMarketplaceState {
     essentialSkill: string;
     assetSkill: string;
     approvedStaffing: string;
-    jobType: string,
+    jobType: any,
     programArea: any,
     classificationCode: any,
     classificationLevel: any,
@@ -87,6 +88,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       wrkSchedule: [],
       province: [],
       region:[],
+      validationStatus: 0,
 
       values: {
         jobTitleEn: "",
@@ -140,8 +142,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private submit = (): void => {
     console.log("submit");
 
-      const clientId = "c1";
-      const url = "CreateJobOpportunity";
+    const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+    const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
@@ -157,18 +159,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ContactEmail": "${this.props.workEmail}",
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
-              "JobTypeLookupId": [ "2", "3" ],
+              "JobTypeLookupId": "${this.state.values.jobType.key}",
               "ProgramAreaLookupId": "${this.state.values.programArea.key}",
               "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
               "NumberOfOpportunities": "${this.state.values.numOfOpps}",
               "DurationLookupId": "${this.state.values.duration.key}",
-              "ApplicationDeadlineDate": "2024-11-08T00:00:00",
+              "ApplicationDeadlineDate": "2024-11-27T00:00:00",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "EssentialSkills": "${this.state.values.essentialSkill}",
               "WorkScheduleLookupId": "${this.state.values.wrkSchedule}",
-              "LocationLookupId": "1",
               "SecurityClearanceLookupId": "${this.state.values.security.key}",
               "LanguageRequirementLookupId": "${this.state.values.language.key}",
               "WorkArrangementLookupId": "${this.state.values.wrkArrangment.key}",
