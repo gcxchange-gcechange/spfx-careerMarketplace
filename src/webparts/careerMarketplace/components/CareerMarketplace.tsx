@@ -148,6 +148,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
       requestHeaders.append("Cache-Control", "no-cache");
+      requestHeaders.append('Access-Control-Allow-Origin', 'https://devgcx.sharepoint.com/');
+      requestHeaders.append('Access-Control-Allow-Credentials', 'true');
+      requestHeaders.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+      requestHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   
       const postOptions: IHttpClientOptions= {
         headers: requestHeaders,
@@ -188,7 +192,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           client
           .post(url, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
-            console.log('RESPONSE:', response.json());
+            console.log('RESPONSE:', response);
             return response.json();
           })
           
