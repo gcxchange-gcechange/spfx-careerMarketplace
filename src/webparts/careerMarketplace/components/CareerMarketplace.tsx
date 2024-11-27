@@ -590,14 +590,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               <PageTitle currentPage={this.state.currentPage}/>
             </div>
             <div className={styles.stepper}>
-            <Steps
-              current={currentPage}
-              labelPlacement="vertical"
-              items={items}
-              
-            />
+              <Steps
+                current={currentPage}
+                labelPlacement="vertical"
+                items={items}
+              />
             </div>
-            <div>{steps[currentPage].content}</div>
+            <div>
+              {steps[currentPage].content}
+            </div>
             <div style={{marginTop: '20px'}}>
               <Stack horizontal horizontalAlign={'space-between'}>
                 <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
