@@ -145,10 +145,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private submit = (): void => {
     console.log("submit");
 
-    const formatted : string = moment(this.state.values.deadline).format('YYYY-MM-DDT:00:00:00')
+    const dateStr = this.state.values.deadline;  
+    const momentDate = moment(dateStr, "YYYY-MM-DD");  
+    const isoString = momentDate.toISOString();  
+
+
 
     const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-    const url = "https://appsvc-function-dev-cm-listmgmtdotnet001.azurewebsites.net/api/CreateJobOpportunitycode=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
+    const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
@@ -158,7 +162,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         headers: requestHeaders,
         body: `{
 
-              "ContactObjectId": null,
+              "ContactObjectId": "",
               "ContactName": "${this.props.userDisplayName}",
               "DepartmentLookupId": "${this.state.values.department.key}",
               "ContactEmail": "${this.props.workEmail}",
@@ -170,7 +174,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
               "NumberOfOpportunities": "${this.state.values.numOfOpps}",
               "DurationLookupId": "${this.state.values.duration.key}",
-              "ApplicationDeadlineDate": "${formatted}",
+              "ApplicationDeadlineDate": "${isoString}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "EssentialSkills": "${this.state.values.essentialSkill}",
