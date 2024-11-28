@@ -3,6 +3,8 @@ import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { DatePicker, IDropdownOption  } from "@fluentui/react";
+import * as moment from "moment";
+
 
 export interface IDetailsProps {
   programArea: any[];
@@ -21,7 +23,7 @@ export interface IDetailsProps {
     jobDescriptionEn: string;
     jobDescriptionFr: string;
     numOfOpps: string;
-    deadline: any;
+    deadline: Date |  undefined;
     jobType: any[];
     programArea: any;
     classificationCode: any;
@@ -59,6 +61,14 @@ export default class Details extends React.Component<IDetailsProps> {
   public render(): React.ReactElement<IDetailsProps> {
 
     const isReadOnly = this.props.currentPage !== 1;
+
+    const reformatDate = ():string => {
+      const formattedDate = moment(this.props.values.deadline).format("YYYY-MM-DD");
+    
+      return formattedDate
+    }
+
+   
 
     return (
       <>
@@ -149,7 +159,10 @@ export default class Details extends React.Component<IDetailsProps> {
             isRequired
             ariaLabel="Select a date"
             onSelectDate={this.onSelectedDate}
-            disabled={isReadOnly} 
+            disabled={isReadOnly}
+            formatDate={reformatDate}
+            value={this.props.values.deadline}
+            
           />
 
           <ReusableTextField

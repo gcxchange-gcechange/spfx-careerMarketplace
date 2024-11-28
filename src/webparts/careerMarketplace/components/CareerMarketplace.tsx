@@ -14,6 +14,7 @@ import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/
 import { getSP } from '../../../pnpConfig';
 import { SPFI } from '@pnp/sp';
 import PageTitle from './PageTitle';
+import * as moment from 'moment';
 
 
 
@@ -98,7 +99,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobDescriptionEn: "",
         jobDescriptionFr: "",
         numOfOpps: "",
-        deadline: new(Date),
+        deadline: new Date(),
         essentialSkill: "",
         assetSkill: "",
         approvedStaffing: "",
@@ -144,6 +145,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private submit = (): void => {
     console.log("submit");
 
+    const formatted : string = moment(this.state.values.deadline).format('YYYY-MM-DDT:00:00:00')
+
     const clientId = "c121 ";
     const url = "https://ap";
   
@@ -167,7 +170,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
               "NumberOfOpportunities": "${this.state.values.numOfOpps}",
               "DurationLookupId": "${this.state.values.duration.key}",
-              "ApplicationDeadlineDate": "${this.state.values.deadline}",
+              "ApplicationDeadlineDate": "${formatted}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "EssentialSkills": "${this.state.values.essentialSkill}",
@@ -254,27 +257,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
-  public handleOnDateChange=(date: Date | undefined):void => {
-    console.log(date)
-
-    const formatDate = new Date(`${date}`);
-    const year = formatDate.getFullYear();
-    const month = formatDate.getMonth();
-    const day = formatDate.getDate();
-
-    const time = formatDate.toTimeString().slice(0, 8);
+  public handleOnDateChange=(date: Date |undefined):void => {
+    console.log("DATE",date)
 
 
-    const formattedDate: any = year +"-" + month + "-" + day+"T" + time
-    console.log("formatDate", formattedDate);
+    if (date) {
+    
+        this.setState((prevState) => ({
+          values: {
+            ...prevState.values,
+            deadline:  date
+    
+          }
+        }))
+    }
 
-    this.setState((prevState) => ({
-      values: {
-        ...prevState.values,
-        deadline: formattedDate
 
-      }
-    }))
   }
 
   // public _getAllLists = async (): Promise<void> => {
