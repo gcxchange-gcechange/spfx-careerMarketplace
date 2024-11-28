@@ -1,0 +1,19 @@
+{
+	"name": "sharepoint-haibun-e2e-tests",
+	"version": "0.0.1",
+	"scripts": {
+		"e2e-basic": "HAIBUN_TRACE=true HAIBUN_O_WEBPLAYWRIGHT_STORAGE=StorageFS HAIBUN_O_OUTREVIEWS_STORAGE=StorageFS haibun-cli  e2e/"
+	},
+	"dependencies": {
+		"@haibun/azure": "^1.33.6",
+		"@haibun/cli": "^1.40.9",
+		"@haibun/core": "^1.40.9",
+		"@haibun/domain-storage": "^1.40.8",
+		"@haibun/domain-webpage": "^1.40.8",
+		"@haibun/out-review": "^1.40.8",
+		"@haibun/out-xunit": "^1.40.8",
+		"@haibun/storage-fs": "^1.40.8",
+		"@haibun/web-accessibility-axe": "^1.40.6",
+		"@haibun/web-playwright": "^1.40.8"
+	}
+}
