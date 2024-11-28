@@ -12,7 +12,9 @@ export interface IReusableDropdownFieldProps {
   readOnly?: boolean;
   disabled?: boolean;
   selectedKey?: string[];
+  selectedKeys?: string[];
   defaultSelectedKey? : string[];
+  multiselect?: boolean;
   
 }
 
@@ -52,7 +54,13 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
     return (
       <div>
         <Dropdown
-          options={this.props.options as IDropdownOption[]} onRenderLabel={this.customLabel} className={styles.labelStyle} styles={dropdownStyle} {...this.props}/>
+          options={this.props.options as IDropdownOption[]} 
+          onRenderLabel={this.customLabel} 
+          className={styles.labelStyle} 
+          multiSelect={this.props.multiselect} 
+          styles={dropdownStyle} 
+          {...this.props}
+        />
       </div>
     )
   }

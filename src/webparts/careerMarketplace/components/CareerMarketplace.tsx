@@ -36,6 +36,7 @@ export interface ICareerMarketplaceState {
   province: any[];
   region:any[];
   validationStatus: number;
+  jobTypeValue: string[];
 
   values: {
     jobTitleEn: string;
@@ -89,6 +90,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       province: [],
       region:[],
       validationStatus: 0,
+      jobTypeValue: [],
 
       values: {
         jobTitleEn: "",
@@ -223,14 +225,26 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
- 
-    this.setState((prevState) => ({
-      values: {
-        ...prevState.values,
-        [valueName]: value
 
-      }
-    }))
+    console.log("event", valueName )
+    console.log("value", value)
+    
+
+    if (valueName === "jobType") {
+      this.setState((prev) => ({
+        jobTypeValue: [...prev.jobTypeValue, value]
+      }))
+      
+    } else {
+
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          [valueName]: value
+  
+        }
+      }))
+    }
 
   }
 
@@ -485,6 +499,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const {currentPage} = this.state;
     console.log("VALUES", this.state.values)
+    console.log("JobType", this.state.jobTypeValue)
 
     const steps = [
       {
@@ -518,6 +533,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleOnChange={this.handleOnChangeTextField} 
             handleOnDateChange={this.handleOnDateChange}
             values={this.state.values}
+            jobTypeValues={this.state.jobTypeValue}
           />
         ),
       },
@@ -570,6 +586,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleOnChange={this.handleOnChangeTextField} 
                 handleOnDateChange={this.handleOnDateChange}
                 values={this.state.values}
+                jobTypeValues={this.state.jobTypeValue}
               />
             </StackItem>
             <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >

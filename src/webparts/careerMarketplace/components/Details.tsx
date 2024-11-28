@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { DatePicker } from "@fluentui/react";
+import { DatePicker, IDropdownOption  } from "@fluentui/react";
 
 export interface IDetailsProps {
   programArea: any[];
@@ -14,6 +14,7 @@ export interface IDetailsProps {
   handleDropDownItem: (event: any, item: any) => void;
   handleOnChange: (event: string, newValue?: string) => void;
   handleOnDateChange: (date: Date) => void
+  jobTypeValues: string[];
   values: {
     jobTitleEn: string;
     jobTitleFr: string;
@@ -21,7 +22,7 @@ export interface IDetailsProps {
     jobDescriptionFr: string;
     numOfOpps: string;
     deadline: any;
-    jobType: any;
+    jobType: any[];
     programArea: any;
     classificationCode: any;
     classificationLevel: any;
@@ -38,8 +39,9 @@ export default class Details extends React.Component<IDetailsProps> {
     }
   };
 
-  public onChangeDropDownItem = (event: any, item: any): void => {
+  public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventId = event.target.id;
+
     if (item) {
       this.props.handleDropDownItem(eventId, item);
     }
@@ -92,8 +94,10 @@ export default class Details extends React.Component<IDetailsProps> {
             options={this.props.jobType}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
-            selectedKey={this.props.values.jobType.key}
+            selectedKeys={this.props.jobTypeValues}
+            multiselect
           />
+   
           <ReusableDropdownField
             id={"programArea"}
             name={"programArea"}
