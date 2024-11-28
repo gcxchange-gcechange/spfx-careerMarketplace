@@ -161,7 +161,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ContactEmail": "${this.props.workEmail}",
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
-              "JobTypeLookupId": "${this.state.values.jobType}",
+              "JobTypeLookupId": "${this.state.jobTypeValue}",
               "ProgramAreaLookupId": "${this.state.values.programArea.key}",
               "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
@@ -228,13 +228,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     console.log("event", valueName )
     console.log("value", value)
-    
+
+    const exists = this.state.jobTypeValue.find((item) => item === value.key);
+
+    console.log("Exists", exists)
 
     if (valueName === "jobType") {
+
+      if (exists) return;
+
       this.setState((prev) => ({
-        jobTypeValue: [...prev.jobTypeValue, value]
-      }))
-      
+        jobTypeValue: [...prev.jobTypeValue, value.key],
+      }));
+
     } else {
 
       this.setState((prevState) => ({
