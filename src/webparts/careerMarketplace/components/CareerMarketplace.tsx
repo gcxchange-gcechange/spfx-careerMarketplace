@@ -62,7 +62,7 @@ export interface ICareerMarketplaceState {
     province: any,
     region: any, 
     wrkArrangment: any, 
-    wrkSchedule: string, 
+    wrkSchedule: any, 
   }
 
 }
@@ -147,8 +147,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const formatted : string = moment(this.state.values.deadline).format('YYYY-MM-DDT:00:00:00')
 
-    const clientId = "c121 ";
-    const url = "https://ap";
+    const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+    const url = "https://appsvc-function-dev-cm-listmgmtdotnet001.azurewebsites.net/api/CreateJobOpportunitycode=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
@@ -174,7 +174,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "EssentialSkills": "${this.state.values.essentialSkill}",
-              "WorkScheduleLookupId": "${this.state.values.wrkSchedule}",
+              "WorkScheduleLookupId": "${this.state.values.wrkSchedule.key}",
               "SecurityClearanceLookupId": "${this.state.values.security.key}",
               "LanguageRequirementLookupId": "${this.state.values.language.key}",
               "WorkArrangementLookupId": "${this.state.values.wrkArrangment.key}",
