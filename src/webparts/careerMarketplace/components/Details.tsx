@@ -58,6 +58,8 @@ export default class Details extends React.Component<IDetailsProps> {
 
   }
 
+
+
   public render(): React.ReactElement<IDetailsProps> {
 
     const isReadOnly = this.props.currentPage !== 1;
@@ -88,6 +90,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobTitleEn}
             readOnly={isReadOnly}
+         
           />
           <ReusableTextField
             id={"jobTitleFr"}

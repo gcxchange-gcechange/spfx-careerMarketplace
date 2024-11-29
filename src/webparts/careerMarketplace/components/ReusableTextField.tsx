@@ -11,6 +11,7 @@ export interface IReusableTextFieldProps {
   readOnly?: boolean;
   disabled?: boolean;
   multiline?: boolean;
+  onGetErrorMessage?:(value: string | number) => string | JSX.Element | undefined;
 }
 
 
