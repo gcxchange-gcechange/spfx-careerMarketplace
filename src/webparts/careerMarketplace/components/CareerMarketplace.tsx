@@ -654,9 +654,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               <Stack horizontal horizontalAlign={'space-between'}>
                 <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
                 { currentPage === 3 ? 
-                  <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
-                :
-                  <CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next()}/>
+                  (<CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>)
+                   : currentPage  === 4 ?
+                  (
+                  <>                  
+                    <CustomButton id={'edit'} name={'Edit'} buttonType={'secondary'} onClick={() => this.prev()} />
+                    <CustomButton id={'viewOpportunity'} name={'viewOpportunity'} buttonType={'secondary'} onClick={() => this.prev}/>
+                  </>
+
+                  )
+                  :
+                  (<CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next()}/>)
                 }
               </Stack>
             </div>
