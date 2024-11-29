@@ -9,12 +9,12 @@ import PosterInfo from './PosterInfo';
 import {  IStackTokens, Stack, StackItem, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
-//import Review from './Review';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
 import { SPFI } from '@pnp/sp';
 import PageTitle from './PageTitle';
 import * as moment from 'moment';
+import Complete from './Complete';
 
 
 
@@ -38,6 +38,7 @@ export interface ICareerMarketplaceState {
   region:any[];
   validationStatus: number;
   jobTypeValue: string[];
+  userId: string | number;
 
   values: {
     jobTitleEn: string;
@@ -70,7 +71,6 @@ export interface ICareerMarketplaceState {
 
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
-
   
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
     super(props);
@@ -92,6 +92,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       region:[],
       validationStatus: 0,
       jobTypeValue: [],
+      userId: '',
 
       values: {
         jobTitleEn: "",
@@ -162,13 +163,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         headers: requestHeaders,
         body: `{
 
-              "ContactObjectId": "",
+              "ContactObjectId": "${this.state.userId}",
               "ContactName": "${this.props.userDisplayName}",
               "DepartmentLookupId": "${this.state.values.department.key}",
               "ContactEmail": "${this.props.workEmail}",
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
-              "JobTypeLookupId": "${this.state.jobTypeValue}",
+              "JobTypeLookupId": "[2,3]",
               "ProgramAreaLookupId": "${this.state.values.programArea.key}",
               "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
@@ -199,7 +200,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           .then((response: HttpClientResponse) => {
             console.log('RESPONSE:', response);
             if (response.status) {
-              console.log(response.status);
+              this.setState({
+                validationStatus: response.status
+              })
             }
             return response.json();
           })
@@ -279,24 +282,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
-  // public _getAllLists = async (): Promise<void> => {
-  //   const _sp: SPFI = getSP(this.props.context);
-  //   const allLists =  await _sp.web.lists();
-  //   console.log('all',allLists)
-
-  //   const allListNames: string[] = [];
-    
-  //   allLists.map(async(lists) => {
-  //     const listName = lists.Title;
-  //     allListNames.push(listName)
-  //   })
-
-  //   console.log("all", allListNames);
-
-  //   this.setState({
-  //     allLists: allListNames
-  //   })
-  // }
 
   public _getDropdownList = async (): Promise<void> => {
 
@@ -457,8 +442,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
+  public _getUser = async ():Promise<void> => {
+    const _sp: SPFI = getSP(this.props.context);
+    const user = await  _sp.web.currentUser();
+
+    const userID = user.UserId.NameId
+
+    this.setState({
+      userId: userID
+    })
+
+    console.log(user)
+  }
+
   public async componentDidMount(): Promise<void> {
-    await this._getDropdownList()
+    await this._getDropdownList();
+    await this._getUser();
   }
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
@@ -630,16 +629,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             <div>
               <PageTitle currentPage={this.state.currentPage}/>
             </div>
-            <div className={styles.stepper}>
-              <Steps
-                current={currentPage}
-                labelPlacement="vertical"
-                items={items}
-              />
+            <div>{
+                this.state.validationStatus === 400 ? (
+                  <Complete/>
+                )
+                :
+                <>
+                <div className={styles.stepper}>
+                <Steps
+                  current={currentPage}
+                  labelPlacement="vertical"
+                  items={items}
+                />
+              </div>
+              <div>
+                {steps[currentPage].content}
+              </div>
+              </>
+              }
             </div>
-            <div>
-              {steps[currentPage].content}
-            </div>
+           
+          
             <div style={{marginTop: '20px'}}>
               <Stack horizontal horizontalAlign={'space-between'}>
                 <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>

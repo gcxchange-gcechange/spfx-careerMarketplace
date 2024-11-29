@@ -2,6 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
+import { ChoiceGroup, IChoiceGroupOption } from "@fluentui/react";
 
 export interface IRequirementsProps {
   language: any[];
@@ -17,7 +18,7 @@ export interface IRequirementsProps {
   values: {
     essentialSkill: string;
     assetSkill: string;
-    approvedStaffing: string;
+    approvedStaffing: any;
     language: any;
     location: any;
     security: any;
@@ -47,14 +48,30 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
   };
 
+  public onChoiceChange = (ev: React.ChangeEvent<HTMLFormElement>, option: IChoiceGroupOption):void => {
+
+    const eventName = ev.target.name;
+
+    if(option) {
+      this.props.handleDropDownItem(eventName, option);
+    }
+ 
+    console.log("OPTIONS",option)
+    console.log("EV",eventName);
+  }
+
   
 
   public render(): React.ReactElement<IRequirementsProps> {
 
     const isReadOnly = this.props.currentPage !== 2;
-
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
+
+    const options: IChoiceGroupOption[] = [
+      { key: 'true', text: 'Yes' },
+      { key: 'false', text: 'No' },
+    ];
 
     return (
       <>
@@ -148,14 +165,18 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.wrkArrangment.key}
           />
-          <ReusableTextField
+
+          <ChoiceGroup
             id={"approvedStaffing"}
             name={"approvedStaffing"}
-            title={"Approved Staffing"}
-            onChange={this.onChangeTextValue}
-            defaultValue={this.props.values.approvedStaffing}
+            label ={"Approved Staffing"}
+            required
+            options={options}
+            onChange={this.onChoiceChange}
             readOnly={isReadOnly}
+            selectedKey={this.props.values.approvedStaffing.key}
           />
+
         </div>
       </>
     );
