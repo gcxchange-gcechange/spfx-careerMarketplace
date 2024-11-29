@@ -125,7 +125,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private next = (): void => {
     const nextPage = this.state.currentPage + 1;
 
-    if (this.state.currentPage < 3) {
+    if (this.state.currentPage < 4) {
       this.setState({
         currentPage: nextPage
       })
@@ -627,47 +627,57 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         <ThemeProvider applyTo='body' theme={myTheme}>
           <section>
             <div>
-              <PageTitle currentPage={this.state.currentPage}/>
-            </div>
-            <div>{
+              {
                 this.state.validationStatus === 400 ? (
-                  <Complete/>
+                <>                  
+                  <div>
+                    <Complete/>
+                  </div>  
+                  <div style={{width: '100%', display: 'flex'}}>                  
+                    <div style={{width: '40%'}}>
+                      <Stack horizontal horizontalAlign="space-between">
+                        <CustomButton id={'edit'} name={'Edit'} buttonType={'secondary'} onClick={() => this.prev()}/>
+                        <CustomButton id={'view'} name={'View Opportunity'} buttonType={'secondary'} onClick={() => this.prev()}/>
+                      </Stack> 
+                    </div>
+                    <div style={{width: '60%'}}>
+                      <Stack horizontal horizontalAlign='end'>
+                        <CustomButton id={'home'} name={'Career Marketplace HomePage'} buttonType={'primary'} onClick={() => this.prev()}/>
+                      </Stack> 
+                    </div>
+                  </div>
+                </>
                 )
                 :
                 <>
-                <div className={styles.stepper}>
-                <Steps
-                  current={currentPage}
-                  labelPlacement="vertical"
-                  items={items}
-                />
-              </div>
-              <div>
-                {steps[currentPage].content}
-              </div>
-              </>
+                  <div>
+                    <PageTitle currentPage={this.state.currentPage}/>
+                  </div>
+                  <div className={styles.stepper}>
+                    <Steps
+                      current={currentPage}
+                      labelPlacement="vertical"
+                      items={items}
+                    />
+                  </div>
+                  <div>
+                    {steps[currentPage].content}
+                  </div>
+
+                  <div style={{marginTop: '20px'}}>
+                    <Stack horizontal horizontalAlign={'space-between'}>
+                      <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
+                      { currentPage === 3 ? 
+                        <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
+                        :
+                        <CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next()}/>
+                      }
+                    </Stack>
+                  </div>
+                </>
               }
             </div>
-           
-          
-            <div style={{marginTop: '20px'}}>
-              <Stack horizontal horizontalAlign={'space-between'}>
-                <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
-                { currentPage === 3 ? 
-                  (<CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>)
-                   : currentPage  === 4 ?
-                  (
-                  <>                  
-                    <CustomButton id={'edit'} name={'Edit'} buttonType={'secondary'} onClick={() => this.prev()} />
-                    <CustomButton id={'viewOpportunity'} name={'viewOpportunity'} buttonType={'secondary'} onClick={() => this.prev}/>
-                  </>
-
-                  )
-                  :
-                  (<CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next()}/>)
-                }
-              </Stack>
-            </div>
+            
           </section>
         </ThemeProvider>
       </>
