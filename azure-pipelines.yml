@@ -123,17 +123,18 @@ stages:
                   PasswordID: $(Password)
 
 ############################################################
+## removes: the *.sppkg package to the app-catalog
+############################################################
+
+              - script: m365 spo app remove --debug --verbose --id 0EA66617-4448-4585-A3A9-0542DD83747C --appCatalogUrl https://devgcx.sharepoint.com/sites/appcatalog --appCatalogScope tenant --force
+                displayName: Removes the SharePoint package from the App Catalog to be able to upload an upgraded version of the package
+
+############################################################
 ## uploads: the *.sppkg package to the app-catalog
 ############################################################
 
               - script: m365 spo app add --debug --verbose -p '$(Pipeline.Workspace)/spfx-package/$(SpPkgFilename)' --appCatalogUrl https://devgcx.sharepoint.com/sites/appcatalog --appCatalogScope tenant --overwrite
                 displayName: Upload to SharePoint package to the App Catalog
-
-############################################################
-## deploys: the *.sppkg package to the site in particular 
-############################################################
-              - script: m365 spo app deploy --id 0EA66617-4448-4585-A3A9-0542DD83747C --appCatalogUrl https://devgcx.sharepoint.com/sites/appcatalog
-                displayName: Upgrades the app to a specific site
 
 ############################################################
 ## upgrades: the *.sppkg package to the site in particular 
