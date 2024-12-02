@@ -6,6 +6,7 @@ import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { IDropdownOption } from "@fluentui/react";
 
+
 export interface IPosterInfoProps {
   handleOnChange: (event: string, newValue?: string) => void;
   handleDropDownItem: (event: any, item: any) => void;
@@ -17,6 +18,7 @@ export interface IPosterInfoProps {
   values: {
     department: any;
   };
+  errorMessage?:(value: string | number) => string | undefined;
 }
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
@@ -68,8 +70,8 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.department.key}
-            
           />
+          
           <ReusableTextField
             id={"workEmail"}
             name={"workEmail"}

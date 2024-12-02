@@ -17,3 +17,16 @@ export const validateEmpty = (value: string): JSX.Element  | undefined => {
 
 
 }
+
+export const validateDropdowns =(value: any) : string | undefined  => {
+
+
+if (value === undefined) {
+    return (
+        "Plese select an option"
+    )
+
+}
+    
+
+}
