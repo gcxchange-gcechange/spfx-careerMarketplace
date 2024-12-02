@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { DatePicker, IDropdownOption  } from "@fluentui/react";
+import { DatePicker, DropdownMenuItemType, IDropdownOption  } from "@fluentui/react";
 import * as moment from "moment";
 import { validateEmpty } from "./Validations";
 
@@ -74,7 +74,6 @@ export default class Details extends React.Component<IDetailsProps> {
       return formattedDate
     }
 
-   
 
     return (
       <>
@@ -110,7 +109,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"jobType"}
             name={"jobType"}
             title={"Job Type"}
-            options={this.props.jobType}
+            options={[{key: '', text:"--Select--", itemType: DropdownMenuItemType.Header}, ...this.props.jobType]}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKeys={this.props.jobTypeValues}
@@ -121,7 +120,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"programArea"}
             name={"programArea"}
             title={"Program area"}
-            options={this.props.programArea}
+            options={[{key:"", text: "--Select--"}, ...this.props.programArea]}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.programArea.key}
@@ -130,7 +129,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"classificationCode"}
             name={"classificationCode"}
             title={"Classification"}
-            options={this.props.classificationCode}
+            options={[{key:"", text: "--Select--"}, ...this.props.classificationCode]}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.classificationCode.key}
@@ -139,7 +138,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"classificationLevel"}
             name={"classificationLevel"}
             title={"Clasification Level"}
-            options={this.props.classificationLevel}
+            options={[{key:"", text: "--Select--"}, ...this.props.classificationLevel]}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.classificationLevel.key}
@@ -157,7 +156,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"duration"}
             name={"duration"}
             title={"Duration"}
-            options={this.props.duration}
+            options={[{key:"", text: "--Select--"}, ...this.props.duration]}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.duration.key}
             readOnly={isReadOnly}

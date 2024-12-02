@@ -39,6 +39,7 @@ export interface ICareerMarketplaceState {
   validationStatus: number;
   jobTypeValue: string[];
   userId: string | number;
+  isError: boolean;
 
   values: {
     jobTitleEn: string;
@@ -93,6 +94,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       validationStatus: 0,
       jobTypeValue: [],
       userId: '',
+      isError: false,
 
       values: {
         jobTitleEn: "",
@@ -240,6 +242,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("event", valueName )
     console.log("value", value)
 
+    const notSelected: any[] = [];
+
+
+    console.log(notSelected);
+
     const exists = this.state.jobTypeValue.find((item) => item === value.key);
 
     console.log("Exists", exists)
@@ -263,6 +270,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }))
     }
 
+
+  }
+
+  public fieldisError = (values: any): void => {
+
+    console.log(values);
+    //const errorFields: string[] = [];
+
+    
   }
 
   public handleOnDateChange=(date: Date |undefined):void => {

@@ -44,6 +44,11 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   public render(): React.ReactElement<IPosterInfoProps> {
     const isReadOnly = this.props.currentPage !== 0;
+    const optionsWithSelect = (): IDropdownOption[] => {
+      return [{key:"", text: "--Select--"}, ...this.props.items]
+    }
+
+
 
     return (
       <>
@@ -66,12 +71,12 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             id={"department"}
             name={"department"}
             title={"Department"}
-            options={this.props.items}
+            options={optionsWithSelect()}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.department.key}
           />
-          
+
           <ReusableTextField
             id={"workEmail"}
             name={"workEmail"}

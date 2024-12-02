@@ -58,8 +58,8 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           styles={dropdownStyle} 
           errorMessage={validateDropdowns(selectedKey)} 
           {...this.props}
-         
         />
+        
       </div>
     )
   }
