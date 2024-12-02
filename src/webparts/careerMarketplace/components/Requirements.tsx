@@ -3,6 +3,7 @@ import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { ChoiceGroup, IChoiceGroupOption } from "@fluentui/react";
+import { validateEmpty } from "./Validations";
 
 export interface IRequirementsProps {
   language: any[];
@@ -91,6 +92,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             defaultValue={this.props.values.essentialSkill}
             multiline={true}
             readOnly={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(this.props.values.essentialSkill)}
           />
           <ReusableTextField
             id={"assetSkill"}
@@ -100,6 +102,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             defaultValue={this.props.values.assetSkill}
             multiline={true}
             readOnly={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(this.props.values.assetSkill)}
           />
           <ReusableDropdownField
             id={"wrkSchedule"}

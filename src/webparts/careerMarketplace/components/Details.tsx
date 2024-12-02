@@ -4,6 +4,7 @@ import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { DatePicker, IDropdownOption  } from "@fluentui/react";
 import * as moment from "moment";
+import { validateEmpty } from "./Validations";
 
 
 export interface IDetailsProps {
@@ -90,8 +91,10 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobTitleEn}
             readOnly={isReadOnly}
-         
+            validateonLoad={false}
+            onGetErrorMessage={() => validateEmpty(this.props.values.jobTitleEn)}
           />
+
           <ReusableTextField
             id={"jobTitleFr"}
             name={"jobTitleFr"}
@@ -99,6 +102,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             readOnly={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(this.props.values.jobTitleFr)}
           />
           <ReusableDropdownField
             id={"jobType"}
@@ -145,6 +149,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.numOfOpps}
             readOnly={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(this.props.values.numOfOpps)}
           />
           <ReusableDropdownField
             id={"duration"}
@@ -176,6 +181,7 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobDescriptionEn}
             multiline={true}
             readOnly={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(this.props.values.jobDescriptionEn)}
           />
           <ReusableTextField
             id={"jobDescriptionFr"}
@@ -185,6 +191,7 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobDescriptionFr}
             multiline={true}
             readOnly={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(this.props.values.jobDescriptionFr)}
           />
         </div>
       </>

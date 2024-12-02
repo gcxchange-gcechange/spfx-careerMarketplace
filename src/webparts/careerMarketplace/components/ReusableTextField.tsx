@@ -11,6 +11,8 @@ export interface IReusableTextFieldProps {
   readOnly?: boolean;
   disabled?: boolean;
   multiline?: boolean;
+  validateonLoad?: boolean;
+  validateOnFocusOut?: boolean;
   onGetErrorMessage?:(value: string | number) => string | JSX.Element | undefined;
 }
 
@@ -36,7 +38,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     return (
       <div>
         <TextField
-          {...this.props} onRenderLabel={this.customLabel}  className={styles.labelStyle} 
+          {...this.props} onRenderLabel={this.customLabel}  className={styles.labelStyle} validateOnLoad={false} validateOnFocusOut={true}
         />
       </div>
     )
