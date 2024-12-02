@@ -38,7 +38,11 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     return (
       <div>
         <TextField
-          {...this.props} onRenderLabel={this.customLabel}  className={styles.labelStyle} validateOnLoad={false} validateOnFocusOut={true}
+          className={styles.labelStyle} 
+          onRenderLabel={this.customLabel}  
+          validateOnLoad={false} 
+          validateOnFocusOut={true}
+          {...this.props} 
         />
       </div>
     )

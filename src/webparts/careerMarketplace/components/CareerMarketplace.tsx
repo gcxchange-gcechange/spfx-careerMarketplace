@@ -222,15 +222,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const inputValue = value;
     
     console.log("Event",event);
-    console.log("Value",value);
+    console.log("PARENT VALUE", value);
 
-    this.setState((prevState) => ({
-      values: {
-        ...prevState.values,
-        [eventName]: inputValue
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          [eventName]: inputValue
+  
+        }
+      }))
 
-      }
-    }))
 
   }
 

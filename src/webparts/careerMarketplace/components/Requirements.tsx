@@ -36,10 +36,9 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
     const eventName = event.target.name;
-    console.log(event.target.name);
-    if (value) {
+
       this.props.handleOnChange(eventName, value)
-    }
+    
   };
 
   public onChangeDropDownItem = (event: any, item: any): void => {
@@ -64,6 +63,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
   
 
   public render(): React.ReactElement<IRequirementsProps> {
+
+    const {essentialSkill, assetSkill }=this.props.values
 
     const isReadOnly = this.props.currentPage !== 2;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
@@ -92,7 +93,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             defaultValue={this.props.values.essentialSkill}
             multiline={true}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(this.props.values.essentialSkill)}
+            onGetErrorMessage={() => validateEmpty(essentialSkill)}
           />
           <ReusableTextField
             id={"assetSkill"}
@@ -102,7 +103,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             defaultValue={this.props.values.assetSkill}
             multiline={true}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(this.props.values.assetSkill)}
+            onGetErrorMessage={() => validateEmpty(assetSkill)}
           />
           <ReusableDropdownField
             id={"wrkSchedule"}
