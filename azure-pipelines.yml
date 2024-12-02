@@ -123,13 +123,6 @@ stages:
                   PasswordID: $(Password)
 
 ############################################################
-## removes: the *.sppkg package to the app-catalog
-############################################################
-
-              - script: m365 spo app remove --debug --verbose --id 0EA66617-4448-4585-A3A9-0542DD83747C --appCatalogUrl https://dev***.sharepoint.com/sites/appcatalog --appCatalogScope tenant --force
-                displayName: Removes the SharePoint package from the App Catalog to be able to upload an upgraded version of the package
-
-############################################################
 ## uploads: the *.sppkg package to the app-catalog
 ############################################################
 
@@ -137,11 +130,17 @@ stages:
                 displayName: Upload to SharePoint package to the App Catalog
 
 ############################################################
+## upgrades: the *.sppkg package to the site in particular 
+############################################################
+              - script: m365 spo app upgrade --id 0EA66617-4448-4585-A3A9-0542DD83747C --siteUrl https://devgcx.sharepoint.com/
+                displayName: Upgrades the app to a specific site
+
+############################################################
 ## deploys: the *.sppkg package to the app-catalog
 ############################################################
 
-##              - script: m365 spo app deploy --debug --verbose --id 0EA66617-4448-4585-A3A9-0542DD83747C --appCatalogUrl https://devgcx.sharepoint.com/sites/appcatalog --appCatalogScope tenant
-##                displayName: Deploy to SharePoint package to the App Catalog
+              - script: m365 spo app deploy --debug --verbose --id 0EA66617-4448-4585-A3A9-0542DD83747C --appCatalogUrl https://devgcx.sharepoint.com/sites/appcatalog --appCatalogScope tenant
+                displayName: Deploy to SharePoint package to the App Catalog
 
 ############################################################
 ## upgrades: the *.sppkg package to the site in particular 
