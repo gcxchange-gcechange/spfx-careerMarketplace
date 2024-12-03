@@ -6,5 +6,6 @@ export interface ICareerMarketplaceProps {
   context: WebPartContext;
   userDisplayName: string;
   workEmail: string;
+  url: string;
 
 }

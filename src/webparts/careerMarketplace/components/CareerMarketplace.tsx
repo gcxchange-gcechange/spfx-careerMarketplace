@@ -173,9 +173,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
      }
     console.log("check", checkValues);
- 
-
-   
 
     const nextPage = this.state.currentPage + 1;
     console.log("Error",this.state.hasError);
@@ -189,7 +186,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         })
       } else {
         this.setState({
-          currentPage: nextPage
+          currentPage: nextPage,
+          hasError: []
          })
       }
 
@@ -731,8 +729,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   </div>
                   <div>
                   {this.state.hasError.length !== 0  && (
-                    <div style={{ background: 'red'}}>
-                      <p>ERRORS</p>
+                    <div style={{ background: '#F5DBDE', padding: '5px', marginTop:'10px'}}>
+                      <h3 style={{color: '#8F0000'}}>Invalid Fields</h3>
+                        {this.state.hasError.map((item) => (
+                          <ul key={item.key} style={{color: '#8F0000'}}>
+                            <li><a href={`${this.props.url}#${item.key}`}>{item.key}</a></li>
+                          </ul>
+                        ))}
                     </div>
                     )
                   }

@@ -20,6 +20,7 @@ export interface ICareerMarketplaceWebPartProps {
   context: WebPartContext;
   userDisplayName: string;
   workEmail: string;
+  url: string
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
@@ -33,6 +34,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         context: this.context,
         userDisplayName: this.context.pageContext.user.displayName,
         workEmail: this.context.pageContext.user.email,
+        url: this.context.pageContext.web.absoluteUrl
         
       }
     );
