@@ -28,7 +28,6 @@ export interface ICareerMarketplaceState {
   programArea: any[];
   classificationCode: any[];
   classificationLevel: any[];
-  location: any[];
   security: any[];
   language: any[];
   wrkArrangement: any[];
@@ -58,7 +57,6 @@ export interface ICareerMarketplaceState {
     classificationLevel: any,
     duration: any, 
     language: any, 
-    location: string, 
     security: any,
     city: any, 
     province: any,
@@ -83,7 +81,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       programArea:[],
       classificationCode: [],
       classificationLevel: [],
-      location: [],
       security: [],
       language: [],
       wrkArrangement: [],
@@ -106,63 +103,97 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         essentialSkill: "",
         assetSkill: "",
         approvedStaffing: "",
-        department: "", 
+        department: {value: "" , pageNumber: 0},
         jobType: [],
-        programArea: "",
-        classificationCode: "",
-        classificationLevel: "",
-        duration: "", 
-        language: "", 
-        location: "", 
-        security: "",
-        city: "", 
-        province: "",
-        region: "", 
-        wrkArrangment: "", 
-        wrkSchedule: "", 
+        programArea: {value: "" , pageNumber: 1},
+        classificationCode: {value: "" , pageNumber: 1},
+        classificationLevel: {value: "" , pageNumber: 1},
+        duration: {value: "" , pageNumber: 1},
+        language:{value: "" , pageNumber: 2},
+        security: {value: "" , pageNumber: 2},
+        city: {value: "" , pageNumber: 2},
+        province: {value: "" , pageNumber: 2},
+        region: {value: "" , pageNumber: 2},
+        wrkArrangment: {value: "" , pageNumber: 2}, 
+        wrkSchedule: {value: "" , pageNumber: 2},
       }
     };
   }
 
-  private checkBlankFields = (curentPage: number):void => {
+  // private checkBlankFields = (curentPage: number):void => {
 
-    console.log("CP",curentPage)
+  //   console.log("CP",curentPage)
 
-    const { values } = this.state;
+  //   const { values, currentPage } = this.state;
+  //   console.log("values", this.state.values)
+
+  //   const checkValues: {key: string, value: any}[] = [];
+
+  //   const currentPgFields = Object.entries(values).filter(([, fieldData]) => fieldData.pageNumber === currentPage).map(([field]) => field);
+    
+  //   console.log( "currentPageFields",currentPgFields);
+
+  //   for (const [key,value] of Object.entries(values)) {
+  //     console.log("value",value.value)
+
+  //     if (currentPgFields.includes(key) && value.value === "") {
+        
+  //       checkValues.push({key, value })
+  //     }
+  //    }
+  //   console.log("check", checkValues);
+ 
+
+  //   this.setState({
+  //     hasError: checkValues
+  //   })
+
+   
+  // }
+
+  private next = (): void => {
+    
+    //this.checkBlankFields(this.state.currentPage);
+
+    const { values, currentPage } = this.state;
+    console.log("values", this.state.values)
 
     const checkValues: {key: string, value: any}[] = [];
 
+    const currentPgFields = Object.entries(values).filter(([, fieldData]) => fieldData.pageNumber === currentPage).map(([field]) => field);
     
-    for (const key in values) {
-      if (values.hasOwnProperty(key)) {
-        const value: any = values[key as keyof typeof values]
+    console.log( "currentPageFields",currentPgFields);
+
+    for (const [key,value] of Object.entries(values)) {
+      console.log("value",value.value)
+
+      if (currentPgFields.includes(key) && value.value === "") {
         
-        if (value === "") {
-          checkValues.push({key, value})
-        }
+        checkValues.push({key, value })
       }
-    }
+     }
     console.log("check", checkValues);
-
-
-    this.setState({
-      hasError: checkValues
-    })
+ 
 
    
-  }
 
-  private next = (): void => {
     const nextPage = this.state.currentPage + 1;
+    console.log("Error",this.state.hasError);
 
-    this.checkBlankFields(this.state.currentPage);
+    if (this.state.currentPage < 4 ) {
 
-   
+      if (checkValues.length !== 0) {
+        console.log("do nothing")
+        this.setState({
+          hasError: checkValues
+        })
+      } else {
+        this.setState({
+          currentPage: nextPage
+         })
+      }
 
-    if (this.state.currentPage < 4) {
-      this.setState({
-        currentPage: nextPage
-      })
+      
     }
 
   }
@@ -270,7 +301,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleDropDownItem = (valueName: any, value: any):void => {
 
-
     const notSelected: any[] = [];
 
 
@@ -330,7 +360,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if (currentPage === 0 ) {
       const departments = await _sp.web.lists.getByTitle('Department').items();
       if ( departments) {
-        const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 }));
           this.setState({
             departmentList: dataArray
           }) 
@@ -347,7 +377,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const duration = await _sp.web.lists.getByTitle('Duration').items();
 
       if (jobType) {
-        const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn}));
         this.setState({
           jobType: dataResult
         }) 
@@ -409,7 +439,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const region =  await _sp.web.lists.getByTitle('Region').items();
 
       if (languageReq) {
-        const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 2}));
         this.setState({
           language: dataResult
         }) 
@@ -420,7 +450,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       
       
       if (securityClearance) {
-        const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn, pageNumber: 2}))
           this.setState({
             security: dataResult
           })
@@ -688,6 +718,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 )
                 :
                 <>
+                
                   <div>
                     <PageTitle currentPage={this.state.currentPage}/>
                   </div>
@@ -698,6 +729,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       items={items}
                     />
                   </div>
+                  <div>
+                  {this.state.hasError.length !== 0  && (
+                    <div style={{ background: 'red'}}>
+                      <p>ERRORS</p>
+                    </div>
+                    )
+                  }
+                </div>
                   <div>
                     {steps[currentPage].content}
                   </div>

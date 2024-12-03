@@ -21,7 +21,6 @@ export interface IRequirementsProps {
     assetSkill: string;
     approvedStaffing: any;
     language: any;
-    location: any;
     security: any;
     city: any;
     province: any;
