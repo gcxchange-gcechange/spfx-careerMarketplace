@@ -39,7 +39,7 @@ export interface ICareerMarketplaceState {
   validationStatus: number;
   jobTypeValue: string[];
   userId: string | number;
-  isError: boolean;
+  hasError:  {key: string, value: any}[] ;
 
   values: {
     jobTitleEn: string;
@@ -94,7 +94,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       validationStatus: 0,
       jobTypeValue: [],
       userId: '',
-      isError: false,
+      hasError: [],
 
       values: {
         jobTitleEn: "",
@@ -124,8 +124,40 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     };
   }
 
+  private checkBlankFields = (curentPage: number):void => {
+
+    console.log("CP",curentPage)
+
+    const { values } = this.state;
+
+    const checkValues: {key: string, value: any}[] = [];
+
+    
+    for (const key in values) {
+      if (values.hasOwnProperty(key)) {
+        const value: any = values[key as keyof typeof values]
+        
+        if (value === "") {
+          checkValues.push({key, value})
+        }
+      }
+    }
+    console.log("check", checkValues);
+
+
+    this.setState({
+      hasError: checkValues
+    })
+
+   
+  }
+
   private next = (): void => {
     const nextPage = this.state.currentPage + 1;
+
+    this.checkBlankFields(this.state.currentPage);
+
+   
 
     if (this.state.currentPage < 4) {
       this.setState({
@@ -146,7 +178,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   private submit = (): void => {
-    console.log("submit");
 
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
@@ -239,8 +270,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleDropDownItem = (valueName: any, value: any):void => {
 
-    console.log("event", valueName )
-    console.log("value", value)
 
     const notSelected: any[] = [];
 
@@ -273,16 +302,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   }
 
-  public fieldisError = (values: any): void => {
-
-    console.log(values);
-    //const errorFields: string[] = [];
-
-    
-  }
 
   public handleOnDateChange=(date: Date |undefined):void => {
-    console.log("DATE",date)
 
 
     if (date) {
@@ -480,7 +501,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
     if (this.state.currentPage !== prevState.currentPage) {
         console.log("I changed pages")
-        await this._getDropdownList()
+        await this._getDropdownList();
     }
   }
 
@@ -489,6 +510,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
+
+    console.log("HASERROR",this.state.hasError)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
@@ -522,8 +545,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }});
 
     const {currentPage} = this.state;
-    console.log("VALUES", this.state.values)
-    console.log("JobType", this.state.jobTypeValue)
 
     const steps = [
       {

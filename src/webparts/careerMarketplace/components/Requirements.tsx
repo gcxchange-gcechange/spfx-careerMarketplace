@@ -55,9 +55,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     if(option) {
       this.props.handleDropDownItem(eventName, option);
     }
- 
-    console.log("OPTIONS",option)
-    console.log("EV",eventName);
   }
 
   

@@ -22,10 +22,8 @@ export interface IPosterInfoProps {
 }
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
-  public onChangeTextValue = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
-    console.log(event.target.name);
+  
+  public onChangeTextValue = ( event: React.ChangeEvent<HTMLInputElement>): void => {
 
     const eventName = event.target.name;
     const inputValue = event.target.value;
@@ -34,9 +32,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
   };
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
-    console.log("EVENTID", event.target.id);
     const eventName = event.target.id;
-    console.log("ITEM", item);
     if (item) {
       this.props.handleDropDownItem(eventName, item);
     }

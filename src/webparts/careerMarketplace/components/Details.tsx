@@ -38,7 +38,6 @@ export default class Details extends React.Component<IDetailsProps> {
   public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
     const eventName = event.target.name;
     const inputValue = value;
-    console.log("value", value);
 
       this.props.handleOnChange(eventName, inputValue)
     
@@ -53,7 +52,6 @@ export default class Details extends React.Component<IDetailsProps> {
   };
 
   public onSelectedDate = (date: Date |  undefined) :void => {
-    console.log("DATE",date)
 
     if(date) {
       this.props.handleOnDateChange(date)
