@@ -733,7 +733,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       <h3 style={{color: '#8F0000'}}>Invalid Fields</h3>
                         {this.state.hasError.map((item) => (
                           <ul key={item.key} style={{color: '#8F0000'}}>
-                            <li><a href={`${this.props.url}#${item.key}`}>{item.key}</a></li>
+                            <li><a href={`#${item.key}`}>{item.key}</a></li>
                           </ul>
                         ))}
                     </div>
