@@ -120,54 +120,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     };
   }
 
-  // private checkBlankFields = (curentPage: number):void => {
-
-  //   console.log("CP",curentPage)
-
-  //   const { values, currentPage } = this.state;
-  //   console.log("values", this.state.values)
-
-  //   const checkValues: {key: string, value: any}[] = [];
-
-  //   const currentPgFields = Object.entries(values).filter(([, fieldData]) => fieldData.pageNumber === currentPage).map(([field]) => field);
-    
-  //   console.log( "currentPageFields",currentPgFields);
-
-  //   for (const [key,value] of Object.entries(values)) {
-  //     console.log("value",value.value)
-
-  //     if (currentPgFields.includes(key) && value.value === "") {
-        
-  //       checkValues.push({key, value })
-  //     }
-  //    }
-  //   console.log("check", checkValues);
  
-
-  //   this.setState({
-  //     hasError: checkValues
-  //   })
-
-   
-  // }
-
   private next = (): void => {
-    
-    //this.checkBlankFields(this.state.currentPage);
 
     const { values, currentPage } = this.state;
     console.log("values", this.state.values)
 
     const checkValues: {key: string, value: any}[] = [];
+   //const checkStringValues: {key: string, value: any} = [];
 
     const currentPgFields = Object.entries(values).filter(([, fieldData]) => fieldData.pageNumber === currentPage).map(([field]) => field);
-    
+
+    const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
+
+    console.log("stringVals",stringValues)
+     
     console.log( "currentPageFields",currentPgFields);
 
     for (const [key,value] of Object.entries(values)) {
       console.log("value",value.value)
 
-      if (currentPgFields.includes(key) && value.value === "") {
+      if (currentPgFields.includes(key) && value.value === "" || (stringValues.includes(key) && value === "")) {
         
         checkValues.push({key, value })
       }
@@ -299,23 +272,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleDropDownItem = (valueName: any, value: any):void => {
 
-    const notSelected: any[] = [];
-
-
-    console.log(notSelected);
-
-    const exists = this.state.jobTypeValue.find((item) => item === value.key);
-
-    console.log("Exists", exists)
-
     if (valueName === "jobType") {
 
-      if (exists) return;
-
+      const exists = this.state.jobTypeValue.find((item) => item === value.key);
+    
       this.setState((prev) => ({
-        jobTypeValue: [...prev.jobTypeValue, value.key],
+        jobTypeValue: exists 
+          ? prev.jobTypeValue.filter((key) => key !== value.key)
+          : [...prev.jobTypeValue, value.key],                
       }));
-
     } else {
 
       this.setState((prevState) => ({
@@ -324,9 +289,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           [valueName]: value
   
         }
-      }))
+      }));
     }
-
 
   }
 

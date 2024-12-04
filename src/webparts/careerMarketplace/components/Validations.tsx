@@ -19,7 +19,7 @@ export const validateEmpty = (value: string): JSX.Element  | undefined => {
 
 }
 
-export const validateDropdowns =(value: any) : string | undefined  => {
+export const validateDropdowns = (value: any) : string | undefined  => {
 
 
 if (value === '') {
