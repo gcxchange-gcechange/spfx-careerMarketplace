@@ -15,6 +15,7 @@ import { SPFI } from '@pnp/sp';
 import PageTitle from './PageTitle';
 import * as moment from 'moment';
 import Complete from './Complete';
+import { toTitleCase } from './Functions';
 
 
 
@@ -39,6 +40,7 @@ export interface ICareerMarketplaceState {
   jobTypeValue: string[];
   userId: string | number;
   hasError:  {key: string, value: any}[] ;
+  fieldErrorTitles :string[],
 
   values: {
     jobTitleEn: string;
@@ -92,6 +94,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       jobTypeValue: [],
       userId: '',
       hasError: [],
+      fieldErrorTitles: [],
 
       values: {
         jobTitleEn: "",
@@ -146,6 +149,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
      }
     console.log("check", checkValues);
+    const newArray = toTitleCase(checkValues)
 
     const nextPage = this.state.currentPage + 1;
     console.log("Error",this.state.hasError);
@@ -155,7 +159,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if (checkValues.length !== 0) {
         console.log("do nothing")
         this.setState({
-          hasError: checkValues
+          hasError: checkValues,
+          fieldErrorTitles: newArray
         })
       } else {
         this.setState({
@@ -497,6 +502,32 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
+  public changeFieldNameFormat = () : JSX.Element => {
+    const properCaseValues: any[] = [];
+
+
+    const convertString = this.state.hasError.map((item: any) => item.key.replace(/([A-Z])/g, ' $1')
+    .replace(/^ /, '').toLowerCase()
+    )
+   
+    properCaseValues.push(...convertString);
+  
+    console.log("new",properCaseValues)
+    return (
+      
+     <>
+     {properCaseValues.map((item, index) => (
+      <ul key={index}>
+        <li>
+        <a href={`#${item}`}>The {item} field is required</a> 
+        </li>
+      </ul>
+     ))}
+     </>
+
+    )
+  }
+
 
 
 
@@ -508,6 +539,18 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
     };
+
+    // const properCase: any[]=[];
+
+    // const convertToTitleCase = (): any => {
+    //   const {hasError} = this.state;
+    //   const getUpperCase = hasError.map((item:any) => item.key.replace(/([A-Z])/g, ' $1').replace(/^ /, '').toLowerCase()
+    //   .replace(/\b\w/g, (char: string) => char.toUpperCase()));
+    //   properCase.push(...getUpperCase)
+      
+    //   return getUpperCase
+      
+    // } 
     
     const myTheme = createTheme({
       palette: {
@@ -693,13 +736,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   </div>
                   <div>
                   {this.state.hasError.length !== 0  && (
-                    <div style={{ background: '#F5DBDE', padding: '5px', marginTop:'10px'}}>
-                      <h3 style={{color: '#8F0000'}}>Invalid Fields</h3>
-                        {this.state.hasError.map((item) => (
+                    <div style={{ border: '2px solid #8F0000', borderRadius: '5px',padding: '5px', marginTop:'10px'}}>
+                      <h3 style={{color: '#8F0000'}}>Please fix the following errors before proceeding.</h3>
+                      {
+                        this.changeFieldNameFormat()
+                      }
+                     
+                        {/* {this.state.hasError.map((item) => (
                           <ul key={item.key} style={{color: '#8F0000'}}>
-                            <li><a href={`#${item.key}`}>{item.key}</a></li>
+                            <li>
+                              <a href={`#${item.key}`}>The {item.key} field is required</a> 
+                            </li>
                           </ul>
-                        ))}
+                        ))} */}
                     </div>
                     )
                   }

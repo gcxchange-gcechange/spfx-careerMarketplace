@@ -33,6 +33,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventName = event.target.id;
+    console.log("event",event)
     if (item) {
       this.props.handleDropDownItem(eventName, item);
     }
