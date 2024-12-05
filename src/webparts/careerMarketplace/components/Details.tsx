@@ -18,6 +18,7 @@ export interface IDetailsProps {
   handleOnChange: (event: string, newValue?: string) => void;
   handleOnDateChange: (date: Date) => void
   jobTypeValues: string[];
+  hasError:  {key: string, value: any}[] 
   values: {
     jobTitleEn: string;
     jobTitleFr: string;
@@ -72,6 +73,7 @@ export default class Details extends React.Component<IDetailsProps> {
       return formattedDate
     }
 
+    const today = new Date();
 
     return (
       <>
@@ -92,8 +94,10 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobTitleEn}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleEn)}
+            //onBlur={() => validateEmpty(jobTitleEn)}
           />
-
+          
+          
           <ReusableTextField
             id={"jobTitleFr"}
             name={"jobTitleFr"}
@@ -169,6 +173,7 @@ export default class Details extends React.Component<IDetailsProps> {
             disabled={isReadOnly}
             formatDate={reformatDate}
             value={this.props.values.deadline}
+            minDate={today}
             
           />
 

@@ -15,6 +15,7 @@ export interface IReusableDropdownFieldProps {
   selectedKey?: string[];
   selectedKeys?: string[];
   multiselect?: boolean;
+  defaultSelectedKeys?: string[];
 
   
 }
@@ -40,10 +41,17 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
   public render(): React.ReactElement<IReusableDropdownFieldProps> {
 
     const {selectedKey} = this.props
+    console.log("selected", selectedKey)
 
     const dropdownStyle: Partial<IDropdownStyles> = {
       callout: {
         maxHeight:'500px'
+      },
+      errorMessage: {
+        fontWeight: 700,
+        borderLeft: '2px solid rgb(164, 38, 44)',
+        paddingLeft: '5px',
+        marginTop: '2px'
       }
     }
    

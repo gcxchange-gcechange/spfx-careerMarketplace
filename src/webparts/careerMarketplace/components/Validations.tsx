@@ -2,11 +2,11 @@
 import * as React from 'react';
 
 
-export const validateEmpty = (value: string): JSX.Element  | undefined => {
+export const validateEmpty = (value: string): JSX.Element  | undefined  | string=> {
 
     console.log("value", value);
 
-    if ( value.length === 0 ) {
+    if ( value.length === 0 || value === undefined ) {
 
         return (
             <div style={{borderLeft: '2px solid rgb(164, 38, 44)', margin: '0px', paddingLeft: '5px'}}>
@@ -21,13 +21,14 @@ export const validateEmpty = (value: string): JSX.Element  | undefined => {
 
 export const validateDropdowns = (value: any) : string | undefined  => {
 
+    console.log("DDValue", value)
+
 
 if (value === '') {
     return (
         "Plese select an option"
     )
+}    
 
 }
-    
 
-}

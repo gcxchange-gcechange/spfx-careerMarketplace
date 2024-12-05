@@ -516,6 +516,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     return (
       
      <>
+     <div>
      {properCaseValues.map((item, index) => (
       <ul key={index}>
         <li>
@@ -523,6 +524,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         </li>
       </ul>
      ))}
+     </div>
      </>
 
     )
@@ -613,6 +615,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleOnChange={this.handleOnChangeTextField} 
             handleOnDateChange={this.handleOnDateChange}
             values={this.state.values}
+            hasError={this.state.hasError}
             jobTypeValues={this.state.jobTypeValue}
           />
         ),
@@ -667,6 +670,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleOnDateChange={this.handleOnDateChange}
                 values={this.state.values}
                 jobTypeValues={this.state.jobTypeValue}
+                hasError={this.state.hasError}
               />
             </StackItem>
             <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
