@@ -47,7 +47,7 @@ export interface ICareerMarketplaceState {
     jobTitleFr: string;
     jobDescriptionEn: string;
     jobDescriptionFr: string;
-    numOfOpps: string;
+    numberOfOpportunities: string;
     deadline: Date | undefined;
     department: any, 
     essentialSkill: string;
@@ -63,8 +63,8 @@ export interface ICareerMarketplaceState {
     city: any, 
     province: any,
     region: any, 
-    wrkArrangment: any, 
-    wrkSchedule: any, 
+    workArrangment: any, 
+    workSchedule: any, 
   }
 
 }
@@ -101,7 +101,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobTitleFr: "",
         jobDescriptionEn: "",
         jobDescriptionFr: "",
-        numOfOpps: "",
+        numberOfOpportunities: "",
         deadline: new Date(),
         essentialSkill: "",
         assetSkill: "",
@@ -117,8 +117,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         city: {value: "" , pageNumber: 2},
         province: {value: "" , pageNumber: 2},
         region: {value: "" , pageNumber: 2},
-        wrkArrangment: {value: "" , pageNumber: 2}, 
-        wrkSchedule: {value: "" , pageNumber: 2},
+        workArrangment: {value: "" , pageNumber: 2}, 
+        workSchedule: {value: "" , pageNumber: 2},
       }
     };
   }
@@ -213,16 +213,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ProgramAreaLookupId": "${this.state.values.programArea.key}",
               "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
-              "NumberOfOpportunities": "${this.state.values.numOfOpps}",
+              "NumberOfOpportunities": "${this.state.values.numberOfOpportunities}",
               "DurationLookupId": "${this.state.values.duration.key}",
               "ApplicationDeadlineDate": "${isoString}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "EssentialSkills": "${this.state.values.essentialSkill}",
-              "WorkScheduleLookupId": "${this.state.values.wrkSchedule.key}",
+              "WorkScheduleLookupId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceLookupId": "${this.state.values.security.key}",
               "LanguageRequirementLookupId": "${this.state.values.language.key}",
-              "WorkArrangementLookupId": "${this.state.values.wrkArrangment.key}",
+              "WorkArrangementLookupId": "${this.state.values.workArrangment.key}",
               "ApprovedStaffing": true,
               "AssetSkills": "${this.state.values.assetSkill}",
               "CityLookupId": "${this.state.values.city.key}"
@@ -624,9 +624,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           <Requirements
             language = {this.state.language}
             security = {this.state.security}
-            wrkArrangment = {this.state.wrkArrangement}
+            workArrangment = {this.state.wrkArrangement}
             city={this.state.city}
-            wrkSchedule = {this.state.wrkSchedule}
+            workSchedule = {this.state.wrkSchedule}
             province = {this.state.province}
             region = {this.state.region}
             currentPage= {this.state.currentPage}
@@ -673,9 +673,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               <Requirements
                 language = {this.state.language}
                 security = {this.state.security}
-                wrkArrangment = {this.state.wrkArrangement}
+                workArrangment = {this.state.wrkArrangement}
                 city={this.state.city}
-                wrkSchedule = {this.state.wrkSchedule}
+                workSchedule = {this.state.wrkSchedule}
                 province = {this.state.province}
                 region = {this.state.region}
                 currentPage= {this.state.currentPage}

@@ -23,9 +23,8 @@ export interface IDetailsProps {
     jobTitleFr: string;
     jobDescriptionEn: string;
     jobDescriptionFr: string;
-    numOfOpps: string;
+    numberOfOpportunities: string;
     deadline: Date |  undefined;
-    //jobType: any[];
     programArea: any;
     classificationCode: any;
     classificationLevel: any;
@@ -64,7 +63,7 @@ export default class Details extends React.Component<IDetailsProps> {
   public render(): React.ReactElement<IDetailsProps> {
 
     const isReadOnly = this.props.currentPage !== 1;
-    const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numOfOpps} = this.props.values;
+    const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities} = this.props.values;
     console.log("jobTypes", this.props.jobTypeValues)
 
     const reformatDate = ():string => {
@@ -143,13 +142,13 @@ export default class Details extends React.Component<IDetailsProps> {
             selectedKey={this.props.values.classificationLevel.key}
           />
           <ReusableTextField
-            id={"numOfOpps"}
-            name={"numOfOpps"}
+            id={"numberOfOpportunities"}
+            name={"numberOfOpportunities"}
             title={"Number of opportunities"}
             onChange={this.onChangeTextValue}
-            defaultValue={this.props.values.numOfOpps}
+            defaultValue={this.props.values.numberOfOpportunities}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(numOfOpps)}
+            onGetErrorMessage={() => validateEmpty(numberOfOpportunities)}
           />
           <ReusableDropdownField
             id={"duration"}

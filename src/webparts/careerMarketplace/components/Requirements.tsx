@@ -11,8 +11,8 @@ export interface IRequirementsProps {
   province: any[];
   region: any[];
   security: any[];
-  wrkArrangment: any[];
-  wrkSchedule: any[];
+  workArrangment: any[];
+  workSchedule: any[];
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
   handleOnChange: (event: string, newValue?: string) => void;
@@ -25,8 +25,8 @@ export interface IRequirementsProps {
     city: any;
     province: any;
     region: any;
-    wrkArrangment: any, 
-    wrkSchedule: any, 
+    workArrangment: any, 
+    workSchedule: any, 
 
   };
 }
@@ -102,13 +102,13 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onGetErrorMessage={() => validateEmpty(assetSkill)}
           />
           <ReusableDropdownField
-            id={"wrkSchedule"}
-            name={"wrkSchedule"}
+            id={"workSchedule"}
+            name={"workSchedule"}
             title={"Time in hours"}
-            options={this.props.wrkSchedule}
+            options={this.props.workSchedule}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
-            selectedKey={this.props.values.wrkSchedule.key}
+            selectedKey={this.props.values.workSchedule.key}
           />
           <ReusableDropdownField
             id={"province"}
@@ -157,13 +157,13 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.language.key}
           />
           <ReusableDropdownField
-            id={"wrkArrangment"}
-            name={"wrkArrangment"}
+            id={"workArrangment"}
+            name={"workArrangment"}
             title={"Work arrangement"}
-            options={this.props.wrkArrangment}
+            options={this.props.workArrangment}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
-            selectedKey={this.props.values.wrkArrangment.key}
+            selectedKey={this.props.values.workArrangment.key}
           />
 
           <ChoiceGroup
