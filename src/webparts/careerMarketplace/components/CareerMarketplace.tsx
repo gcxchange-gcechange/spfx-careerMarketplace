@@ -193,12 +193,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       })
     }
   }
-  public formatJobTypeState = (): string[] => {
-    const {jobTypeValue}=this.state;
-    const formatJobType = jobTypeValue.map((item: string) => (item.toString()));
-    return formatJobType
-  }
-  
+
 
   private submit = (): void => {
     const {jobTypeValue}= this.state
@@ -229,7 +224,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ContactEmail": "${this.props.workEmail}",
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
-              "JobTypeLookupId": ${this.formatJobTypeState()},
+              "JobTypeLookupId": ${JSON.stringify(formatJobType)},
               "ProgramAreaLookupId": "${this.state.values.programArea.key}",
               "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
