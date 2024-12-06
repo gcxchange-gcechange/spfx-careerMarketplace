@@ -506,9 +506,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const properCaseValues: any[] = [];
 
 
-    const convertString = this.state.hasError.map((item: any) => item.key.replace(/([A-Z])/g, ' $1')
-    .replace(/^ /, '').toLowerCase()
-    )
+    const convertString = this.state.hasError.map((item: any) => ({
+      key: item.key,
+      properCase: item.key.replace(/([A-Z])/g, ' $1').replace(/^ /, '').toLowerCase()
+    }))
+
    
     properCaseValues.push(...convertString);
   
@@ -520,7 +522,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
      {properCaseValues.map((item, index) => (
       <ul key={index}>
         <li>
-        <a href={`#${item}`}>The {item} field is required</a> 
+        <a href={`#${item.key}`}>The {item.properCase} field is required</a> 
         </li>
       </ul>
      ))}
