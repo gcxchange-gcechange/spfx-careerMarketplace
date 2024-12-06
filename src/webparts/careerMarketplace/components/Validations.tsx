@@ -4,8 +4,6 @@ import * as React from 'react';
 
 export const validateEmpty = (value: string): JSX.Element  | undefined  | string=> {
 
-    console.log("value", value);
-
     if ( value.length === 0 || value === undefined ) {
 
         return (
@@ -14,21 +12,14 @@ export const validateEmpty = (value: string): JSX.Element  | undefined  | string
             </div>
         )
     }
-
-
-
 }
 
 export const validateDropdowns = (value: any) : string | undefined  => {
 
-    console.log("DDValue", value)
-
-
-if (value === '') {
-    return (
-        "Plese select an option"
-    )
-}    
-
+    if (value === '') {
+        return (
+            "Plese select an option"
+        )
+    }    
 }
 

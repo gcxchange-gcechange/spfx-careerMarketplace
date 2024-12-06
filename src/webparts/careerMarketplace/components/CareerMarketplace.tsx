@@ -41,6 +41,7 @@ export interface ICareerMarketplaceState {
   userId: string | number;
   hasError:  {key: string, value: any}[] ;
   fieldErrorTitles :string[],
+  disableButton: boolean,
 
   values: {
     jobTitleEn: string;
@@ -95,6 +96,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       userId: '',
       hasError: [],
       fieldErrorTitles: [],
+      disableButton: false,
 
       values: {
         jobTitleEn: "",
@@ -130,8 +132,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("values", this.state.values)
 
     const checkValues: {key: string, value: any}[] = [];
-   //const checkStringValues: {key: string, value: any} = [];
-
+   
     const currentPgFields = Object.entries(values).filter(([, fieldData]) => fieldData.pageNumber === currentPage).map(([field]) => field);
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
@@ -141,9 +142,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log( "currentPageFields",currentPgFields);
 
     for (const [key,value] of Object.entries(values)) {
-      console.log("value",value.value)
+      console.log("value", key)
+      console.log("text", value.text)
+      console.log("value.Key", value)
 
-      if (currentPgFields.includes(key) && value.value === "" || (stringValues.includes(key) && value === "")) {
+      if (currentPgFields.includes(key) && value.value === "" ||  (stringValues.includes(key) && value === "")) {
         
         checkValues.push({key, value })
       }
@@ -176,8 +179,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
+    console.log("HasError", this.state.hasError)
+  
+    if(this.state.hasError.length !== 0) {
+      this.setState({
+        disableButton: true
+      })
+    }
 
-    if (this.state.currentPage > 0 ) {
+    if (this.state.currentPage > 0 && this.state.hasError.length === 0) {
       this.setState({
         currentPage: prevPage
       })
@@ -302,7 +312,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleOnDateChange=(date: Date |undefined):void => {
 
-
     if (date) {
     
         this.setState((prevState) => ({
@@ -313,8 +322,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           }
         }))
     }
-
-
   }
 
 
@@ -767,7 +774,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     <Stack horizontal horizontalAlign={currentPage !== 0 ?'space-between' : 'end'}>
                       {
                         currentPage !== 0 && (
-                          <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} onClick={() => this.prev()}/>
+                          <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} disabled={this.state.disableButton} onClick={() => this.prev()}/>
                         )
                       }
                      
