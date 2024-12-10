@@ -18,9 +18,6 @@ import Complete from './Complete';
 import { toTitleCase } from './Functions';
 
 
-
-
-
 export interface ICareerMarketplaceState {
   currentPage: number;
   departmentList: any[];
@@ -69,8 +66,7 @@ export interface ICareerMarketplaceState {
   }
 
 }
-
-
+ 
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
   
@@ -146,7 +142,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       console.log("text", value.text)
       console.log("value.Key", value)
 
-      if (currentPgFields.includes(key) && value.value === "" ||  (stringValues.includes(key) && value === "")) {
+      if (currentPgFields.includes(key) && value.value === "" ||  stringValues.includes(key) && value === "" || value.text === "--Select--") {
         
         checkValues.push({key, value })
       }
