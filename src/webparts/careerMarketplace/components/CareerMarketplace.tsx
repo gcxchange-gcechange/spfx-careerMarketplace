@@ -105,7 +105,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         assetSkill: "",
         approvedStaffing: "",
         department: {value: "" , pageNumber: 0},
-        jobType: [],
+        jobType: [{pageNUmber: 1}],
         programArea: {value: "" , pageNumber: 1},
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
@@ -142,7 +142,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       console.log("text", value.text)
       console.log("value.Key", value)
 
-      if (currentPgFields.includes(key) && value.value === "" ||  stringValues.includes(key) && value === "" || value.text === "--Select--") {
+      if (currentPgFields.includes(key) && value.value === "" ||  stringValues.includes(key) && value === "" || value.text === "--Select--" ) {
         
         checkValues.push({key, value })
       }
@@ -270,7 +270,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public handleOnChangeTextField = (event: any, value: string): void => {
 
     const eventName = event;
-    const inputValue = value;
+    const trimmedInputValue = value.trim();
     
     console.log("Event",event);
     console.log("PARENT VALUE", value);
@@ -278,7 +278,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
-          [eventName]: inputValue
+          [eventName]: trimmedInputValue
   
         }
       }))
@@ -290,14 +290,21 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     if (valueName === "jobType") {
 
-      const exists = this.state.jobTypeValue.find((item) => item === value.key);
+      const findItem = [...this.state.values.jobType];
+      
+      const jobTypeExists = findItem.some((item) => item.value === value.key);
     
-      this.setState((prev) => ({
-        jobTypeValue: exists 
-          ? prev.jobTypeValue.filter((key) => key !== value.key)
-          : [...prev.jobTypeValue, value.key],                
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          jobType: jobTypeExists
+            ? prevState.values.jobType.filter((item) => item.value !== value.key) 
+            : [...prevState.values.jobType, {value: value.key}],  
+        },
       }));
-    } else {
+    }
+
+    else {
 
       this.setState((prevState) => ({
         values: {
@@ -307,6 +314,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }
       }));
     }
+
+
+    // if (valueName === "jobType") {
+    //   const jobTypeExists = this.state.values.jobType.find((item) => item === value.key);
+    
+    //   this.setState((prevState) => ({
+    //     values: {
+    //       ...prevState.values, // Spread the existing `values`
+    //       jobType: jobTypeExists
+    //         ? prevState.values.jobType.filter((key: number) => key !== value.key) // Remove the key if it exists
+    //         : [...prevState.values.jobType, value.key], // Add the key if it doesn't exist
+    //     },
+    //   }));
+    // }
 
   }
 
@@ -782,7 +803,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       { currentPage === 3 ? 
                         <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
                         :
-                        <CustomButton id={'next'} name={'Next'} buttonType={'primary'}  onClick={() => this.next()}/>
+                        <CustomButton id={'next'} name={'Next'} buttonType={'primary'} disabled={this.state.disableButton}  onClick={() => this.next()}/>
                       }
                     </Stack>
                   </div>

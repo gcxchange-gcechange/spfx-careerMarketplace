@@ -4,6 +4,8 @@ import * as React from 'react';
 
 export const validateEmpty = (value: string): JSX.Element  | undefined  | string=> {
 
+    console.log("valueVal", value)
+
     if ( value.length === 0 || value === undefined ) {
 
         return (
@@ -11,7 +13,8 @@ export const validateEmpty = (value: string): JSX.Element  | undefined  | string
                 <p style={{margin: '0px', fontWeight: '700'}}>Field cannot be blank</p>
             </div>
         )
-    }
+    } 
+
 }
 
 export const validateDropdowns = (value: any) : string | undefined  => {
