@@ -105,7 +105,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         assetSkill: "",
         approvedStaffing: "",
         department: {value: "" , pageNumber: 0},
-        jobType: [{pageNUmber: 1}],
+        jobType: [{pageNumber: 1}],
         programArea: {value: "" , pageNumber: 1},
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
@@ -128,24 +128,34 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("values", this.state.values)
 
     const checkValues: {key: string, value: any}[] = [];
+    const  currentPgFields = Object.entries(values).filter(([, fieldData]) => {
+      if( Array.isArray(fieldData)) {
+        return fieldData.some(item => item.pageNumber === currentPage);
+      }
+      return fieldData.pageNumber === currentPage;
+    }).map(([field]) => field)
    
-    const currentPgFields = Object.entries(values).filter(([, fieldData]) => fieldData.pageNumber === currentPage).map(([field]) => field);
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
+  
 
-    console.log("stringVals",stringValues)
+    //console.log("currentItems", currentItems)
+    //console.log("stringVals",stringValues)
      
     console.log( "currentPageFields",currentPgFields);
 
     for (const [key,value] of Object.entries(values)) {
-      console.log("value", key)
+      console.log("key", key)
       console.log("text", value.text)
-      console.log("value.Key", value)
+      console.log("value", value)
 
-      if (currentPgFields.includes(key) && value.value === "" ||  stringValues.includes(key) && value === "" || value.text === "--Select--" ) {
+      if (currentPgFields.includes(key) && value.value === "" 
+        ||  stringValues.includes(key) && value === "" 
+        || value.text === "--Select--" || value.length === 1){
         
         checkValues.push({key, value })
       }
+
      }
     console.log("check", checkValues);
     const newArray = toTitleCase(checkValues)
@@ -290,6 +300,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     if (valueName === "jobType") {
 
+      if(value.length === 0) {
+        this.setState({
+          hasError: value
+        })
+      }
       const findItem = [...this.state.values.jobType];
       
       const jobTypeExists = findItem.some((item) => item.value === value.key);
