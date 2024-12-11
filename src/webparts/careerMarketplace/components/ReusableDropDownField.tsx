@@ -42,6 +42,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
     const {selectedKey} = this.props
     console.log("selected", selectedKey)
+    console.log(this.props.name)
 
     const dropdownStyle: Partial<IDropdownStyles> = {
       callout: {
@@ -67,6 +68,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           errorMessage={validateDropdowns(selectedKey)} 
           {...this.props}
         />
+        
         
       </div>
     )

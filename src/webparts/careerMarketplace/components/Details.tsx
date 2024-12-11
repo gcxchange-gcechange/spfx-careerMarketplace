@@ -4,7 +4,7 @@ import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { DatePicker, IDropdownOption  } from "@fluentui/react";
 import * as moment from "moment";
-import { validateEmpty } from "./Validations";
+import { validate, validateEmpty } from "./Validations";
 
 
 export interface IDetailsProps {
@@ -79,6 +79,18 @@ export default class Details extends React.Component<IDetailsProps> {
 
     const selectedItems = this.props.values.jobType.value;
 
+    const getJobType = document.getElementById('jobType');
+
+    if (getJobType) {
+       getJobType.addEventListener("keydown", function (event) {
+            if (event.key === "Tab" ) {
+              console.log("VALIDATE")
+                   validate(selectedItems)
+            }
+       }) 
+    } 
+   
+
     return (
       <>
         <div>
@@ -132,6 +144,7 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionFr)}
           />
+
           <ReusableDropdownField
             id={"jobType"}
             name={"jobType"}
@@ -142,6 +155,7 @@ export default class Details extends React.Component<IDetailsProps> {
             selectedKeys={selectedItems}
             multiselect
           />
+             
 
           <ReusableDropdownField
             id={"programArea"}

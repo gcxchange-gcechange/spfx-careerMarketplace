@@ -19,26 +19,36 @@ export const validateEmpty = (value: string): JSX.Element  | undefined  | string
 
 export const validateDropdowns = (value: any) : string | undefined  => {
     console.log("val", value)
-    
-    const getJobType = document.getElementById('jobType');
-    
-    if (getJobType) {
-       getJobType.addEventListener("keydown", function (event) {
-            if (event.key === "Tab"  && value === undefined) {
-                return (
-                    "HELLO"
-                )
-            }
-       }) 
-    } 
-    
+
     if (value === '') {
-        return (
-            "Plese select an option"
-        )
-    }    
-
-
+        return ( "Please select an option")
+    }
     
+}
+
+export const validate =(value: any) : string | undefined => {
+    
+    if (value === undefined) {
+
+        return (
+            "ERROR"
+        )
+    }
+
+    // const getJobType = document.getElementById('jobType');
+
+    // let validationMessage: string | undefined =  undefined;
+
+    // if (getJobType) {
+    //    getJobType.addEventListener("keydown", function (event) {
+    //         if (event.key === "Tab"  && value === undefined) {
+    //                 validationMessage = "Please";
+    //         }
+    //    }) 
+    // } 
+    // console.log(validationMessage)
+    // return (
+    //     validationMessage
+    // )
 }
 

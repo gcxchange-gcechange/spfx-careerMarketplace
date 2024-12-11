@@ -281,9 +281,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const eventName = event;
     const trimmedInputValue = value.trim();
-    
-    console.log("Event",event);
-    console.log("PARENT VALUE", value);
+
 
       this.setState((prevState) => ({
         values: {
@@ -327,21 +325,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }
       }));
     }
-
-
-    // if (valueName === "jobType") {
-    //   const jobTypeExists = this.state.values.jobType.find((item) => item === value.key);
-    
-    //   this.setState((prevState) => ({
-    //     values: {
-    //       ...prevState.values, // Spread the existing `values`
-    //       jobType: jobTypeExists
-    //         ? prevState.values.jobType.filter((key: number) => key !== value.key) // Remove the key if it exists
-    //         : [...prevState.values.jobType, value.key], // Add the key if it doesn't exist
-    //     },
-    //   }));
-    // }
-
   }
 
 
