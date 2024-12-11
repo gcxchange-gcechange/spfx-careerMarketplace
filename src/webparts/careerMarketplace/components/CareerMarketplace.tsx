@@ -39,6 +39,7 @@ export interface ICareerMarketplaceState {
   hasError:  {key: string, value: any}[] ;
   fieldErrorTitles :string[],
   disableButton: boolean,
+  isError: boolean,
 
   values: {
     jobTitleEn: string;
@@ -93,6 +94,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       hasError: [],
       fieldErrorTitles: [],
       disableButton: false,
+      isError: false,
 
       values: {
         department: {value: "" , pageNumber: 0},
@@ -558,6 +560,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
   }
 
+  public handleOnBlur = (value: boolean): void => {
+
+    if(value === true) {
+      this.setState({
+        isError: value
+      })
+    } else {
+      this.setState({
+        isError: false
+      })
+    }
+  }
+
+
 
 
 
@@ -646,6 +662,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             values={this.state.values}
             hasError={this.state.hasError}
             jobTypeValues={this.state.jobTypeValue}
+            onBlur={this.handleOnBlur}
+            isError ={this.state.isError}
           />
         ),
       },

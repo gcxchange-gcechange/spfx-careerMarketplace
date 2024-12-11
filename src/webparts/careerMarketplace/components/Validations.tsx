@@ -26,29 +26,16 @@ export const validateDropdowns = (value: any) : string | undefined  => {
     
 }
 
-export const validate =(value: any) : string | undefined => {
+export const validate =(value: any) : string| JSX.Element | undefined => {
     
     if (value === undefined) {
 
-        return (
-            "ERROR"
+        return ( 
+            <div style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
+                <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>Please select an option</p>
+            </div>
         )
     }
 
-    // const getJobType = document.getElementById('jobType');
-
-    // let validationMessage: string | undefined =  undefined;
-
-    // if (getJobType) {
-    //    getJobType.addEventListener("keydown", function (event) {
-    //         if (event.key === "Tab"  && value === undefined) {
-    //                 validationMessage = "Please";
-    //         }
-    //    }) 
-    // } 
-    // console.log(validationMessage)
-    // return (
-    //     validationMessage
-    // )
 }
 

@@ -4,7 +4,7 @@ import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { DatePicker, IDropdownOption  } from "@fluentui/react";
 import * as moment from "moment";
-import { validate, validateEmpty } from "./Validations";
+import {  validate, validateEmpty } from "./Validations";
 
 
 export interface IDetailsProps {
@@ -19,6 +19,7 @@ export interface IDetailsProps {
   handleOnDateChange: (date: Date) => void
   jobTypeValues: string[];
   hasError:  {key: string, value: any}[] 
+  onBlur?:(value: any) => void;
   values: {
     jobType:any;
     jobTitleEn: string;
@@ -32,6 +33,7 @@ export interface IDetailsProps {
     classificationLevel: any;
     duration: any;
   };
+  isError?: boolean;
 }
 
 export default class Details extends React.Component<IDetailsProps> {
@@ -61,6 +63,50 @@ export default class Details extends React.Component<IDetailsProps> {
 
   }
 
+  // public onBlur = ():void => {
+  //   let tab: boolean = false;
+  //   const getJobType = document.getElementById('jobType');
+
+  //   if (getJobType) {
+  //      getJobType.addEventListener("keydown", function (event) {
+  //           if (event.key === "Tab" ) {
+  //                tab = true
+  //           }
+  //      }) 
+
+  //   } 
+
+ 
+
+   
+  // }
+
+  public onBlur = ( ): void => {
+    console.log("SI",this.props.values.jobType)
+    const items = this.props.values.jobType.length === 1;
+    let tab: boolean = false;
+    const getJobType = document.getElementById('jobType');
+  
+    if (getJobType) {
+      // Add the event listener for keydown
+      getJobType.addEventListener("keydown", function (event) {
+        if (event.key === "Tab" ) {
+          tab = true;
+        }
+      });
+  
+      // Add the blur event listener
+      getJobType.addEventListener("blur", () => {
+        // Pass the `tab` value to the parent onBlur
+        if (this.props.onBlur && items) {
+          this.props.onBlur(tab); // Ensure `onBlur` is called with `tab`
+        }
+        tab = false; // Reset for future interactions
+      });
+    }
+  };
+  
+
 
 
   public render(): React.ReactElement<IDetailsProps> {
@@ -79,17 +125,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
     const selectedItems = this.props.values.jobType.value;
 
-    const getJobType = document.getElementById('jobType');
-
-    if (getJobType) {
-       getJobType.addEventListener("keydown", function (event) {
-            if (event.key === "Tab" ) {
-              console.log("VALIDATE")
-                   validate(selectedItems)
-            }
-       }) 
-    } 
-   
 
     return (
       <>
@@ -155,7 +190,14 @@ export default class Details extends React.Component<IDetailsProps> {
             selectedKeys={selectedItems}
             multiselect
           />
-             
+          {this.onBlur()}
+          {
+            this.props.isError && (
+              <div>{validate(selectedItems)}</div>
+            )
+          }
+
+
 
           <ReusableDropdownField
             id={"programArea"}
