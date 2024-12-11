@@ -145,13 +145,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log( "currentPageFields",currentPgFields);
 
     for (const [key,value] of Object.entries(values)) {
-      console.log("key", key)
-      console.log("text", value.text)
-      console.log("value", value)
+      // console.log("key", key)
+      // console.log("text", value.text)
+      // console.log("value", value)
 
       if (currentPgFields.includes(key) && value.value === "" 
         ||  stringValues.includes(key) && value === "" 
-        || value.text === "--Select--" || value.length === 1){
+        || value.text === "--Select--" || currentPgFields.includes(key) && value.length === 1){
         
         checkValues.push({key, value })
       }
@@ -298,13 +298,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleDropDownItem = (valueName: any, value: any):void => {
 
+    console.log(value)
+
     if (valueName === "jobType") {
 
-      if(value.length === 0) {
-        this.setState({
-          hasError: value
-        })
-      }
+   
       const findItem = [...this.state.values.jobType];
       
       const jobTypeExists = findItem.some((item) => item.value === value.key);
