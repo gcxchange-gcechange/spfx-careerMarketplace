@@ -18,11 +18,27 @@ export const validateEmpty = (value: string): JSX.Element  | undefined  | string
 }
 
 export const validateDropdowns = (value: any) : string | undefined  => {
-
+    console.log("val", value)
+    
+    const getJobType = document.getElementById('jobType');
+    
+    if (getJobType) {
+       getJobType.addEventListener("keydown", function (event) {
+            if (event.key === "Tab"  && value === undefined) {
+                return (
+                    "HELLO"
+                )
+            }
+       }) 
+    } 
+    
     if (value === '') {
         return (
             "Plese select an option"
         )
     }    
+
+
+    
 }
 
