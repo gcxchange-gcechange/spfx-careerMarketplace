@@ -89,7 +89,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             defaultValue={this.props.values.essentialSkill}
             multiline={true}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(essentialSkill)}
+            onGetErrorMessage={() => validateEmpty(essentialSkill, 'essentialSkill')}
           />
           <ReusableTextField
             id={"assetSkill"}
@@ -99,7 +99,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             defaultValue={this.props.values.assetSkill}
             multiline={true}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(assetSkill)}
+            onGetErrorMessage={() => validateEmpty(assetSkill, 'assetSkill')}
           />
           <ReusableDropdownField
             id={"workSchedule"}

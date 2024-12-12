@@ -81,11 +81,12 @@ export default class Details extends React.Component<IDetailsProps> {
    
   // }
 
-  public onBlur = ( ): void => {
+  public onBlur = (field: string ): void => {
+    console.log("field",field)
     console.log("SI",this.props.values.jobType)
     const items = this.props.values.jobType.length === 1;
     let tab: boolean = false;
-    const getJobType = document.getElementById('jobType');
+    const getJobType = document.getElementById(field);
   
     if (getJobType) {
       // Add the event listener for keydown
@@ -125,7 +126,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
     const selectedItems = this.props.values.jobType.value;
 
-
     return (
       <>
         <div>
@@ -144,7 +144,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobTitleEn}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobTitleEn)}
+            onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn')}
             //onBlur={() => validateEmpty(jobTitleEn)}
           />
           
@@ -156,7 +156,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobTitleFr)}
+            onGetErrorMessage={() => validateEmpty(jobTitleFr, 'jobTitleFr')}
           />
 
           <ReusableTextField
@@ -167,7 +167,7 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobDescriptionEn}
             multiline={true}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobDescriptionEn)}
+            onGetErrorMessage={() => validateEmpty(jobDescriptionEn, 'jobDescriptionEn')}
           />
           <ReusableTextField
             id={"jobDescriptionFr"}
@@ -177,9 +177,10 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobDescriptionFr}
             multiline={true}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobDescriptionFr)}
+            onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescritpionFr')}
           />
 
+          <div>
           <ReusableDropdownField
             id={"jobType"}
             name={"jobType"}
@@ -189,14 +190,15 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             selectedKeys={selectedItems}
             multiselect
+            required={true}
           />
-          {this.onBlur()}
+          { this.onBlur('jobType')}
           {
             this.props.isError && (
               <div>{validate(selectedItems)}</div>
             )
           }
-
+          </div>
 
 
           <ReusableDropdownField
@@ -208,6 +210,9 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.programArea.key}
           />
+
+          
+
           <ReusableDropdownField
             id={"classificationCode"}
             name={"classificationCode"}
@@ -233,7 +238,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.numberOfOpportunities}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(numberOfOpportunities)}
+            onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
           />
           <ReusableDropdownField
             id={"duration"}

@@ -2,11 +2,12 @@
 import * as React from 'react';
 
 
-export const validateEmpty = (value: string): JSX.Element  | undefined  | string=> {
+export const validateEmpty = (value: string, fieldName: string): JSX.Element  | undefined  | string=> {
 
-    console.log("valueVal", value)
+    console.log("valueVal", value.length)
+    console.log(fieldName);
 
-    if ( value.length === 0 || value === undefined ) {
+    if ( value.length === 0 || value === undefined  ) {
 
         return (
             <div style={{borderLeft: '2px solid rgb(164, 38, 44)', margin: '0px', paddingLeft: '5px'}}>
@@ -14,6 +15,14 @@ export const validateEmpty = (value: string): JSX.Element  | undefined  | string
             </div>
         )
     } 
+    else if (value.length < 5 && fieldName !== 'numberOfOpportunities' ) {
+        return (
+            <div style={{borderLeft: '2px solid rgb(164, 38, 44)', margin: '0px', paddingLeft: '5px'}}>
+                <p style={{margin: '0px', fontWeight: '700'}}>Minimum 5 characters required</p>
+            </div>
+        )
+    }
+    
 
 }
 

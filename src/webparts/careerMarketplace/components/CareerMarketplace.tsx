@@ -587,17 +587,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       childrenGap: '3%',
     };
 
-    // const properCase: any[]=[];
-
-    // const convertToTitleCase = (): any => {
-    //   const {hasError} = this.state;
-    //   const getUpperCase = hasError.map((item:any) => item.key.replace(/([A-Z])/g, ' $1').replace(/^ /, '').toLowerCase()
-    //   .replace(/\b\w/g, (char: string) => char.toUpperCase()));
-    //   properCase.push(...getUpperCase)
-      
-    //   return getUpperCase
-      
-    // } 
     
     const myTheme = createTheme({
       palette: {
