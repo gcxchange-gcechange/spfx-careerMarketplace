@@ -3,7 +3,7 @@ import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { ChoiceGroup, IChoiceGroupOption } from "@fluentui/react";
-import { validateEmpty } from "./Validations";
+import { validate, validateEmpty } from "./Validations";
 
 export interface IRequirementsProps {
   language: any[];
@@ -29,6 +29,7 @@ export interface IRequirementsProps {
     workSchedule: any, 
 
   };
+  isError?:string[];
 }
 
 export default class Requirements extends React.Component<IRequirementsProps> {
@@ -110,6 +111,11 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.workSchedule.key}
           />
+
+            { this.props.isError?.includes('workSchedule') && (
+                <div>{validate(this.props.values.workSchedule.key)}</div>
+              )
+            }
           <ReusableDropdownField
             id={"province"}
             name={"province"}
@@ -119,6 +125,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.province.key}
           />
+
+           { this.props.isError?.includes('province') && (
+                <div>{validate(this.props.values.province.key)}</div>
+              )
+            }
+
           <ReusableDropdownField
             id={"region"}
             name={"region"}
@@ -128,6 +140,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.region.key}
           />
+
+          { this.props.isError?.includes('region') && (
+                <div>{validate(this.props.values.region.key)}</div>
+              )
+          }
+
           <ReusableDropdownField
             id={"city"}
             name={"city"}
@@ -137,7 +155,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.city.key}
           />
- 
+
+           { this.props.isError?.includes('city') && (
+                <div>{validate(this.props.values.city.key)}</div>
+              )
+            }
+
           <ReusableDropdownField
             id={"security"}
             name={"security"}
@@ -147,6 +170,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.security.key}
           />
+
+           { this.props.isError?.includes('security') && (
+                <div>{validate(this.props.values.security.key)}</div>
+              )
+            }
+
           <ReusableDropdownField
             id={"language"}
             name={"language"}
@@ -156,6 +185,11 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.language.key}
           />
+
+           { this.props.isError?.includes('language') && (
+                <div>{validate(this.props.values.language.key)}</div>
+              )
+            }
           <ReusableDropdownField
             id={"workArrangment"}
             name={"workArrangment"}
@@ -165,7 +199,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.workArrangment.key}
           />
-
+            { this.props.isError?.includes('workArrangment') && (
+                <div>{validate(this.props.values.workArrangment.key)}</div>
+              )
+            }
           <ChoiceGroup
             id={"approvedStaffing"}
             name={"approvedStaffing"}

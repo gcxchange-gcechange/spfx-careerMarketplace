@@ -707,8 +707,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleDropDownItem={this.handleDropDownItem}
             handleOnChange={this.handleOnChangeTextField} 
             values={this.state.values}
-            
-
+            isError={this.state.isError}
           />
         ),
       },
@@ -760,6 +759,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleDropDownItem={this.handleDropDownItem}
                 handleOnChange={this.handleOnChangeTextField} 
                 values={this.state.values}
+                isError={this.state.isError}
               />
             </StackItem>
           </Stack>
