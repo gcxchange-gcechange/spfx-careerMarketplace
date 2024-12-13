@@ -16,7 +16,6 @@ export interface IReusableDropdownFieldProps {
   selectedKeys?: string[];
   multiselect?: boolean;
   defaultSelectedKeys?: string[];
-  required?:boolean;
   
 }
 

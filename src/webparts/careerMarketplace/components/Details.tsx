@@ -70,8 +70,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
     const isReadOnly = this.props.currentPage !== 1;
     const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities} = this.props.values;
-    console.log("jobTypes", this.props.values.jobType)
-    console.log("hasErrpr", this.props.hasError);
 
     const reformatDate = ():string => {
       const formattedDate = moment(this.props.values.deadline).format("YYYY-MM-DD");
@@ -82,7 +80,6 @@ export default class Details extends React.Component<IDetailsProps> {
     const today = new Date();
 
     const selectedItems = this.props.values.jobType.value;
-    console.log("SelectedItems",selectedItems)
 
     return (
       <>
@@ -148,7 +145,6 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             selectedKeys={selectedItems}
             multiselect
-            required={true}
           />
           {
             this.props.isError?.includes('jobType') && (
