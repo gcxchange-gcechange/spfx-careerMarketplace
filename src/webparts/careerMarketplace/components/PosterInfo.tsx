@@ -5,6 +5,7 @@ import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { IDropdownOption } from "@fluentui/react";
+import { validate } from "./Validations";
 
 
 export interface IPosterInfoProps {
@@ -19,6 +20,8 @@ export interface IPosterInfoProps {
     department: any;
   };
   errorMessage?:(value: string | number) => string | undefined;
+  fields: string[];
+  isError: any[];
 }
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
@@ -33,7 +36,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventName = event.target.id;
-    console.log("event",event)
+
     if (item) {
       this.props.handleDropDownItem(eventName, item);
     }
@@ -41,11 +44,6 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   public render(): React.ReactElement<IPosterInfoProps> {
     const isReadOnly = this.props.currentPage !== 0;
-    // const optionsWithSelect = (): IDropdownOption[] => {
-    //   return [{key:"", text: "--Select--"}, ...this.props.items]
-    // }
-
-
 
     return (
       <>
@@ -73,6 +71,9 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.department.key}
           />
+          {this.props.isError.includes('department') &&( 
+            <div>{validate(this.props.values.department.key)}</div>
+          )}
 
           <ReusableTextField
             id={"workEmail"}

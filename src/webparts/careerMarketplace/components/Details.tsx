@@ -20,6 +20,7 @@ export interface IDetailsProps {
   jobTypeValues: string[];
   hasError:  {key: string, value: any}[] 
   onBlur?:(value: any) => void;
+  fields: string[];
   values: {
     jobType:any;
     jobTitleEn: string;
@@ -33,7 +34,7 @@ export interface IDetailsProps {
     classificationLevel: any;
     duration: any;
   };
-  isError?: boolean;
+  isError?:any[];
 }
 
 export default class Details extends React.Component<IDetailsProps> {
@@ -63,51 +64,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
   }
 
-  // public onBlur = ():void => {
-  //   let tab: boolean = false;
-  //   const getJobType = document.getElementById('jobType');
-
-  //   if (getJobType) {
-  //      getJobType.addEventListener("keydown", function (event) {
-  //           if (event.key === "Tab" ) {
-  //                tab = true
-  //           }
-  //      }) 
-
-  //   } 
-
- 
-
-   
-  // }
-
-  public onBlur = (field: string ): void => {
-    console.log("field",field)
-    console.log("SI",this.props.values.jobType)
-    const items = this.props.values.jobType.length === 1;
-    let tab: boolean = false;
-    const getJobType = document.getElementById(field);
-  
-    if (getJobType) {
-      // Add the event listener for keydown
-      getJobType.addEventListener("keydown", function (event) {
-        if (event.key === "Tab" ) {
-          tab = true;
-        }
-      });
-  
-      // Add the blur event listener
-      getJobType.addEventListener("blur", () => {
-        // Pass the `tab` value to the parent onBlur
-        if (this.props.onBlur && items) {
-          this.props.onBlur(tab); // Ensure `onBlur` is called with `tab`
-        }
-        tab = false; // Reset for future interactions
-      });
-    }
-  };
-  
-
 
 
   public render(): React.ReactElement<IDetailsProps> {
@@ -115,6 +71,7 @@ export default class Details extends React.Component<IDetailsProps> {
     const isReadOnly = this.props.currentPage !== 1;
     const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities} = this.props.values;
     console.log("jobTypes", this.props.values.jobType)
+    console.log("hasErrpr", this.props.hasError);
 
     const reformatDate = ():string => {
       const formattedDate = moment(this.props.values.deadline).format("YYYY-MM-DD");
@@ -125,6 +82,7 @@ export default class Details extends React.Component<IDetailsProps> {
     const today = new Date();
 
     const selectedItems = this.props.values.jobType.value;
+    console.log("SelectedItems",selectedItems)
 
     return (
       <>
@@ -192,9 +150,8 @@ export default class Details extends React.Component<IDetailsProps> {
             multiselect
             required={true}
           />
-          { this.onBlur('jobType')}
           {
-            this.props.isError && (
+            this.props.isError?.includes('jobType') && (
               <div>{validate(selectedItems)}</div>
             )
           }
@@ -210,9 +167,13 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.programArea.key}
           />
+            {
+            this.props.isError?.includes('programArea') && (
+              <div>{validate(this.props.values.programArea.key)}</div>
+            )
+          }
 
-          
-
+        
           <ReusableDropdownField
             id={"classificationCode"}
             name={"classificationCode"}
@@ -222,6 +183,13 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.classificationCode.key}
           />
+
+            {
+            this.props.isError?.includes('classificationCode') && (
+              <div>{validate(this.props.values.classificationCode.key)}</div>
+            )
+          }
+
           <ReusableDropdownField
             id={"classificationLevel"}
             name={"classificationLevel"}
@@ -231,6 +199,13 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.classificationLevel.key}
           />
+
+            {
+            this.props.isError?.includes('classificationLevel') && (
+              <div>{validate(this.props.values.classificationLevel.key)}</div>
+            )
+          }
+
           <ReusableTextField
             id={"numberOfOpportunities"}
             name={"numberOfOpportunities"}
@@ -240,6 +215,7 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
           />
+
           <ReusableDropdownField
             id={"duration"}
             name={"duration"}
@@ -249,6 +225,12 @@ export default class Details extends React.Component<IDetailsProps> {
             selectedKey={this.props.values.duration.key}
             readOnly={isReadOnly}
           />
+
+            {
+            this.props.isError?.includes('duration') && (
+              <div>{validate(this.props.values.duration.key)}</div>
+            )
+          }
  
             <DatePicker
             id={"deadline"}
@@ -262,8 +244,6 @@ export default class Details extends React.Component<IDetailsProps> {
             minDate={today}
             
           />
-
-          
         </div>
       </>
     );

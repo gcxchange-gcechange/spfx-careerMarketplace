@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Dropdown, IDropdownOption, IDropdownStyles, Label, Stack, StackItem} from '@fluentui/react';
 import styles from './CareerMarketplace.module.scss';
-import { validateDropdowns} from './Validations';
+
 
 export interface IReusableDropdownFieldProps {
   id: string;
@@ -40,10 +40,6 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
   public render(): React.ReactElement<IReusableDropdownFieldProps> {
 
-    const {selectedKey} = this.props
-    console.log("selected", selectedKey)
-    console.log(this.props.name)
-
     const dropdownStyle: Partial<IDropdownStyles> = {
       callout: {
         maxHeight:'500px'
@@ -66,7 +62,6 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           className={styles.labelStyle} 
           multiSelect={this.props.multiselect} 
           styles={dropdownStyle} 
-          errorMessage={validateDropdowns(selectedKey)}
           {...this.props}
         />        
       </div>

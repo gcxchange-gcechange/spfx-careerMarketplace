@@ -39,7 +39,8 @@ export interface ICareerMarketplaceState {
   hasError:  {key: string, value: any}[] ;
   fieldErrorTitles :string[],
   disableButton: boolean,
-  isError: boolean,
+  isError: any[],
+  dropdownFields: string[],
 
   values: {
     jobTitleEn: string;
@@ -94,7 +95,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       hasError: [],
       fieldErrorTitles: [],
       disableButton: false,
-      isError: false,
+      isError: [],
+      dropdownFields: [],
 
       values: {
         department: {value: "" , pageNumber: 0},
@@ -127,7 +129,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private next = (): void => {
 
     const { values, currentPage } = this.state;
-    console.log("values", this.state.values)
 
     const checkValues: {key: string, value: any}[] = [];
     const  currentPgFields = Object.entries(values).filter(([, fieldData]) => {
@@ -139,17 +140,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
-  
-
-    //console.log("currentItems", currentItems)
-    //console.log("stringVals",stringValues)
-     
-    console.log( "currentPageFields",currentPgFields);
 
     for (const [key,value] of Object.entries(values)) {
-      // console.log("key", key)
-      // console.log("text", value.text)
-      // console.log("value", value)
 
       if (currentPgFields.includes(key) && value.value === "" 
         ||  stringValues.includes(key) && value === "" 
@@ -159,16 +151,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
 
      }
-    console.log("check", checkValues);
+
     const newArray = toTitleCase(checkValues)
 
     const nextPage = this.state.currentPage + 1;
-    console.log("Error",this.state.hasError);
 
     if (this.state.currentPage < 4 ) {
 
       if (checkValues.length !== 0) {
-        console.log("do nothing")
         this.setState({
           hasError: checkValues,
           fieldErrorTitles: newArray
@@ -298,11 +288,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleDropDownItem = (valueName: any, value: any):void => {
 
-    console.log(value)
-
     if (valueName === "jobType") {
 
-   
       const findItem = [...this.state.values.jobType];
       
       const jobTypeExists = findItem.some((item) => item.value === value.key);
@@ -343,8 +330,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }))
     }
   }
-
-
 
   public _getDropdownList = async (): Promise<void> => {
 
@@ -498,11 +483,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       } else {
        console.log(" list does not exist")
       }
-      
-      
+           
     }
-
-
   }
 
   public _getUser = async ():Promise<void> => {
@@ -514,19 +496,85 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.setState({
       userId: userID
     })
-
-    console.log(user)
   }
+
+  public getDropdownElements =(): void => {
+    const elementId :any[] = [];
+    const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
+
+    if(getElements) {
+      getElements.forEach(element => {
+        console.log(element)
+        elementId.push(element.id)
+       
+      });
+    }
+
+    this.setState({
+      dropdownFields: elementId
+    });
+
+    const cleanUpDropDownFields = this.state.dropdownFields.filter((n) => n)
+
+    this.onBlur(cleanUpDropDownFields);
+
+  }
+
+  public onBlur = (fields: string[]): void => {
+    console.log(fields);
+    //const fieldErrors :string[] = [];
+  
+    fields.forEach((fieldId) => {
+      const dropdownElement = document.getElementById(fieldId);
+  
+      if (dropdownElement) {
+        let tab: boolean = false;
+  
+        // Add the event listener for keydown
+        dropdownElement.addEventListener("keydown", (event) => {
+          if (event.key === "Tab") {
+            tab = true;
+          }
+        });
+  
+        dropdownElement.addEventListener("blur", () => {
+
+          if(tab === true) {
+            if (!this.state.isError.includes(fieldId)) {
+              this.setState({
+                isError: [...this.state.isError, fieldId]
+              })
+
+            }
+          }
+          else {
+            this.setState({
+              isError: []
+            })
+          }
+          
+          tab = false;
+        });
+      }
+    });
+  };
+
 
   public async componentDidMount(): Promise<void> {
     await this._getDropdownList();
     await this._getUser();
+    await this.getDropdownElements();
   }
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
     if (this.state.currentPage !== prevState.currentPage) {
-        console.log("I changed pages")
+
+        this.setState({
+          isError: []
+        });
+
         await this._getDropdownList();
+        await this.getDropdownElements();       
     }
   }
 
@@ -542,7 +590,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    
     properCaseValues.push(...convertString);
   
-    console.log("new",properCaseValues)
     return (
       
      <>
@@ -560,22 +607,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
   }
 
-  public handleOnBlur = (value: boolean): void => {
-
-    if(value === true) {
-      this.setState({
-        isError: value
-      })
-    } else {
-      this.setState({
-        isError: false
-      })
-    }
-  }
-
-
-
-
+ 
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
@@ -631,6 +663,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleDropDownItem={this.handleDropDownItem}
             readOnly= {false}
             values={this.state.values}
+            fields={this.state.dropdownFields}
+            isError={this.state.isError}
           />
         ),
       },
@@ -651,8 +685,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             values={this.state.values}
             hasError={this.state.hasError}
             jobTypeValues={this.state.jobTypeValue}
-            onBlur={this.handleOnBlur}
+            //onBlur={this.handleOnBlur}
             isError ={this.state.isError}
+            fields={this.state.dropdownFields}
           />
         ),
       },
@@ -693,6 +728,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleDropDownItem={this.handleDropDownItem}
                 readOnly= {false}
                 values={this.state.values}
+                fields={this.state.dropdownFields}
+                isError={this.state.isError}
               />
               <Details 
                 programArea={this.state.programArea} 
@@ -707,6 +744,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 values={this.state.values}
                 jobTypeValues={this.state.jobTypeValue}
                 hasError={this.state.hasError}
+                fields={this.state.dropdownFields}
               />
             </StackItem>
             <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
