@@ -9,7 +9,7 @@ import { validate } from "./Validations";
 
 
 export interface IPosterInfoProps {
-  handleOnChange: (event: string, newValue?: string) => void;
+   
   handleDropDownItem: (event: any, item: any) => void;
   items: IDropdownOption[];
   userInfo: string;
@@ -26,13 +26,13 @@ export interface IPosterInfoProps {
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
   
-  public onChangeTextValue = ( event: React.ChangeEvent<HTMLInputElement>): void => {
+  // public onChangeTextValue = ( event: React.ChangeEvent<HTMLInputElement>): void => {
 
-    const eventName = event.target.name;
-    const inputValue = event.target.value;
+  //   const eventName = event.target.name;
+  //   const inputValue = event.target.value;
 
-    this.props.handleOnChange(eventName, inputValue);
-  };
+  //   this.props.handleOnChange(eventName, inputValue);
+  // };
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventName = event.target.id;

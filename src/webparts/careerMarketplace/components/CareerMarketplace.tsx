@@ -655,7 +655,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Information',
         content: (
           <PosterInfo 
-            handleOnChange={this.handleOnChangeTextField} 
+            
             items={this.state.departmentList} 
             userInfo={this.props.userDisplayName} 
             workEmail = {this.props.workEmail}
@@ -680,7 +680,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             duration={this.state.duration}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
-            handleOnChange={this.handleOnChangeTextField} 
+            handleOnChange={() => this.handleOnChangeTextField} 
             handleOnDateChange={this.handleOnDateChange}
             values={this.state.values}
             hasError={this.state.hasError}
@@ -705,7 +705,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             region = {this.state.region}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
-            handleOnChange={this.handleOnChangeTextField} 
+            handleOnChange={() => this.handleOnChangeTextField} 
             values={this.state.values}
             isError={this.state.isError}
           />
@@ -719,7 +719,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           <Stack horizontal wrap tokens={customSpacingStackTokens}>
             <StackItem grow={1} styles={{ root: { maxWidth: '45%' } }} >
               <PosterInfo 
-                handleOnChange={this.handleOnChangeTextField} 
                 items={this.state.departmentList} 
                 userInfo={this.props.userDisplayName} 
                 workEmail = {this.props.workEmail}
@@ -738,7 +737,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 duration={this.state.duration}
                 currentPage= {this.state.currentPage}
                 handleDropDownItem={this.handleDropDownItem}
-                handleOnChange={this.handleOnChangeTextField} 
+                handleOnChange={() => this.handleOnChangeTextField} 
                 handleOnDateChange={this.handleOnDateChange}
                 values={this.state.values}
                 jobTypeValues={this.state.jobTypeValue}
@@ -757,7 +756,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 region = {this.state.region}
                 currentPage= {this.state.currentPage}
                 handleDropDownItem={this.handleDropDownItem}
-                handleOnChange={this.handleOnChangeTextField} 
+                handleOnChange={() => this.handleOnChangeTextField} 
                 values={this.state.values}
                 isError={this.state.isError}
               />
