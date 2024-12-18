@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Complete from '../Complete'; // Assuming the component file is named Complete.tsx
+import '@testing-library/jest-dom';
+import Complete from './Complete'; 
 
 describe('Complete Component', () => {
   test('renders the component with the expected elements', () => {
