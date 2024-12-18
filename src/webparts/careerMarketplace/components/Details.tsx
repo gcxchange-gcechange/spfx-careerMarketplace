@@ -34,7 +34,7 @@ export interface IDetailsProps {
     classificationLevel: any;
     duration: any;
   };
-  isError?:any[];
+  inlineFieldErrors?:any[];
 }
 
 export default class Details extends React.Component<IDetailsProps> {
@@ -147,7 +147,7 @@ export default class Details extends React.Component<IDetailsProps> {
             multiselect
           />
           {
-            this.props.isError?.includes('jobType') && (
+            this.props.inlineFieldErrors?.includes('jobType') && (
               <div>{validate(selectedItems)}</div>
             )
           }
@@ -164,7 +164,7 @@ export default class Details extends React.Component<IDetailsProps> {
             selectedKey={this.props.values.programArea.key}
           />
             {
-            this.props.isError?.includes('programArea') && (
+            this.props.inlineFieldErrors?.includes('programArea') && (
               <div>{validate(this.props.values.programArea.key)}</div>
             )
           }
@@ -181,7 +181,7 @@ export default class Details extends React.Component<IDetailsProps> {
           />
 
             {
-            this.props.isError?.includes('classificationCode') && (
+            this.props.inlineFieldErrors?.includes('classificationCode') && (
               <div>{validate(this.props.values.classificationCode.key)}</div>
             )
           }
@@ -197,7 +197,7 @@ export default class Details extends React.Component<IDetailsProps> {
           />
 
             {
-            this.props.isError?.includes('classificationLevel') && (
+            this.props.inlineFieldErrors?.includes('classificationLevel') && (
               <div>{validate(this.props.values.classificationLevel.key)}</div>
             )
           }
@@ -223,7 +223,7 @@ export default class Details extends React.Component<IDetailsProps> {
           />
 
             {
-            this.props.isError?.includes('duration') && (
+            this.props.inlineFieldErrors?.includes('duration') && (
               <div>{validate(this.props.values.duration.key)}</div>
             )
           }

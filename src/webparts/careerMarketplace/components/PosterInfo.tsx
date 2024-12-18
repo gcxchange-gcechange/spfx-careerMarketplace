@@ -21,7 +21,7 @@ export interface IPosterInfoProps {
   };
   errorMessage?:(value: string | number) => string | undefined;
   fields: string[];
-  isError: any[];
+  inlineFieldErrors: any[];
 }
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
@@ -71,7 +71,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.department.key}
           />
-          {this.props.isError.includes('department') &&( 
+          {this.props.inlineFieldErrors.includes('department') &&( 
             <div>{validate(this.props.values.department.key)}</div>
           )}
 

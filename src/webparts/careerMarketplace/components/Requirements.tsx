@@ -29,7 +29,7 @@ export interface IRequirementsProps {
     workSchedule: any, 
 
   };
-  isError?:string[];
+  inlineFieldErrors?:string[];
 }
 
 export default class Requirements extends React.Component<IRequirementsProps> {
@@ -86,7 +86,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"essentialSkill"}
             name={"essentialSkill"}
             title={"Essential Skill"}
-            onChange={this.onChangeTextValue}
+            onChange={() => this.onChangeTextValue}
             defaultValue={this.props.values.essentialSkill}
             multiline={true}
             readOnly={isReadOnly}
@@ -96,7 +96,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"assetSkill"}
             name={"assetSkill"}
             title={"Asset Skill"}
-            onChange={this.onChangeTextValue}
+            onChange={() => this.onChangeTextValue}
             defaultValue={this.props.values.assetSkill}
             multiline={true}
             readOnly={isReadOnly}
@@ -112,7 +112,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.workSchedule.key}
           />
 
-            { this.props.isError?.includes('workSchedule') && (
+            { this.props.inlineFieldErrors?.includes('workSchedule') && (
                 <div>{validate(this.props.values.workSchedule.key)}</div>
               )
             }
@@ -126,7 +126,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.province.key}
           />
 
-           { this.props.isError?.includes('province') && (
+           { this.props.inlineFieldErrors?.includes('province') && (
                 <div>{validate(this.props.values.province.key)}</div>
               )
             }
@@ -141,7 +141,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.region.key}
           />
 
-          { this.props.isError?.includes('region') && (
+          { this.props.inlineFieldErrors?.includes('region') && (
                 <div>{validate(this.props.values.region.key)}</div>
               )
           }
@@ -156,7 +156,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.city.key}
           />
 
-           { this.props.isError?.includes('city') && (
+           { this.props.inlineFieldErrors?.includes('city') && (
                 <div>{validate(this.props.values.city.key)}</div>
               )
             }
@@ -171,7 +171,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.security.key}
           />
 
-           { this.props.isError?.includes('security') && (
+           { this.props.inlineFieldErrors?.includes('security') && (
                 <div>{validate(this.props.values.security.key)}</div>
               )
             }
@@ -186,7 +186,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.language.key}
           />
 
-           { this.props.isError?.includes('language') && (
+           { this.props.inlineFieldErrors?.includes('language') && (
                 <div>{validate(this.props.values.language.key)}</div>
               )
             }
@@ -199,7 +199,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             selectedKey={this.props.values.workArrangment.key}
           />
-            { this.props.isError?.includes('workArrangment') && (
+            { this.props.inlineFieldErrors?.includes('workArrangment') && (
                 <div>{validate(this.props.values.workArrangment.key)}</div>
               )
             }
@@ -209,7 +209,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             label ={"Approved Staffing"}
             required
             options={options}
-            onChange={this.onChoiceChange}
+            onChange={() => this.onChoiceChange}
             readOnly={isReadOnly}
             selectedKey={this.props.values.approvedStaffing.key}
           />

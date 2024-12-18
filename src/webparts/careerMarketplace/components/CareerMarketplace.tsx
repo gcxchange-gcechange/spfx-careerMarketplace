@@ -39,7 +39,7 @@ export interface ICareerMarketplaceState {
   hasError:  {key: string, value: any}[] ;
   fieldErrorTitles :string[],
   disableButton: boolean,
-  isError: any[],
+  inlineFieldErrors: any[],
   dropdownFields: string[],
 
   values: {
@@ -95,7 +95,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       hasError: [],
       fieldErrorTitles: [],
       disableButton: false,
-      isError: [],
+      inlineFieldErrors: [],
       dropdownFields: [],
 
       values: {
@@ -540,16 +540,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         dropdownElement.addEventListener("blur", () => {
 
           if(tab === true) {
-            if (!this.state.isError.includes(fieldId)) {
+            if (!this.state.inlineFieldErrors.includes(fieldId)) {
               this.setState({
-                isError: [...this.state.isError, fieldId]
+                inlineFieldErrors: [...this.state.inlineFieldErrors, fieldId]
               })
 
             }
           }
           else {
             this.setState({
-              isError: []
+              inlineFieldErrors: []
             })
           }
           
@@ -570,7 +570,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if (this.state.currentPage !== prevState.currentPage) {
 
         this.setState({
-          isError: []
+          inlineFieldErrors: []
         });
 
         await this._getDropdownList();
@@ -664,7 +664,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             readOnly= {false}
             values={this.state.values}
             fields={this.state.dropdownFields}
-            isError={this.state.isError}
+            inlineFieldErrors={this.state.inlineFieldErrors}
           />
         ),
       },
@@ -686,7 +686,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             hasError={this.state.hasError}
             jobTypeValues={this.state.jobTypeValue}
             //onBlur={this.handleOnBlur}
-            isError ={this.state.isError}
+            inlineFieldErrors ={this.state.inlineFieldErrors}
             fields={this.state.dropdownFields}
           />
         ),
@@ -707,7 +707,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleDropDownItem={this.handleDropDownItem}
             handleOnChange={() => this.handleOnChangeTextField} 
             values={this.state.values}
-            isError={this.state.isError}
+            inlineFieldErrors={this.state.inlineFieldErrors}
           />
         ),
       },
@@ -727,7 +727,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 readOnly= {false}
                 values={this.state.values}
                 fields={this.state.dropdownFields}
-                isError={this.state.isError}
+                inlineFieldErrors={this.state.inlineFieldErrors}
               />
               <Details 
                 programArea={this.state.programArea} 
@@ -758,7 +758,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleDropDownItem={this.handleDropDownItem}
                 handleOnChange={() => this.handleOnChangeTextField} 
                 values={this.state.values}
-                isError={this.state.isError}
+                inlineFieldErrors={this.state.inlineFieldErrors}
               />
             </StackItem>
           </Stack>
