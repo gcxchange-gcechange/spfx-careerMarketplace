@@ -21,7 +21,7 @@ module.exports = {
 
   moduleNameMapper: {
     "\\.(css|scss|sass)$": "identity-obj-proxy",
-    "^CareerMarketplaceWebpartWebPartStrings$": `<rootDir>/${localizedResourcesPath.replace('{locale}', 'en-us')}`
+    // "^CareerMarketplaceWebpartWebPartStrings$": `<rootDir>/${localizedResourcesPath.replace('{locale}', 'en-us')}`
   }, 
   reporters: [
     'default', 
