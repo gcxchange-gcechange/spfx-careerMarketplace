@@ -5,7 +5,7 @@ import * as React from 'react';
 export const validateEmpty = (value: any, fieldName: string): JSX.Element  | undefined  | string=> {
 
     console.log(fieldName);
-    console.log("VALUE ERROR",value.error);
+    console.log("VALUE ERROR",value);
 
     // if ( value.length === 0 || value === undefined  ) {
 

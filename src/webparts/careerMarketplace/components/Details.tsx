@@ -250,7 +250,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.numberOfOpportunities.value}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(numberOfOpportunities.value, 'numberOfOpportunities')}
+            onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
           />
 
           {
