@@ -32,7 +32,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         description: this.properties.description,
         context: this.context,
         userDisplayName: this.context.pageContext.user.displayName,
-        workEmail: this.context.pageContext.user.email
+        workEmail: this.context.pageContext.user.email,
         
       }
     );

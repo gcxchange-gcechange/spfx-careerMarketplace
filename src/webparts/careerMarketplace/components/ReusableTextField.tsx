@@ -2,6 +2,7 @@ import { Label, Stack, StackItem, TextField } from '@fluentui/react';
 import * as React from 'react';
 import styles from './CareerMarketplace.module.scss';
 
+
 export interface IReusableTextFieldProps {
   id: string;
   name: string;
@@ -11,6 +12,10 @@ export interface IReusableTextFieldProps {
   readOnly?: boolean;
   disabled?: boolean;
   multiline?: boolean;
+  validateonLoad?: boolean;
+  validateOnFocusOut?: boolean;
+  onGetErrorMessage?:(value: string | number) => string | JSX.Element | undefined;
+  onBlur?: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => void;
 }
 
 
@@ -35,7 +40,12 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     return (
       <div>
         <TextField
-          {...this.props} onRenderLabel={this.customLabel}  className={styles.labelStyle} 
+          className={styles.labelStyle} 
+          onRenderLabel={this.customLabel}  
+          validateOnLoad={false} 
+          validateOnFocusOut={true}
+          {...this.props} 
+          onBlur={this.props.onBlur}
         />
       </div>
     )

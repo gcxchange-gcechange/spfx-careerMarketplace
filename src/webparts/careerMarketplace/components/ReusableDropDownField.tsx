@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Dropdown, IDropdownOption, IDropdownStyles, Label, Stack, StackItem} from '@fluentui/react';
 import styles from './CareerMarketplace.module.scss';
 
+
 export interface IReusableDropdownFieldProps {
   id: string;
   name: string;
@@ -12,7 +13,9 @@ export interface IReusableDropdownFieldProps {
   readOnly?: boolean;
   disabled?: boolean;
   selectedKey?: string[];
-  defaultSelectedKey? : string[];
+  selectedKeys?: string[];
+  multiselect?: boolean;
+  defaultSelectedKeys?: string[];
   
 }
 
@@ -20,12 +23,6 @@ export interface IReusableDropdownFieldProps {
 export default class ReusableDropdownField extends React.Component<IReusableDropdownFieldProps> {
 
 
-  // public handleDropdownChange = (event:any, item: any): void => {
-  //   console.log("item", item)
-  //   console.log("event", event)
-  //      this.props.onChange(event, item)
-  // };
-  
 
   public customLabel = (): JSX.Element => {
     return (
@@ -45,15 +42,31 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
     const dropdownStyle: Partial<IDropdownStyles> = {
       callout: {
         maxHeight:'500px'
+      },
+      errorMessage: {
+        fontWeight: 700,
+        borderLeft: '2px solid rgb(164, 38, 44)',
+        paddingLeft: '5px',
+        marginTop: '2px'
       }
     }
    
 
     return (
+      <>      
       <div>
         <Dropdown
-          options={this.props.options as IDropdownOption[]} onRenderLabel={this.customLabel} className={styles.labelStyle} styles={dropdownStyle} {...this.props}/>
+          options={this.props.options as IDropdownOption[]} 
+          onRenderLabel={this.customLabel} 
+          className={styles.labelStyle} 
+          multiSelect={this.props.multiselect} 
+          styles={dropdownStyle} 
+          {...this.props}
+        />        
       </div>
+
+      </>
+
     )
   }
 }
