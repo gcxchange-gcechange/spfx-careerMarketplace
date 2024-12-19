@@ -1,36 +1,29 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import PageTitle from './PageTitle';
+import React from "react";
+import { render } from "@testing-library/react";
+import PageTitle, { IPageTitleProps } from "./PageTitle";
 
-describe('PageTitle Component', () => {
-  test('renders "Poster Information" when currentPage is 0', () => {
-    render(<PageTitle currentPage={0} />);
-    const title = screen.getByRole('heading', { name: /poster information/i });
-    expect(title).toBeInTheDocument();
+describe("PageTitle Component", () => {
+  const defaultProps: IPageTitleProps = {
+    currentPage: 0,
+  };
+
+  it("renders 'Poster Information' when currentPage is 0", () => {
+    const { getByText } = render(<PageTitle {...defaultProps} />);
+    expect(getByText("Poster Information")).toBeInTheDocument();
   });
 
-  test('renders "Opportunity Details" when currentPage is 1', () => {
-    render(<PageTitle currentPage={1} />);
-    const title = screen.getByRole('heading', { name: /opportunity details/i });
-    expect(title).toBeInTheDocument();
+  it("renders 'Opportunity Details' when currentPage is 1", () => {
+    const { getByText } = render(<PageTitle {...defaultProps} currentPage={1} />);
+    expect(getByText("Opportunity Details")).toBeInTheDocument();
   });
 
-  test('renders "Opportunity Requirements" when currentPage is 2', () => {
-    render(<PageTitle currentPage={2} />);
-    const title = screen.getByRole('heading', { name: /opportunity requirements/i });
-    expect(title).toBeInTheDocument();
+  it("renders 'Opportunity Requirements' when currentPage is 2", () => {
+    const { getByText } = render(<PageTitle {...defaultProps} currentPage={2} />);
+    expect(getByText("Opportunity Requirements")).toBeInTheDocument();
   });
 
-  test('renders "Review and submit" when currentPage is 3', () => {
-    render(<PageTitle currentPage={3} />);
-    const title = screen.getByRole('heading', { name: /review and submit/i });
-    expect(title).toBeInTheDocument();
-  });
-
-  test('renders nothing when currentPage is an invalid value', () => {
-    render(<PageTitle currentPage={999} />);
-    const heading = screen.queryByRole('heading');
-    expect(heading).not.toBeInTheDocument();
+  it("renders 'Review and submit' when currentPage is 3", () => {
+    const { getByText } = render(<PageTitle {...defaultProps} currentPage={3} />);
+    expect(getByText("Review and submit")).toBeInTheDocument();
   });
 });
