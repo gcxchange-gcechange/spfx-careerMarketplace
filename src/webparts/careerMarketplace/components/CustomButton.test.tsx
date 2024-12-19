@@ -5,7 +5,7 @@ jest.mock('@fluentui/react', () => ({
     PrimaryButton: jest.fn().mockImplementation(({ text, onClick }) => (
       <button onClick={onClick}>{text}</button>
     )),
-    ThemeProvider: ({ children }: any) => <div>{children}</div>,
+    ThemeProvider: ({ children }: React.PropsWithChildren<{}>) => <div>{children}</div>,
   }));
   
   import React from "react";

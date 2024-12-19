@@ -1,12 +1,12 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import Details, { IDetailsProps } from "./Details";
-
 jest.mock("./ReusableTextField");
 jest.mock("./ReusableDropDownField");
 jest.mock("@fluentui/react", () => ({
   DatePicker: jest.fn().mockReturnValue(<div>DatePicker</div>),
 }));
+
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
+import Details, { IDetailsProps } from "./Details";
 
 describe("Details Component", () => {
   const mockHandleOnChange = jest.fn();
