@@ -16,6 +16,7 @@ import PageTitle from './PageTitle';
 import * as moment from 'moment';
 import Complete from './Complete';
 import { toTitleCase } from './Functions';
+import { RefObject } from 'react';
 
 
 export interface ICareerMarketplaceState {
@@ -72,11 +73,14 @@ export interface ICareerMarketplaceState {
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
+  private alertRef: RefObject<HTMLDivElement>;
+
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
 
     const today = new Date();
     const threeMonthsLater = new Date();
     threeMonthsLater.setMonth(today.getMonth() + 3);
+   
 
     super(props);
     this.state = {
@@ -113,7 +117,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         programArea: {value: "" , pageNumber: 1},
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
-        numberOfOpportunities: "",
+        numberOfOpportunities: "1",
         duration: {value: "" , pageNumber: 1},
         deadline: threeMonthsLater,
         essentialSkill: "",
@@ -128,6 +132,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         approvedStaffing: "",
       }
     };
+    this.alertRef = React.createRef();
   }
 
  
@@ -147,11 +152,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
+      console.log(values)
 
       if (
         (currentPgFields.includes(key) && value.value === "" )
         || (stringValues.includes(key) && value === "") 
-        || value.text === "--Select--" || (currentPgFields.includes(key) && value.length === 1)
+        || value.text === "--Select--" || (currentPgFields.includes(key) && value.length === 1) || value.text === 'No'
         ){
         
         checkValues.push({key, value })
@@ -186,34 +192,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
       const error = document.getElementById(element.key);
-      const findDivError = document.getElementById('error')
-
-        // Create the outer div element
-        const newDiv = document.createElement("div");
-        newDiv.id = `error_${element.key}`;
-        newDiv.style.borderLeft = "2px solid rgb(164, 38, 44)";
-        newDiv.style.marginTop = "5px";
-        newDiv.style.paddingLeft = "5px";
-      
-        // Create the paragraph element
-        const newParagraph = document.createElement("p");
-        newParagraph.style.margin = "0px";
-        newParagraph.style.fontWeight = "700";
-        newParagraph.style.color = 'rgb(164, 38, 44)';
-      
-        // Add text content to the paragraph
-        const textContent = document.createTextNode("Field has an error");
-        newParagraph.appendChild(textContent);
-      
-        // Append the paragraph to the div
-        newDiv.appendChild(newParagraph);
-
         
       if (error) {
           error.classList.add(styles.error);
-          if(!findDivError) {
-            error.insertAdjacentElement("afterend", newDiv);
-          }
       } 
     });
    
@@ -249,8 +230,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
 
-    const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-    const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
+    const clientId = "c1";
+    const url = "";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
@@ -383,7 +364,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if (currentPage === 0 ) {
       const departments = await _sp.web.lists.getByTitle('Department').items();
       if ( departments) {
-        const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 }));
+        const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
           this.setState({
             departmentList: dataArray
           }) 
@@ -406,7 +387,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }) 
       }
       else {
-        console.log("List does not exist")
+        console.log("List JobType does not exist")
        }
       
       if (programArea) {
@@ -415,7 +396,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           programArea: dataResult
         }) 
       } else {
-        console.log("List does not exist")
+        console.log("List Program Area does not exist")
        }
       
       if (classificationCode) {
@@ -426,7 +407,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }) 
 
       } else {
-        console.log("List does not exist")
+        console.log("List Classification Code does not exist")
        }
       
       if (classificationLevel) {
@@ -437,7 +418,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }) 
 
       } else {
-        console.log("List does not exist")
+        console.log("List Calssification Level does not exist")
        }
       
       if (duration) {
@@ -447,7 +428,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }) 
       }
        else {
-        console.log("List does not exist")
+        console.log("List Duration does not exist")
        }
 
     }
@@ -479,7 +460,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           })
 
       } else {
-        console.log("Language list does not exist")
+        console.log("Security Clearance list does not exist")
        }
       
       if (workArrangment) {
@@ -488,7 +469,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           wrkArrangement: dataResult
         })
       } else {
-       console.log(" list does not exist")
+       console.log(" Work Arrangment list does not exist")
       }
 
       if (wrkSchedule) {
@@ -497,25 +478,23 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           wrkSchedule: dataResult
         })
       } else {
-       console.log(" list does not exist")
+       console.log("Work Schedule list does not exist")
       }
       if (city) {
-        console.log("CITYLIST", city)
         const dataResult = city.map((data:any) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
         this.setState({
           city: dataResult
         })
       } else {
-       console.log(" list does not exist")
+       console.log("City list does not exist")
       }
       if (province) {
-        console.log("PROVINCELIST", province)
         const dataResult = province.map((data:any) => ({key: data.Id, text: data.NameEn}))
         this.setState({
           province: dataResult
         })
       } else {
-       console.log(" list does not exist")
+       console.log("Province list does not exist")
       }
       if (region) {
         console.log("Region List",region)
@@ -524,7 +503,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           region: dataResult
         })
       } else {
-       console.log(" list does not exist")
+       console.log("Region list does not exist")
       }
            
     }
@@ -618,36 +597,82 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         await this._getDropdownList();
         await this.getDropdownElements();       
     }
+
+    if(this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
+      this.alertRef.current?.focus();
+    }
   }
 
-  public changeFieldNameFormat = () : JSX.Element => {
+  public changeFieldNameFormat = (): JSX.Element => {
     const properCaseValues: any[] = [];
-
-
-    const convertString = this.state.hasError.map((item: any) => ({
-      key: item.key,
-      properCase: item.key.replace(/([A-Z])/g, ' $1').replace(/^ /, '').toLowerCase()
-    }))
-
-   
+  
+    const convertString = this.state.hasError.map((item: any) => {
+      const isApprovedStaffing = item.key === "approvedStaffing";
+      const isEmpty = !item.value || item.value === ""; 
+      const properCase = item.key
+        .replace(/([A-Z])/g, " $1")
+        .replace(/^ /, "")
+        .toLowerCase();
+  
+      return {
+        key: item.key,
+        properCase,
+        errorMessage: isApprovedStaffing
+          ? isEmpty
+            ? "field is required and should be set to Yes"
+            : "field should be set to Yes"
+          : "field is required",
+      };
+    });
+  
     properCaseValues.push(...convertString);
+    console.log(properCaseValues);
   
     return (
-      
-     <>
-     <div>
-     {properCaseValues.map((item, index) => (
-      <ul key={index}>
-        <li>
-        <a href={`#${item.key}`}>The {item.properCase} field is required</a> 
-        </li>
-      </ul>
-     ))}
-     </div>
-     </>
+      <>
+        <div id="alertText">
+          {properCaseValues.map((item, index) => (
+            <ul key={index}>
+              <li>
+                <a href={`#${item.key}`}>The {item.properCase} {item.errorMessage}</a>
+              </li>
+            </ul>
+          ))}
+        </div>
+      </>
+    );
+  };
+  
 
-    )
-  }
+  // public changeFieldNameFormat = () : JSX.Element => {
+  //   const properCaseValues: any[] = [];
+
+
+  //   const convertString = this.state.hasError.map((item: any) => ({
+  //     key: item.key,
+  //     properCase: item.key.replace(/([A-Z])/g, ' $1').replace(/^ /, '').toLowerCase()
+  //   }))
+
+   
+  //   properCaseValues.push(...convertString);
+  //   console.log(properCaseValues)
+  
+  //   return (
+      
+  //    <>
+  //    <div id="alertText">
+  //    {properCaseValues.map((item, index) => (
+  //     <ul key={index}>
+  //       <li>
+  //       <a href={`#${item.key}`}>The {item.properCase} {`${item.properCase !== "approved staffing" ? "field is required" : "field should be set to Yes" }`} </a> 
+  //       </li>
+  //     </ul>
+  //    ))}
+  //    </div>
+  //    </>
+
+  //   )
+  // }
 
  
 
@@ -727,7 +752,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             values={this.state.values}
             hasError={this.state.hasError}
             jobTypeValues={this.state.jobTypeValue}
-            //onBlur={this.handleOnBlur}
             inlineFieldErrors ={this.state.inlineFieldErrors}
             fields={this.state.dropdownFields}
           />
@@ -747,7 +771,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             region = {this.state.region}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
-            handleOnChange={() => this.handleOnChangeTextField} 
+            handleOnChange={this.handleOnChangeTextField} 
             values={this.state.values}
             inlineFieldErrors={this.state.inlineFieldErrors}
           />
@@ -798,7 +822,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 region = {this.state.region}
                 currentPage= {this.state.currentPage}
                 handleDropDownItem={this.handleDropDownItem}
-                handleOnChange={() => this.handleOnChangeTextField} 
+                handleOnChange={this.handleOnChangeTextField} 
                 values={this.state.values}
                 inlineFieldErrors={this.state.inlineFieldErrors}
               />
@@ -855,8 +879,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   </div>
                   <div>
                   {this.state.hasError.length !== 0  && (
-                    <div style={{ border: '2px solid #8F0000', borderRadius: '5px',padding: '5px', marginTop:'10px'}}>
-                      <h3 style={{color: '#8F0000'}}>Please fix the following errors before proceeding.</h3>
+                    <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
+                      <h3 id="alertHeading">Please fix the following errors before proceeding.</h3>
                       {
                         this.changeFieldNameFormat()
                       }

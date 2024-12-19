@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { DatePicker, IDropdownOption  } from "@fluentui/react";
+import { DatePicker, IDropdownOption, Label, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
 import {  validate, validateEmpty } from "./Validations";
 
@@ -103,6 +103,7 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn')}
             //onBlur={() => validateEmpty(jobTitleEn)}
+            ariaLabelRequired={'required'}
           />
           
           
@@ -114,6 +115,7 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobDescriptionFr}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleFr, 'jobTitleFr')}
+            ariaLabelRequired={'required'}
           />
 
           <ReusableTextField
@@ -125,6 +127,7 @@ export default class Details extends React.Component<IDetailsProps> {
             multiline={true}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionEn, 'jobDescriptionEn')}
+            ariaLabelRequired={'required'}
           />
           <ReusableTextField
             id={"jobDescriptionFr"}
@@ -135,6 +138,7 @@ export default class Details extends React.Component<IDetailsProps> {
             multiline={true}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescritpionFr')}
+            ariaLabelRequired={'required'}
           />
 
           <div>
@@ -147,6 +151,7 @@ export default class Details extends React.Component<IDetailsProps> {
             readOnly={isReadOnly}
             selectedKeys={selectedItems}
             multiselect
+            ariaLabelRequired={'required'}
           />
           {
             this.props.inlineFieldErrors?.includes('jobType') && (
@@ -164,6 +169,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.programArea.key}
+            ariaLabelRequired={'required'}
           />
             {
             this.props.inlineFieldErrors?.includes('programArea') && (
@@ -180,6 +186,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.classificationCode.key}
+            ariaLabelRequired={'required'}
           />
 
             {
@@ -196,6 +203,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.classificationLevel.key}
+            ariaLabelRequired={'required'}
           />
 
             {
@@ -212,6 +220,7 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.numberOfOpportunities}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
+            ariaLabelRequired={'required'}
           />
 
           <ReusableDropdownField
@@ -222,6 +231,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.duration.key}
             readOnly={isReadOnly}
+            ariaLabelRequired={'required'}
           />
 
             {
@@ -229,11 +239,20 @@ export default class Details extends React.Component<IDetailsProps> {
               <div>{validate(this.props.values.duration.key)}</div>
             )
           }
- 
+          
+          <Stack  horizontal verticalAlign="center" >
+            <StackItem >
+              <Label htmlFor={'deadline'} >
+                <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
+                  *
+                </span>
+                Application deadline
+              </Label>
+            </StackItem>
+          </Stack>
+
             <DatePicker
-            id={"deadline"}
-            label={"Application deadline"}
-            isRequired
+            id={"deadline"}          
             ariaLabel="Select a date"
             onSelectDate={this.onSelectedDate}
             disabled={isReadOnly}

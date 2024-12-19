@@ -26,13 +26,6 @@ export interface IPosterInfoProps {
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
   
-  // public onChangeTextValue = ( event: React.ChangeEvent<HTMLInputElement>): void => {
-
-  //   const eventName = event.target.name;
-  //   const inputValue = event.target.value;
-
-  //   this.props.handleOnChange(eventName, inputValue);
-  // };
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventName = event.target.id;
@@ -43,7 +36,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
   };
 
   public render(): React.ReactElement<IPosterInfoProps> {
-    const isReadOnly = this.props.currentPage !== 0;
+    const isReadOnly = this.props.currentPage === 0 || this.props.currentPage === 3;
 
     return (
       <>
@@ -61,15 +54,17 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             title={"Full name"}
             defaultValue={this.props.userInfo}
             readOnly={isReadOnly}
+            ariaLabelRequired={'required'}
           />
           <ReusableDropdownField
             id={"department"}
             name={"department"}
             title={"Department"}
-            options={[{key: "", text: "--Select--"},...this.props.items]}
+            options={[{key: "", text: "--Select--"},...this.props.items.sort()]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            disabled={this.props.currentPage === 3}
             selectedKey={this.props.values.department.key}
+            ariaLabelRequired={'required'}
           />
           {this.props.inlineFieldErrors.includes('department') &&( 
             <div>{validate(this.props.values.department.key)}</div>
@@ -81,6 +76,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             title={"Work Email"}
             defaultValue={this.props.workEmail}
             readOnly={isReadOnly}
+            ariaLabelRequired={'required'}
           />
         </div>
       </>

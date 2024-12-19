@@ -16,6 +16,7 @@ export interface IReusableDropdownFieldProps {
   selectedKeys?: string[];
   multiselect?: boolean;
   defaultSelectedKeys?: string[];
+  ariaLabelRequired: string;
   
 }
 
@@ -28,7 +29,10 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem >
-        <Label htmlFor={this.props.id} required aria-required>
+        <Label htmlFor={this.props.id} >
+          <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
+            *
+          </span>
             {this.props.title}
         </Label>
       </StackItem>
