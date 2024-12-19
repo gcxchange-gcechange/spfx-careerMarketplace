@@ -35,7 +35,7 @@ export default class CustomButton extends React.Component<ICustomButtonProps> {
             this.props.buttonType === 'primary' ? 
             (
               <div id={this.props.id}>
-                <PrimaryButton text={this.props.name} onClick={this.handleOnClick} disabled={this.props.disabled}/>
+                <PrimaryButton text={this.props.name} onClick={this.handleOnClick} />
               </div>
             ):
             (

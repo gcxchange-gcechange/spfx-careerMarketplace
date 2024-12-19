@@ -78,6 +78,8 @@ export default class Details extends React.Component<IDetailsProps> {
     }
 
     const today = new Date();
+    const oneMonthLater = new Date();
+    oneMonthLater.setMonth(today.getMonth() + 1);
 
     const selectedItems = this.props.values.jobType.value;
 
@@ -96,7 +98,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"jobTitleEn"}
             name={"jobTitleEn"}
             title={"Job Title (EN)"}
-            onChange={() => this.onChangeTextValue}
+            onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobTitleEn}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn')}
@@ -108,7 +110,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"jobTitleFr"}
             name={"jobTitleFr"}
             title={"Job Title (FR)"}
-            onChange={() => this.onChangeTextValue}
+            onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleFr, 'jobTitleFr')}
@@ -118,7 +120,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"jobDescriptionEn"}
             name={"jobDescriptionEn"}
             title={"Job Description (EN)"}
-            onChange={() => this.onChangeTextValue}
+            onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionEn}
             multiline={true}
             readOnly={isReadOnly}
@@ -128,7 +130,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"jobDescriptionFr"}
             name={"jobDescriptionFr"}
             title={"Job Description (FR)"}
-            onChange={() => this.onChangeTextValue}
+            onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             multiline={true}
             readOnly={isReadOnly}
@@ -206,7 +208,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"numberOfOpportunities"}
             name={"numberOfOpportunities"}
             title={"Number of opportunities"}
-            onChange={() => this.onChangeTextValue}
+            onChange={this.onChangeTextValue}
             defaultValue={this.props.values.numberOfOpportunities}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
@@ -233,11 +235,11 @@ export default class Details extends React.Component<IDetailsProps> {
             label={"Application deadline"}
             isRequired
             ariaLabel="Select a date"
-            onSelectDate={() => this.onSelectedDate}
+            onSelectDate={this.onSelectedDate}
             disabled={isReadOnly}
             formatDate={reformatDate}
             value={this.props.values.deadline}
-            minDate={today}
+            minDate={oneMonthLater}
             
           />
         </div>

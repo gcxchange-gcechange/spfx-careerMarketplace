@@ -71,8 +71,13 @@ export interface ICareerMarketplaceState {
  
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
-  
+
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
+
+    const today = new Date();
+    const threeMonthsLater = new Date();
+    threeMonthsLater.setMonth(today.getMonth() + 3);
+
     super(props);
     this.state = {
       currentPage: 0,
@@ -110,7 +115,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         classificationLevel: {value: "" , pageNumber: 1},
         numberOfOpportunities: "",
         duration: {value: "" , pageNumber: 1},
-        deadline: new Date(),
+        deadline: threeMonthsLater,
         essentialSkill: "",
         assetSkill: "",
         workSchedule: {value: "" , pageNumber: 2},
@@ -126,7 +131,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
  
-  private next = (): void => {
+  private next = async (): Promise<void > => {
 
     const { values, currentPage } = this.state;
 
@@ -143,9 +148,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     for (const [key,value] of Object.entries(values)) {
 
-      if (currentPgFields.includes(key) && value.value === "" 
-        ||  stringValues.includes(key) && value === "" 
-        || value.text === "--Select--" || currentPgFields.includes(key) && value.length === 1){
+      if (
+        (currentPgFields.includes(key) && value.value === "" )
+        || (stringValues.includes(key) && value === "") 
+        || value.text === "--Select--" || (currentPgFields.includes(key) && value.length === 1)
+        ){
         
         checkValues.push({key, value })
       }
@@ -159,7 +166,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if (this.state.currentPage < 4 ) {
 
       if (checkValues.length !== 0) {
-        this.setState({
+        await this.setState({
           hasError: checkValues,
           fieldErrorTitles: newArray
         })
@@ -172,12 +179,48 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       
     }
+    this.addInLineErrors();
 
+  }
+
+  public addInLineErrors = ():void => {
+    this.state.hasError.forEach(element => {
+      const error = document.getElementById(element.key);
+      const findDivError = document.getElementById('error')
+
+        // Create the outer div element
+        const newDiv = document.createElement("div");
+        newDiv.id = `error_${element.key}`;
+        newDiv.style.borderLeft = "2px solid rgb(164, 38, 44)";
+        newDiv.style.marginTop = "5px";
+        newDiv.style.paddingLeft = "5px";
+      
+        // Create the paragraph element
+        const newParagraph = document.createElement("p");
+        newParagraph.style.margin = "0px";
+        newParagraph.style.fontWeight = "700";
+        newParagraph.style.color = 'rgb(164, 38, 44)';
+      
+        // Add text content to the paragraph
+        const textContent = document.createTextNode("Field has an error");
+        newParagraph.appendChild(textContent);
+      
+        // Append the paragraph to the div
+        newDiv.appendChild(newParagraph);
+
+        
+      if (error) {
+          error.classList.add(styles.error);
+          if(!findDivError) {
+            error.insertAdjacentElement("afterend", newDiv);
+          }
+      } 
+    });
+   
   }
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
-    console.log("HasError", this.state.hasError)
   
     if(this.state.hasError.length !== 0) {
       this.setState({
@@ -191,6 +234,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       })
     }
   }
+
 
 
   private submit = (): void => {
@@ -270,7 +314,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public handleOnChangeTextField = (event: any, value: string): void => {
-
     const eventName = event;
     const trimmedInputValue = value.trim();
 
@@ -504,7 +547,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     if(getElements) {
       getElements.forEach(element => {
-        console.log(element)
         elementId.push(element.id)
        
       });
@@ -680,7 +722,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             duration={this.state.duration}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
-            handleOnChange={() => this.handleOnChangeTextField} 
+            handleOnChange={this.handleOnChangeTextField} 
             handleOnDateChange={this.handleOnDateChange}
             values={this.state.values}
             hasError={this.state.hasError}
@@ -737,7 +779,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 duration={this.state.duration}
                 currentPage= {this.state.currentPage}
                 handleDropDownItem={this.handleDropDownItem}
-                handleOnChange={() => this.handleOnChangeTextField} 
+                handleOnChange={this.handleOnChangeTextField} 
                 handleOnDateChange={this.handleOnDateChange}
                 values={this.state.values}
                 jobTypeValues={this.state.jobTypeValue}

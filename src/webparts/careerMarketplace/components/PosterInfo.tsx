@@ -60,7 +60,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             name={"contactName"}
             title={"Full name"}
             defaultValue={this.props.userInfo}
-            disabled={isReadOnly}
+            readOnly={isReadOnly}
           />
           <ReusableDropdownField
             id={"department"}
