@@ -21,5 +21,6 @@ Go to the login page, enter credentials, be on the welcome page.
    click "Don't show this again"
    click "Yes"
    wait for "Welcome to GCXchange"
+   take a screenshot
 
 
