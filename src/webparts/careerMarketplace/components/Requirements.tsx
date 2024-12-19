@@ -2,6 +2,8 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
+import { ChoiceGroup, IChoiceGroupOption, Label, Stack, StackItem } from "@fluentui/react";
+import { validate, validateEmpty } from "./Validations";
 
 export interface IRequirementsProps {
   language: any[];
@@ -9,35 +11,34 @@ export interface IRequirementsProps {
   province: any[];
   region: any[];
   security: any[];
-  wrkArrangment: any[];
-  wrkSchedule: any[];
+  workArrangment: any[];
+  workSchedule: any[];
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
   handleOnChange: (event: string, newValue?: string) => void;
   values: {
     essentialSkill: string;
     assetSkill: string;
-    approvedStaffing: string;
+    approvedStaffing: any;
     language: any;
-    location: any;
     security: any;
     city: any;
     province: any;
     region: any;
-    wrkArrangment: any, 
-    wrkSchedule: any, 
+    workArrangment: any, 
+    workSchedule: any, 
 
   };
+  inlineFieldErrors?:string[];
 }
 
 export default class Requirements extends React.Component<IRequirementsProps> {
 
   public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
     const eventName = event.target.name;
-    console.log(event.target.name);
-    if (value) {
+
       this.props.handleOnChange(eventName, value)
-    }
+    
   };
 
   public onChangeDropDownItem = (event: any, item: any): void => {
@@ -47,14 +48,30 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
   };
 
+  public onChoiceChange = (ev: React.ChangeEvent<HTMLFormElement>, option: IChoiceGroupOption):void => {
+
+    const eventName = ev.target.name;
+
+    if(option) {
+      this.props.handleDropDownItem(eventName, option);
+    }
+  }
+
   
 
   public render(): React.ReactElement<IRequirementsProps> {
 
-    const isReadOnly = this.props.currentPage !== 2;
+    const {essentialSkill, assetSkill }=this.props.values
 
+    const isReadOnly = this.props.currentPage !== 2;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
+
+    const options: IChoiceGroupOption[] = [
+      { key: 'true', text: 'Yes' },
+      { key: 'false', text: 'No' },
+    ];
+
 
     return (
       <>
@@ -74,6 +91,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             defaultValue={this.props.values.essentialSkill}
             multiline={true}
             readOnly={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(essentialSkill, 'essentialSkill')}
+            ariaLabelRequired={'required'}
           />
           <ReusableTextField
             id={"assetSkill"}
@@ -83,16 +102,24 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             defaultValue={this.props.values.assetSkill}
             multiline={true}
             readOnly={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(assetSkill, 'assetSkill')}
+            ariaLabelRequired={'required'}
           />
           <ReusableDropdownField
-            id={"wrkSchedule"}
-            name={"wrkSchedule"}
+            id={"workSchedule"}
+            name={"workSchedule"}
             title={"Time in hours"}
-            options={this.props.wrkSchedule}
+            options={this.props.workSchedule}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
-            selectedKey={this.props.values.wrkSchedule.key}
+            selectedKey={this.props.values.workSchedule.key}
+            ariaLabelRequired={'required'}
           />
+
+            { this.props.inlineFieldErrors?.includes('workSchedule') && (
+                <div>{validate(this.props.values.workSchedule.key)}</div>
+              )
+            }
           <ReusableDropdownField
             id={"province"}
             name={"province"}
@@ -101,7 +128,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.province.key}
+            ariaLabelRequired={'required'}
           />
+
+           { this.props.inlineFieldErrors?.includes('province') && (
+                <div>{validate(this.props.values.province.key)}</div>
+              )
+            }
+
           <ReusableDropdownField
             id={"region"}
             name={"region"}
@@ -110,7 +144,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.region.key}
+            ariaLabelRequired={'required'}
           />
+
+          { this.props.inlineFieldErrors?.includes('region') && (
+                <div>{validate(this.props.values.region.key)}</div>
+              )
+          }
+
           <ReusableDropdownField
             id={"city"}
             name={"city"}
@@ -119,8 +160,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.city.key}
+            ariaLabelRequired={'required'}
           />
- 
+
+           { this.props.inlineFieldErrors?.includes('city') && (
+                <div>{validate(this.props.values.city.key)}</div>
+              )
+            }
+
           <ReusableDropdownField
             id={"security"}
             name={"security"}
@@ -129,7 +176,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.security.key}
+            ariaLabelRequired={'required'}
           />
+
+           { this.props.inlineFieldErrors?.includes('security') && (
+                <div>{validate(this.props.values.security.key)}</div>
+              )
+            }
+
           <ReusableDropdownField
             id={"language"}
             name={"language"}
@@ -138,24 +192,54 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.language.key}
+            ariaLabelRequired={'required'}
           />
+
+           { this.props.inlineFieldErrors?.includes('language') && (
+                <div>{validate(this.props.values.language.key)}</div>
+              )
+            }
           <ReusableDropdownField
-            id={"wrkArrangment"}
-            name={"wrkArrangment"}
+            id={"workArrangment"}
+            name={"workArrangment"}
             title={"Work arrangement"}
-            options={this.props.wrkArrangment}
+            options={this.props.workArrangment}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
-            selectedKey={this.props.values.wrkArrangment.key}
+            selectedKey={this.props.values.workArrangment.key}
+            ariaLabelRequired={'required'}
           />
-          <ReusableTextField
-            id={"approvedStaffing"}
-            name={"approvedStaffing"}
-            title={"Approved Staffing"}
-            onChange={this.onChangeTextValue}
-            defaultValue={this.props.values.approvedStaffing}
-            readOnly={isReadOnly}
-          />
+            { this.props.inlineFieldErrors?.includes('workArrangment') && (
+                <div>{validate(this.props.values.workArrangment.key)}</div>
+              )
+            }
+
+          <div style={{marginTop: '10px'}}>
+            <Stack  horizontal verticalAlign="center" >
+              <StackItem >
+                <Label htmlFor={'deadline'} >
+                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
+                    *
+                  </span>
+                  Approved Staffing
+                </Label>
+              </StackItem>
+            </Stack>
+
+            <ChoiceGroup
+              id={"approvedStaffing"}
+              name={"approvedStaffing"}
+              options={options}
+              onChange={this.onChoiceChange}
+              readOnly={isReadOnly}
+              selectedKey={this.props.values.approvedStaffing.key}
+            />
+            { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
+                <div>{validate(this.props.values.approvedStaffing.key)}</div>
+              )
+            }
+          </div>
+
         </div>
       </>
     );

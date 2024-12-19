@@ -34,14 +34,15 @@
     .ms-Label {
       font-weight: 700;
     }
-    .ms-Label::before{
-      content: "*";
-      color: #C61515;
-    }
+    // .ms-Label::before {
+    //   content: "*";
+    //   color: #C61515;
+    // }
+
   
-    .ms-Label::after{
-      content: "";
-    }
+    // .ms-Label::after{
+    //   content: "";
+    // }
 
   }
     
@@ -123,8 +124,20 @@
     }
 
   }  
-  
+
 }
+
+.error {
+  border: 1px solid rgb(164, 38, 44);
+}
+
+.errorDialog {
+  border: 2px solid rgb(164, 38, 44);
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 10px;
+}
+
 
 
 

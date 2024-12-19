@@ -25,6 +25,12 @@
       "videoUrl": "",
       "categories": []
     },
+    "webApiPermissionRequests": [
+      {
+        "resource": "dgcx_dev_appreg_cm_listmgmt",
+        "scope": "user_impersonation"
+      }
+    ],
     "features": [
       {
         "title": "career-marketplace Feature",
