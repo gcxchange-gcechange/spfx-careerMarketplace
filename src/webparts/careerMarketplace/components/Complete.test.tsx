@@ -1,22 +1,30 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Complete from './Complete'; 
+import Complete from './Complete';
+
+jest.mock('../assets/complete.png', () => 'mockCompleteImage.png');
 
 describe('Complete Component', () => {
-  test('renders the component with the expected elements', () => {
+  test('renders the Complete component with all elements', () => {
     render(<Complete />);
 
-    // Check if the main heading is rendered
-    expect(screen.getByRole('heading', { level: 2, name: /Complete/i })).toBeInTheDocument();
+    // Check if the heading is rendered
+    const heading = screen.getByRole('heading', { name: /complete/i });
+    expect(heading).toBeInTheDocument();
 
-    // Check if the image is rendered with the correct alt text
-    expect(screen.getByRole('img', { name: /people high five/i })).toHaveAttribute('src', expect.stringContaining('complete.png'));
+    // Check if the image is rendered with correct attributes
+    const image = screen.getByAltText(/people high five/i);
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute('src', 'mockCompleteImage.png');
+    expect(image).toHaveAttribute('width', '400');
 
     // Check if the congratulatory message is rendered
-    expect(screen.getByText(/Congratualtions! You have created a new opportunity/i)).toBeInTheDocument();
+    const congratulatoryText = screen.getByText(/congratulations! you have created a new opportunity/i);
+    expect(congratulatoryText).toBeInTheDocument();
 
-    // Check if the Lorem ipsum paragraph is rendered
-    expect(screen.getByText(/Lorem ipsum dolor sit amet/i)).toBeInTheDocument();
+    // Check if the lorem ipsum paragraph is rendered
+    const loremText = screen.getByText(/lorem ipsum dolor sit amet, consectetur adipiscing elit/i);
+    expect(loremText).toBeInTheDocument();
   });
 });
