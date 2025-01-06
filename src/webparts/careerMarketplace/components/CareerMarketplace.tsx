@@ -219,19 +219,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   private submit = (): void => {
-    const {jobTypeValue}= this.state
+    //const {jobTypeValue}= this.state
 
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString();  
 
-    const formatJobType = jobTypeValue.map((item) => (item.toString()));
-    console.log(formatJobType)
+    const formatJobType = this.state.values.jobType.map((item) => (item.value));
+    console.log("FormatJobType",formatJobType)
 
 
 
-    const clientId = "c1";
-    const url = "";
+    const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+    const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
