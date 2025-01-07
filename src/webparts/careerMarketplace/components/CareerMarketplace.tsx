@@ -225,7 +225,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString();  
 
-    const formatJobType = this.state.values.jobType.map((item) => (item.value));
+    const formatJobType = this.state.values.jobType.filter(item => Object.keys(item).includes('value')).map(item => item.value);
     console.log("FormatJobType",formatJobType)
 
 
@@ -236,6 +236,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
       requestHeaders.append("Cache-Control", "no-cache");
+      let responseText: string = "";
       
       const postOptions: IHttpClientOptions= {
         headers: requestHeaders,
@@ -282,7 +283,21 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 validationStatus: response.status
               })
             }
-            return response.json();
+            response
+                  .json()
+                  .then((responseJSON: JSON) => {
+                    responseText = JSON.stringify(responseJSON);
+                    console.log("respond is ", responseText);
+                    if (response.ok) {
+                      console.log("response OK");
+                    } else {
+                      console.log("Response error");
+                    }
+                  })
+                  .catch((response: any) => {
+                    const errMsg: string = `WARNING - error when calling URL. Error = ${response.message}`;
+                    console.log("err is ", errMsg);
+                  });
           })
           
         })
@@ -678,9 +693,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
-
-    console.log("HASERROR",this.state.hasError)
-
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
