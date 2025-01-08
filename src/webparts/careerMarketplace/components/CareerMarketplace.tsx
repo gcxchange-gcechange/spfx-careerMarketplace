@@ -18,8 +18,8 @@ import Complete from './Complete';
 import { toTitleCase } from './Functions';
 import { RefObject } from 'react';
 import { graphfi } from '@pnp/graph';
-//import { TermStore } from '@microsoft/microsoft-graph-types';
-import { ITermGroup, ITermSet, ITermStore } from '@pnp/graph/taxonomy';
+import { TermStore } from '@microsoft/microsoft-graph-types';
+//import { ITermGroup } from '@pnp/graph/taxonomy';
 import "@pnp/graph/taxonomy";
 import "@pnp/graph/sites";
 
@@ -393,19 +393,21 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const {currentPage} = this.state;
     //const _sp: SPFI = getSP(this.props.context);
     const graph = graphfi().using(SPFx(this.props.context));
-    const siteID = "devgcx.sharepoint.com,8580dcc6-b8f3-4fdf-8670-fb3840dd832d,46dde7e1-5aa5-4950-bc83-027b77a898df";
-    console.log(this.context);
+   // const siteId = "devgcx.sharepoint.com,8580dcc6-b8f3-4fdf-8670-fb3840dd832d,46dde7e1-5aa5-4950-bc83-027b77a898df";
 
-    const info: ITermStore = await graph.termStore();
-    console.log("I",info);
-
-    const site: ITermSet = await graph.sites.getById(siteID).termStore();
-    console.log("S", site)
-   
-
+   const infos2: TermStore.Term[] = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e").sets.getById("e86e736d-77a4-447c-8aee-b714be2f64cf").terms();
+      console.log("INFO2",JSON.stringify(infos2))
+  
+    
     if (currentPage === 0) {
-      const departments: ITermGroup = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e")();
-      console.log("dep",departments)
+      const departmentData = [];
+      const departments = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e").sets.getById("e86e736d-77a4-447c-8aee-b714be2f64cf").terms;
+      console.log("dep",JSON.stringify(departments))
+      departmentData.push(departments);
+      
+      this.setState({
+          departmentList: departmentData
+      }) 
     }
   }
 
@@ -733,6 +735,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
+    console.log("DepartmentData", this.state.departmentList)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
