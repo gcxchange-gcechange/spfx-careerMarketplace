@@ -31,9 +31,10 @@
         "scope": "user_impersonation"
       },
       {
-        "resource": "Office 365 SharePoint Online",
+        "resource": "Microsoft Graph",
         "scope": "TermStore.Read.All"
       }
+     
     ],
     "features": [
       {

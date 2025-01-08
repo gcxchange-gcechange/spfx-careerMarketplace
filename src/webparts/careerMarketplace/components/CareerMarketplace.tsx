@@ -18,10 +18,13 @@ import Complete from './Complete';
 import { toTitleCase } from './Functions';
 import { RefObject } from 'react';
 import { graphfi } from '@pnp/graph';
-import { TermStore } from '@microsoft/microsoft-graph-types';
+//import { TermStore } from '@microsoft/microsoft-graph-types';
 //import { ITermGroup } from '@pnp/graph/taxonomy';
 import "@pnp/graph/taxonomy";
 import "@pnp/graph/sites";
+import { MSGraphClientV3 } from "@microsoft/sp-http";
+
+
 
 export interface ICareerMarketplaceState {
   currentPage: number;
@@ -395,13 +398,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const graph = graphfi().using(SPFx(this.props.context));
    // const siteId = "devgcx.sharepoint.com,8580dcc6-b8f3-4fdf-8670-fb3840dd832d,46dde7e1-5aa5-4950-bc83-027b77a898df";
 
-   const infos2: TermStore.Term[] = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e").sets.getById("e86e736d-77a4-447c-8aee-b714be2f64cf").terms();
-      console.log("INFO2",JSON.stringify(infos2))
-  
-    
     if (currentPage === 0) {
       const departmentData = [];
-      const departments = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e").sets.getById("e86e736d-77a4-447c-8aee-b714be2f64cf").terms;
+      const departments = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e").sets.getById("e86e736d-77a4-447c-8aee-b714be2f64cf").terms();
       console.log("dep",JSON.stringify(departments))
       departmentData.push(departments);
       
@@ -409,6 +408,33 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           departmentList: departmentData
       }) 
     }
+  }
+
+  public _getSets(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      try {
+        this.props.context.msGraphClientFactory
+          .getClient("3")
+          .then((client: MSGraphClientV3) => {
+            client
+              .api('/sites/devgcx.sharepoint.com/termStore/groups/656c725c-def6-46cd-86df-b51f1b22383e/sets/e86e736d-77a4-447c-8aee-b714be2f64cf/terms') 
+              .get((error: any, response: any, rawResponse: any) => {
+                 console.log("RESPONSE",response.value)
+
+                 this.setState({
+                  departmentList: response.value
+                });
+                resolve(response);
+              })
+              .catch((error: any) => {
+                console.error("ERROR", error);
+                reject(error)
+              })
+          });
+      } catch (error) {
+        console.error("ERROR-" + error);
+      }
+    });
   }
 
   // public _getDropdownList = async (): Promise<void> => {sa
@@ -639,7 +665,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidMount(): Promise<void> {
     //await this._getDropdownList();
-    await this._getTermStoreLists();
+    await this._getSets();
+    //await this._getTermStoreLists();
     await this._getUser();
     await this.getDropdownElements();
   }

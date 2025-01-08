@@ -49,6 +49,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     await super.onInit();
 
     getSP(this.context);
+    
   }
   
 
