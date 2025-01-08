@@ -11,13 +11,17 @@ import Details from './Details';
 import Requirements from './Requirements';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
-import { SPFI } from '@pnp/sp';
+import { SPFI, SPFx } from '@pnp/sp';
 import PageTitle from './PageTitle';
 import * as moment from 'moment';
 import Complete from './Complete';
 import { toTitleCase } from './Functions';
 import { RefObject } from 'react';
-
+import { graphfi } from '@pnp/graph';
+//import { TermStore } from '@microsoft/microsoft-graph-types';
+import { ITermGroup, ITermSet, ITermStore } from '@pnp/graph/taxonomy';
+import "@pnp/graph/taxonomy";
+import "@pnp/graph/sites";
 
 export interface ICareerMarketplaceState {
   currentPage: number;
@@ -370,159 +374,194 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
-  public _getDropdownList = async (): Promise<void> => {
+  // public _getTermStoreLists = async (): Promise<void> => {
+  //   try {
+  //     const { currentPage } = this.state;
+  //     const graph = graphfi().using(SPFx(this.props.context));
+  
+  //     if (currentPage === 0) {
+  //       const departments: ITermGroup = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e")();
+  //       console.log("Departments:", departments);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching term store group:", error);
+  //   }
+  // }
+  
 
+  public _getTermStoreLists = async (): Promise<void> => {
     const {currentPage} = this.state;
-    const _sp: SPFI = getSP(this.props.context);
+    //const _sp: SPFI = getSP(this.props.context);
+    const graph = graphfi().using(SPFx(this.props.context));
+    const siteID = "devgcx.sharepoint.com,8580dcc6-b8f3-4fdf-8670-fb3840dd832d,46dde7e1-5aa5-4950-bc83-027b77a898df";
+    console.log(this.context);
 
+    const info: ITermStore = await graph.termStore();
+    console.log("I",info);
 
-    if (currentPage === 0 ) {
-      const departments = await _sp.web.lists.getByTitle('Department').items();
-      if ( departments) {
-        const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
-          this.setState({
-            departmentList: dataArray
-          }) 
-      } else {
-        console.log('List Department not found')
-      }
-    }
+    const site: ITermSet = await graph.sites.getById(siteID).termStore();
+    console.log("S", site)
+   
 
-    else if (currentPage === 1 ) {
-      const jobType = await _sp.web.lists.getByTitle('JobType').items();
-      const programArea = await _sp.web.lists.getByTitle('ProgramArea').items();
-      const classificationCode = await _sp.web.lists.getByTitle('ClassificationCode').items();
-      const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
-      const duration = await _sp.web.lists.getByTitle('Duration').items();
-
-      if (jobType) {
-        const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn}));
-        this.setState({
-          jobType: dataResult
-        }) 
-      }
-      else {
-        console.log("List JobType does not exist")
-       }
-      
-      if (programArea) {
-        const dataResult = programArea.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          programArea: dataResult
-        }) 
-      } else {
-        console.log("List Program Area does not exist")
-       }
-      
-      if (classificationCode) {
-        const dataResult = classificationCode.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        console.log("ClassCode data", dataResult)
-        this.setState({
-          classificationCode: dataResult
-        }) 
-
-      } else {
-        console.log("List Classification Code does not exist")
-       }
-      
-      if (classificationLevel) {
-        console.log('cLevel', classificationLevel);
-        const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          classificationLevel: dataResult
-        }) 
-
-      } else {
-        console.log("List Calssification Level does not exist")
-       }
-      
-      if (duration) {
-        const dataResult = duration.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          duration: dataResult
-        }) 
-      }
-       else {
-        console.log("List Duration does not exist")
-       }
-
-    }
-    else if (currentPage === 2) {
-      console.log("page 2")
-      const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
-      const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
-      const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
-      const wrkSchedule = await _sp.web.lists.getByTitle('WorkSchedule').items();
-      const city =  await _sp.web.lists.getByTitle('City').items();
-      const province =  await _sp.web.lists.getByTitle('Province').items();
-      const region =  await _sp.web.lists.getByTitle('Region').items();
-
-      if (languageReq) {
-        const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 2}));
-        this.setState({
-          language: dataResult
-        }) 
-
-      } else {
-        console.log("Language list does not exist")
-       }
-      
-      
-      if (securityClearance) {
-        const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn, pageNumber: 2}))
-          this.setState({
-            security: dataResult
-          })
-
-      } else {
-        console.log("Security Clearance list does not exist")
-       }
-      
-      if (workArrangment) {
-        const dataResult = workArrangment.map((data:any) => ({key: data.Id, text: data.NameEn}))
-        this.setState({
-          wrkArrangement: dataResult
-        })
-      } else {
-       console.log(" Work Arrangment list does not exist")
-      }
-
-      if (wrkSchedule) {
-        const dataResult = wrkSchedule.map((data:any) => ({key: data.Id, text: data.NameEn}))
-        this.setState({
-          wrkSchedule: dataResult
-        })
-      } else {
-       console.log("Work Schedule list does not exist")
-      }
-      if (city) {
-        const dataResult = city.map((data:any) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
-        this.setState({
-          city: dataResult
-        })
-      } else {
-       console.log("City list does not exist")
-      }
-      if (province) {
-        const dataResult = province.map((data:any) => ({key: data.Id, text: data.NameEn}))
-        this.setState({
-          province: dataResult
-        })
-      } else {
-       console.log("Province list does not exist")
-      }
-      if (region) {
-        console.log("Region List",region)
-        const dataResult = region.map((data:any) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
-        this.setState({
-          region: dataResult
-        })
-      } else {
-       console.log("Region list does not exist")
-      }
-           
+    if (currentPage === 0) {
+      const departments: ITermGroup = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e")();
+      console.log("dep",departments)
     }
   }
+
+  // public _getDropdownList = async (): Promise<void> => {sa
+
+  //   const {currentPage} = this.state;
+  //   const _sp: SPFI = getSP(this.props.context);
+
+
+  //   if (currentPage === 0 ) {
+  //     const departments = await _sp.web.lists.getByTitle('Department').items();
+  //     if ( departments) {
+  //       const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
+  //         this.setState({
+  //           departmentList: dataArray
+  //         }) 
+  //     } else {
+  //       console.log('List Department not found')
+  //     }
+  //   }
+
+  //   else if (currentPage === 1 ) {
+  //     const jobType = await _sp.web.lists.getByTitle('JobType').items();
+  //     const programArea = await _sp.web.lists.getByTitle('ProgramArea').items();
+  //     const classificationCode = await _sp.web.lists.getByTitle('ClassificationCode').items();
+  //     const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
+  //     const duration = await _sp.web.lists.getByTitle('Duration').items();
+
+  //     if (jobType) {
+  //       const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn}));
+  //       this.setState({
+  //         jobType: dataResult
+  //       }) 
+  //     }
+  //     else {
+  //       console.log("List JobType does not exist")
+  //      }
+      
+  //     if (programArea) {
+  //       const dataResult = programArea.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+  //       this.setState({
+  //         programArea: dataResult
+  //       }) 
+  //     } else {
+  //       console.log("List Program Area does not exist")
+  //      }
+      
+  //     if (classificationCode) {
+  //       const dataResult = classificationCode.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+  //       console.log("ClassCode data", dataResult)
+  //       this.setState({
+  //         classificationCode: dataResult
+  //       }) 
+
+  //     } else {
+  //       console.log("List Classification Code does not exist")
+  //      }
+      
+  //     if (classificationLevel) {
+  //       console.log('cLevel', classificationLevel);
+  //       const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+  //       this.setState({
+  //         classificationLevel: dataResult
+  //       }) 
+
+  //     } else {
+  //       console.log("List Calssification Level does not exist")
+  //      }
+      
+  //     if (duration) {
+  //       const dataResult = duration.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+  //       this.setState({
+  //         duration: dataResult
+  //       }) 
+  //     }
+  //      else {
+  //       console.log("List Duration does not exist")
+  //      }
+
+  //   }
+  //   else if (currentPage === 2) {
+  //     console.log("page 2")
+  //     const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
+  //     const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
+  //     const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
+  //     const wrkSchedule = await _sp.web.lists.getByTitle('WorkSchedule').items();
+  //     const city =  await _sp.web.lists.getByTitle('City').items();
+  //     const province =  await _sp.web.lists.getByTitle('Province').items();
+  //     const region =  await _sp.web.lists.getByTitle('Region').items();
+
+  //     if (languageReq) {
+  //       const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 2}));
+  //       this.setState({
+  //         language: dataResult
+  //       }) 
+
+  //     } else {
+  //       console.log("Language list does not exist")
+  //      }
+      
+      
+  //     if (securityClearance) {
+  //       const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn, pageNumber: 2}))
+  //         this.setState({
+  //           security: dataResult
+  //         })
+
+  //     } else {
+  //       console.log("Security Clearance list does not exist")
+  //      }
+      
+  //     if (workArrangment) {
+  //       const dataResult = workArrangment.map((data:any) => ({key: data.Id, text: data.NameEn}))
+  //       this.setState({
+  //         wrkArrangement: dataResult
+  //       })
+  //     } else {
+  //      console.log(" Work Arrangment list does not exist")
+  //     }
+
+  //     if (wrkSchedule) {
+  //       const dataResult = wrkSchedule.map((data:any) => ({key: data.Id, text: data.NameEn}))
+  //       this.setState({
+  //         wrkSchedule: dataResult
+  //       })
+  //     } else {
+  //      console.log("Work Schedule list does not exist")
+  //     }
+  //     if (city) {
+  //       const dataResult = city.map((data:any) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
+  //       this.setState({
+  //         city: dataResult
+  //       })
+  //     } else {
+  //      console.log("City list does not exist")
+  //     }
+  //     if (province) {
+  //       const dataResult = province.map((data:any) => ({key: data.Id, text: data.NameEn}))
+  //       this.setState({
+  //         province: dataResult
+  //       })
+  //     } else {
+  //      console.log("Province list does not exist")
+  //     }
+  //     if (region) {
+  //       console.log("Region List",region)
+  //       const dataResult = region.map((data:any) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
+  //       this.setState({
+  //         region: dataResult
+  //       })
+  //     } else {
+  //      console.log("Region list does not exist")
+  //     }
+           
+  //   }
+  // }
 
   public _getUser = async ():Promise<void> => {
     const _sp: SPFI = getSP(this.props.context);
@@ -597,7 +636,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public async componentDidMount(): Promise<void> {
-    await this._getDropdownList();
+    //await this._getDropdownList();
+    await this._getTermStoreLists();
     await this._getUser();
     await this.getDropdownElements();
   }
@@ -609,7 +649,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           inlineFieldErrors: []
         });
 
-        await this._getDropdownList();
+        //await this._getDropdownList();
         await this.getDropdownElements();       
     }
 
