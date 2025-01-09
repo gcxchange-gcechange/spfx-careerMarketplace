@@ -132,8 +132,21 @@ stages:
 ############################################################
 ## upgrades: the *.sppkg package to the site in particular 
 ############################################################
-              - script: m365 spo app upgrade --id 0EA66617-4448-4585-A3A9-0542DD83747C --siteUrl https://devgcx.sharepoint.com/
-                displayName: Upgrades the app to a specific site
+##              - script: m365 spo app upgrade --id 0EA66617-4448-4585-A3A9-0542DD83747C --siteUrl https://devgcx.sharepoint.com/sites/appcatalog
+##                displayName: Upgrades the app to a specific site
+
+############################################################
+## deploys: the *.sppkg package to the app-catalog
+############################################################
+
+              - script: m365 spo app deploy --debug --verbose --name $(SpPkgFilename) -u https://devgcx.sharepoint.com/sites/appcatalog --appCatalogScope tenant --skipFeatureDeployment
+                displayName: Deploy to SharePoint package to the App Catalog
+
+############################################################
+## upgrades: the *.sppkg package to the site in particular 
+############################################################
+##              - script: m365 spo app upgrade --id 0EA66617-4448-4585-A3A9-0542DD83747C --siteUrl https://devgcx.sharepoint.com/
+##                displayName: Upgrades the app to a specific site
 
 - stage: E2E_test 
   dependsOn: 
