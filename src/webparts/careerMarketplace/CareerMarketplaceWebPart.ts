@@ -4,7 +4,7 @@ import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
   type IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  PropertyPaneDropdown
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
@@ -12,11 +12,12 @@ import * as strings from 'CareerMarketplaceWebPartStrings';
 import CareerMarketplace from './components/CareerMarketplace';
 import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
+import GraphService from '../../services/GraphService';
  
  
 
 export interface ICareerMarketplaceWebPartProps {
-  description: string;
+  prefLang: string;
   context: WebPartContext;
   userDisplayName: string;
   workEmail: string;
@@ -29,7 +30,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     const element: React.ReactElement<ICareerMarketplaceProps> = React.createElement(
       CareerMarketplace,
       {
-        description: this.properties.description,
+        prefLang: this.properties.prefLang,
         context: this.context,
         userDisplayName: this.context.pageContext.user.displayName,
         workEmail: this.context.pageContext.user.email,
@@ -49,6 +50,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     await super.onInit();
 
     getSP(this.context);
+    GraphService.setup(this.context);
     
   }
   
@@ -90,8 +92,13 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
+                PropertyPaneDropdown('prefLang', {
+                  label: 'Preferred Language',
+                  options: [
+                    { key: 'account', text: 'Account' },
+                    { key: 'en-us', text: 'English' },
+                    { key: 'fr-fr', text: 'Français' }
+                  ]
                 })
               ]
             }

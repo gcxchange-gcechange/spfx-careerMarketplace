@@ -11,18 +11,20 @@ import Details from './Details';
 import Requirements from './Requirements';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
-import { SPFI, SPFx } from '@pnp/sp';
+import { SPFI } from '@pnp/sp';
 import PageTitle from './PageTitle';
 import * as moment from 'moment';
 import Complete from './Complete';
 import { toTitleCase } from './Functions';
 import { RefObject } from 'react';
-import { graphfi } from '@pnp/graph';
+// import { graphfi } from '@pnp/graph';
 //import { TermStore } from '@microsoft/microsoft-graph-types';
 //import { ITermGroup } from '@pnp/graph/taxonomy';
-import "@pnp/graph/taxonomy";
-import "@pnp/graph/sites";
-import { MSGraphClientV3 } from "@microsoft/sp-http";
+// import "@pnp/graph/taxonomy";
+// import "@pnp/graph/sites";
+//import { MSGraphClientV3 } from "@microsoft/sp-http";
+import GraphService from '../../../services/GraphService';
+import { SelectLanguage } from './SelectLanguage';
 
 
 
@@ -81,6 +83,7 @@ export interface ICareerMarketplaceState {
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
   private alertRef: RefObject<HTMLDivElement>;
+  public strings = SelectLanguage(this.props.prefLang);
 
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
 
@@ -377,67 +380,120 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
-  // public _getTermStoreLists = async (): Promise<void> => {
-  //   try {
-  //     const { currentPage } = this.state;
-  //     const graph = graphfi().using(SPFx(this.props.context));
-  
-  //     if (currentPage === 0) {
-  //       const departments: ITermGroup = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e")();
-  //       console.log("Departments:", departments);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching term store group:", error);
-  //   }
-  // }
-  
+  public _populateDropDowns(): void {
 
-  public _getTermStoreLists = async (): Promise<void> => {
     const {currentPage} = this.state;
-    //const _sp: SPFI = getSP(this.props.context);
-    const graph = graphfi().using(SPFx(this.props.context));
-   // const siteId = "devgcx.sharepoint.com,8580dcc6-b8f3-4fdf-8670-fb3840dd832d,46dde7e1-5aa5-4950-bc83-027b77a898df";
-
-    if (currentPage === 0) {
-      const departmentData = [];
-      const departments = await graph.termStore.groups.getById("656c725c-def6-46cd-86df-b51f1b22383e").sets.getById("e86e736d-77a4-447c-8aee-b714be2f64cf").terms();
-      console.log("dep",JSON.stringify(departments))
-      departmentData.push(departments);
+    const departmentSetId = 'e86e736d-77a4-447c-8aee-b714be2f64cf';
+    const parameters = [
+      [
+      '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
+      'bd807536-d8e7-456b-aab0-fae3eecedd8a', // programArea
+      'cc00fcc8-4731-4165-a22d-006ddb7b32ce', // classificationCode
+      'ad38f4b6-8aec-4e41-b30b-04c56a2aeeb3' // duration
+      ],
+      [
+        '31a56cc4-eed9-4229-a6b4-d2fdde94f9e5',  // securityClearance 
+        '74af42a2-246a-41aa-b4bb-8403134f0728',  // workArrangment 
+        '5a826701-8d58-4c1f-9558-22ea6a98f55f', // wrkSchedule 
+        ' ', // city 
+        'c6d27982-3d09-43d7-828d-daf6e06be362', // province  
+        '', // region 
+      ]
+    ];
+   
+   
+    if (currentPage === 0 ) {
+      GraphService._departmentSets(departmentSetId).then((data: any) => {
+        console.log("VALUES",data.value)
+        const getLabels = data.value.flatMap((items: any) => 
+          items.labels.filter((label: any) => label.name.length > 4)
+          .map((item: any) => ({
+            key: items.id, 
+            text: item.name, 
+            language: item.languageTag, 
+            pageNumber: 0 
+          })));
       
-      this.setState({
-          departmentList: departmentData
-      }) 
+       
+        this.setState({
+          departmentList: getLabels.filter((lang: any) => this.props.prefLang === 'fr-fr' ? lang.language === 'fr-FR' : lang.language === 'en-US')
+        })
+      })
+    } else if (currentPage === 1) {
+      GraphService._sets(parameters[0]).then((data: any) => {
+        console.log("VALUES2",data)
+
+        const processLabels = (dataIndex: number):any[] => {
+            return data[dataIndex].flatMap((items: any) =>
+            items.labels.map((item: any) => ({
+              key: items.id,
+              text: item.name,
+              language: item.languageTag,
+              pageNumber: 1
+            }))
+          );
+        };
+
+        const filterByLanguage = (labels: any[]):any[] => {
+          const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
+          return labels.filter((item: any) => item.language === preferredLang);
+        };
+
+        const getJobTypeLabels = processLabels(0);
+        const getProgramAreaLabels = processLabels(1);
+        const getClassificationCode = processLabels(2);
+        const getDurationLabels = processLabels(3)
+
+        this.setState({
+          jobType: filterByLanguage(getJobTypeLabels),
+          programArea: filterByLanguage(getProgramAreaLabels),
+          classificationCode: filterByLanguage(getClassificationCode),
+          duration: filterByLanguage(getDurationLabels)
+        });
+        // const getJobTypeLabels = data[0].flatMap((items: any) => items.labels.map((item:any) => ({ key: items.id, text: item.name, language: item.languageTag, pageNumber: 1 })));
+        // const getProgramAreaLabels = data[1].flatMap((items: any) => items.labels.map((item:any) => ({ key: items.id, text: item.name, language: item.languageTag, pageNumber: 1 })));
+
+        // const getJobTypeByLanguage = getJobTypeLabels.filter((item:any) => this.props.prefLang === 'fr-fr' ? item.language === 'fr-FR' : item.language === 'en-US')
+        // const programAreaLang = getProgramAreaLabels.filter((item:any) => this.props.prefLang === 'fr-fr' ? item.language === 'fr-FR' : item.language === 'en-US')
+ 
+      });
+    } else if(currentPage === 2) {
+      GraphService._sets(parameters[1]).then((data: any) => {
+        
+        const processLabels = (dataIndex: number):any[] => {
+          return data[dataIndex].flatMap((items: any) =>
+            items.labels.map((item: any) => ({
+              key: items.id,
+              text: item.name,
+              language: item.languageTag,
+              pageNumber: 1
+            }))
+          );
+        };
+
+        const filterByLanguage = (labels: any[]):any[] => {
+          const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
+          return labels.filter((item: any) => item.language === preferredLang);
+        };
+
+        const getsecurityClearenceLabels = processLabels(0);
+        const getworkArrangmentLabels = processLabels(1);
+        const getwrkSchedule  = processLabels(2);
+        const getcityLabels = processLabels(3)
+
+        this.setState({
+          security: filterByLanguage(getsecurityClearenceLabels),
+          wrkArrangement: filterByLanguage(getworkArrangmentLabels ),
+          wrkSchedule: filterByLanguage( getwrkSchedule),
+          city: filterByLanguage(getcityLabels )
+        });
+
+      })
     }
   }
 
-  public _getSets(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      try {
-        this.props.context.msGraphClientFactory
-          .getClient("3")
-          .then((client: MSGraphClientV3) => {
-            client
-              .api('/sites/devgcx.sharepoint.com/termStore/groups/656c725c-def6-46cd-86df-b51f1b22383e/sets/e86e736d-77a4-447c-8aee-b714be2f64cf/terms') 
-              .get((error: any, response: any, rawResponse: any) => {
-                 console.log("RESPONSE",response.value)
 
-                 this.setState({
-                  departmentList: response.value
-                });
-                resolve(response);
-              })
-              .catch((error: any) => {
-                console.error("ERROR", error);
-                reject(error)
-              })
-          });
-      } catch (error) {
-        console.error("ERROR-" + error);
-      }
-    });
-  }
-
-  // public _getDropdownList = async (): Promise<void> => {sa
+  // public _getDropdownList = async (): Promise<void> => {
 
   //   const {currentPage} = this.state;
   //   const _sp: SPFI = getSP(this.props.context);
@@ -665,7 +721,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidMount(): Promise<void> {
     //await this._getDropdownList();
-    await this._getSets();
+    //await this._getSets();
+    await this._populateDropDowns();
     //await this._getTermStoreLists();
     await this._getUser();
     await this.getDropdownElements();
@@ -679,6 +736,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         });
 
         //await this._getDropdownList();
+        await this._populateDropDowns();
         await this.getDropdownElements();       
     }
 
