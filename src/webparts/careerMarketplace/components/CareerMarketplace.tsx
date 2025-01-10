@@ -354,7 +354,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     else {
-
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -362,6 +361,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   
         }
       }));
+
     }
   }
 
@@ -381,8 +381,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public _populateDropDowns(): void {
+    console.log("PROvince", this.state.province)
 
     const {currentPage} = this.state;
+    const _sp: SPFI = getSP(this.props.context);
+    console.log("SPContext",_sp);
     const departmentSetId = 'e86e736d-77a4-447c-8aee-b714be2f64cf';
     const parameters = [
       [
@@ -395,9 +398,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         '31a56cc4-eed9-4229-a6b4-d2fdde94f9e5',  // securityClearance 
         '74af42a2-246a-41aa-b4bb-8403134f0728',  // workArrangment 
         '5a826701-8d58-4c1f-9558-22ea6a98f55f', // wrkSchedule 
-        ' ', // city 
-        'c6d27982-3d09-43d7-828d-daf6e06be362', // province  
-        '', // region 
+        'c6d27982-3d09-43d7-828d-daf6e06be362', //province
+        'b1048b91-a228-4425-b728-da90be459f27', //language req
+        
       ]
     ];
    
@@ -420,8 +423,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         })
       })
     } else if (currentPage === 1) {
-      GraphService._sets(parameters[0]).then((data: any) => {
-        console.log("VALUES2",data)
+      GraphService._sets(parameters[0]).then(async (data: any) => {
+        
 
         const processLabels = (dataIndex: number):any[] => {
             return data[dataIndex].flatMap((items: any) =>
@@ -442,13 +445,18 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         const getJobTypeLabels = processLabels(0);
         const getProgramAreaLabels = processLabels(1);
         const getClassificationCode = processLabels(2);
-        const getDurationLabels = processLabels(3)
+        const getDurationLabels = processLabels(3);
+        const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
+        console.log("classLevel",classificationLevel)
+        const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        console.log("dataRe", dataResult);
 
         this.setState({
           jobType: filterByLanguage(getJobTypeLabels),
           programArea: filterByLanguage(getProgramAreaLabels),
           classificationCode: filterByLanguage(getClassificationCode),
-          duration: filterByLanguage(getDurationLabels)
+          duration: filterByLanguage(getDurationLabels),
+          classificationLevel: dataResult
         });
         // const getJobTypeLabels = data[0].flatMap((items: any) => items.labels.map((item:any) => ({ key: items.id, text: item.name, language: item.languageTag, pageNumber: 1 })));
         // const getProgramAreaLabels = data[1].flatMap((items: any) => items.labels.map((item:any) => ({ key: items.id, text: item.name, language: item.languageTag, pageNumber: 1 })));
@@ -457,8 +465,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         // const programAreaLang = getProgramAreaLabels.filter((item:any) => this.props.prefLang === 'fr-fr' ? item.language === 'fr-FR' : item.language === 'en-US')
  
       });
+
+
     } else if(currentPage === 2) {
       GraphService._sets(parameters[1]).then((data: any) => {
+        console.log("VALUES3",data)
+
         
         const processLabels = (dataIndex: number):any[] => {
           return data[dataIndex].flatMap((items: any) =>
@@ -479,13 +491,28 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         const getsecurityClearenceLabels = processLabels(0);
         const getworkArrangmentLabels = processLabels(1);
         const getwrkSchedule  = processLabels(2);
-        const getcityLabels = processLabels(3)
+        const getprovinceLabels = processLabels(3);
+        const getlanguageReqLabels = processLabels(4);
+
+        const provinceParameters: any[] = [];
+        const getProvinceIds = getprovinceLabels.map((items) => items.key);
+        provinceParameters.push(getProvinceIds);
+        console.log("Id", provinceParameters);
+
+
+        GraphService._ProvinceSets(provinceParameters).then((data: any) => {
+          console.log('Location Data', data)
+          data.map((provinceId: string) => {console.log("ID", provinceId)})
+          
+        })
+
 
         this.setState({
           security: filterByLanguage(getsecurityClearenceLabels),
           wrkArrangement: filterByLanguage(getworkArrangmentLabels ),
           wrkSchedule: filterByLanguage( getwrkSchedule),
-          city: filterByLanguage(getcityLabels )
+          province: getprovinceLabels,
+          language: filterByLanguage(getlanguageReqLabels)
         });
 
       })
