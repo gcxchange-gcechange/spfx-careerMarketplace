@@ -380,152 +380,28 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
-  public _populateDropDowns(): void {
-    console.log("PROvince", this.state.province)
+  // public async _populateDropDowns(): Promise<void> {
 
-    const {currentPage} = this.state;
-    const _sp: SPFI = getSP(this.props.context);
-    console.log("SPContext",_sp);
-    const departmentSetId = 'e86e736d-77a4-447c-8aee-b714be2f64cf';
-    const parameters = [
-      [
-      '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
-      'bd807536-d8e7-456b-aab0-fae3eecedd8a', // programArea
-      'cc00fcc8-4731-4165-a22d-006ddb7b32ce', // classificationCode
-      'ad38f4b6-8aec-4e41-b30b-04c56a2aeeb3' // duration
-      ],
-      [
-        '31a56cc4-eed9-4229-a6b4-d2fdde94f9e5',  // securityClearance 
-        '74af42a2-246a-41aa-b4bb-8403134f0728',  // workArrangment 
-        '5a826701-8d58-4c1f-9558-22ea6a98f55f', // wrkSchedule 
-        'c6d27982-3d09-43d7-828d-daf6e06be362', //province
-        'b1048b91-a228-4425-b728-da90be459f27', //language req
-        
-      ]
-    ];
-   
-   
-    if (currentPage === 0 ) {
-      GraphService._departmentSets(departmentSetId).then((data: any) => {
-        console.log("VALUES",data.value)
-        const getLabels = data.value.flatMap((items: any) => 
-          items.labels.filter((label: any) => label.name.length > 4)
-          .map((item: any) => ({
-            key: items.id, 
-            text: item.name, 
-            language: item.languageTag, 
-            pageNumber: 0 
-          })));
-      
-       
-        this.setState({
-          departmentList: getLabels.filter((lang: any) => this.props.prefLang === 'fr-fr' ? lang.language === 'fr-FR' : lang.language === 'en-US')
-        })
-      })
-    } else if (currentPage === 1) {
-      GraphService._sets(parameters[0]).then(async (data: any) => {
-        
-
-        const processLabels = (dataIndex: number):any[] => {
-            return data[dataIndex].flatMap((items: any) =>
-            items.labels.map((item: any) => ({
-              key: items.id,
-              text: item.name,
-              language: item.languageTag,
-              pageNumber: 1
-            }))
-          );
-        };
-
-        const filterByLanguage = (labels: any[]):any[] => {
-          const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
-          return labels.filter((item: any) => item.language === preferredLang);
-        };
-
-        const getJobTypeLabels = processLabels(0);
-        const getProgramAreaLabels = processLabels(1);
-        const getClassificationCode = processLabels(2);
-        const getDurationLabels = processLabels(3);
-        const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
-        console.log("classLevel",classificationLevel)
-        const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        console.log("dataRe", dataResult);
-
-        this.setState({
-          jobType: filterByLanguage(getJobTypeLabels),
-          programArea: filterByLanguage(getProgramAreaLabels),
-          classificationCode: filterByLanguage(getClassificationCode),
-          duration: filterByLanguage(getDurationLabels),
-          classificationLevel: dataResult
-        });
-        // const getJobTypeLabels = data[0].flatMap((items: any) => items.labels.map((item:any) => ({ key: items.id, text: item.name, language: item.languageTag, pageNumber: 1 })));
-        // const getProgramAreaLabels = data[1].flatMap((items: any) => items.labels.map((item:any) => ({ key: items.id, text: item.name, language: item.languageTag, pageNumber: 1 })));
-
-        // const getJobTypeByLanguage = getJobTypeLabels.filter((item:any) => this.props.prefLang === 'fr-fr' ? item.language === 'fr-FR' : item.language === 'en-US')
-        // const programAreaLang = getProgramAreaLabels.filter((item:any) => this.props.prefLang === 'fr-fr' ? item.language === 'fr-FR' : item.language === 'en-US')
- 
-      });
-
-
-    } else if(currentPage === 2) {
-      GraphService._sets(parameters[1]).then((data: any) => {
-        console.log("VALUES3",data)
-
-        
-        const processLabels = (dataIndex: number):any[] => {
-          return data[dataIndex].flatMap((items: any) =>
-            items.labels.map((item: any) => ({
-              key: items.id,
-              text: item.name,
-              language: item.languageTag,
-              pageNumber: 1
-            }))
-          );
-        };
-
-        const filterByLanguage = (labels: any[]):any[] => {
-          const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
-          return labels.filter((item: any) => item.language === preferredLang);
-        };
-
-        const getsecurityClearenceLabels = processLabels(0);
-        const getworkArrangmentLabels = processLabels(1);
-        const getwrkSchedule  = processLabels(2);
-        const getprovinceLabels = processLabels(3);
-        const getlanguageReqLabels = processLabels(4);
-
-        const provinceParameters: any[] = [];
-        const getProvinceIds = getprovinceLabels.map((items) => items.key);
-        provinceParameters.push(getProvinceIds);
-        console.log("Id", provinceParameters);
-
-
-        GraphService._ProvinceSets(provinceParameters).then((data: any) => {
-          console.log('Location Data', data)
-          data.map((provinceId: string) => {console.log("ID", provinceId)})
-          
-        })
-
-
-        this.setState({
-          security: filterByLanguage(getsecurityClearenceLabels),
-          wrkArrangement: filterByLanguage(getworkArrangmentLabels ),
-          wrkSchedule: filterByLanguage( getwrkSchedule),
-          province: getprovinceLabels,
-          language: filterByLanguage(getlanguageReqLabels)
-        });
-
-      })
-    }
-  }
-
-
-  // public _getDropdownList = async (): Promise<void> => {
 
   //   const {currentPage} = this.state;
   //   const _sp: SPFI = getSP(this.props.context);
-
-
+  //   console.log("SPContext",_sp);
+  //   const parameters = [
+  //     [
+  //     '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
+  //     'bd807536-d8e7-456b-aab0-fae3eecedd8a', // programArea
+  //     ],
+  //     [
+  //       '31a56cc4-eed9-4229-a6b4-d2fdde94f9e5',  // securityClearance 
+  //       '74af42a2-246a-41aa-b4bb-8403134f0728',  // workArrangment 
+  //       '5a826701-8d58-4c1f-9558-22ea6a98f55f', // wrkSchedule 
+  //       'c6d27982-3d09-43d7-828d-daf6e06be362', //province
+  //       'b1048b91-a228-4425-b728-da90be459f27', //language req
+        
+  //     ]
+  //   ];
+   
+   
   //   if (currentPage === 0 ) {
   //     const departments = await _sp.web.lists.getByTitle('Department').items();
   //     if ( departments) {
@@ -536,143 +412,292 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   //     } else {
   //       console.log('List Department not found')
   //     }
-  //   }
 
-  //   else if (currentPage === 1 ) {
-  //     const jobType = await _sp.web.lists.getByTitle('JobType').items();
-  //     const programArea = await _sp.web.lists.getByTitle('ProgramArea').items();
-  //     const classificationCode = await _sp.web.lists.getByTitle('ClassificationCode').items();
+  //   } else if (currentPage === 1) {
   //     const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
+  //     console.log("level", classificationLevel)
+  //     const classificationCode = await  _sp.web.lists.getByTitle('ClassificationCode').items();
+  //     console.log(classificationCode)
   //     const duration = await _sp.web.lists.getByTitle('Duration').items();
+  //     console.log(duration)
+  //     const classLevelResults = classificationLevel.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
+  //     const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
+  //     const durationData = duration.map((data: any) => ({key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
 
-  //     if (jobType) {
-  //       const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn}));
-  //       this.setState({
-  //         jobType: dataResult
-  //       }) 
-  //     }
-  //     else {
-  //       console.log("List JobType does not exist")
-  //      }
+  //     GraphService._sets(parameters[0]).then(async (data: any) => {
+  //       const processLabels = (dataIndex: number):any[] => {
+  //           return data[dataIndex].flatMap((items: any) =>
+  //           items.labels.map((item: any) => ({
+  //             key: items.id,
+  //             text: item.name,
+  //             language: item.languageTag,
+  //             pageNumber: 1
+  //           }))
+  //         );
+  //       }
       
-  //     if (programArea) {
-  //       const dataResult = programArea.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-  //       this.setState({
-  //         programArea: dataResult
-  //       }) 
-  //     } else {
-  //       console.log("List Program Area does not exist")
-  //      }
-      
-  //     if (classificationCode) {
-  //       const dataResult = classificationCode.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-  //       console.log("ClassCode data", dataResult)
-  //       this.setState({
-  //         classificationCode: dataResult
-  //       }) 
+  //       const filterByLanguage = (labels: any[]):any[] => {
+  //         const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
+  //         return labels.filter((item: any) => item.language === preferredLang);
+  //       };
 
-  //     } else {
-  //       console.log("List Classification Code does not exist")
-  //      }
-      
-  //     if (classificationLevel) {
-  //       console.log('cLevel', classificationLevel);
-  //       const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-  //       this.setState({
-  //         classificationLevel: dataResult
-  //       }) 
+  //       const getJobTypeLabels = processLabels(0);
+  //       const getProgramAreaLabels = processLabels(1);
+  //       const getDurationLabels = processLabels(2);
+    
 
-  //     } else {
-  //       console.log("List Calssification Level does not exist")
-  //      }
-      
-  //     if (duration) {
-  //       const dataResult = duration.map((data:any) => ({ key: data.Id, text: data.NameEn }));
   //       this.setState({
-  //         duration: dataResult
-  //       }) 
-  //     }
-  //      else {
-  //       console.log("List Duration does not exist")
-  //      }
+  //         jobType: filterByLanguage(getJobTypeLabels),
+  //         programArea: filterByLanguage(getProgramAreaLabels),
+  //         duration: filterByLanguage(getDurationLabels),
+  //       });
+ 
+  //     });
 
-  //   }
-  //   else if (currentPage === 2) {
-  //     console.log("page 2")
-  //     const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
-  //     const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
-  //     const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
-  //     const wrkSchedule = await _sp.web.lists.getByTitle('WorkSchedule').items();
-  //     const city =  await _sp.web.lists.getByTitle('City').items();
-  //     const province =  await _sp.web.lists.getByTitle('Province').items();
-  //     const region =  await _sp.web.lists.getByTitle('Region').items();
+  //     this.setState({
+  //       classificationCode: classificationCodeResults,
+  //       classificationLevel: classLevelResults,
+  //       duration: durationData
+  //     })
 
-  //     if (languageReq) {
-  //       const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 2}));
-  //       this.setState({
-  //         language: dataResult
-  //       }) 
 
-  //     } else {
-  //       console.log("Language list does not exist")
-  //      }
-      
-      
-  //     if (securityClearance) {
-  //       const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn, pageNumber: 2}))
-  //         this.setState({
-  //           security: dataResult
-  //         })
+  //   } else if(currentPage === 2) {
+  //     GraphService._sets(parameters[1]).then((data: any) => {
+  //       console.log("VALUES3",data)
 
-  //     } else {
-  //       console.log("Security Clearance list does not exist")
-  //      }
-      
-  //     if (workArrangment) {
-  //       const dataResult = workArrangment.map((data:any) => ({key: data.Id, text: data.NameEn}))
-  //       this.setState({
-  //         wrkArrangement: dataResult
-  //       })
-  //     } else {
-  //      console.log(" Work Arrangment list does not exist")
-  //     }
+        
+  //       const processLabels = (dataIndex: number):any[] => {
+  //         return data[dataIndex].flatMap((items: any) =>
+  //           items.labels.map((item: any) => ({
+  //             key: items.id,
+  //             text: item.name,
+  //             language: item.languageTag,
+  //             pageNumber: 1
+  //           }))
+  //         );
+  //       };
 
-  //     if (wrkSchedule) {
-  //       const dataResult = wrkSchedule.map((data:any) => ({key: data.Id, text: data.NameEn}))
+  //       const filterByLanguage = (labels: any[]):any[] => {
+  //         const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
+  //         return labels.filter((item: any) => item.language === preferredLang);
+  //       };
+
+  //       const getsecurityClearenceLabels = processLabels(0);
+  //       const getworkArrangmentLabels = processLabels(1);
+  //       const getwrkSchedule  = processLabels(2);
+  //       const getprovinceLabels = processLabels(3);
+  //       const getlanguageReqLabels = processLabels(4);
+
+
+
+
+  
   //       this.setState({
-  //         wrkSchedule: dataResult
-  //       })
-  //     } else {
-  //      console.log("Work Schedule list does not exist")
-  //     }
-  //     if (city) {
-  //       const dataResult = city.map((data:any) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
-  //       this.setState({
-  //         city: dataResult
-  //       })
-  //     } else {
-  //      console.log("City list does not exist")
-  //     }
-  //     if (province) {
-  //       const dataResult = province.map((data:any) => ({key: data.Id, text: data.NameEn}))
-  //       this.setState({
-  //         province: dataResult
-  //       })
-  //     } else {
-  //      console.log("Province list does not exist")
-  //     }
-  //     if (region) {
-  //       console.log("Region List",region)
-  //       const dataResult = region.map((data:any) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
-  //       this.setState({
-  //         region: dataResult
-  //       })
-  //     } else {
-  //      console.log("Region list does not exist")
-  //     }
-           
+  //         security: filterByLanguage(getsecurityClearenceLabels),
+  //         wrkArrangement: filterByLanguage(getworkArrangmentLabels ),
+  //         wrkSchedule: filterByLanguage( getwrkSchedule),
+  //         province: getprovinceLabels,
+  //         language: filterByLanguage(getlanguageReqLabels)
+  //       });
+
+  //     })
   //   }
   // }
+
+
+  public _getDropdownList = async (): Promise<void> => {
+
+    const {currentPage} = this.state;
+    const _sp: SPFI = getSP(this.props.context);
+    const parameters = [
+      [
+      '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
+      'bd807536-d8e7-456b-aab0-fae3eecedd8a', // programArea
+      ]
+      
+    ];
+
+    
+
+
+    if (currentPage === 0 ) {
+      const departments = await _sp.web.lists.getByTitle('Department').items();
+      if ( departments) {
+        const dataArray = departments.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr : data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
+          this.setState({
+            departmentList: dataArray
+          }) 
+      } else {
+        console.log('List Department not found')
+      }
+    }
+
+    else if (currentPage === 1 ) {
+      const jobType = await _sp.web.lists.getByTitle('JobType').items();
+      const programArea = await _sp.web.lists.getByTitle('ProgramArea').items();
+      const classificationCode = await _sp.web.lists.getByTitle('ClassificationCode').items();
+      const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
+      const duration = await _sp.web.lists.getByTitle('Duration').items();
+
+      if (jobType) {
+        const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn}));
+        this.setState({
+          jobType: dataResult
+        }) 
+      }
+      else {
+        console.log("List JobType does not exist")
+       }
+      
+      if (programArea) {
+        const dataResult = programArea.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          programArea: dataResult
+        }) 
+      } else {
+        console.log("List Program Area does not exist")
+       }
+      
+      if (classificationCode) {
+        const dataResult = classificationCode.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        console.log("ClassCode data", dataResult)
+        this.setState({
+          classificationCode: dataResult
+        }) 
+
+      } else {
+        console.log("List Classification Code does not exist")
+       }
+      
+      if (classificationLevel) {
+        console.log('cLevel', classificationLevel);
+        const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          classificationLevel: dataResult
+        }) 
+
+      } else {
+        console.log("List Calssification Level does not exist")
+       }
+      
+      if (duration) {
+        const dataResult = duration.map((data:any) => ({ key: data.Id, text: data.NameEn }));
+        this.setState({
+          duration: dataResult
+        }) 
+      }
+       else {
+        console.log("List Duration does not exist")
+       }
+
+       GraphService._sets(parameters[0]).then(async (data: any) => {
+        console.log('data',data)
+        const processLabels = (dataIndex: number):any[] => {
+            return data[dataIndex].map((items: any) =>
+            items.labels.map((item: any) => ({
+              key: items.id,
+              text: item.name,
+              language: item.languageTag,
+              pageNumber: 1
+            }))
+          );
+        }
+      
+
+        const getJobTypeLabels = processLabels(0);
+        const getProgramAreaLabels = processLabels(1);
+        const getDurationLabels = processLabels(2);
+
+        const filterByLanguage = (labels: any[]):any[] => {
+          const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
+          return labels.filter((item: any) => item.language === preferredLang);
+        };
+
+        this.setState({
+          jobType: filterByLanguage(getJobTypeLabels),
+          programArea: filterByLanguage(getProgramAreaLabels),
+          duration: filterByLanguage(getDurationLabels),
+        });
+ 
+      });
+
+    }
+    else if (currentPage === 2) {
+      console.log("page 2")
+      const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
+      const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
+      const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
+      const wrkSchedule = await _sp.web.lists.getByTitle('WorkSchedule').items();
+      const city =  await _sp.web.lists.getByTitle('City').items();
+      const province =  await _sp.web.lists.getByTitle('Province').items();
+      const region =  await _sp.web.lists.getByTitle('Region').items();
+
+      if (languageReq) {
+        const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 2}));
+        this.setState({
+          language: dataResult
+        }) 
+
+      } else {
+        console.log("Language list does not exist")
+       }
+      
+      
+      if (securityClearance) {
+        const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn, pageNumber: 2}))
+          this.setState({
+            security: dataResult
+          })
+
+      } else {
+        console.log("Security Clearance list does not exist")
+       }
+      
+      if (workArrangment) {
+        const dataResult = workArrangment.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          wrkArrangement: dataResult
+        })
+      } else {
+       console.log(" Work Arrangment list does not exist")
+      }
+
+      if (wrkSchedule) {
+        const dataResult = wrkSchedule.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          wrkSchedule: dataResult
+        })
+      } else {
+       console.log("Work Schedule list does not exist")
+      }
+      if (city) {
+        const dataResult = city.map((data:any) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
+        this.setState({
+          city: dataResult
+        })
+      } else {
+       console.log("City list does not exist")
+      }
+      if (province) {
+        const dataResult = province.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        this.setState({
+          province: dataResult
+        })
+      } else {
+       console.log("Province list does not exist")
+      }
+      if (region) {
+        console.log("Region List",region)
+        const dataResult = region.map((data:any) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
+        this.setState({
+          region: dataResult
+        })
+      } else {
+       console.log("Region list does not exist")
+      }
+           
+    }
+  }
 
   public _getUser = async ():Promise<void> => {
     const _sp: SPFI = getSP(this.props.context);
@@ -747,9 +772,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public async componentDidMount(): Promise<void> {
-    //await this._getDropdownList();
+    await this._getDropdownList();
     //await this._getSets();
-    await this._populateDropDowns();
+    //await this._populateDropDowns();
     //await this._getTermStoreLists();
     await this._getUser();
     await this.getDropdownElements();
@@ -762,8 +787,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           inlineFieldErrors: []
         });
 
-        //await this._getDropdownList();
-        await this._populateDropDowns();
+        await this._getDropdownList();
+        //await this._populateDropDowns();
         await this.getDropdownElements();       
     }
 
@@ -847,7 +872,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
-    console.log("DepartmentData", this.state.departmentList)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
@@ -1009,6 +1033,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       <>      
         <ThemeProvider applyTo='body' theme={myTheme}>
           <section>
+            <h1>HELLO</h1>
             <div>
               {
                 this.state.validationStatus === 400 ? (
