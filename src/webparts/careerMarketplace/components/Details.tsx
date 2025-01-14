@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { DatePicker, IDropdownOption, Label, Stack, StackItem  } from "@fluentui/react";
+import { DatePicker, IDropdownOption, ISpinButtonStyles, Label, Position, SpinButton, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
 import {  validate, validateEmpty } from "./Validations";
 
@@ -68,6 +68,8 @@ export default class Details extends React.Component<IDetailsProps> {
 
   public render(): React.ReactElement<IDetailsProps> {
 
+    const spinButtoStyles: Partial<ISpinButtonStyles> = { spinButtonWrapper: { width: 75 } };
+
     const isReadOnly = this.props.currentPage !== 1;
     const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities} = this.props.values;
 
@@ -95,6 +97,7 @@ export default class Details extends React.Component<IDetailsProps> {
           )}
         </div>
         <div>
+          <Stack>
           <ReusableTextField
             id={"jobTitleEn"}
             name={"jobTitleEn"}
@@ -223,17 +226,47 @@ export default class Details extends React.Component<IDetailsProps> {
             onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
             ariaLabelRequired={'required'}
           />
+          
+          </Stack>
+          <Stack  horizontal verticalAlign="center" >
+                <StackItem >
+                  <Label htmlFor={'duration'} >
+                    <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
+                      *
+                    </span>
+                      Duration
+                  </Label>
+                </StackItem>
+            </Stack>
 
-          <ReusableDropdownField
-            id={"duration"}
-            name={"duration"}
-            title={"Duration"}
-            options={[{key:"", text: "--Select--"}, ...this.props.duration]}
-            onChange={this.onChangeDropDownItem}
-            selectedKey={this.props.values.duration.key}
-            readOnly={isReadOnly}
-            ariaLabelRequired={'required'}
-          />
+          <Stack horizontal>
+            <StackItem>
+              <SpinButton
+                label="number"
+                min={0}
+                max={100}
+                step={1}
+                incrementButtonAriaLabel="Increase value by 1"
+                decrementButtonAriaLabel="Decrease value by 1"
+                styles={spinButtoStyles}
+                labelPosition={Position.top}
+              />
+            </StackItem>
+            <StackItem>
+              <ReusableDropdownField
+                id={"duration"}
+                name={"duration"}
+                title={"Duration"}
+                options={[{key:"", text: "--Select--"}, ...this.props.duration]}
+                onChange={this.onChangeDropDownItem}
+                selectedKey={this.props.values.duration.key}
+                readOnly={isReadOnly}
+                ariaLabelRequired={'required'}
+              />
+            </StackItem>
+           
+          </Stack>
+         
 
             {
             this.props.inlineFieldErrors?.includes('duration') && (

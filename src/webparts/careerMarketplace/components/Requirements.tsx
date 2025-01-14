@@ -73,6 +73,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     ];
 
 
+
     return (
       <>
         <div>
@@ -83,6 +84,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           )}
         </div>
         <div>
+          
           <ReusableTextField
             id={"essentialSkill"}
             name={"essentialSkill"}
@@ -183,6 +185,21 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 <div>{validate(this.props.values.security.key)}</div>
               )
             }
+          <Stack horizontal>
+            <ReusableDropdownField
+              id={"language"}
+              name={"language"}
+              title={"Language requirements"}
+               
+              onChange={this.onChangeDropDownItem}
+              readOnly={isReadOnly}
+              ariaLabelRequired={'required'}
+            />
+
+            
+        
+          </Stack>
+         
 
           <ReusableDropdownField
             id={"language"}
@@ -194,7 +211,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.language.key}
             ariaLabelRequired={'required'}
           />
-
            { this.props.inlineFieldErrors?.includes('language') && (
                 <div>{validate(this.props.values.language.key)}</div>
               )

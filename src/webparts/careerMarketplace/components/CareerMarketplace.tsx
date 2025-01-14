@@ -380,135 +380,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
-  // public async _populateDropDowns(): Promise<void> {
+  public async _populateDropDowns(): Promise<void> {
 
-
-  //   const {currentPage} = this.state;
-  //   const _sp: SPFI = getSP(this.props.context);
-  //   console.log("SPContext",_sp);
-  //   const parameters = [
-  //     [
-  //     '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
-  //     'bd807536-d8e7-456b-aab0-fae3eecedd8a', // programArea
-  //     ],
-  //     [
-  //       '31a56cc4-eed9-4229-a6b4-d2fdde94f9e5',  // securityClearance 
-  //       '74af42a2-246a-41aa-b4bb-8403134f0728',  // workArrangment 
-  //       '5a826701-8d58-4c1f-9558-22ea6a98f55f', // wrkSchedule 
-  //       'c6d27982-3d09-43d7-828d-daf6e06be362', //province
-  //       'b1048b91-a228-4425-b728-da90be459f27', //language req
-        
-  //     ]
-  //   ];
-   
-   
-  //   if (currentPage === 0 ) {
-  //     const departments = await _sp.web.lists.getByTitle('Department').items();
-  //     if ( departments) {
-  //       const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
-  //         this.setState({
-  //           departmentList: dataArray
-  //         }) 
-  //     } else {
-  //       console.log('List Department not found')
-  //     }
-
-  //   } else if (currentPage === 1) {
-  //     const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
-  //     console.log("level", classificationLevel)
-  //     const classificationCode = await  _sp.web.lists.getByTitle('ClassificationCode').items();
-  //     console.log(classificationCode)
-  //     const duration = await _sp.web.lists.getByTitle('Duration').items();
-  //     console.log(duration)
-  //     const classLevelResults = classificationLevel.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
-  //     const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
-  //     const durationData = duration.map((data: any) => ({key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
-
-  //     GraphService._sets(parameters[0]).then(async (data: any) => {
-  //       const processLabels = (dataIndex: number):any[] => {
-  //           return data[dataIndex].flatMap((items: any) =>
-  //           items.labels.map((item: any) => ({
-  //             key: items.id,
-  //             text: item.name,
-  //             language: item.languageTag,
-  //             pageNumber: 1
-  //           }))
-  //         );
-  //       }
-      
-  //       const filterByLanguage = (labels: any[]):any[] => {
-  //         const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
-  //         return labels.filter((item: any) => item.language === preferredLang);
-  //       };
-
-  //       const getJobTypeLabels = processLabels(0);
-  //       const getProgramAreaLabels = processLabels(1);
-  //       const getDurationLabels = processLabels(2);
-    
-
-  //       this.setState({
-  //         jobType: filterByLanguage(getJobTypeLabels),
-  //         programArea: filterByLanguage(getProgramAreaLabels),
-  //         duration: filterByLanguage(getDurationLabels),
-  //       });
- 
-  //     });
-
-  //     this.setState({
-  //       classificationCode: classificationCodeResults,
-  //       classificationLevel: classLevelResults,
-  //       duration: durationData
-  //     })
-
-
-  //   } else if(currentPage === 2) {
-  //     GraphService._sets(parameters[1]).then((data: any) => {
-  //       console.log("VALUES3",data)
-
-        
-  //       const processLabels = (dataIndex: number):any[] => {
-  //         return data[dataIndex].flatMap((items: any) =>
-  //           items.labels.map((item: any) => ({
-  //             key: items.id,
-  //             text: item.name,
-  //             language: item.languageTag,
-  //             pageNumber: 1
-  //           }))
-  //         );
-  //       };
-
-  //       const filterByLanguage = (labels: any[]):any[] => {
-  //         const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
-  //         return labels.filter((item: any) => item.language === preferredLang);
-  //       };
-
-  //       const getsecurityClearenceLabels = processLabels(0);
-  //       const getworkArrangmentLabels = processLabels(1);
-  //       const getwrkSchedule  = processLabels(2);
-  //       const getprovinceLabels = processLabels(3);
-  //       const getlanguageReqLabels = processLabels(4);
-
-
-
-
-  
-  //       this.setState({
-  //         security: filterByLanguage(getsecurityClearenceLabels),
-  //         wrkArrangement: filterByLanguage(getworkArrangmentLabels ),
-  //         wrkSchedule: filterByLanguage( getwrkSchedule),
-  //         province: getprovinceLabels,
-  //         language: filterByLanguage(getlanguageReqLabels)
-  //       });
-
-  //     })
-  //   }
-  // }
-
-
-  public _getDropdownList = async (): Promise<void> => {
 
     const {currentPage} = this.state;
     const _sp: SPFI = getSP(this.props.context);
+    console.log("SPContext",_sp);
     const parameters = [
       [
       '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
@@ -516,84 +393,35 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       ]
       
     ];
-
-    
-
-
+    console.log(parameters)
+   
+   
     if (currentPage === 0 ) {
       const departments = await _sp.web.lists.getByTitle('Department').items();
       if ( departments) {
-        const dataArray = departments.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr : data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
+        const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
           this.setState({
             departmentList: dataArray
           }) 
       } else {
         console.log('List Department not found')
       }
-    }
 
-    else if (currentPage === 1 ) {
-      const jobType = await _sp.web.lists.getByTitle('JobType').items();
-      const programArea = await _sp.web.lists.getByTitle('ProgramArea').items();
-      const classificationCode = await _sp.web.lists.getByTitle('ClassificationCode').items();
+    } else if (currentPage === 1) {
       const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
+
+      const classificationCode = await  _sp.web.lists.getByTitle('ClassificationCode').items();
+
       const duration = await _sp.web.lists.getByTitle('Duration').items();
 
-      if (jobType) {
-        const dataResult = jobType.map((data:any) => ({ key: data.Id, text: data.NameEn}));
-        this.setState({
-          jobType: dataResult
-        }) 
-      }
-      else {
-        console.log("List JobType does not exist")
-       }
-      
-      if (programArea) {
-        const dataResult = programArea.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          programArea: dataResult
-        }) 
-      } else {
-        console.log("List Program Area does not exist")
-       }
-      
-      if (classificationCode) {
-        const dataResult = classificationCode.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        console.log("ClassCode data", dataResult)
-        this.setState({
-          classificationCode: dataResult
-        }) 
+      const classLevelResults = classificationLevel.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
+      const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
+      const durationData = duration.map((data: any) => ({key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
 
-      } else {
-        console.log("List Classification Code does not exist")
-       }
-      
-      if (classificationLevel) {
-        console.log('cLevel', classificationLevel);
-        const dataResult = classificationLevel.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          classificationLevel: dataResult
-        }) 
+      GraphService._sets(parameters[0]).then(async (data: any) => {
 
-      } else {
-        console.log("List Calssification Level does not exist")
-       }
-      
-      if (duration) {
-        const dataResult = duration.map((data:any) => ({ key: data.Id, text: data.NameEn }));
-        this.setState({
-          duration: dataResult
-        }) 
-      }
-       else {
-        console.log("List Duration does not exist")
-       }
-
-       GraphService._sets(parameters[0]).then(async (data: any) => {
-        console.log('data',data)
         const processLabels = (dataIndex: number):any[] => {
-            return data[dataIndex].map((items: any) =>
+            return data[dataIndex].flatMap((items: any) =>
             items.labels.map((item: any) => ({
               key: items.id,
               text: item.name,
@@ -603,27 +431,32 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           );
         }
       
-
-        const getJobTypeLabels = processLabels(0);
-        const getProgramAreaLabels = processLabels(1);
-        const getDurationLabels = processLabels(2);
-
         const filterByLanguage = (labels: any[]):any[] => {
           const preferredLang = this.props.prefLang === 'fr-fr' ? 'fr-FR' : 'en-US';
           return labels.filter((item: any) => item.language === preferredLang);
         };
 
+        const getJobTypeLabels = processLabels(0);
+        const getProgramAreaLabels = processLabels(1);
+    
+
         this.setState({
           jobType: filterByLanguage(getJobTypeLabels),
           programArea: filterByLanguage(getProgramAreaLabels),
-          duration: filterByLanguage(getDurationLabels),
         });
  
       });
 
-    }
-    else if (currentPage === 2) {
+      this.setState({
+        classificationCode: classificationCodeResults,
+        classificationLevel: classLevelResults,
+        duration: durationData
+      })
+
+
+    } else if(currentPage === 2) {
       console.log("page 2")
+      const skills = await _sp.web.lists.getByTitle('Skills').items();
       const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
       const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
       const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
@@ -632,70 +465,79 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const province =  await _sp.web.lists.getByTitle('Province').items();
       const region =  await _sp.web.lists.getByTitle('Region').items();
 
-      if (languageReq) {
-        const dataResult = languageReq.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 2}));
-        this.setState({
-          language: dataResult
-        }) 
-
+      if (skills) {
+        const dataResult = skills.map((data:any) => ({ key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 2}));
+          this.setState({
+            language: dataResult
+          }) 
+      
       } else {
-        console.log("Language list does not exist")
-       }
+         console.log("Language list does not exist")
+      }
+
+      if (languageReq) {
+        const dataResult = languageReq.map((data:any) => ({ key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 2}));
+          this.setState({
+            language: dataResult
+          }) 
       
-      
+      } else {
+         console.log("Language list does not exist")
+      }
+            
+            
       if (securityClearance) {
-        const dataResult = securityClearance.map((data:any) => ({key: data.Id, text: data.NameEn, pageNumber: 2}))
+        const dataResult = securityClearance.map((data:any) => ({key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 2}))
           this.setState({
             security: dataResult
           })
 
       } else {
         console.log("Security Clearance list does not exist")
-       }
-      
+      }
+            
       if (workArrangment) {
-        const dataResult = workArrangment.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        const dataResult = workArrangment.map((data:any) => ({key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
         this.setState({
           wrkArrangement: dataResult
         })
       } else {
-       console.log(" Work Arrangment list does not exist")
+        console.log(" Work Arrangment list does not exist")
       }
-
+      
       if (wrkSchedule) {
-        const dataResult = wrkSchedule.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        const dataResult = wrkSchedule.map((data:any) => ({key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
         this.setState({
           wrkSchedule: dataResult
         })
       } else {
-       console.log("Work Schedule list does not exist")
+        console.log("Work Schedule list does not exist")
       }
       if (city) {
-        const dataResult = city.map((data:any) => ({key: data.Id, text: data.NameEn, regionID: data.RegionId}))
+        const dataResult = city.map((data:any) => ({key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, regionID: data.RegionId}))
         this.setState({
           city: dataResult
         })
       } else {
-       console.log("City list does not exist")
+        console.log("City list does not exist")
       }
       if (province) {
-        const dataResult = province.map((data:any) => ({key: data.Id, text: data.NameEn}))
+        const dataResult = province.map((data:any) => ({key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
         this.setState({
           province: dataResult
         })
       } else {
-       console.log("Province list does not exist")
+        console.log("Province list does not exist")
       }
       if (region) {
         console.log("Region List",region)
-        const dataResult = region.map((data:any) => ({key: data.Id, text: data.NameEn, provinceId: data.ProvinceId}))
+        const dataResult = region.map((data:any) => ({key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr : data.NameEn, provinceId: data.ProvinceId}))
         this.setState({
           region: dataResult
         })
       } else {
-       console.log("Region list does not exist")
+        console.log("Region list does not exist")
       }
-           
     }
   }
 
@@ -772,10 +614,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public async componentDidMount(): Promise<void> {
-    await this._getDropdownList();
-    //await this._getSets();
-    //await this._populateDropDowns();
-    //await this._getTermStoreLists();
+    
+    await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
   }
@@ -787,8 +627,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           inlineFieldErrors: []
         });
 
-        await this._getDropdownList();
-        //await this._populateDropDowns();
+        await this._populateDropDowns();
         await this.getDropdownElements();       
     }
 
@@ -1033,7 +872,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       <>      
         <ThemeProvider applyTo='body' theme={myTheme}>
           <section>
-            <h1>HELLO</h1>
             <div>
               {
                 this.state.validationStatus === 400 ? (
