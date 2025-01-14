@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { DatePicker, IDropdownOption, ISpinButtonStyles, Label, Position, SpinButton, Stack, StackItem  } from "@fluentui/react";
+import { DatePicker, IDropdownOption, ISpinButtonStyles, IStackTokens, Label, Position, SpinButton, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
 import {  validate, validateEmpty } from "./Validations";
 
@@ -69,6 +69,10 @@ export default class Details extends React.Component<IDetailsProps> {
   public render(): React.ReactElement<IDetailsProps> {
 
     const spinButtoStyles: Partial<ISpinButtonStyles> = { spinButtonWrapper: { width: 75 } };
+    const customSpacingStackTokens: IStackTokens = {
+      childrenGap: '10%',
+      // padding: 's1 15%',
+    };
 
     const isReadOnly = this.props.currentPage !== 1;
     const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities} = this.props.values;
@@ -239,10 +243,10 @@ export default class Details extends React.Component<IDetailsProps> {
                 </StackItem>
             </Stack>
 
-          <Stack horizontal>
+          <Stack horizontal tokens={customSpacingStackTokens}>
             <StackItem>
               <SpinButton
-                label="number"
+                label="Length"
                 min={0}
                 max={100}
                 step={1}
@@ -256,7 +260,7 @@ export default class Details extends React.Component<IDetailsProps> {
               <ReusableDropdownField
                 id={"duration"}
                 name={"duration"}
-                title={"Duration"}
+                title={"time period"}
                 options={[{key:"", text: "--Select--"}, ...this.props.duration]}
                 onChange={this.onChangeDropDownItem}
                 selectedKey={this.props.values.duration.key}

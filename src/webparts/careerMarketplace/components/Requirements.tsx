@@ -186,17 +186,53 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               )
             }
           <Stack horizontal>
-            <ReusableDropdownField
-              id={"language"}
-              name={"language"}
-              title={"Language requirements"}
-               
-              onChange={this.onChangeDropDownItem}
-              readOnly={isReadOnly}
-              ariaLabelRequired={'required'}
-            />
+            <StackItem>
+              <ReusableDropdownField
+                id={"language"}
+                name={"language"}
+                title={"Language requirements"}
+                options={this.props.language}
+                onChange={this.onChangeDropDownItem}
+                readOnly={isReadOnly}
+                selectedKey={this.props.values.language.key}
+                ariaLabelRequired={'required'}
+              />
+            </StackItem>
+            <StackItem>
+              <Stack horizontal>
+                <ReusableDropdownField
+                id={"reading"}
+                name={"reading"}
+                title={"reading"}
+                onChange={this.onChangeDropDownItem}
+                readOnly={isReadOnly}
+                ariaLabelRequired={'required'}
+              />
+              <ReusableDropdownField
+                id={"written"}
+                name={"written"}
+                title={"written"}
+     
+                onChange={this.onChangeDropDownItem}
+                readOnly={isReadOnly}
+             
+                ariaLabelRequired={'required'}
+              />
+              <ReusableDropdownField
+                id={"oral"}
+                name={"oral"}
+                title={"oral"}
+                onChange={this.onChangeDropDownItem}
+                readOnly={isReadOnly}
+ 
+                ariaLabelRequired={'required'}
+              />
+              </Stack>
+             
 
-            
+            </StackItem>
+
+
         
           </Stack>
          
