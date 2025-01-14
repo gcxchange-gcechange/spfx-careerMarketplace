@@ -12,7 +12,7 @@
 		"@haibun/out-review": "^1.41.1-alpha",
 		"@haibun/out-xunit": "^1.41.1-alpha",
 		"@haibun/storage-fs": "^1.41.1-alpha",
-		"@haibun/web-accessibility-axe": "^1.41.1-alpha",
+		"@haibun/web-accessibility-axe": "^1.40.9",
 		"@haibun/web-playwright": "^1.41.1-alpha"
 	}
 }
