@@ -71,7 +71,6 @@ export default class Details extends React.Component<IDetailsProps> {
     const spinButtoStyles: Partial<ISpinButtonStyles> = { spinButtonWrapper: { width: 75 } };
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
-      // padding: 's1 15%',
     };
 
     const isReadOnly = this.props.currentPage !== 1;

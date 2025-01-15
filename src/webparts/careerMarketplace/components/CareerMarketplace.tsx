@@ -85,6 +85,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private alertRef: RefObject<HTMLDivElement>;
   public strings = SelectLanguage(this.props.prefLang);
 
+
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
 
     const today = new Date();
@@ -143,6 +144,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
     };
     this.alertRef = React.createRef();
+
   }
 
  
@@ -677,38 +679,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   };
   
 
-  // public changeFieldNameFormat = () : JSX.Element => {
-  //   const properCaseValues: any[] = [];
-
-
-  //   const convertString = this.state.hasError.map((item: any) => ({
-  //     key: item.key,
-  //     properCase: item.key.replace(/([A-Z])/g, ' $1').replace(/^ /, '').toLowerCase()
-  //   }))
-
-   
-  //   properCaseValues.push(...convertString);
-  //   console.log(properCaseValues)
-  
-  //   return (
-      
-  //    <>
-  //    <div id="alertText">
-  //    {properCaseValues.map((item, index) => (
-  //     <ul key={index}>
-  //       <li>
-  //       <a href={`#${item.key}`}>The {item.properCase} {`${item.properCase !== "approved staffing" ? "field is required" : "field should be set to Yes" }`} </a> 
-  //       </li>
-  //     </ul>
-  //    ))}
-  //    </div>
-  //    </>
-
-  //   )
-  // }
-
- 
-
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
@@ -747,46 +717,46 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const {currentPage} = this.state;
 
     const steps = [
-      {
-        step: 1,
-        title: 'Information',
-        content: (
-          <PosterInfo 
+      // {
+      //   step: 1,
+      //   title: 'Information',
+      //   content: (
+      //     <PosterInfo 
             
-            items={this.state.departmentList} 
-            userInfo={this.props.userDisplayName} 
-            workEmail = {this.props.workEmail}
-            currentPage= {this.state.currentPage}
-            handleDropDownItem={this.handleDropDownItem}
-            readOnly= {false}
-            values={this.state.values}
-            fields={this.state.dropdownFields}
-            inlineFieldErrors={this.state.inlineFieldErrors}
-          />
-        ),
-      },
-      {
-        step:2,
-        title: 'Details', 
-        content: (
-          <Details 
-            programArea={this.state.programArea} 
-            classificationCode={this.state.classificationCode} 
-            classificationLevel={this.state.classificationLevel} 
-            jobType={this.state.jobType} 
-            duration={this.state.duration}
-            currentPage= {this.state.currentPage}
-            handleDropDownItem={this.handleDropDownItem}
-            handleOnChange={this.handleOnChangeTextField} 
-            handleOnDateChange={this.handleOnDateChange}
-            values={this.state.values}
-            hasError={this.state.hasError}
-            jobTypeValues={this.state.jobTypeValue}
-            inlineFieldErrors ={this.state.inlineFieldErrors}
-            fields={this.state.dropdownFields}
-          />
-        ),
-      },
+      //       items={this.state.departmentList} 
+      //       userInfo={this.props.userDisplayName} 
+      //       workEmail = {this.props.workEmail}
+      //       currentPage= {this.state.currentPage}
+      //       handleDropDownItem={this.handleDropDownItem}
+      //       readOnly= {false}
+      //       values={this.state.values}
+      //       fields={this.state.dropdownFields}
+      //       inlineFieldErrors={this.state.inlineFieldErrors}
+      //     />
+      //   ),
+      // },
+      // {
+      //   step:2,
+      //   title: 'Details', 
+      //   content: (
+      //     <Details 
+      //       programArea={this.state.programArea} 
+      //       classificationCode={this.state.classificationCode} 
+      //       classificationLevel={this.state.classificationLevel} 
+      //       jobType={this.state.jobType} 
+      //       duration={this.state.duration}
+      //       currentPage= {this.state.currentPage}
+      //       handleDropDownItem={this.handleDropDownItem}
+      //       handleOnChange={this.handleOnChangeTextField} 
+      //       handleOnDateChange={this.handleOnDateChange}
+      //       values={this.state.values}
+      //       hasError={this.state.hasError}
+      //       jobTypeValues={this.state.jobTypeValue}
+      //       inlineFieldErrors ={this.state.inlineFieldErrors}
+      //       fields={this.state.dropdownFields}
+      //     />
+      //   ),
+      // },
       {
         step: 3,
         title: 'Requirements',

@@ -1,16 +1,9 @@
 declare interface ICareerMarketplaceWebPartStrings {
-  PropertyPaneDescription: string;
-  BasicGroupName: string;
-  DescriptionFieldLabel: string;
-  AppLocalEnvironmentSharePoint: string;
-  AppLocalEnvironmentTeams: string;
-  AppLocalEnvironmentOffice: string;
-  AppLocalEnvironmentOutlook: string;
-  AppSharePointEnvironment: string;
-  AppTeamsTabEnvironment: string;
-  AppOfficeEnvironment: string;
-  AppOutlookEnvironment: string;
-  UnknownEnvironment: string;
+  "PropertyPaneDescription": string;
+  "BasicGroupName": string;
+  "written": string;
+  "reading": string;
+  "oral": string;
 }
 
 declare module 'CareerMarketplaceWebPartStrings' {

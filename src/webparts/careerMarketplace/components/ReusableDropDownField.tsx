@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
-import { Dropdown, IDropdownOption, IDropdownStyles, Label, Stack, StackItem} from '@fluentui/react';
+import { Dropdown, IDropdownOption, IDropdownStyles,  Label, Stack, StackItem} from '@fluentui/react';
 import styles from './CareerMarketplace.module.scss';
 
 
@@ -23,13 +23,16 @@ export interface IReusableDropdownFieldProps {
 
 export default class ReusableDropdownField extends React.Component<IReusableDropdownFieldProps> {
 
-
+ 
 
   public customLabel = (): JSX.Element => {
+
+    const excludedIds = ['readingEN', 'writtenEN', 'oralEN','readingFr', 'writtenFr', 'oralFr'];
+
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem >
-        <Label htmlFor={this.props.id} >
+        <Label htmlFor={this.props.id} className={!excludedIds.includes(this.props.id) ? styles.width200 : ''} >
           <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
             *
           </span>
@@ -43,6 +46,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
   public render(): React.ReactElement<IReusableDropdownFieldProps> {
 
+
     const dropdownStyle: Partial<IDropdownStyles> = {
       callout: {
         maxHeight:'500px'
@@ -54,6 +58,15 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         marginTop: '2px'
       }
     }
+    const langDropdownStyle : Partial<IDropdownStyles>= {
+      dropdown: {
+        width: 50
+      }
+    }
+
+
+    const excludedIds = ['readingEN', 'writtenEN', 'oralEN','readingFr', 'writtenFr', 'oralFr'];
+
    
 
     return (
@@ -62,9 +75,9 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         <Dropdown
           options={this.props.options as IDropdownOption[]} 
           onRenderLabel={this.customLabel} 
-          className={styles.labelStyle} 
+          className={ !excludedIds.includes(this.props.id) ? styles.labelStyle : styles.languageLabels} 
           multiSelect={this.props.multiselect} 
-          styles={dropdownStyle} 
+          styles={!excludedIds.includes(this.props.id) ? dropdownStyle : langDropdownStyle} 
           {...this.props}
         />        
       </div>
