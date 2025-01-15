@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { ChoiceGroup, IChoiceGroupOption, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
+import { ChoiceGroup, Dropdown, IChoiceGroupOption, IDropdownOption, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
 import { validate, validateEmpty } from "./Validations";
 
 export interface IRequirementsProps {
@@ -76,13 +76,13 @@ export default class Requirements extends React.Component<IRequirementsProps> {
       { key: 'false', text: 'No' },
     ];
 
-    const languageEvaluationOptions : IChoiceGroupOption[] = [
+    const languageEvaluationOptions : IDropdownOption[] = [
       {key: 'A' , text:'A'},
       {key: 'B', text: 'B'},
       {key: 'C', text: 'C'},
     ]
 
-    const disabled = this.props.values.language.key === '3' ;
+    //const disabled = this.props.values.language.key === '3' ;
 
     return (
       <>
@@ -209,7 +209,57 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               />
             </StackItem>
             <StackItem>
-              <Stack horizontal  tokens={customSpacingStackTokens}>
+
+              <Stack horizontal tokens={customSpacingStackTokens}>
+                  <StackItem>
+                    <Stack>
+                    <Label>English</Label>
+
+                    </Stack>
+                    <Stack horizontal>
+                      <Label style={{width:'200px'}}>Reading comprehension</Label>
+                      <Dropdown
+                        id={"readingEN"}
+                        title={"R"}
+                        options={languageEvaluationOptions}
+                      />
+                    </Stack>
+                    <Stack horizontal>
+                      <Label style={{width:'200px'}}>Written expression</Label>
+                      <Dropdown
+                        id={"writtenEN"}
+                        options={languageEvaluationOptions}
+                      />
+                    </Stack>
+                    <Stack horizontal>
+                      <Label style={{width:'200px'}}>Oral expression</Label>
+                      <Dropdown
+                        id={"oralEN"}
+                        options={languageEvaluationOptions}
+                      />
+                    </Stack>
+                  </StackItem>
+                  <StackItem>
+                    <Label>French</Label>
+                    <Dropdown
+                        id={"readingFR"}
+                        options={languageEvaluationOptions}
+                    />
+                    <Dropdown
+                        id={"writtenFR"}
+                        options={languageEvaluationOptions}
+                    />
+                    <Dropdown
+                        id={"oralFR"}
+                        options={languageEvaluationOptions}
+                    />
+                    
+                  </StackItem>
+
+
+
+              </Stack>
+              {/* <Stack horizontal  tokens={customSpacingStackTokens}>
                 <StackItem style={{width: '300px'}}>
                   <Label style={{width: '200px'}}>English</Label>
                   <span >  
@@ -288,10 +338,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                       ariaLabelRequired={'required'}
                       disabled={disabled}
                     />
-                  </span>
-                </StackItem>
+                  </span> */}
+                {/* </StackItem>
               </Stack>
-             
+              */}
 
             </StackItem>
 
