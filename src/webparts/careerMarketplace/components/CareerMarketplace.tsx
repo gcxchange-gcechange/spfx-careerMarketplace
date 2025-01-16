@@ -717,46 +717,46 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const {currentPage} = this.state;
 
     const steps = [
-      // {
-      //   step: 1,
-      //   title: 'Information',
-      //   content: (
-      //     <PosterInfo 
+      {
+        step: 1,
+        title: 'Information',
+        content: (
+          <PosterInfo 
             
-      //       items={this.state.departmentList} 
-      //       userInfo={this.props.userDisplayName} 
-      //       workEmail = {this.props.workEmail}
-      //       currentPage= {this.state.currentPage}
-      //       handleDropDownItem={this.handleDropDownItem}
-      //       readOnly= {false}
-      //       values={this.state.values}
-      //       fields={this.state.dropdownFields}
-      //       inlineFieldErrors={this.state.inlineFieldErrors}
-      //     />
-      //   ),
-      // },
-      // {
-      //   step:2,
-      //   title: 'Details', 
-      //   content: (
-      //     <Details 
-      //       programArea={this.state.programArea} 
-      //       classificationCode={this.state.classificationCode} 
-      //       classificationLevel={this.state.classificationLevel} 
-      //       jobType={this.state.jobType} 
-      //       duration={this.state.duration}
-      //       currentPage= {this.state.currentPage}
-      //       handleDropDownItem={this.handleDropDownItem}
-      //       handleOnChange={this.handleOnChangeTextField} 
-      //       handleOnDateChange={this.handleOnDateChange}
-      //       values={this.state.values}
-      //       hasError={this.state.hasError}
-      //       jobTypeValues={this.state.jobTypeValue}
-      //       inlineFieldErrors ={this.state.inlineFieldErrors}
-      //       fields={this.state.dropdownFields}
-      //     />
-      //   ),
-      // },
+            items={this.state.departmentList} 
+            userInfo={this.props.userDisplayName} 
+            workEmail = {this.props.workEmail}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            readOnly= {false}
+            values={this.state.values}
+            fields={this.state.dropdownFields}
+            inlineFieldErrors={this.state.inlineFieldErrors}
+          />
+        ),
+      },
+      {
+        step:2,
+        title: 'Details', 
+        content: (
+          <Details 
+            programArea={this.state.programArea} 
+            classificationCode={this.state.classificationCode} 
+            classificationLevel={this.state.classificationLevel} 
+            jobType={this.state.jobType} 
+            duration={this.state.duration}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
+            handleOnDateChange={this.handleOnDateChange}
+            values={this.state.values}
+            hasError={this.state.hasError}
+            jobTypeValues={this.state.jobTypeValue}
+            inlineFieldErrors ={this.state.inlineFieldErrors}
+            fields={this.state.dropdownFields}
+          />
+        ),
+      },
       {
         step: 3,
         title: 'Requirements',
@@ -774,6 +774,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleOnChange={this.handleOnChangeTextField} 
             values={this.state.values}
             inlineFieldErrors={this.state.inlineFieldErrors}
+            prefLang={this.props.prefLang}
           />
         ),
       },
@@ -813,6 +814,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             </StackItem>
             <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
               <Requirements
+                prefLang={this.props.prefLang}
                 language = {this.state.language}
                 security = {this.state.security}
                 workArrangment = {this.state.wrkArrangement}

@@ -2,9 +2,12 @@
 define([], function() {
     return {
       "PropertyPaneDescription": "Description",
-      "written": "expression écrite",
-      "reading": "compréhension de l’écrit",
-      "oral": "compétence orale",
+      "writtenEN": "expression écrite anglais",
+      "readingEN": "compréhension de l’écrit anglais",
+      "oralEN": "compétence orale anglais",
+      "writtenFR": "expression écrite francais",
+      "readingFR": "compréhension de l’écrit francais",
+      "oralFR": "compétence orale francais",
       
     }
   });

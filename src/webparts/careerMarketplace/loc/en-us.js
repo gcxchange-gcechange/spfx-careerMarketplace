@@ -2,8 +2,11 @@ define([], function() {
   return {
     "PropertyPaneDescription": "Description",
     "BasicGroupName": "Group Name",
-    "written": "writtten expresion",
-    "reading": "reading comprehension",
-    "oral": "oral expression",
+    "writtenEN": "English writtten expresion",
+    "readingEN": "English reading comprehension",
+    "oralEN": "English oral expression",
+    "writtenFr": "French writtten expresion",
+    "readingFr": "French reading comprehension",
+    "oralFr": "French oral expression",
   }
 });

@@ -1,9 +1,12 @@
 declare interface ICareerMarketplaceWebPartStrings {
   "PropertyPaneDescription": string;
   "BasicGroupName": string;
-  "written": string;
-  "reading": string;
-  "oral": string;
+  "writtenEN": string;
+  "readingEN": string;
+  "oralEN": string;
+  "writtenFR": string;
+  "readingFR": string;
+  "oralFR": string;
 }
 
 declare module 'CareerMarketplaceWebPartStrings' {

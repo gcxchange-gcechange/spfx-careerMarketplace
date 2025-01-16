@@ -2,10 +2,13 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { ChoiceGroup, Dropdown, IChoiceGroupOption, IDropdownOption, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
+import { ChoiceGroup, Dropdown, IChoiceGroupOption,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
 import { validate, validateEmpty } from "./Validations";
+import { SelectLanguage } from "./SelectLanguage";
+import * as strings from "CareerMarketplaceWebPartStrings";
 
 export interface IRequirementsProps {
+  prefLang: string;
   language: any[];
   city: any[];
   province: any[];
@@ -33,6 +36,8 @@ export interface IRequirementsProps {
 }
 
 export default class Requirements extends React.Component<IRequirementsProps> {
+
+  public strings = SelectLanguage(this.props.prefLang);
 
   public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
     const eventName = event.target.name;
@@ -82,7 +87,17 @@ export default class Requirements extends React.Component<IRequirementsProps> {
       {key: 'C', text: 'C'},
     ]
 
-    //const disabled = this.props.values.language.key === '3' ;
+    const langDropdownStyle : Partial<IDropdownStyles>= {
+      dropdown: {
+        width: 80,
+        paddingBottom: '5px'
+      }
+    }
+ 
+
+    const disabledField = this.props.values.language.key !== 3 ;
+    console.log("D", disabledField)
+    console.log(this.props.values.language.key)
 
     return (
       <>
@@ -209,49 +224,65 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               />
             </StackItem>
             <StackItem>
-
               <Stack horizontal tokens={customSpacingStackTokens}>
+                    
                   <StackItem>
-                    <Stack>
-                    <Label>English</Label>
-
-                    </Stack>
-                    <Stack horizontal>
-                      <Label style={{width:'200px'}}>Reading comprehension</Label>
+                    <Stack horizontal verticalAlign="end">
+                      <Label htmlFor={'readingEn'} style={{width:'200px'}} >Reading comprehension</Label>
                       <Dropdown
                         id={"readingEN"}
-                        title={"R"}
+                        title={"Reading comprehension"}
+                        label={"English"}
                         options={languageEvaluationOptions}
+                        styles={langDropdownStyle}
+                        disabled={disabledField}
                       />
                     </Stack>
                     <Stack horizontal>
                       <Label style={{width:'200px'}}>Written expression</Label>
                       <Dropdown
                         id={"writtenEN"}
+                        title={"Written expression"}
                         options={languageEvaluationOptions}
+                        styles={langDropdownStyle}
+                        disabled={disabledField}
                       />
                     </Stack>
                     <Stack horizontal>
                       <Label style={{width:'200px'}}>Oral expression</Label>
                       <Dropdown
                         id={"oralEN"}
+                        title = {"Oral expression"}
                         options={languageEvaluationOptions}
+                        styles={langDropdownStyle}
+                        disabled={disabledField}
                       />
                     </Stack>
                   </StackItem>
                   <StackItem>
-                    <Label>French</Label>
+                    {/* <Label>French</Label> */}
                     <Dropdown
                         id={"readingFR"}
                         options={languageEvaluationOptions}
+                        title={strings.readingFR}
+                        label="French"
+                        ariaLabel={strings.readingFR}
+                        styles={langDropdownStyle}
+                        disabled={disabledField}
                     />
                     <Dropdown
                         id={"writtenFR"}
                         options={languageEvaluationOptions}
+                        styles={langDropdownStyle}
+                        ariaLabel={strings.writtenFR}
+                        disabled={disabledField}
                     />
                     <Dropdown
                         id={"oralFR"}
                         options={languageEvaluationOptions}
+                        styles={langDropdownStyle}
+                        ariaLabel={strings.oralFR}
+                        disabled={disabledField}
                     />
                     
                   </StackItem>
