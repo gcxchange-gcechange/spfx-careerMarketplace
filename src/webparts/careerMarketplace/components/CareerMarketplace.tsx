@@ -51,6 +51,7 @@ export interface ICareerMarketplaceState {
   disableButton: boolean,
   inlineFieldErrors: any[],
   dropdownFields: string[],
+  skillsList: any[];
 
   values: {
     jobTitleEn: string;
@@ -60,8 +61,7 @@ export interface ICareerMarketplaceState {
     numberOfOpportunities: string;
     deadline: Date | undefined;
     department: any, 
-    essentialSkill: string;
-    assetSkill: string;
+    skills: any[],
     approvedStaffing: string;
     jobType: any[],
     programArea: any,
@@ -75,6 +75,7 @@ export interface ICareerMarketplaceState {
     region: any, 
     workArrangment: any, 
     workSchedule: any, 
+    languageEvaluation: any[]
   }
 
 }
@@ -117,6 +118,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       disableButton: false,
       inlineFieldErrors: [],
       dropdownFields: [],
+      skillsList: [],
 
       values: {
         department: {value: "" , pageNumber: 0},
@@ -131,14 +133,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         numberOfOpportunities: "1",
         duration: {value: "" , pageNumber: 1},
         deadline: threeMonthsLater,
-        essentialSkill: "",
-        assetSkill: "",
+        skills:[{pageNumber: 2}],
         workSchedule: {value: "" , pageNumber: 2},
         province: {value: "" , pageNumber: 2},
         region: {value: "" , pageNumber: 2},
         city: {value: "" , pageNumber: 2},
         security: {value: "" , pageNumber: 2},
         language:{value: "" , pageNumber: 2},
+        languageEvaluation: [{pageNumber: 2}],
         workArrangment: {value: "" , pageNumber: 2}, 
         approvedStaffing: "",
       }
@@ -153,6 +155,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const { values, currentPage } = this.state;
 
     const checkValues: {key: string, value: any}[] = [];
+    console.log("ENTRIES", Object.entries(values))
     const  currentPgFields = Object.entries(values).filter(([, fieldData]) => {
       if( Array.isArray(fieldData)) {
         return fieldData.some(item => item.pageNumber === currentPage);
@@ -164,7 +167,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
-      console.log(values)
+      console.log("V",values)
 
       if (
         (currentPgFields.includes(key) && value.value === "" )
@@ -183,7 +186,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     if (this.state.currentPage < 4 ) {
 
-      if (checkValues.length !== 0) {
+      if (checkValues.length !== 0 ) {
         await this.setState({
           hasError: checkValues,
           fieldErrorTitles: newArray
@@ -269,13 +272,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ApplicationDeadlineDate": "${isoString}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
-              "EssentialSkills": "${this.state.values.essentialSkill}",
+              "Skills": "${this.state.values.skills}",
               "WorkScheduleLookupId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceLookupId": "${this.state.values.security.key}",
               "LanguageRequirementLookupId": "${this.state.values.language.key}",
               "WorkArrangementLookupId": "${this.state.values.workArrangment.key}",
               "ApprovedStaffing": true,
-              "AssetSkills": "${this.state.values.assetSkill}",
               "CityLookupId": "${this.state.values.city.key}"
         }`,
 
@@ -339,12 +341,34 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleDropDownItem = (valueName: any, value: any):void => {
 
+
+    const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
+
+    if (langEvaluationdIds.includes(valueName)) {
+
+      const newValue = {lang: valueName, value}
+
+      const findDuplicateLang = this.state.values.languageEvaluation.some((item) => item.lang !== value.valueName)
+      console.log(findDuplicateLang)
+
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          languageEvaluation: [
+            ...prevState.values.languageEvaluation.filter((item: any) => item.lang !== valueName),
+            newValue
+          ]
+  
+        }
+      }));
+      
+    }
+
     if (valueName === "jobType") {
 
       const findItem = [...this.state.values.jobType];
       
-      const jobTypeExists = findItem.some((item) => item.value === value.key);
-    
+      const jobTypeExists = findItem.some((item: any) => item.value === value.key);
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -360,7 +384,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         values: {
           ...prevState.values,
           [valueName]: value
-  
         }
       }));
 
@@ -681,6 +704,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
+    console.log("langEvalState", this.state.values.languageEvaluation)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
@@ -775,6 +799,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             values={this.state.values}
             inlineFieldErrors={this.state.inlineFieldErrors}
             prefLang={this.props.prefLang}
+            skills={this.state.skillsList}
           />
         ),
       },
@@ -827,6 +852,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleOnChange={this.handleOnChangeTextField} 
                 values={this.state.values}
                 inlineFieldErrors={this.state.inlineFieldErrors}
+                skills={this.state.skillsList}
               />
             </StackItem>
           </Stack>

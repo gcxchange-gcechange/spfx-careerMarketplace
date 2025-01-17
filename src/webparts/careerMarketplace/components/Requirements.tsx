@@ -3,7 +3,7 @@ import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { ChoiceGroup, Dropdown, IChoiceGroupOption,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
-import { validate, validateEmpty } from "./Validations";
+import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
 
@@ -16,12 +16,12 @@ export interface IRequirementsProps {
   security: any[];
   workArrangment: any[];
   workSchedule: any[];
+  skills: any[];
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
   handleOnChange: (event: string, newValue?: string) => void;
   values: {
-    essentialSkill: string;
-    assetSkill: string;
+    skills: any;
     approvedStaffing: any;
     language: any;
     security: any;
@@ -48,6 +48,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public onChangeDropDownItem = (event: any, item: any): void => {
     const eventName = event.target.id;
+    console.log(eventName)
+
     if (item) {
       this.props.handleDropDownItem(eventName, item);
     }
@@ -66,7 +68,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public render(): React.ReactElement<IRequirementsProps> {
 
-    const {essentialSkill, assetSkill }=this.props.values
+    const {skills}=this.props.values
+    console.log("SKILLS", skills);
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: 20,
@@ -82,7 +85,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     ];
 
     const languageEvaluationOptions : IDropdownOption[] = [
-      {key: 'A' , text:'A'},
+      {key: 'A', text: 'A'},
       {key: 'B', text: 'B'},
       {key: 'C', text: 'C'},
     ]
@@ -96,8 +99,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
  
 
     const disabledField = this.props.values.language.key !== 3 ;
-    console.log("D", disabledField)
-    console.log(this.props.values.language.key)
+
 
     return (
       <>
@@ -111,17 +113,21 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         <div>
           
           <ReusableTextField
-            id={"essentialSkill"}
-            name={"essentialSkill"}
-            title={"Essential Skill"}
-            onChange={this.onChangeTextValue}
-            defaultValue={this.props.values.essentialSkill}
+            id={"skills"}
+            name={"skills"}
+            title={"skills"}
+            onChange={this.onChangeDropDownItem}
+            defaultValue={skills}
             multiline={true}
             readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(essentialSkill, 'essentialSkill')}
             ariaLabelRequired={'required'}
           />
-          <ReusableTextField
+
+          { this.props.inlineFieldErrors?.includes('skills') && (
+                <div>{validate(this.props.values.workSchedule.key)}</div>
+              )
+            }
+          {/* <ReusableTextField
             id={"assetSkill"}
             name={"assetSkill"}
             title={"Asset Skill"}
@@ -131,7 +137,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(assetSkill, 'assetSkill')}
             ariaLabelRequired={'required'}
-          />
+          /> */}
           <ReusableDropdownField
             id={"workSchedule"}
             name={"workSchedule"}
@@ -236,6 +242,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         options={languageEvaluationOptions}
                         styles={langDropdownStyle}
                         disabled={disabledField}
+                        onChange={this.onChangeDropDownItem}
                       />
                     </Stack>
                     <Stack horizontal>
@@ -246,6 +253,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         options={languageEvaluationOptions}
                         styles={langDropdownStyle}
                         disabled={disabledField}
+                        onChange={this.onChangeDropDownItem}
                       />
                     </Stack>
                     <Stack horizontal>
@@ -256,6 +264,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         options={languageEvaluationOptions}
                         styles={langDropdownStyle}
                         disabled={disabledField}
+                        onChange={this.onChangeDropDownItem}
                       />
                     </Stack>
                   </StackItem>
@@ -269,6 +278,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         ariaLabel={strings.readingFR}
                         styles={langDropdownStyle}
                         disabled={disabledField}
+                        onChange={this.onChangeDropDownItem}
                     />
                     <Dropdown
                         id={"writtenFR"}
@@ -283,118 +293,20 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         styles={langDropdownStyle}
                         ariaLabel={strings.oralFR}
                         disabled={disabledField}
+                        onChange={this.onChangeDropDownItem}
                     />
                     
                   </StackItem>
-
-
-
               </Stack>
-              {/* <Stack horizontal  tokens={customSpacingStackTokens}>
-                <StackItem style={{width: '300px'}}>
-                  <Label style={{width: '200px'}}>English</Label>
-                  <span >  
-                    <ReusableDropdownField
-                    id={"readingEN"}
-                    name={"reading"}
-                    title={"Reading comprehension"}
-                    options={languageEvaluationOptions}
-                    onChange={this.onChangeDropDownItem}
-                    readOnly={isReadOnly}
-                    ariaLabelRequired={'required'}
-                    disabled={disabled}
-                    />
-                  </span>
               
-                  <span>
-                    <ReusableDropdownField
-                      id={"writtenEN"}
-                      name={"written"}
-                      title={"Written expression"}
-                      options={languageEvaluationOptions}
-                      onChange={this.onChangeDropDownItem}
-                      readOnly={isReadOnly}
-                      disabled={disabled}
-                      ariaLabelRequired={'required'}
-                    />
-                  </span>
-                  <span>
-                    <ReusableDropdownField
-                      id={"oralEN"}
-                      name={"oral"}
-                      title={"Oral expression"}
-                      options={languageEvaluationOptions}
-                      onChange={this.onChangeDropDownItem}
-                      readOnly={isReadOnly}
-                      ariaLabelRequired={'required'}
-                      disabled={disabled}
-                    />
-                  </span>
-                </StackItem>
-                <StackItem style={{width: '300px'}}>
-                  <Label style={{width: '300px'}}>French</Label>
-                  <span>  
-                    <ReusableDropdownField
-                    id={"readingFr"}
-                    name={"reading"}
-                    title={"Reading comprehension"}
-                    options={languageEvaluationOptions}
-                    onChange={this.onChangeDropDownItem}
-                    readOnly={isReadOnly}
-                    ariaLabelRequired={'required'}
-                    disabled={disabled}
-                    />
-                  </span>
-              
-                  <span>
-                    <ReusableDropdownField
-                      id={"writtenFr"}
-                      name={"written"}
-                      title={"Written expression"}
-                      options={languageEvaluationOptions}
-                      onChange={this.onChangeDropDownItem}
-                      readOnly={isReadOnly}
-                      disabled={disabled}
-                      ariaLabelRequired={'required'}
-                    />
-                  </span>
-                  <span>
-                    <ReusableDropdownField
-                      id={"oralFr"}
-                      name={"oral"}
-                      title={"Oral expression"}
-                      options={languageEvaluationOptions}
-                      onChange={this.onChangeDropDownItem}
-                      readOnly={isReadOnly}
-                      ariaLabelRequired={'required'}
-                      disabled={disabled}
-                    />
-                  </span> */}
-                {/* </StackItem>
-              </Stack>
-              */}
-
-            </StackItem>
-
-
-        
+            </StackItem>    
           </Stack>
          
-{/* 
-          <ReusableDropdownField
-            id={"language"}
-            name={"language"}
-            title={"Language requirements"}
-            options={this.props.language}
-            onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
-            selectedKey={this.props.values.language.key}
-            ariaLabelRequired={'required'}
-          /> */}
            { this.props.inlineFieldErrors?.includes('language') && (
                 <div>{validate(this.props.values.language.key)}</div>
               )
             }
+
           <ReusableDropdownField
             id={"workArrangment"}
             name={"workArrangment"}
