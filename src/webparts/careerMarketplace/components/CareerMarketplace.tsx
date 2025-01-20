@@ -28,6 +28,7 @@ import { SelectLanguage } from './SelectLanguage';
 
 
 
+
 export interface ICareerMarketplaceState {
   currentPage: number;
   departmentList: any[];
@@ -369,6 +370,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const findItem = [...this.state.values.jobType];
       
       const jobTypeExists = findItem.some((item: any) => item.value === value.key);
+    
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -376,7 +378,24 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             ? prevState.values.jobType.filter((item) => item.value !== value.key) 
             : [...prevState.values.jobType, {value: value.key}],  
         },
+      
       }));
+
+    }
+
+    else if( valueName === "skills") {
+      const findSkillItem = [...this.state.values.skills];
+      const skillExists = findSkillItem.some((item: any) => item.value === value.key);
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          skills: skillExists
+            ? prevState.values.skills.filter((item) => item.value !== value.key) 
+            : [...prevState.values.skills, {value: value.key}],  
+        },
+      
+      }));
+
     }
 
     else {
@@ -405,6 +424,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
+ 
+
   public async _populateDropDowns(): Promise<void> {
 
 
@@ -421,7 +442,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log(parameters)
    
    
+   
     if (currentPage === 0 ) {
+
       const departments = await _sp.web.lists.getByTitle('Department').items();
       if ( departments) {
         const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
@@ -481,7 +504,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     } else if(currentPage === 2) {
       console.log("page 2")
-      const skills = await _sp.web.lists.getByTitle('Skills').items();
+      const skillsData = [];
+      const skills = await _sp.web.lists.getByTitle('Skills').items.top(700)();
+      console.log(skills)
+      const skillItemData = skills.map((items) => ({key: items.Id,  text: this.props.prefLang === 'fr-fr' ? items.TitleFr: items.TitleEN, pageNumber: 2}))
+      skillsData.push(...skillItemData)
+
+
       const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
       const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
       const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
@@ -490,15 +519,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const province =  await _sp.web.lists.getByTitle('Province').items();
       const region =  await _sp.web.lists.getByTitle('Region').items();
 
-      if (skills) {
-        const dataResult = skills.map((data:any) => ({ key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 2}));
-          this.setState({
-            language: dataResult
-          }) 
+ 
       
+
+      if (skillsData.length !== 0) {
+        this.setState({
+          skillsList: skillsData
+        })
       } else {
-         console.log("Language list does not exist")
+        console.log("Skills list does not exist")
       }
+    
 
       if (languageReq) {
         const dataResult = languageReq.map((data:any) => ({ key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 2}));
@@ -704,7 +735,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
-    console.log("langEvalState", this.state.values.languageEvaluation)
+    console.log("skillsListState", this.state.skillsList)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',

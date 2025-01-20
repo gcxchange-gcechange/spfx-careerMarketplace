@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
-import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { ChoiceGroup, Dropdown, IChoiceGroupOption,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
@@ -68,7 +67,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public render(): React.ReactElement<IRequirementsProps> {
 
-    const {skills}=this.props.values
+    const {skills}=this.props.values.skills
     console.log("SKILLS", skills);
 
     const customSpacingStackTokens: IStackTokens = {
@@ -99,6 +98,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
  
 
     const disabledField = this.props.values.language.key !== 3 ;
+    const selectedSkillItems =  this.props.values.skills.map((item: any) => {console.log(item)})
+    console.log("SELECTEDSKILLS",selectedSkillItems)
 
 
     return (
@@ -112,14 +113,15 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         </div>
         <div>
           
-          <ReusableTextField
+          <ReusableDropdownField
             id={"skills"}
             name={"skills"}
-            title={"skills"}
+            title={"Skills"}
             onChange={this.onChangeDropDownItem}
-            defaultValue={skills}
-            multiline={true}
+            options={this.props.skills}
+            //selectedKey={selectedSkillItems}
             readOnly={isReadOnly}
+            multiselect
             ariaLabelRequired={'required'}
           />
 
@@ -127,17 +129,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 <div>{validate(this.props.values.workSchedule.key)}</div>
               )
             }
-          {/* <ReusableTextField
-            id={"assetSkill"}
-            name={"assetSkill"}
-            title={"Asset Skill"}
-            onChange={this.onChangeTextValue}
-            defaultValue={this.props.values.assetSkill}
-            multiline={true}
-            readOnly={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(assetSkill, 'assetSkill')}
-            ariaLabelRequired={'required'}
-          /> */}
+      
           <ReusableDropdownField
             id={"workSchedule"}
             name={"workSchedule"}
@@ -145,7 +137,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             options={this.props.workSchedule}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
-            selectedKey={this.props.values.workSchedule.key}
+            selectedKeys={this.props.values.skills}
             ariaLabelRequired={'required'}
           />
 

@@ -68,6 +68,52 @@ export class GraphService {
         );
       }
 
+      public static getSkillsList(): Promise<void> {
+        console.log("CONTExt", this.context)
+        return new Promise<void>((resolve, reject) => {
+          try {
+            this.context.msGraphClientFactory
+              .getClient("3")
+              .then((client: MSGraphClientV3) => {
+                client
+                  .api(`/sites/devgcx.sharepoint.com,1c213bb8-ef2a-4551-94fd-5dbb6183ea7c,155f9b50-89dc-44e4-8f38-a00e22a03a16/lists/67da90c3-5c0d-49eb-9a7d-a3a4df67746e/items?$top=700`) 
+                  .get((error: any, response: any, rawResponse: any) => {
+                    resolve(response);
+                  })
+                  .catch((error: any) => {
+                    console.error("ERROR", error);
+                    reject(error)
+                  })
+              });
+          } catch (error) {
+            console.error("ERROR-" + error);
+          }
+        });
+      }
+
+      public static getSkillsItems(id:number): Promise<void> {
+
+        return new Promise<void>((resolve, reject) => {
+          try {
+            this.context.msGraphClientFactory
+              .getClient("3")
+              .then((client: MSGraphClientV3) => {
+                client
+                  .api(`/sites/devgcx.sharepoint.com,1c213bb8-ef2a-4551-94fd-5dbb6183ea7c,155f9b50-89dc-44e4-8f38-a00e22a03a16/lists/67da90c3-5c0d-49eb-9a7d-a3a4df67746e/items/${id}`) 
+                  .get((error: any, response: any, rawResponse: any) => {                   
+                    resolve(response);
+                  })
+                  .catch((error: any) => {
+                    console.error("ERROR", error);
+                    reject(error)
+                  })
+              });
+          } catch (error) {
+            console.error("ERROR-" + error);
+          }
+        });
+      
+      }
 
        
 }
