@@ -506,7 +506,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       console.log("page 2")
       const skillsData = [];
       const skills = await _sp.web.lists.getByTitle('Skills').items.top(700)();
-      console.log(skills)
       const skillItemData = skills.map((items) => ({key: items.Id,  text: this.props.prefLang === 'fr-fr' ? items.TitleFr: items.TitleEN, pageNumber: 2}))
       skillsData.push(...skillItemData)
 

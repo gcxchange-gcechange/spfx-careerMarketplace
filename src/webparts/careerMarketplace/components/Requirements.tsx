@@ -98,8 +98,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
  
 
     const disabledField = this.props.values.language.key !== 3 ;
-    const selectedSkillItems =  this.props.values.skills.map((item: any) => {console.log(item)})
-    console.log("SELECTEDSKILLS",selectedSkillItems)
+    const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
 
 
     return (
@@ -119,14 +118,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={"Skills"}
             onChange={this.onChangeDropDownItem}
             options={this.props.skills}
-            //selectedKey={selectedSkillItems}
+            selectedKeys={selectedSkillItems}
             readOnly={isReadOnly}
             multiselect
             ariaLabelRequired={'required'}
           />
 
           { this.props.inlineFieldErrors?.includes('skills') && (
-                <div>{validate(this.props.values.workSchedule.key)}</div>
+                <div>{validate(this.props.values.skills.key)}</div>
               )
             }
       
