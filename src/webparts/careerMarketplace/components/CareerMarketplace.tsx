@@ -68,6 +68,7 @@ export interface ICareerMarketplaceState {
     programArea: any,
     classificationCode: any,
     classificationLevel: any,
+    durationLength:any,
     duration: any, 
     language: any, 
     security: any,
@@ -76,7 +77,7 @@ export interface ICareerMarketplaceState {
     region: any, 
     workArrangment: any, 
     workSchedule: any, 
-    languageEvaluation: any[]
+    languageComprehension: any[]
   }
 
 }
@@ -132,6 +133,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
         numberOfOpportunities: "1",
+        durationLength: {value: "", pageNumber: 1},
         duration: {value: "" , pageNumber: 1},
         deadline: threeMonthsLater,
         skills:[{pageNumber: 2}],
@@ -141,7 +143,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         city: {value: "" , pageNumber: 2},
         security: {value: "" , pageNumber: 2},
         language:{value: "" , pageNumber: 2},
-        languageEvaluation: [{pageNumber: 2}],
+        languageComprehension: [{pageNumber: 2}],
         workArrangment: {value: "" , pageNumber: 2}, 
         approvedStaffing: "",
       }
@@ -239,10 +241,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
-    const isoString = momentDate.toISOString();  
-
+    const isoString = momentDate.toISOString(); 
+    
     const formatJobType = this.state.values.jobType.filter(item => Object.keys(item).includes('value')).map(item => item.value);
-    console.log("FormatJobType",formatJobType)
+ 
+    const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => item.value);
+   
 
 
 
@@ -273,7 +277,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ApplicationDeadlineDate": "${isoString}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
-              "Skills": "${this.state.values.skills}",
+              "Skills": "${JSON.stringify(skills)}",
               "WorkScheduleLookupId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceLookupId": "${this.state.values.security.key}",
               "LanguageRequirementLookupId": "${this.state.values.language.key}",
@@ -327,7 +331,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public handleOnChangeTextField = (event: any, value: string): void => {
     const eventName = event;
     const trimmedInputValue = value.trim();
-
+    
 
       this.setState((prevState) => ({
         values: {
@@ -336,8 +340,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   
         }
       }))
+  }
 
+  public handleDurationLength = (value: string) :void => {
+     
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        durationLength: value
 
+      }
+    }))
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
@@ -349,14 +362,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       const newValue = {lang: valueName, value}
 
-      const findDuplicateLang = this.state.values.languageEvaluation.some((item) => item.lang !== value.valueName)
+      const findDuplicateLang = this.state.values.languageComprehension.some((item) => item.lang !== value.valueName)
       console.log(findDuplicateLang)
 
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
-          languageEvaluation: [
-            ...prevState.values.languageEvaluation.filter((item: any) => item.lang !== valueName),
+          languageComprehension: [
+            ...prevState.values.languageComprehension.filter((item: any) => item.lang !== valueName),
             newValue
           ]
   
@@ -610,6 +623,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
+    console.log("E",getElements);
 
     if(getElements) {
       getElements.forEach(element => {
@@ -647,7 +661,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   
         dropdownElement.addEventListener("blur", () => {
 
-          if(tab === true) {
+          if (tab === true) {
             if (!this.state.inlineFieldErrors.includes(fieldId)) {
               this.setState({
                 inlineFieldErrors: [...this.state.inlineFieldErrors, fieldId]
@@ -734,7 +748,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
-    console.log("skillsListState", this.state.skillsList)
+ 
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
@@ -803,6 +817,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleDropDownItem={this.handleDropDownItem}
             handleOnChange={this.handleOnChangeTextField} 
             handleOnDateChange={this.handleOnDateChange}
+            handleDurationLength={this.handleDurationLength}
             values={this.state.values}
             hasError={this.state.hasError}
             jobTypeValues={this.state.jobTypeValue}
@@ -861,6 +876,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleDropDownItem={this.handleDropDownItem}
                 handleOnChange={this.handleOnChangeTextField} 
                 handleOnDateChange={this.handleOnDateChange}
+                handleDurationLength={this.handleDurationLength}
                 values={this.state.values}
                 jobTypeValues={this.state.jobTypeValue}
                 hasError={this.state.hasError}

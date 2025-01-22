@@ -17,6 +17,7 @@ export interface IDetailsProps {
   handleDropDownItem: (event: any, item: any) => void;
   handleOnChange: (event: string, newValue?: string) => void;
   handleOnDateChange: (date: Date) => void
+  handleDurationLength: ( value: string)=> void;
   jobTypeValues: string[];
   hasError:  {key: string, value: any}[] 
   onBlur?:(value: any) => void;
@@ -47,9 +48,16 @@ export default class Details extends React.Component<IDetailsProps> {
     
   };
 
+  public onChangeSpinButton = (event: any, item: string):void => {
+
+    if(item) {
+      this.props.handleDurationLength( item)
+    }
+
+  }
+
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventId = event.target.id;
-
 
     if (item) {
       this.props.handleDropDownItem(eventId, item);
@@ -245,6 +253,7 @@ export default class Details extends React.Component<IDetailsProps> {
           <Stack horizontal tokens={customSpacingStackTokens}>
             <StackItem>
               <SpinButton
+                id={"durationLength"}
                 label="Length"
                 min={0}
                 max={100}
@@ -253,6 +262,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 decrementButtonAriaLabel="Decrease value by 1"
                 styles={spinButtoStyles}
                 labelPosition={Position.top}
+                onChange={this.onChangeSpinButton}
               />
             </StackItem>
             <StackItem>
