@@ -133,7 +133,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
         numberOfOpportunities: "1",
-        durationLength: {value: "", pageNumber: 1},
+        durationLength: {value: "0", pageNumber: 1},
         duration: {value: "" , pageNumber: 1},
         deadline: threeMonthsLater,
         skills:[{pageNumber: 2}],
@@ -174,6 +174,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if (
         (currentPgFields.includes(key) && value.value === "" )
+        || (currentPgFields.includes(key) && value.value === '0')
         || (stringValues.includes(key) && value === "") 
         || value.text === "--Select--" || (currentPgFields.includes(key) && value.length === 1) || value.text === 'No'
         ){
@@ -347,7 +348,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
-        durationLength: value
+        durationLength: {...prevState.values.durationLength, value}
 
       }
     }))
@@ -623,7 +624,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
-    console.log("E",getElements);
 
     if(getElements) {
       getElements.forEach(element => {
@@ -748,7 +748,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
- 
+    console.log("duration Length", this.state.values.durationLength)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',

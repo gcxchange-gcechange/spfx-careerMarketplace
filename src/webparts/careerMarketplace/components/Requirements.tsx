@@ -220,6 +220,11 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 ariaLabelRequired={'required'}
               />
             </StackItem>
+
+            { this.props.inlineFieldErrors?.includes('language') && (
+                <div>{validate(this.props.values.language.key)}</div>
+              )
+            }
             <StackItem>
               <Stack horizontal tokens={customSpacingStackTokens}>
                     
@@ -293,10 +298,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             </StackItem>    
           </Stack>
          
-           { this.props.inlineFieldErrors?.includes('language') && (
-                <div>{validate(this.props.values.language.key)}</div>
-              )
-            }
 
           <ReusableDropdownField
             id={"workArrangment"}

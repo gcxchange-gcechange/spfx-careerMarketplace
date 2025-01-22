@@ -34,6 +34,7 @@ export interface IDetailsProps {
     classificationCode: any;
     classificationLevel: any;
     duration: any;
+    durationLength: any;
   };
   inlineFieldErrors?:any[];
 }
@@ -96,6 +97,8 @@ export default class Details extends React.Component<IDetailsProps> {
 
     const selectedItems = this.props.values.jobType.map((item: any) => item.value);
     console.log("selectedJobType",selectedItems)
+
+    console.log("DL", this.props.values.durationLength)
 
     return (
       <>
@@ -263,6 +266,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 styles={spinButtoStyles}
                 labelPosition={Position.top}
                 onChange={this.onChangeSpinButton}
+                defaultValue={this.props.values.durationLength.value}
               />
             </StackItem>
             <StackItem>
@@ -276,17 +280,16 @@ export default class Details extends React.Component<IDetailsProps> {
                 readOnly={isReadOnly}
                 ariaLabelRequired={'required'}
               />
-            </StackItem>
-           
-          </Stack>
-         
 
-            {
+          {
             this.props.inlineFieldErrors?.includes('duration') && (
               <div>{validate(this.props.values.duration.key)}</div>
             )
           }
-          
+            </StackItem>
+           
+          </Stack>
+
           <Stack  horizontal verticalAlign="center" >
             <StackItem >
               <Label htmlFor={'deadline'} >
