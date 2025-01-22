@@ -77,6 +77,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const isReadOnly = this.props.currentPage !== 2;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
+    const disabledField = this.props.values.language.key !== 3 ;
+    const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
 
     const options: IChoiceGroupOption[] = [
       { key: 'true', text: 'Yes' },
@@ -96,10 +98,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
       }
     }
  
-
-    const disabledField = this.props.values.language.key !== 3 ;
-    const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
-
 
     return (
       <>
@@ -222,7 +220,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             </StackItem>
 
             { this.props.inlineFieldErrors?.includes('language') && (
-                <div>{validate(this.props.values.language.key)}</div>
+                <div>{validate(this.props.values.language.key,"language")}</div>
               )
             }
             <StackItem>

@@ -160,7 +160,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const checkValues: {key: string, value: any}[] = [];
     console.log("ENTRIES", Object.entries(values))
     const  currentPgFields = Object.entries(values).filter(([, fieldData]) => {
-      if( Array.isArray(fieldData)) {
+      if ( Array.isArray(fieldData)) {
         return fieldData.some(item => item.pageNumber === currentPage);
       }
       return fieldData.pageNumber === currentPage;
@@ -171,6 +171,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     for (const [key,value] of Object.entries(values)) {
       console.log("V",values)
+      console.log("KW", value, key)
 
       if (
         (currentPgFields.includes(key) && value.value === "" )
@@ -184,13 +185,21 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
      }
 
+    console.log("CHECK:",checkValues)
+
+    const excludeDisabled = document.querySelectorAll('[class*="is-disabled"');
+    console.log(excludeDisabled)
+
+
     const newArray = toTitleCase(checkValues)
+
 
     const nextPage = this.state.currentPage + 1;
 
     if (this.state.currentPage < 4 ) {
 
-      if (checkValues.length !== 0 ) {
+
+      if (checkValues.length !== 0 || !excludeDisabled ) {
         await this.setState({
           hasError: checkValues,
           fieldErrorTitles: newArray
@@ -624,7 +633,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
-
+   
     if(getElements) {
       getElements.forEach(element => {
         elementId.push(element.id)
@@ -748,7 +757,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
-    console.log("duration Length", this.state.values.durationLength)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',

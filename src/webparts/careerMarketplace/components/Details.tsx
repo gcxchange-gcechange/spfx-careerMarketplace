@@ -96,9 +96,6 @@ export default class Details extends React.Component<IDetailsProps> {
     oneMonthLater.setMonth(today.getMonth() + 1);
 
     const selectedItems = this.props.values.jobType.map((item: any) => item.value);
-    console.log("selectedJobType",selectedItems)
-
-    console.log("DL", this.props.values.durationLength)
 
     return (
       <>
