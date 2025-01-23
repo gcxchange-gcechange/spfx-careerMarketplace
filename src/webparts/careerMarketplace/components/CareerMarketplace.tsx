@@ -161,6 +161,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("ENTRIES", Object.entries(values))
     const  currentPgFields = Object.entries(values).filter(([, fieldData]) => {
       if ( Array.isArray(fieldData)) {
+        console.log("fieldData", fieldData)
         return fieldData.some(item => item.pageNumber === currentPage);
       }
       return fieldData.pageNumber === currentPage;
@@ -171,7 +172,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     for (const [key,value] of Object.entries(values)) {
       console.log("V",values)
-      console.log("KW", value, key)
 
       if (
         (currentPgFields.includes(key) && value.value === "" )
@@ -188,7 +188,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("CHECK:",checkValues)
 
     const excludeDisabled = document.querySelectorAll('[class*="is-disabled"');
-    console.log(excludeDisabled)
+    const disabledFields: any[] = [];
+    
+    for (let i = 0; i < excludeDisabled.length; i++) {
+      disabledFields.push(excludeDisabled[i].id)
+    }
+
+    console.log(disabledFields)
 
 
     const newArray = toTitleCase(checkValues)
@@ -199,7 +205,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if (this.state.currentPage < 4 ) {
 
 
-      if (checkValues.length !== 0 || !excludeDisabled ) {
+      if (checkValues.length !== 0 ) {
         await this.setState({
           hasError: checkValues,
           fieldErrorTitles: newArray
@@ -364,31 +370,43 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
-
+    console.log(value.key)
 
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
-    if (langEvaluationdIds.includes(valueName)) {
+   
 
-      const newValue = {lang: valueName, value}
-
-      const findDuplicateLang = this.state.values.languageComprehension.some((item) => item.lang !== value.valueName)
-      console.log(findDuplicateLang)
-
-      this.setState((prevState) => ({
-        values: {
-          ...prevState.values,
-          languageComprehension: [
-            ...prevState.values.languageComprehension.filter((item: any) => item.lang !== valueName),
-            newValue
-          ]
+      if (valueName === "language" && value.key !== 3) {
+        this.setState((prevState) => ({
+          values: {
+            ...prevState.values,
+            [valueName]: value,
+            languageComprehension: [{...prevState.values.languageComprehension}, {value: 'disabled'}]
   
-        }
-      }));
-      
-    }
+          }
+        }));
+      }
 
-    if (valueName === "jobType") {
+      else if (langEvaluationdIds.includes(valueName)) {
+
+          const newValue = {lang: valueName, value}
+    
+          //const findDuplicateLang = this.state.values.languageComprehension.some((item) => item.lang !== value.valueName)
+
+          this.setState((prevState) => ({
+            values: {
+              ...prevState.values,
+              languageComprehension: [
+                ...prevState.values.languageComprehension.filter((item: any) => item.lang !== valueName && item.value !== 'disabled'), newValue
+              
+              ]
+      
+            }
+          })); 
+        }
+    
+    
+    else  if (valueName === "jobType") {
 
       const findItem = [...this.state.values.jobType];
       
@@ -420,12 +438,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }));
 
     }
-
+    
     else {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
-          [valueName]: value
+          [valueName]: value,
         }
       }));
 
@@ -526,7 +544,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
     } else if(currentPage === 2) {
-      console.log("page 2")
       const skillsData = [];
       const skills = await _sp.web.lists.getByTitle('Skills').items.top(700)();
       const skillItemData = skills.map((items) => ({key: items.Id,  text: this.props.prefLang === 'fr-fr' ? items.TitleFr: items.TitleEN, pageNumber: 2}))
@@ -907,6 +924,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 values={this.state.values}
                 inlineFieldErrors={this.state.inlineFieldErrors}
                 skills={this.state.skillsList}
+                
               />
             </StackItem>
           </Stack>

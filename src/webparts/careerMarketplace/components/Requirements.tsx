@@ -27,10 +27,11 @@ export interface IRequirementsProps {
     city: any;
     province: any;
     region: any;
-    workArrangment: any, 
-    workSchedule: any, 
-
+    workArrangment: any;
+    workSchedule: any;
+    languageComprehension: any;
   };
+
   inlineFieldErrors?:string[];
 }
 
@@ -47,7 +48,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public onChangeDropDownItem = (event: any, item: any): void => {
     const eventName = event.target.id;
-    console.log(eventName)
+    console.log( item)
 
     if (item) {
       this.props.handleDropDownItem(eventName, item);
@@ -67,8 +68,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public render(): React.ReactElement<IRequirementsProps> {
 
-    const {skills}=this.props.values.skills
-    console.log("SKILLS", skills);
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: 20,
@@ -134,7 +133,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             options={this.props.workSchedule}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
-            selectedKeys={this.props.values.skills}
+            selectedKeys={this.props.values.workSchedule.key}
             ariaLabelRequired={'required'}
           />
 
