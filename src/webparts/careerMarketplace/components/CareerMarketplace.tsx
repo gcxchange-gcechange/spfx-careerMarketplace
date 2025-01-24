@@ -77,7 +77,15 @@ export interface ICareerMarketplaceState {
     region: any, 
     workArrangment: any, 
     workSchedule: any, 
-    languageComprehension: any[]
+    languageRequirements:[
+      {
+        pageNumber: number
+        language: string,
+        reading: { EN: string, FR:string },
+        written: { EN: string, FR: string },
+        oral: { EN: string, FR: string },
+      },
+    ]
   }
 
 }
@@ -143,7 +151,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         city: {value: "" , pageNumber: 2},
         security: {value: "" , pageNumber: 2},
         language:{value: "" , pageNumber: 2},
-        languageComprehension: [{pageNumber: 2}],
+        languageRequirements: [
+          {
+            pageNumber: 2,
+            language: "",
+            reading: { EN: "", FR: "" },
+            written: { EN: "", FR: "" },
+            oral: { EN: "", FR: "" },
+          },
+        ],
         workArrangment: {value: "" , pageNumber: 2}, 
         approvedStaffing: "",
       }
@@ -166,24 +182,37 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
+
+    console.log("currentPageFields",currentPgFields)
    
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
-      console.log("V",values)
+      console.log(value)
+      console.log(key)
+      console.log("values", values)
 
-      if (
-        (currentPgFields.includes(key) && value.value === "" )
-        || (currentPgFields.includes(key) && value.value === '0')
-        || (stringValues.includes(key) && value === "") 
-        || value.text === "--Select--" || (currentPgFields.includes(key) && value.length === 1) || value.text === 'No'
+      if ((currentPgFields.includes(key) && value.value === "" )
+          || (currentPgFields.includes(key) && value.value === '0')
+          || (stringValues.includes(key) && value === "") 
+          || value.text === "--Select--" || (currentPgFields.includes(key) && value.length === 1) || value.text === 'No'
         ){
         
         checkValues.push({key, value })
       }
 
+      if (currentPgFields.includes('languageRequirements') && value[0].language === "") {
+        console.log({key, value})
+         if(value[0].language === "") {
+          console.log("zero")
+         }
+      }
+
      }
+
+     
+     
 
     console.log("CHECK:",checkValues)
 
@@ -301,7 +330,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ApprovedStaffing": true,
               "CityLookupId": "${this.state.values.city.key}"
         }`,
-
       };
 
       console.log("BODY", postOptions.body)
@@ -333,22 +361,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     const errMsg: string = `WARNING - error when calling URL. Error = ${response.message}`;
                     console.log("err is ", errMsg);
                   });
-          })
-          
+          }) 
         })
       }
       catch(error){
         console.log("ERROR",error)
-      }
-      
+      }     
   };
 
 
   public handleOnChangeTextField = (event: any, value: string): void => {
     const eventName = event;
     const trimmedInputValue = value.trim();
-    
-
+  
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -370,42 +395,152 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
+  
     console.log(value.key)
 
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
    
-
-      if (valueName === "language" && value.key !== 3) {
+      if (valueName === "language") {
+        // this.setState((prevState) => ({
+        //   values: {
+        //     ...prevState.values,
+        //     [valueName]: value,
+        //     languageRequirements: [{...prevState.values.languageRequirements}, {value: 'disabled'}]
+  
+        //   }
+        // }));
         this.setState((prevState) => ({
           values: {
             ...prevState.values,
-            [valueName]: value,
-            languageComprehension: [{...prevState.values.languageComprehension}, {value: 'disabled'}]
-  
-          }
+            languageRequirements: [
+              {
+                ...prevState.values.languageRequirements[0], 
+                language: value,
+              },
+            ],
+          },
         }));
+
       }
 
       else if (langEvaluationdIds.includes(valueName)) {
 
-          const newValue = {lang: valueName, value}
+          // const newValue = {value}
+          if (valueName === 'readingEN' ) {
+            this.setState((prevState) => ({
+              values: {
+                ...prevState.values,
+                languageRequirements: [
+                  {
+                    ...prevState.values.languageRequirements[0], 
+                    reading: {...prevState.values.languageRequirements[0].reading,  
+                    EN: value.key,
+                    },
+                  },
+                ],
+              },
+            }));
+          } else if (valueName === 'writtenEN') {
+            this.setState((prevState) => ({
+              values: {
+                ...prevState.values,
+                languageRequirements: [
+                  {
+                    ...prevState.values.languageRequirements[0], 
+                    written: {...prevState.values.languageRequirements[0].written,  
+                    EN: value.key,
+                    },
+                  },
+                ],
+              },
+            }));
+          }
+          else if (valueName === 'oralEN') {
+            this.setState((prevState) => ({
+              values: {
+                ...prevState.values,
+                languageRequirements: [
+                  {
+                    ...prevState.values.languageRequirements[0], 
+                    oral: {...prevState.values.languageRequirements[0].oral,  
+                    EN: value.key,
+                    },
+                  },
+                ],
+              },
+            }));
+          }
+          else if (valueName === 'readingFR' ) {
+            this.setState((prevState) => ({
+              values: {
+                ...prevState.values,
+                languageRequirements: [
+                  {
+                    ...prevState.values.languageRequirements[0], 
+                    reading: {...prevState.values.languageRequirements[0].reading,  
+                    FR: value.key,
+                    },
+                  },
+                ],
+              },
+            }));
+          } else if (valueName === 'writtenFR') {
+            this.setState((prevState) => ({
+              values: {
+                ...prevState.values,
+                languageRequirements: [
+                  {
+                    ...prevState.values.languageRequirements[0], 
+                    written: {...prevState.values.languageRequirements[0].written,  
+                    FR: value.key,
+                    },
+                  },
+                ],
+              },
+            }));
+          }
+          else if (valueName === 'oralFR') {
+            this.setState((prevState) => ({
+              values: {
+                ...prevState.values,
+                languageRequirements: [
+                  {
+                    ...prevState.values.languageRequirements[0], 
+                    oral: {...prevState.values.languageRequirements[0].oral,  
+                    FR: value.key,
+                    },
+                  },
+                ],
+              },
+            }));
+          }
     
-          //const findDuplicateLang = this.state.values.languageComprehension.some((item) => item.lang !== value.valueName)
+          //const findDuplicateLang = this.state.values.languageRequirements.some((item) => item.lang !== value.valueName)
 
-          this.setState((prevState) => ({
-            values: {
-              ...prevState.values,
-              languageComprehension: [
-                ...prevState.values.languageComprehension.filter((item: any) => item.lang !== valueName && item.value !== 'disabled'), newValue
+          // this.setState((prevState) => ({
+          //   values: {
+          //     ...prevState.values,
+          //     languageRequirements: [
+          //       ...prevState.values.languageRequirements.filter((item: any) => item.lang !== valueName && item.value !== 'disabled'), newValue
               
-              ]
+          //     ]
       
-            }
-          })); 
-        }
-    
-    
+          //   }
+          // })); 
+
+          // this.setState((prevState) => ({
+          //   values: {
+          //     ...prevState.values,
+          //     languageRequirements: [
+          //       {
+          //         ...prevState.values.languageRequirements[0], 
+          //        newValue
+          //       },
+          //     ],
+          //   },
+          // }));
+        }  
     else  if (valueName === "jobType") {
 
       const findItem = [...this.state.values.jobType];
@@ -418,10 +553,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           jobType: jobTypeExists
             ? prevState.values.jobType.filter((item) => item.value !== value.key) 
             : [...prevState.values.jobType, {value: value.key}],  
-        },
-      
+        },    
       }));
-
     }
 
     else if( valueName === "skills") {
@@ -434,11 +567,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             ? prevState.values.skills.filter((item) => item.value !== value.key) 
             : [...prevState.values.skills, {value: value.key}],  
         },
-      
       }));
-
-    }
-    
+    }    
     else {
       this.setState((prevState) => ({
         values: {
@@ -446,7 +576,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           [valueName]: value,
         }
       }));
-
     }
   }
 
@@ -454,22 +583,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public handleOnDateChange=(date: Date |undefined):void => {
 
     if (date) {
-    
         this.setState((prevState) => ({
           values: {
             ...prevState.values,
             deadline:  date
-    
           }
         }))
     }
   }
 
- 
-
   public async _populateDropDowns(): Promise<void> {
-
-
     const {currentPage} = this.state;
     const _sp: SPFI = getSP(this.props.context);
     console.log("SPContext",_sp);
@@ -477,15 +600,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       [
       '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
       'bd807536-d8e7-456b-aab0-fae3eecedd8a', // programArea
-      ]
-      
+      ]  
     ];
-    console.log(parameters)
-   
-   
-   
+  
     if (currentPage === 0 ) {
-
       const departments = await _sp.web.lists.getByTitle('Department').items();
       if ( departments) {
         const dataArray = departments.map((data:any) => ({ key: data.Id, text: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
@@ -528,12 +646,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         const getJobTypeLabels = processLabels(0);
         const getProgramAreaLabels = processLabels(1);
     
-
         this.setState({
           jobType: filterByLanguage(getJobTypeLabels),
           programArea: filterByLanguage(getProgramAreaLabels),
         });
- 
       });
 
       this.setState({
@@ -541,7 +657,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         classificationLevel: classLevelResults,
         duration: durationData
       })
-
 
     } else if(currentPage === 2) {
       const skillsData = [];

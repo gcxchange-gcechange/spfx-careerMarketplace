@@ -29,7 +29,7 @@ export interface IRequirementsProps {
     region: any;
     workArrangment: any;
     workSchedule: any;
-    languageComprehension: any;
+    languageRequirements: any[];
   };
 
   inlineFieldErrors?:string[];
@@ -76,7 +76,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const isReadOnly = this.props.currentPage !== 2;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
-    const disabledField = this.props.values.language.key !== 3 ;
+    const disabledField = this.props.values.languageRequirements[0].language.key !== 3 ;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
 
     const options: IChoiceGroupOption[] = [
@@ -88,6 +88,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
       {key: 'A', text: 'A'},
       {key: 'B', text: 'B'},
       {key: 'C', text: 'C'},
+      {key: 'E', text: 'E'}
     ]
 
     const langDropdownStyle : Partial<IDropdownStyles>= {
@@ -213,13 +214,13 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 options={this.props.language}
                 onChange={this.onChangeDropDownItem}
                 readOnly={isReadOnly}
-                selectedKey={this.props.values.language.key}
+                selectedKey={this.props.values.languageRequirements[0].language.key}
                 ariaLabelRequired={'required'}
               />
             </StackItem>
 
             { this.props.inlineFieldErrors?.includes('language') && (
-                <div>{validate(this.props.values.language.key,"language")}</div>
+                <div>{validate(this.props.values.languageRequirements[0].language.key,"language")}</div>
               )
             }
             <StackItem>
@@ -268,8 +269,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         options={languageEvaluationOptions}
                         title={strings.readingFR}
                         label="French"
-                        ariaLabel={strings.readingFR}
                         styles={langDropdownStyle}
+                        ariaLabel={strings.readingFR}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
                     />
@@ -279,6 +280,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         styles={langDropdownStyle}
                         ariaLabel={strings.writtenFR}
                         disabled={disabledField}
+                        onChange={this.onChangeDropDownItem}
                     />
                     <Dropdown
                         id={"oralFR"}
