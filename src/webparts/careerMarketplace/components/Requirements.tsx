@@ -22,7 +22,7 @@ export interface IRequirementsProps {
   values: {
     skills: any;
     approvedStaffing: any;
-    language: any;
+    //language: any;
     security: any;
     city: any;
     province: any;

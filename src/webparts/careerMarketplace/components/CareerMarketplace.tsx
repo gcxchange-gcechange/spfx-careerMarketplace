@@ -70,7 +70,7 @@ export interface ICareerMarketplaceState {
     classificationLevel: any,
     durationLength:any,
     duration: any, 
-    language: any, 
+    //language: any, 
     security: any,
     city: any, 
     province: any,
@@ -79,8 +79,8 @@ export interface ICareerMarketplaceState {
     workSchedule: any, 
     languageRequirements:[
       {
-        pageNumber: number
-        language: string,
+        pageNumber: number,
+        language: {value: any}
         reading: { EN: string, FR:string },
         written: { EN: string, FR: string },
         oral: { EN: string, FR: string },
@@ -150,11 +150,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         region: {value: "" , pageNumber: 2},
         city: {value: "" , pageNumber: 2},
         security: {value: "" , pageNumber: 2},
-        language:{value: "" , pageNumber: 2},
+       // language:{value: "" , pageNumber: 2},
         languageRequirements: [
           {
             pageNumber: 2,
-            language: "",
+            language: {value: ""},
             reading: { EN: "", FR: "" },
             written: { EN: "", FR: "" },
             oral: { EN: "", FR: "" },
@@ -174,10 +174,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const { values, currentPage } = this.state;
 
     const checkValues: {key: string, value: any}[] = [];
-    console.log("ENTRIES", Object.entries(values))
+
     const  currentPgFields = Object.entries(values).filter(([, fieldData]) => {
       if ( Array.isArray(fieldData)) {
-        console.log("fieldData", fieldData)
         return fieldData.some(item => item.pageNumber === currentPage);
       }
       return fieldData.pageNumber === currentPage;
@@ -185,13 +184,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     console.log("currentPageFields",currentPgFields)
    
-
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
+
     for (const [key,value] of Object.entries(values)) {
-      console.log(value)
-      console.log(key)
-      console.log("values", values)
+      console.log("VALUES:",values)
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0')
@@ -202,28 +199,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         checkValues.push({key, value })
       }
 
-      if (currentPgFields.includes('languageRequirements') && value[0].language === "") {
-        console.log({key, value})
-         if(value[0].language === "") {
-          console.log("zero")
-         }
+    }
+
+
+    if (currentPage === 2) {
+      if (this.state.values.languageRequirements[0].language.value === "") {
+        checkValues.push({key:"language", value:""})
       }
+      else if (this.state.values.languageRequirements[0].language.value.key === 3 )
+    }
 
-     }
-
-     
-     
 
     console.log("CHECK:",checkValues)
 
-    const excludeDisabled = document.querySelectorAll('[class*="is-disabled"');
-    const disabledFields: any[] = [];
+    // const excludeDisabled = document.querySelectorAll('[class*="is-disabled"');
+    // const disabledFields: any[] = [];
     
-    for (let i = 0; i < excludeDisabled.length; i++) {
-      disabledFields.push(excludeDisabled[i].id)
-    }
+    // for (let i = 0; i < excludeDisabled.length; i++) {
+    //   disabledFields.push(excludeDisabled[i].id)
+    // }
 
-    console.log(disabledFields)
+    // console.log(disabledFields)
 
 
     const newArray = toTitleCase(checkValues)
@@ -233,6 +229,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     if (this.state.currentPage < 4 ) {
 
+     
 
       if (checkValues.length !== 0 ) {
         await this.setState({
@@ -325,7 +322,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "Skills": "${JSON.stringify(skills)}",
               "WorkScheduleLookupId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceLookupId": "${this.state.values.security.key}",
-              "LanguageRequirementLookupId": "${this.state.values.language.key}",
+              "LanguageRequirementLookupId": "${this.state.values.languageRequirements[0].language}",
               "WorkArrangementLookupId": "${this.state.values.workArrangment.key}",
               "ApprovedStaffing": true,
               "CityLookupId": "${this.state.values.city.key}"
