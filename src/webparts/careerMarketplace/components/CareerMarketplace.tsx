@@ -80,7 +80,7 @@ export interface ICareerMarketplaceState {
     languageRequirements:[
       {
         pageNumber: number,
-        language: {value: any}
+        language: any,
         reading: { EN: string, FR:string },
         written: { EN: string, FR: string },
         oral: { EN: string, FR: string },
@@ -175,8 +175,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const checkValues: {key: string, value: any}[] = [];
 
-    const  currentPgFields = Object.entries(values).filter(([, fieldData]) => {
-      if ( Array.isArray(fieldData)) {
+    const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
+      if ( Array.isArray(fieldData) && field !== "languageRequirements") {
         return fieldData.some(item => item.pageNumber === currentPage);
       }
       return fieldData.pageNumber === currentPage;
@@ -188,7 +188,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
     for (const [key,value] of Object.entries(values)) {
-      console.log("VALUES:",values)
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0')
@@ -201,26 +200,18 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
+    if (currentPage === 2) {     
+        const isReadingEmpty = this.state.values.languageRequirements[0].reading.EN === "" || this.state.values.languageRequirements[0].reading.FR === "";
+        const isWrittenEmpty = this.state.values.languageRequirements[0].written.EN === "" || this.state.values.languageRequirements[0].written.FR === "";
+        const isOralEmpty = this.state.values.languageRequirements[0].oral.EN === "" || this.state.values.languageRequirements[0].oral.FR === "";
 
-    if (currentPage === 2) {
       if (this.state.values.languageRequirements[0].language.value === "") {
         checkValues.push({key:"language", value:""})
       }
-      else if (this.state.values.languageRequirements[0].language.value.key === 3 )
+      else if (this.state.values.languageRequirements[0].language.key === 3 && isReadingEmpty || isWrittenEmpty || isOralEmpty ) {
+        checkValues.push({key:"languageRequirements", value:""})
+      }
     }
-
-
-    console.log("CHECK:",checkValues)
-
-    // const excludeDisabled = document.querySelectorAll('[class*="is-disabled"');
-    // const disabledFields: any[] = [];
-    
-    // for (let i = 0; i < excludeDisabled.length; i++) {
-    //   disabledFields.push(excludeDisabled[i].id)
-    // }
-
-    // console.log(disabledFields)
-
 
     const newArray = toTitleCase(checkValues)
 
@@ -228,8 +219,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const nextPage = this.state.currentPage + 1;
 
     if (this.state.currentPage < 4 ) {
-
-     
 
       if (checkValues.length !== 0 ) {
         await this.setState({
@@ -241,9 +230,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           currentPage: nextPage,
           hasError: []
          })
-      }
-
-      
+      }  
     }
     this.addInLineErrors();
 
@@ -279,8 +266,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   private submit = (): void => {
-    //const {jobTypeValue}= this.state
-
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
@@ -289,9 +274,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => item.value);
    
-
-
-
     const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
     const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
   
@@ -337,7 +319,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           client
           .post(url, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
-            console.log('RESPONSE:', response);
             if (response.status) {
               this.setState({
                 validationStatus: response.status
@@ -393,20 +374,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleDropDownItem = (valueName: any, value: any):void => {
   
-    console.log(value.key)
-
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
    
       if (valueName === "language") {
-        // this.setState((prevState) => ({
-        //   values: {
-        //     ...prevState.values,
-        //     [valueName]: value,
-        //     languageRequirements: [{...prevState.values.languageRequirements}, {value: 'disabled'}]
-  
-        //   }
-        // }));
         this.setState((prevState) => ({
           values: {
             ...prevState.values,
@@ -423,7 +394,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       else if (langEvaluationdIds.includes(valueName)) {
 
-          // const newValue = {value}
           if (valueName === 'readingEN' ) {
             this.setState((prevState) => ({
               values: {
@@ -513,31 +483,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             }));
           }
     
-          //const findDuplicateLang = this.state.values.languageRequirements.some((item) => item.lang !== value.valueName)
-
-          // this.setState((prevState) => ({
-          //   values: {
-          //     ...prevState.values,
-          //     languageRequirements: [
-          //       ...prevState.values.languageRequirements.filter((item: any) => item.lang !== valueName && item.value !== 'disabled'), newValue
-              
-          //     ]
-      
-          //   }
-          // })); 
-
-          // this.setState((prevState) => ({
-          //   values: {
-          //     ...prevState.values,
-          //     languageRequirements: [
-          //       {
-          //         ...prevState.values.languageRequirements[0], 
-          //        newValue
-          //       },
-          //     ],
-          //   },
-          // }));
-        }  
+      }  
     else  if (valueName === "jobType") {
 
       const findItem = [...this.state.values.jobType];
@@ -781,7 +727,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public onBlur = (fields: string[]): void => {
-    console.log(fields);
     //const fieldErrors :string[] = [];
   
     fields.forEach((fieldId) => {
