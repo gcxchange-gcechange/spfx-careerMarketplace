@@ -727,8 +727,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public onBlur = (fields: string[]): void => {
-    //const fieldErrors :string[] = [];
-  
+
     fields.forEach((fieldId) => {
       const dropdownElement = document.getElementById(fieldId);
   
@@ -749,16 +748,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               this.setState({
                 inlineFieldErrors: [...this.state.inlineFieldErrors, fieldId]
               })
-
             }
           }
           else {
             this.setState({
-              inlineFieldErrors: []
+              inlineFieldErrors: [...this.state.inlineFieldErrors]
             })
           }
           
           tab = false;
+          console.log(tab);
+
         });
       }
     });
@@ -831,6 +831,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
+
+    console.log("INLINEERROR:",this.state.inlineFieldErrors)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',

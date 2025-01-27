@@ -68,6 +68,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public render(): React.ReactElement<IRequirementsProps> {
 
+    console.log("inlineFieldErrors", this.props.inlineFieldErrors);
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: 20,
@@ -97,7 +98,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         paddingBottom: '5px'
       }
     }
- 
+
+    const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
+
+
 
     return (
       <>
@@ -217,12 +221,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 selectedKey={this.props.values.languageRequirements[0].language.key}
                 ariaLabelRequired={'required'}
               />
-            </StackItem>
-
-            { this.props.inlineFieldErrors?.includes('language') && (
-                <div>{validate(this.props.values.languageRequirements[0].language.key,"language")}</div>
+               { this.props.inlineFieldErrors?.includes('language') && (
+                <div>{validate(this.props.values.languageRequirements[0].language.key)}</div>
               )
             }
+            </StackItem>
+
             <StackItem>
               <Stack horizontal tokens={customSpacingStackTokens}>
                     
@@ -293,7 +297,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                     
                   </StackItem>
               </Stack>
-              
+              {
+              languageComprehension.some((lang) => this.props.inlineFieldErrors?.includes(lang)) && (
+                <div>{validate(this.props.values.skills.key)}</div>
+              )
+            }
+ 
             </StackItem>    
           </Stack>
          

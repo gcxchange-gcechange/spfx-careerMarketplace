@@ -31,9 +31,7 @@ export const validateDropdowns = (value: any) : string | undefined  => {
     
 }
 
-export const validate = (value: any, valueName?: string) : string| JSX.Element | undefined => {
-
-    console.log("valueValudation", value)
+export const validate = (value: any ) : string| JSX.Element | undefined => {
 
     if (value === undefined || value === '' || value.length === 1 || value.key === "false") {
 
