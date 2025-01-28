@@ -101,6 +101,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
 
+  
+
+    const checkLanguageComp = languageComprehension.filter((lang) => this.props.inlineFieldErrors?.includes(lang)) ;
+    console.log("filter",checkLanguageComp)
+
+    const splitLanguageComprehension = checkLanguageComp.map((item) => (item.split(/^([^A-Z]+)([A-Z].*)$/).filter(Boolean)));
+
+    console.log("split",splitLanguageComprehension)
 
 
     return (
@@ -297,12 +305,28 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                     
                   </StackItem>
               </Stack>
-              {
+              {/* {
               languageComprehension.some((lang) => this.props.inlineFieldErrors?.includes(lang)) && (
-                <div>{validate(this.props.values.skills.key)}</div>
+                <div>{validate(this.props.values.languageRequirements[0])}</div>
               )
             }
- 
+  */}
+{/* 
+              {
+                languageComprehension.filter((lang) => this.props.inlineFieldErrors?.includes(lang)
+                ) && (
+                  <div>
+                    {languageComprehension.map((field) => {
+                      // Get the corresponding field from languageRequirements
+                      const [type, lang] = field.split(/([A-Za-z]+)/).filter(Boolean); 
+                      const fieldValue = this.props.values.languageRequirements[0][type][lang];
+                      
+                      // Pass the field value to validate
+                      return <div key={field}>{validate(fieldValue)}</div>;
+                    })}
+                  </div>
+                )
+              } */}
             </StackItem>    
           </Stack>
          

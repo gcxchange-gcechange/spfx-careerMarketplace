@@ -81,6 +81,8 @@ export interface ICareerMarketplaceState {
       {
         pageNumber: number,
         language: any,
+        readingEN: {value: ""},
+        readingFR: {value: ""},
         reading: { EN: string, FR:string },
         written: { EN: string, FR: string },
         oral: { EN: string, FR: string },
@@ -155,6 +157,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           {
             pageNumber: 2,
             language: {value: ""},
+            readingEN: {value: ""},
+            readingFR: {value: ""},
             reading: { EN: "", FR: "" },
             written: { EN: "", FR: "" },
             oral: { EN: "", FR: "" },
@@ -200,8 +204,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (currentPage === 2) {     
-        const isReadingEmpty = this.state.values.languageRequirements[0].reading.EN === "" || this.state.values.languageRequirements[0].reading.FR === "";
+    if (currentPage === 2) {    
+        const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
+       // const isReadingEmpty = this.state.values.languageRequirements[0].reading.EN === "" || this.state.values.languageRequirements[0].reading.FR === "";
         const isWrittenEmpty = this.state.values.languageRequirements[0].written.EN === "" || this.state.values.languageRequirements[0].written.FR === "";
         const isOralEmpty = this.state.values.languageRequirements[0].oral.EN === "" || this.state.values.languageRequirements[0].oral.FR === "";
 
