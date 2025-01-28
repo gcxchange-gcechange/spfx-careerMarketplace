@@ -202,13 +202,6 @@ stages:
         #       ls -la
         #       npm run publish-reviewer-azure
 
-        - task: CmdLine@2
-          displayName: 'list junit results'
-          continueOnError: true
-          inputs:
-            script: |
-              ls -latR haibun/junit
-
         - task: PublishTestResults@2
           inputs:
             testResultsFormat: 'JUnit'
