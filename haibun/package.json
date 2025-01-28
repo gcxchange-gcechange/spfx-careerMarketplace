@@ -6,12 +6,12 @@
 	},
 	"dependencies": {
 		"@haibun/azure": "^1.33.6",
-		"@haibun/cli": "^1.42.2",
-		"@haibun/core": "^1.42.0",
-		"@haibun/domain-storage": "^1.42.0",
-		"@haibun/out-xunit": "^1.42.1",
-		"@haibun/storage-fs": "^1.42.0",
+		"@haibun/cli": "^1.42.4",
+		"@haibun/core": "^1.42.4",
+		"@haibun/domain-storage": "^1.42.4",
+		"@haibun/out-xunit": "^1.42.4",
+		"@haibun/storage-fs": "^1.42.4",
 		"@haibun/web-accessibility-axe": "^1.40.9",
-		"@haibun/web-playwright": "^1.42.0"
+		"@haibun/web-playwright": "^1.42.4"
 	}
 }
