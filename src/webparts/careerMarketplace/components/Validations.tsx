@@ -26,7 +26,7 @@ export const validateEmpty = (value: string, fieldName: string): JSX.Element  | 
 export const validateDropdowns = (value: any) : string | undefined  => {
 
     if (value === '') {
-        return ( "Please select an option")
+        return ( "Please select an option2")
     }
     
 }
@@ -34,7 +34,7 @@ export const validateDropdowns = (value: any) : string | undefined  => {
 export const validate = (value: any ) : string| JSX.Element | undefined => {
     console.log("VALIDATE:", value)
 
-    if (value === undefined || value === '' || value.length === 1 || value.key === "false") {
+    if (value === undefined || value === "" || value.length === 0 || value.key === "false"|| value.key === "") {
 
         return ( 
             <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
@@ -42,6 +42,7 @@ export const validate = (value: any ) : string| JSX.Element | undefined => {
             </div>
         )
     }
+
 
 }
 

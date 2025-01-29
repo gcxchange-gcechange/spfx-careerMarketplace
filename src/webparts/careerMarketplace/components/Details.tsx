@@ -95,7 +95,9 @@ export default class Details extends React.Component<IDetailsProps> {
     const oneMonthLater = new Date();
     oneMonthLater.setMonth(today.getMonth() + 1);
 
-    const selectedItems = this.props.values.jobType.map((item: any) => item.value);
+    //const selectedItems = this.props.values.jobType.map((item: any) => item.value);
+    const selectedItems =  this.props.values.jobType.map((item: any) => item.value).filter((item: any) => item !== undefined)
+    console.log("type", this.props.values.jobType)
 
     return (
       <>
@@ -117,7 +119,6 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobTitleEn}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn')}
-            //onBlur={() => validateEmpty(jobTitleEn)}
             ariaLabelRequired={'required'}
           />
           

@@ -79,6 +79,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3 ;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
+    console.log("selectdSkills", selectedSkillItems)
 
     const options: IChoiceGroupOption[] = [
       { key: 'true', text: 'Yes' },
@@ -86,10 +87,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     ];
 
     const languageEvaluationOptions : IDropdownOption[] = [
-      {key: 'A', text: 'A'},
-      {key: 'B', text: 'B'},
-      {key: 'C', text: 'C'},
-      {key: 'E', text: 'E'}
+      {key: 0, text: 'A'},
+      {key: 1, text: 'B'},
+      {key: 2, text: 'C'},
+      {key: 3, text: 'E'}
     ]
 
     const langDropdownStyle : Partial<IDropdownStyles>= {
@@ -100,16 +101,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
 
     const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
-
-  
-
-    const checkLanguageComp = languageComprehension.filter((lang) => this.props.inlineFieldErrors?.includes(lang)) ;
-    console.log("filter",checkLanguageComp)
-
-    const splitLanguageComprehension = checkLanguageComp.map((item) => (item.split(/^([^A-Z]+)([A-Z].*)$/).filter(Boolean)));
-
-    console.log("split",splitLanguageComprehension)
-
+    console.log('skills', this.props.values.skills)
 
     return (
       <>
@@ -135,7 +127,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           />
 
           { this.props.inlineFieldErrors?.includes('skills') && (
-                <div>{validate(this.props.values.skills.key)}</div>
+                <div>{validate(selectedSkillItems)}</div>
               )
             }
       
@@ -260,6 +252,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         styles={langDropdownStyle}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
+                        
                       />
                     </Stack>
                     <Stack horizontal>
@@ -274,6 +267,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                       />
                     </Stack>
                   </StackItem>
+
                   <StackItem>
                     {/* <Label>French</Label> */}
                     <Dropdown
@@ -305,28 +299,16 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                     
                   </StackItem>
               </Stack>
-              {/* {
-              languageComprehension.some((lang) => this.props.inlineFieldErrors?.includes(lang)) && (
-                <div>{validate(this.props.values.languageRequirements[0])}</div>
-              )
-            }
-  */}
-{/* 
-              {
-                languageComprehension.filter((lang) => this.props.inlineFieldErrors?.includes(lang)
-                ) && (
-                  <div>
-                    {languageComprehension.map((field) => {
-                      // Get the corresponding field from languageRequirements
-                      const [type, lang] = field.split(/([A-Za-z]+)/).filter(Boolean); 
-                      const fieldValue = this.props.values.languageRequirements[0][type][lang];
-                      
-                      // Pass the field value to validate
-                      return <div key={field}>{validate(fieldValue)}</div>;
-                    })}
-                  </div>
+            {
+              languageComprehension
+                .filter((lang) => this.props.inlineFieldErrors?.includes(lang))
+                .some((field) => validate(this.props.values.languageRequirements?.[0]?.[field].key)) && (
+                  <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
+                      <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>Please select an option</p>
+                   </div>
                 )
-              } */}
+            }
+
             </StackItem>    
           </Stack>
          

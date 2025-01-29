@@ -70,7 +70,6 @@ export interface ICareerMarketplaceState {
     classificationLevel: any,
     durationLength:any,
     duration: any, 
-    //language: any, 
     security: any,
     city: any, 
     province: any,
@@ -83,9 +82,10 @@ export interface ICareerMarketplaceState {
         language: any,
         readingEN: {value: ""},
         readingFR: {value: ""},
-        reading: { EN: string, FR:string },
-        written: { EN: string, FR: string },
-        oral: { EN: string, FR: string },
+        writtenEN: {value: ""},
+        writtenFR: {value: ""},
+        oralEN: {value: ""},
+        oralFR: {value: ""},
       },
     ]
   }
@@ -152,16 +152,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         region: {value: "" , pageNumber: 2},
         city: {value: "" , pageNumber: 2},
         security: {value: "" , pageNumber: 2},
-       // language:{value: "" , pageNumber: 2},
         languageRequirements: [
           {
             pageNumber: 2,
             language: {value: ""},
             readingEN: {value: ""},
             readingFR: {value: ""},
-            reading: { EN: "", FR: "" },
-            written: { EN: "", FR: "" },
-            oral: { EN: "", FR: "" },
+            writtenEN: {value: ""},
+            writtenFR: {value: ""},
+            oralEN: {value: ""},
+            oralFR: {value: ""},
           },
         ],
         workArrangment: {value: "" , pageNumber: 2}, 
@@ -206,9 +206,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     if (currentPage === 2) {    
         const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
-       // const isReadingEmpty = this.state.values.languageRequirements[0].reading.EN === "" || this.state.values.languageRequirements[0].reading.FR === "";
-        const isWrittenEmpty = this.state.values.languageRequirements[0].written.EN === "" || this.state.values.languageRequirements[0].written.FR === "";
-        const isOralEmpty = this.state.values.languageRequirements[0].oral.EN === "" || this.state.values.languageRequirements[0].oral.FR === "";
+        const isWrittenEmpty = this.state.values.languageRequirements[0].writtenEN.value === "" || this.state.values.languageRequirements[0].writtenFR.value=== "";
+        const isOralEmpty = this.state.values.languageRequirements[0].oralEN.value === "" || this.state.values.languageRequirements[0].oralFR.value === "";
 
       if (this.state.values.languageRequirements[0].language.value === "") {
         checkValues.push({key:"language", value:""})
@@ -406,9 +405,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 languageRequirements: [
                   {
                     ...prevState.values.languageRequirements[0], 
-                    reading: {...prevState.values.languageRequirements[0].reading,  
-                    EN: value.key,
-                    },
+                    readingEN: value,
                   },
                 ],
               },
@@ -420,9 +417,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 languageRequirements: [
                   {
                     ...prevState.values.languageRequirements[0], 
-                    written: {...prevState.values.languageRequirements[0].written,  
-                    EN: value.key,
-                    },
+                    writtenEN: value,
                   },
                 ],
               },
@@ -435,9 +430,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 languageRequirements: [
                   {
                     ...prevState.values.languageRequirements[0], 
-                    oral: {...prevState.values.languageRequirements[0].oral,  
-                    EN: value.key,
-                    },
+                    oralEN: value,
                   },
                 ],
               },
@@ -450,9 +443,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 languageRequirements: [
                   {
                     ...prevState.values.languageRequirements[0], 
-                    reading: {...prevState.values.languageRequirements[0].reading,  
-                    FR: value.key,
-                    },
+                    readingFR: value,
                   },
                 ],
               },
@@ -464,9 +455,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 languageRequirements: [
                   {
                     ...prevState.values.languageRequirements[0], 
-                    written: {...prevState.values.languageRequirements[0].written,  
-                    FR: value.key,
-                    },
+                    writtenFR: value,
                   },
                 ],
               },
@@ -479,9 +468,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 languageRequirements: [
                   {
                     ...prevState.values.languageRequirements[0], 
-                    oral: {...prevState.values.languageRequirements[0].oral,  
-                    FR: value.key,
-                    },
+                    oralFR: value,
                   },
                 ],
               },
@@ -606,7 +593,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         duration: durationData
       })
 
-    } else if(currentPage === 2) {
+    } else 
+    if(currentPage === 2) {
       const skillsData = [];
       const skills = await _sp.web.lists.getByTitle('Skills').items.top(700)();
       const skillItemData = skills.map((items) => ({key: items.Id,  text: this.props.prefLang === 'fr-fr' ? items.TitleFr: items.TitleEN, pageNumber: 2}))
