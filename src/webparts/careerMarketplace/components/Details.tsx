@@ -280,6 +280,12 @@ export default class Details extends React.Component<IDetailsProps> {
               />
 
           {
+            this.props.inlineFieldErrors?.includes('durationLength') && (
+              <div>{validate(this.props.values.durationLength.value)}</div>
+            )
+          }
+
+          {
             this.props.inlineFieldErrors?.includes('duration') && (
               <div>{validate(this.props.values.duration.key)}</div>
             )
