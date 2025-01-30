@@ -25,7 +25,7 @@ export const validateEmpty = (value: string, fieldName: string): JSX.Element  | 
 
 export const validateDropdowns = (value: any) : string | undefined  => {
 
-    if (value === '') {
+    if (value === '' || value === 0) {
         return ( "Please select an option2")
     }
     
@@ -45,4 +45,7 @@ export const validate = (value: any ) : string| JSX.Element | undefined => {
 
 
 }
+
+
+  
 

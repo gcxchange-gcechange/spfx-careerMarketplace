@@ -4,7 +4,7 @@ import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { DatePicker, IDropdownOption, ISpinButtonStyles, IStackTokens, Label, Position, SpinButton, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
-import {  validate, validateEmpty } from "./Validations";
+import {  validate,  validateEmpty } from "./Validations";
 
 
 export interface IDetailsProps {
@@ -97,7 +97,9 @@ export default class Details extends React.Component<IDetailsProps> {
 
     //const selectedItems = this.props.values.jobType.map((item: any) => item.value);
     const selectedItems =  this.props.values.jobType.map((item: any) => item.value).filter((item: any) => item !== undefined)
-    console.log("type", this.props.values.jobType)
+    console.log("durationL", this.props.values.durationLength)
+
+
 
     return (
       <>
@@ -256,8 +258,8 @@ export default class Details extends React.Component<IDetailsProps> {
               <SpinButton
                 id={"durationLength"}
                 label="Length"
-                min={0}
-                max={100}
+                min={1}
+                max={365}
                 step={1}
                 incrementButtonAriaLabel="Increase value by 1"
                 decrementButtonAriaLabel="Decrease value by 1"
@@ -267,6 +269,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 defaultValue={this.props.values.durationLength.value}
               />
             </StackItem>
+
             <StackItem>
               <ReusableDropdownField
                 id={"duration"}
@@ -280,18 +283,11 @@ export default class Details extends React.Component<IDetailsProps> {
               />
 
           {
-            this.props.inlineFieldErrors?.includes('durationLength') && (
-              <div>{validate(this.props.values.durationLength.value)}</div>
-            )
-          }
-
-          {
             this.props.inlineFieldErrors?.includes('duration') && (
               <div>{validate(this.props.values.duration.key)}</div>
             )
           }
             </StackItem>
-           
           </Stack>
 
           <Stack  horizontal verticalAlign="center" >

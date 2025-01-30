@@ -701,12 +701,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
+    const getSpinButton = document.querySelectorAll('div[class*="spinButton"]');
    
     if(getElements) {
       getElements.forEach(element => {
         elementId.push(element.id)
        
       });
+    }
+
+    if(getSpinButton) {
+      getSpinButton.forEach(el => {
+        elementId.push(...elementId, el.id)
+      })
     }
 
     this.setState({
@@ -750,7 +757,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           }
           
           tab = false;
-          console.log(tab);
 
         });
       }
