@@ -2,9 +2,10 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { DatePicker, IDropdownOption, ISpinButtonStyles, IStackTokens, Label, Position, SpinButton, Stack, StackItem  } from "@fluentui/react";
+import { DatePicker, IDropdownOption, IStackTokens, Label, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
-import {  validate,  validateEmpty } from "./Validations";
+import {  validate,  validateDuration,  validateEmpty } from "./Validations";
+import styles from './CareerMarketplace.module.scss';
 
 
 export interface IDetailsProps {
@@ -77,7 +78,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
   public render(): React.ReactElement<IDetailsProps> {
 
-    const spinButtoStyles: Partial<ISpinButtonStyles> = { spinButtonWrapper: { width: 75 } };
+    //const spinButtoStyles: Partial<ISpinButtonStyles> = { spinButtonWrapper: { width: 75 } };
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
     };
@@ -254,7 +255,29 @@ export default class Details extends React.Component<IDetailsProps> {
             </Stack>
 
           <Stack horizontal tokens={customSpacingStackTokens}>
-            <StackItem>
+            <StackItem align='baseline'>
+              <Stack>
+                <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}><span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>*</span>Length</label>
+                <input 
+                  type="number"
+                  id={"durationLength"}
+                  name={"durationLength"}
+                  min={1}
+                  max={36}
+                  onChange = {e => this.props.handleDurationLength(e.target.value)}
+                  defaultValue={this.props.values.durationLength.value}
+                  required
+                  className={styles.durationLengthInput}
+                  readOnly={isReadOnly}
+                />
+              </Stack>
+              {
+                  this.props.inlineFieldErrors?.includes('durationLength') && (
+                    <div>{validateDuration(this.props.values.durationLength.value)}</div>
+                  )
+                }
+              
+{/*               
               <SpinButton
                 id={"durationLength"}
                 label="Length"
@@ -267,7 +290,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 labelPosition={Position.top}
                 onChange={this.onChangeSpinButton}
                 defaultValue={this.props.values.durationLength.value}
-              />
+              /> */}
             </StackItem>
 
             <StackItem>
@@ -282,11 +305,11 @@ export default class Details extends React.Component<IDetailsProps> {
                 ariaLabelRequired={'required'}
               />
 
-          {
-            this.props.inlineFieldErrors?.includes('duration') && (
-              <div>{validate(this.props.values.duration.key)}</div>
-            )
-          }
+                {
+                  this.props.inlineFieldErrors?.includes('duration') && (
+                    <div>{validate(this.props.values.duration.key)}</div>
+                  )
+                }
             </StackItem>
           </Stack>
 

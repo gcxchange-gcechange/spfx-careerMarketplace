@@ -128,7 +128,7 @@
 }
 
 .error {
-  border: 1px solid rgb(164, 38, 44);
+  border: 1px solid rgb(164, 38, 44)!important;
 }
 
 .errorDialog {
@@ -147,6 +147,18 @@
   width: 200px!important;
 }
 
+.durationLengthInput {
+  font-size: 14px;
+  color: rgb(50,49,48);
+  height: 100%;
+  padding: 0px 8px 0px 9px;
+  min-width: 61px;
+  height:30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: 1px solid rgb(96, 94, 92);
+  border-radius: 2px;
+}
 
 
 

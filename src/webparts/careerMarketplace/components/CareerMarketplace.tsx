@@ -243,6 +243,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
       const error = document.getElementById(element.key);
+
+      console.log("key",element.key)
         
       if (error) {
           error.classList.add(styles.error);
@@ -701,7 +703,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
-    const getSpinButton = document.querySelectorAll('div[class*="spinButton"]');
+    const getInputElement = document.querySelectorAll('[class^="durationLength"]');
    
     if(getElements) {
       getElements.forEach(element => {
@@ -710,11 +712,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       });
     }
 
-    if(getSpinButton) {
-      getSpinButton.forEach(el => {
-        elementId.push(...elementId, el.id)
+    if(getInputElement) {
+      getInputElement.forEach(el => {
+        elementId.push(...elementId, el.id);
       })
     }
+
 
     this.setState({
       dropdownFields: elementId
@@ -987,8 +990,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             </StackItem>
           </Stack>
           </>
-
-          // <Review/>
         ),
       },
       
