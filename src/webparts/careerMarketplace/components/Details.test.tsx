@@ -28,7 +28,7 @@ describe("Details Component", () => {
       jobTitleFr: "Développeur logiciel",
       jobDescriptionEn: "Develop software",
       jobDescriptionFr: "Développer des logiciels",
-      numOfOpps: "5",
+      numberOfOpportunities: "5", // Change from numOfOpps to numberOfOpportunities
       deadline: new Date(),
       jobType: { key: "jt1", text: "Full-Time" },
       programArea: { key: "pa1", text: "Program A" },
@@ -36,6 +36,9 @@ describe("Details Component", () => {
       classificationLevel: { key: "cl1", text: "Level 1" },
       duration: { key: "d1", text: "1 year" },
     },
+    jobTypeValues: [],
+    hasError: [],
+    fields: []
   };
 
   it("renders all fields correctly", () => {

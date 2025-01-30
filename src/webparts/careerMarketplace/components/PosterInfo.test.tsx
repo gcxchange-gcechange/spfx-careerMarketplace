@@ -15,11 +15,12 @@ describe("PosterInfo Component", () => {
     workEmail: "john.doe@example.com",
     currentPage: 0,
     handleDropDownItem: mockHandleDropDownItem,
-    handleOnChange: mockHandleOnChange,
     readOnly: false,
     values: {
       department: { key: "d1", text: "Department 1" },
     },
+    fields: [],
+    inlineFieldErrors: []
   };
 
   it("renders all fields correctly", () => {

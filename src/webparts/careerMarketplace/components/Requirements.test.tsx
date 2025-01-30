@@ -15,8 +15,8 @@ describe("Requirements Component", () => {
     province: [{ key: "p1", text: "Province1" }],
     region: [{ key: "r1", text: "Region1", provinceId: "p1" }],
     security: [{ key: "s1", text: "High" }],
-    wrkArrangment: [{ key: "wa1", text: "Remote" }],
-    wrkSchedule: [{ key: "ws1", text: "Full-Time" }],
+    workArrangment: [{ key: "wa1", text: "Remote" }], // Corrected typo from "wrkArrangment"
+    workSchedule: [{ key: "ws1", text: "Full-Time" }], // Corrected typo from "wrkSchedule"
     currentPage: 2,
     handleDropDownItem: mockHandleDropDownItem,
     handleOnChange: mockHandleOnChange,
@@ -25,15 +25,14 @@ describe("Requirements Component", () => {
       assetSkill: "TypeScript",
       approvedStaffing: "10",
       language: { key: "en", text: "English" },
-      location: { key: "loc1", text: "Location1" },
       security: { key: "s1", text: "High" },
       city: { key: "1", text: "City1" },
       province: { key: "p1", text: "Province1" },
       region: { key: "r1", text: "Region1" },
-      wrkArrangment: { key: "wa1", text: "Remote" },
-      wrkSchedule: { key: "ws1", text: "Full-Time" },
+      workArrangment: { key: "wa1", text: "Remote" },
+      workSchedule: { key: "ws1", text: "Full-Time" },
     },
-  };
+  };  
 
   it("renders all fields correctly", () => {
     const { getByText, getByLabelText } = render(<Requirements {...defaultProps} />);
