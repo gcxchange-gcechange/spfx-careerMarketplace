@@ -243,12 +243,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
       const error = document.getElementById(element.key);
-
-      console.log("key",element.key)
         
       if (error) {
           error.classList.add(styles.error);
       } 
+
     });
    
   }
