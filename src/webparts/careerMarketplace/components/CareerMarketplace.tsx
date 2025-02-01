@@ -245,7 +245,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const error = document.getElementById(element.key);
         
       if (error) {
-          error.classList.add(styles.error);
+        const childError = error.firstElementChild?.classList.add(styles.borderRemove);
+        error.classList.add(styles.error);
+        
+        console.log(childError)
+         
+         // error.style.removeProperty('borderColor:rgb(96, 94, 92)');
+         // error.style.removeProperty('borderWidth')
       } 
 
     });

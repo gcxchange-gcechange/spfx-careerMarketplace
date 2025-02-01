@@ -249,7 +249,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
                       *
                     </span>
-                      Duration
+                      Duration for Opportunity
                   </Label>
                 </StackItem>
             </Stack>
