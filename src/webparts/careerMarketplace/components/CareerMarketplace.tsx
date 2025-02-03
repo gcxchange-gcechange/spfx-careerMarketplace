@@ -63,7 +63,7 @@ export interface ICareerMarketplaceState {
     deadline: Date | undefined;
     department: any, 
     skills: any[],
-    approvedStaffing: string;
+    approvedStaffing: any[];
     jobType: any[],
     programArea: any,
     classificationCode: any,

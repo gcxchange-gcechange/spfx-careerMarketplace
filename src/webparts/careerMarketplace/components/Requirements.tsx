@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { ChoiceGroup, Dropdown, IChoiceGroupOption,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
+import { Checkbox, Dropdown, IChoiceGroupOption,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
@@ -55,14 +55,18 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
   };
 
-  public onChoiceChange = (ev: React.ChangeEvent<HTMLFormElement>, option: IChoiceGroupOption):void => {
+  // public onChoiceChange = (ev: React.ChangeEvent<HTMLFormElement>, option: IChoiceGroupOption):void => {
 
-    const eventName = ev.target.name;
+  //   const eventName = ev.target.name;
 
-    if(option) {
-      this.props.handleDropDownItem(eventName, option);
-    }
-  }
+  //   if(option) {
+  //     this.props.handleDropDownItem(eventName, option);
+  //   }
+  // }
+  public onChange = ( event: React.ChangeEvent<HTMLInputElement>, isChecked:boolean ): void => {
+    const checkBoxId = event.target.id;
+    this.props.checkedTerms( checkBoxId, isChecked) 
+}
 
   
 
@@ -340,7 +344,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               </StackItem>
             </Stack>
 
-            <ChoiceGroup
+            <Checkbox
               id={"approvedStaffing"}
               name={"approvedStaffing"}
               options={options}
@@ -348,6 +352,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               readOnly={isReadOnly}
               selectedKey={this.props.values.approvedStaffing.key}
             />
+             <Checkbox id='1' styles={checkBoxStyles} label={`${ this.strings.chk1 }`} onChange={ this.onChange } defaultChecked={this.props.checkedValues[0]}/>
             { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
                 <div>{validate(this.props.values.approvedStaffing.key)}</div>
               )

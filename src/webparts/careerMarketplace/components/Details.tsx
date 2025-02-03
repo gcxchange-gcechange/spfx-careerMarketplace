@@ -245,7 +245,7 @@ export default class Details extends React.Component<IDetailsProps> {
           </Stack>
           <Stack  horizontal verticalAlign="center" >
                 <StackItem >
-                  <Label htmlFor={'duration'} >
+                  <Label htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
                     <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
                       *
                     </span>
