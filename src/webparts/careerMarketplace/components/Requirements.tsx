@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { Checkbox, Dropdown, IChoiceGroupOption,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
+import { Checkbox, Dropdown,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
@@ -19,6 +19,7 @@ export interface IRequirementsProps {
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
   handleOnChange: (event: string, newValue?: string) => void;
+  checkedTerms:(event:any, isChecked?: boolean) => void;
   values: {
     skills: any;
     approvedStaffing: any;
@@ -55,40 +56,29 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
   };
 
-  // public onChoiceChange = (ev: React.ChangeEvent<HTMLFormElement>, option: IChoiceGroupOption):void => {
-
-  //   const eventName = ev.target.name;
-
-  //   if(option) {
-  //     this.props.handleDropDownItem(eventName, option);
-  //   }
-  // }
   public onChange = ( event: React.ChangeEvent<HTMLInputElement>, isChecked:boolean ): void => {
-    const checkBoxId = event.target.id;
-    this.props.checkedTerms( checkBoxId, isChecked) 
+    const eventName = event.target.id;
+    
+    if(isChecked === true) {
+      this.props.checkedTerms( eventName, isChecked) 
+    }
 }
 
   
 
   public render(): React.ReactElement<IRequirementsProps> {
 
-    console.log("inlineFieldErrors", this.props.inlineFieldErrors);
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: 20,
     };
 
-    const isReadOnly = this.props.currentPage !== 2;
+    const isReadOnly = this.props.currentPage === 3;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3 ;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
-    console.log("selectdSkills", selectedSkillItems)
 
-    const options: IChoiceGroupOption[] = [
-      { key: 'true', text: 'Yes' },
-      { key: 'false', text: 'No' },
-    ];
 
     const languageEvaluationOptions : IDropdownOption[] = [
       {key: 0, text: 'A'},
@@ -344,15 +334,9 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               </StackItem>
             </Stack>
 
-            <Checkbox
-              id={"approvedStaffing"}
-              name={"approvedStaffing"}
-              options={options}
-              onChange={this.onChoiceChange}
-              readOnly={isReadOnly}
-              selectedKey={this.props.values.approvedStaffing.key}
-            />
-             <Checkbox id='1' styles={checkBoxStyles} label={`${ this.strings.chk1 }`} onChange={ this.onChange } defaultChecked={this.props.checkedValues[0]}/>
+
+             <Checkbox id='1' name={"approvedStaffing"} label={"Yes"} onChange={ this.onChange } defaultChecked={this.props.values.approvedStaffing.value} disabled={isReadOnly}/>
+
             { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
                 <div>{validate(this.props.values.approvedStaffing.key)}</div>
               )

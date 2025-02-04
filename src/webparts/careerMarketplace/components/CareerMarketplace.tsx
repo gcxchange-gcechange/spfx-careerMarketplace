@@ -63,7 +63,7 @@ export interface ICareerMarketplaceState {
     deadline: Date | undefined;
     department: any, 
     skills: any[],
-    approvedStaffing: any[];
+    approvedStaffing: any;
     jobType: any[],
     programArea: any,
     classificationCode: any,
@@ -165,7 +165,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           },
         ],
         workArrangment: {value: "" , pageNumber: 2}, 
-        approvedStaffing: "",
+        approvedStaffing:{value:"", pageNumber: 2},
       }
     };
     this.alertRef = React.createRef();
@@ -192,9 +192,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
     for (const [key,value] of Object.entries(values)) {
+      console.log("value", value)
 
       if ((currentPgFields.includes(key) && value.value === "" )
-          || (currentPgFields.includes(key) && value.value === '0')
+          || (currentPgFields.includes(key) && value.value === '0') 
           || (stringValues.includes(key) && value === "") 
           || value.text === "--Select--" || (currentPgFields.includes(key) && value.length === 1) || value.text === 'No'
         ){
@@ -212,7 +213,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if (this.state.values.languageRequirements[0].language.value === "") {
         checkValues.push({key:"language", value:""})
       }
-      else if (this.state.values.languageRequirements[0].language.key === 3 && isReadingEmpty || isWrittenEmpty || isOralEmpty ) {
+      else if (this.state.values.languageRequirements[0].language.key === 3 && (isReadingEmpty || isWrittenEmpty || isOralEmpty )) {
         checkValues.push({key:"languageRequirements", value:""})
       }
     }
@@ -243,13 +244,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
       const error = document.getElementById(element.key);
+      console.log(error)
         
       if (error) {
         const childError = error.firstElementChild?.classList.add(styles.borderRemove);
+        const textFieldError = error.parentElement?.classList.add(styles.borderRemove)
         error.classList.add(styles.error);
         
-        console.log(childError)
-         
+        console.log(childError);
+        console.log(textFieldError)         
          // error.style.removeProperty('borderColor:rgb(96, 94, 92)');
          // error.style.removeProperty('borderWidth')
       } 
@@ -532,6 +535,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           }
         }))
     }
+  }
+
+  public checkedTerms = (event: any, isChecked?: boolean):void => {
+
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        approvedStaffing:  { ...prevState.values.approvedStaffing, value: isChecked}
+      }
+    }))
   }
 
   public async _populateDropDowns(): Promise<void> {
@@ -932,6 +945,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
             handleOnChange={this.handleOnChangeTextField} 
+            checkedTerms={this.checkedTerms}
             values={this.state.values}
             inlineFieldErrors={this.state.inlineFieldErrors}
             prefLang={this.props.prefLang}
@@ -987,6 +1001,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 currentPage= {this.state.currentPage}
                 handleDropDownItem={this.handleDropDownItem}
                 handleOnChange={this.handleOnChangeTextField} 
+                checkedTerms={this.checkedTerms}
                 values={this.state.values}
                 inlineFieldErrors={this.state.inlineFieldErrors}
                 skills={this.state.skillsList}
