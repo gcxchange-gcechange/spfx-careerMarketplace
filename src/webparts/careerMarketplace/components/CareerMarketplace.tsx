@@ -852,7 +852,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
-    console.log("INLINEERROR:",this.state.inlineFieldErrors)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
@@ -894,7 +893,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Information',
         content: (
           <PosterInfo 
-            
             items={this.state.departmentList} 
             userInfo={this.props.userDisplayName} 
             workEmail = {this.props.workEmail}
@@ -904,6 +902,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             values={this.state.values}
             fields={this.state.dropdownFields}
             inlineFieldErrors={this.state.inlineFieldErrors}
+            prefLang={this.props.prefLang}
           />
         ),
       },
@@ -927,6 +926,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             jobTypeValues={this.state.jobTypeValue}
             inlineFieldErrors ={this.state.inlineFieldErrors}
             fields={this.state.dropdownFields}
+            prefLang={this.props.prefLang}
           />
         ),
       },
@@ -950,6 +950,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             inlineFieldErrors={this.state.inlineFieldErrors}
             prefLang={this.props.prefLang}
             skills={this.state.skillsList}
+
           />
         ),
       },
@@ -970,6 +971,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 values={this.state.values}
                 fields={this.state.dropdownFields}
                 inlineFieldErrors={this.state.inlineFieldErrors}
+                prefLang={this.props.prefLang}
               />
               <Details 
                 programArea={this.state.programArea} 
@@ -986,6 +988,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 jobTypeValues={this.state.jobTypeValue}
                 hasError={this.state.hasError}
                 fields={this.state.dropdownFields}
+                prefLang={this.props.prefLang}
               />
             </StackItem>
             <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
@@ -1047,7 +1050,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 <>
                 
                   <div>
-                    <PageTitle currentPage={this.state.currentPage}/>
+                    <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang}/>
                   </div>
                   <div className={styles.stepper}>
                     <Steps

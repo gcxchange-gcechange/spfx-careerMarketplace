@@ -14,14 +14,25 @@ declare interface ICareerMarketplaceWebPartStrings {
   "job_Title": string;
   "number_of_Opportunities": string;
   "job_Description": string;
+  "job_Type":string;
+  "program_Area": string;
+  "classification_Code": string;
+  "classification_Level": string;
+  "duration": string;
+  "length": string;
+  "time_period": string;
+  "application_deadline": string;
+  
 
   //Page 3 - Opportunity Requirements
   "opportunityRequirements_title": string;
   "opportunityRequirements_para1": string;
+  "skills":string;
   "time_in_hours": string;
   "province": string;
   "region": string;
   "city": string;
+  "security_level": string;
   "language_requirements": string;
   "writtenEN": string;
   "readingEN": string;
@@ -38,6 +49,18 @@ declare interface ICareerMarketplaceWebPartStrings {
   "complete_title": string;
   "complete_para1": string;
   "view": string;
+
+  //buttons
+  "prev_btn":string;
+  "next_btn":string;
+
+  //accessibility
+  'required':string;
+
+  //languages
+  'english':string;
+  "french":string;
+
 }
 
 declare module 'CareerMarketplaceWebPartStrings' {

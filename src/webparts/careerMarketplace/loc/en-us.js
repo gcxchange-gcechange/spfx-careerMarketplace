@@ -15,19 +15,31 @@ define([], function() {
     "oppotunityDetails_para1": "",
     "job_Title":"Job Title ",
     "number_of_Opportunities":"Number of Opportunities",
-    "job_Description":"Job Description ",
+    "job_Description":"Job Description",
+    "job_Type":"Job Type",
+    "program_Area":"Program Area",
+    "classification_Code":"Classification Code",
+    "classification_Level":"Classification Level",
+    "duration":"Duration for opportunity",
+    "length":"Length",
+    "time_period":"Time period",
+    "application_deadline":"Application deadline",
+
+    
 
     //Page 3 - Opportunity Requirements
     "opportunityRequirements_title": "Opportunity Requirements",
-    "opportunityRequirements_para1": "",
+    "opportunityRequirements_para1":"Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information.",
+    "skills":"Skills",
     "time_in_hours":"Time in hours",
     "province":"Province",
     "region":"Region",
     "city":"City",
-    "language_requirements":"",
-    "writtenEN": "English writtten expresion",
-    "readingEN": "English reading comprehension",
-    "oralEN": "English oral expression",
+    "security_level":"Security level",
+    "language_requirements":"language requirements",
+    "writtenEN": "Writtten expresion",
+    "readingEN": "Reading comprehension",
+    "oralEN": "Oral expression",
     "writtenFr": "French writtten expresion",
     "readingFr": "French reading comprehension",
     "oralFr": "French oral expression",
@@ -40,7 +52,18 @@ define([], function() {
     "complete_title":"Complete",
     "complete_para1":"Congratulations! You have created a new opportunity.",
     "view":"View Opportunity",
-   
+
+    //buttons
+    "prev_btn":"Previous",
+    "next_btn": "Next",
+
+    //accessibility
+    'required': 'required field',
+
+    //languages
+    'english': "(english)",
+    "french": "(french)"
+
    
    
 

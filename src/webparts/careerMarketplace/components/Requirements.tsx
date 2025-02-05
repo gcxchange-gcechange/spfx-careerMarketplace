@@ -23,7 +23,6 @@ export interface IRequirementsProps {
   values: {
     skills: any;
     approvedStaffing: any;
-    //language: any;
     security: any;
     city: any;
     province: any;
@@ -89,7 +88,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const langDropdownStyle : Partial<IDropdownStyles>= {
       dropdown: {
-        width: 80,
+        width: 100,
         paddingBottom: '5px'
       }
     }
@@ -102,7 +101,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         <div>
           {this.props.currentPage === 2 && (
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {this.strings.opportunityRequirements_para1}
             </p>
           )}
         </div>
@@ -111,7 +110,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"skills"}
             name={"skills"}
-            title={"Skills"}
+            title={this.strings.skills}
             onChange={this.onChangeDropDownItem}
             options={this.props.skills}
             selectedKeys={selectedSkillItems}
@@ -128,12 +127,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"workSchedule"}
             name={"workSchedule"}
-            title={"Time in hours"}
+            title={this.strings.time_in_hours}
             options={this.props.workSchedule}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKeys={this.props.values.workSchedule.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
             { this.props.inlineFieldErrors?.includes('workSchedule') && (
@@ -143,12 +142,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"province"}
             name={"province"}
-            title={"Province"}
+            title={this.strings.province}
             options={this.props.province}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.province.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
            { this.props.inlineFieldErrors?.includes('province') && (
@@ -159,12 +158,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"region"}
             name={"region"}
-            title={"Region"}
+            title={this.strings.region}
             options={filteredRegions}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.region.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
           { this.props.inlineFieldErrors?.includes('region') && (
@@ -175,12 +174,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"city"}
             name={"city"}
-            title={"City"}
+            title={this.strings.city}
             options={filteredCities}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.city.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
            { this.props.inlineFieldErrors?.includes('city') && (
@@ -191,12 +190,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"security"}
             name={"security"}
-            title={"Security Level"}
+            title={this.strings.security_level}
             options={this.props.security}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.security.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
            { this.props.inlineFieldErrors?.includes('security') && (
@@ -208,12 +207,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               <ReusableDropdownField
                 id={"language"}
                 name={"language"}
-                title={"Language requirements"}
+                title={this.strings.language_requirements}
                 options={this.props.language}
                 onChange={this.onChangeDropDownItem}
                 readOnly={isReadOnly}
                 selectedKey={this.props.values.languageRequirements[0].language.key}
-                ariaLabelRequired={'required'}
+                ariaLabelRequired={this.strings.required}
               />
                { this.props.inlineFieldErrors?.includes('language') && (
                 <div>{validate(this.props.values.languageRequirements[0].language.key)}</div>
@@ -226,11 +225,11 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                     
                   <StackItem>
                     <Stack horizontal verticalAlign="end">
-                      <Label htmlFor={'readingEn'} style={{width:'200px'}} >Reading comprehension</Label>
+                      <Label htmlFor={'readingEn'} style={{width:'200px'}} >{this.props.prefLang === 'fr-fr' ? this.strings.readingEN.replace(/\s\w+$/, "") : this.strings.readingEN.replace(/^\w+\s/, "")}</Label>
                       <Dropdown
                         id={"readingEN"}
                         title={"Reading comprehension"}
-                        label={"English"}
+                        label={this.strings.english.replace(/[()]/g, "").replace(/^./, c => c.toUpperCase())}
                         options={languageEvaluationOptions}
                         styles={langDropdownStyle}
                         disabled={disabledField}
@@ -238,10 +237,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                       />
                     </Stack>
                     <Stack horizontal>
-                      <Label style={{width:'200px'}}>Written expression</Label>
+                      <Label style={{width:'200px'}}>{this.props.prefLang === 'fr-fr' ? this.strings.writtenEN.replace(/\s\w+$/, "") : this.strings.writtenEN.replace(/^\w+\s/, "")}</Label>
                       <Dropdown
                         id={"writtenEN"}
-                        title={"Written expression"}
+                        title={this.strings.writtenEN}
                         options={languageEvaluationOptions}
                         styles={langDropdownStyle}
                         disabled={disabledField}
@@ -250,7 +249,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                       />
                     </Stack>
                     <Stack horizontal>
-                      <Label style={{width:'200px'}}>Oral expression</Label>
+                      <Label style={{width:'200px'}}>{this.strings.oralEN}</Label>
                       <Dropdown
                         id={"oralEN"}
                         title = {"Oral expression"}
@@ -267,10 +266,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                     <Dropdown
                         id={"readingFR"}
                         options={languageEvaluationOptions}
-                        title={strings.readingFR}
-                        label="French"
+                        //title={this.strings.readingFR}
+                        label={this.strings.french.replace(/[()]/g, "").replace(/^./, c => c.toUpperCase())}
                         styles={langDropdownStyle}
-                        ariaLabel={strings.readingFR}
+                        ariaLabel={this.strings.readingFR}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
                     />
@@ -315,7 +314,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.workArrangment.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
             { this.props.inlineFieldErrors?.includes('workArrangment') && (
                 <div>{validate(this.props.values.workArrangment.key)}</div>
@@ -326,7 +325,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             <Stack  horizontal verticalAlign="center" >
               <StackItem >
                 <Label htmlFor={'deadline'} >
-                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
+                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
                     *
                   </span>
                   Approved Staffing

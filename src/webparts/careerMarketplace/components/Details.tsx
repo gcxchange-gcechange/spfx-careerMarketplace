@@ -6,9 +6,11 @@ import { DatePicker, IDropdownOption, IStackTokens, Label, Stack, StackItem  } f
 import * as moment from "moment";
 import {  validate,  validateDuration,  validateEmpty } from "./Validations";
 import styles from './CareerMarketplace.module.scss';
+import { SelectLanguage } from "./SelectLanguage";
 
 
 export interface IDetailsProps {
+  prefLang: string;
   programArea: any[];
   classificationCode: any[];
   classificationLevel: any[];
@@ -41,6 +43,7 @@ export interface IDetailsProps {
 }
 
 export default class Details extends React.Component<IDetailsProps> {
+  public strings = SelectLanguage(this.props.prefLang);
 
   public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
     const eventName = event.target.name;
@@ -78,7 +81,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
   public render(): React.ReactElement<IDetailsProps> {
 
-    //const spinButtoStyles: Partial<ISpinButtonStyles> = { spinButtonWrapper: { width: 75 } };
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
     };
@@ -96,9 +98,7 @@ export default class Details extends React.Component<IDetailsProps> {
     const oneMonthLater = new Date();
     oneMonthLater.setMonth(today.getMonth() + 1);
 
-    //const selectedItems = this.props.values.jobType.map((item: any) => item.value);
     const selectedItems =  this.props.values.jobType.map((item: any) => item.value).filter((item: any) => item !== undefined)
-    console.log("durationL", this.props.values.durationLength)
 
 
 
@@ -107,8 +107,7 @@ export default class Details extends React.Component<IDetailsProps> {
         <div>
           {this.props.currentPage === 1 && (
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+              {this.strings.oppotunityDetails_para1}
             </p>
           )}
         </div>
@@ -117,60 +116,60 @@ export default class Details extends React.Component<IDetailsProps> {
           <ReusableTextField
             id={"jobTitleEn"}
             name={"jobTitleEn"}
-            title={"Job Title (EN)"}
+            title={`${this.strings.job_Title} ${this.strings.english}`}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobTitleEn}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn')}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
           
           
           <ReusableTextField
             id={"jobTitleFr"}
             name={"jobTitleFr"}
-            title={"Job Title (FR)"}
+            title={`${this.strings.job_Title} ${this.strings.french}`}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleFr, 'jobTitleFr')}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
           <ReusableTextField
             id={"jobDescriptionEn"}
             name={"jobDescriptionEn"}
-            title={"Job Description (EN)"}
+            title={`${this.strings.job_Description} ${this.strings.english}`}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionEn}
             multiline={true}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionEn, 'jobDescriptionEn')}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
           <ReusableTextField
             id={"jobDescriptionFr"}
             name={"jobDescriptionFr"}
-            title={"Job Description (FR)"}
+            title={`${this.strings.job_Description} ${this.strings.french}`}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             multiline={true}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescritpionFr')}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
           <div>
           <ReusableDropdownField
             id={"jobType"}
             name={"jobType"}
-            title={"Job Type"}
+            title={this.strings.job_Type}
             options={this.props.jobType}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKeys={selectedItems}
             multiselect
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
           {
             this.props.inlineFieldErrors?.includes('jobType') && (
@@ -183,12 +182,12 @@ export default class Details extends React.Component<IDetailsProps> {
           <ReusableDropdownField
             id={"programArea"}
             name={"programArea"}
-            title={"Program area"}
+            title={this.strings.program_Area}
             options={[{key:"", text: "--Select--"}, ...this.props.programArea]}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.programArea.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
             {
             this.props.inlineFieldErrors?.includes('programArea') && (
@@ -200,12 +199,12 @@ export default class Details extends React.Component<IDetailsProps> {
           <ReusableDropdownField
             id={"classificationCode"}
             name={"classificationCode"}
-            title={"Classification"}
+            title={this.strings.classification_Code}
             options={[{key:"", text: "--Select--"}, ...this.props.classificationCode]}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.classificationCode.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
             {
@@ -217,12 +216,12 @@ export default class Details extends React.Component<IDetailsProps> {
           <ReusableDropdownField
             id={"classificationLevel"}
             name={"classificationLevel"}
-            title={"Clasification Level"}
+            title={this.strings.classification_Level}
             options={[{key:"", text: "--Select--"}, ...this.props.classificationLevel]}
             onChange={this.onChangeDropDownItem}
             readOnly={isReadOnly}
             selectedKey={this.props.values.classificationLevel.key}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
 
             {
@@ -234,22 +233,22 @@ export default class Details extends React.Component<IDetailsProps> {
           <ReusableTextField
             id={"numberOfOpportunities"}
             name={"numberOfOpportunities"}
-            title={"Number of opportunities"}
+            title={this.strings.number_of_Opportunities}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.numberOfOpportunities}
             readOnly={isReadOnly}
             onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
-            ariaLabelRequired={'required'}
+            ariaLabelRequired={this.strings.required}
           />
           
           </Stack>
           <Stack  horizontal verticalAlign="center" >
                 <StackItem >
                   <Label htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
-                    <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
+                    <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
                       *
                     </span>
-                      Duration for Opportunity
+                      {this.strings.duration}
                   </Label>
                 </StackItem>
             </Stack>
@@ -257,7 +256,7 @@ export default class Details extends React.Component<IDetailsProps> {
           <Stack horizontal tokens={customSpacingStackTokens}>
             <StackItem align='baseline'>
               <Stack>
-                <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}><span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>*</span>Length</label>
+                <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}><span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>*</span>{this.strings.length}</label>
                 <input 
                   type="number"
                   id={"durationLength"}
@@ -277,32 +276,18 @@ export default class Details extends React.Component<IDetailsProps> {
                   )
                 }
               
-{/*               
-              <SpinButton
-                id={"durationLength"}
-                label="Length"
-                min={1}
-                max={365}
-                step={1}
-                incrementButtonAriaLabel="Increase value by 1"
-                decrementButtonAriaLabel="Decrease value by 1"
-                styles={spinButtoStyles}
-                labelPosition={Position.top}
-                onChange={this.onChangeSpinButton}
-                defaultValue={this.props.values.durationLength.value}
-              /> */}
             </StackItem>
 
             <StackItem>
               <ReusableDropdownField
                 id={"duration"}
                 name={"duration"}
-                title={"time period"}
+                title={this.strings.time_period}
                 options={[{key:"", text: "--Select--"}, ...this.props.duration]}
                 onChange={this.onChangeDropDownItem}
                 selectedKey={this.props.values.duration.key}
                 readOnly={isReadOnly}
-                ariaLabelRequired={'required'}
+                ariaLabelRequired={this.strings.required}
               />
 
                 {
@@ -316,10 +301,10 @@ export default class Details extends React.Component<IDetailsProps> {
           <Stack  horizontal verticalAlign="center" >
             <StackItem >
               <Label htmlFor={'deadline'} >
-                <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
+                <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
                   *
                 </span>
-                Application deadline
+                {this.strings.application_deadline}
               </Label>
             </StackItem>
           </Stack>
