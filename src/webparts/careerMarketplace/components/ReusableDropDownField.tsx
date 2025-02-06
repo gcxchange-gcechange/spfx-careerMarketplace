@@ -27,15 +27,17 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
   public customLabel = (): JSX.Element => {
 
-    const excludedIds = ['readingEN', 'writtenEN', 'oralEN','readingFr', 'writtenFr', 'oralFr'];
+    const excludedIds = ['readingEN', 'writtenEN', 'oralEN','readingFr', 'writtenFr', 'oralFr' ];
 
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem >
         <Label htmlFor={this.props.id} className={!excludedIds.includes(this.props.id) ? styles.width200 : ''} >
-          <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
+          { this.props.id !== 'duration' ? <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
             *
           </span>
+          : ''
+          }
             {this.props.title}
         </Label>
       </StackItem>

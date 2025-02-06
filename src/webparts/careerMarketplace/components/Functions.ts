@@ -1,6 +1,7 @@
 
 
 export const toTitleCase = ( value: {key: string, value: string | number}[]): string[] => {
+  console.log("ERROR VALUES",value)
 
   const properCaseValues: string[] = [];
 

@@ -43,6 +43,8 @@ define([], function() {
       "writtenFR": "Expression écrite francais",
       "readingFR": "Compréhension de l’écrit francais",
       "oralFR": "Compétence orale francais",
+      "work_arrangment":"Régimes de travail",
+      "approved_staffing":"Effectif approuvé",
      
       //Page 4 - Review and Submit
       "reviewSubmit_title": "Revoir et soumettre",
@@ -52,18 +54,22 @@ define([], function() {
       "complete_title":"Terminer",
       "complete_para1":"Félicitations! Vous avez créé une nouvelle possibilité d’emploi",
       "view":"Afficher la possibilité d’emploi",
-      
+      "complete_para2":"Vous pouvez modifier ou consulter votre possibilité d’emploi ou vous rendre sur la page d’accueil du Carrefour de carrière.",
 
+    
       //buttons
-      "prev_btn":"Previous",
-      "next_btn": "Next",
+      "prev_btn":"Précédent",
+      "next_btn": "Suivant",
 
       //accessibility
       'required': 'champ obligatoire',
 
       //languages
       'english': "(anglais)",
-      "french": "(français)"
+      "french": "(français)",
+      "select": "sélectionner",
+      "submit_btn": "Allons-y",
+      "complete_button": "Page d’accueil de Carrefour de carrière",
 
 
       

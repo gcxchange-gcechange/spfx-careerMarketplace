@@ -40,6 +40,10 @@ declare interface ICareerMarketplaceWebPartStrings {
   "writtenFR": string;
   "readingFR": string;
   "oralFR": string;
+  "work_arrangment": string;
+  "approved_staffing": string;
+
+
  
   //Page 4 - Review and Submit
   "reviewSubmit_title": string;
@@ -49,6 +53,8 @@ declare interface ICareerMarketplaceWebPartStrings {
   "complete_title": string;
   "complete_para1": string;
   "view": string;
+  "complete_para2": string;
+
 
   //buttons
   "prev_btn":string;
@@ -60,6 +66,9 @@ declare interface ICareerMarketplaceWebPartStrings {
   //languages
   'english':string;
   "french":string;
+  "select":string;
+  "submit_btn": string;
+  "complete_button": string;
 
 }
 

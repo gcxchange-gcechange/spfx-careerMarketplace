@@ -62,7 +62,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             id={"department"}
             name={"department"}
             title={this.strings.department}
-            options={[{key: "", text: "--Select--"},...this.props.items.sort()]}
+            options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
             onChange={this.onChangeDropDownItem}
             disabled={this.props.currentPage === 3}
             selectedKey={this.props.values.department.key}

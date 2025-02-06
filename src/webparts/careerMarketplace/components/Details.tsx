@@ -85,7 +85,7 @@ export default class Details extends React.Component<IDetailsProps> {
       childrenGap: '10%',
     };
 
-    const isReadOnly = this.props.currentPage !== 1;
+    const isReadOnly = this.props.currentPage === 3;
     const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities} = this.props.values;
 
     const reformatDate = ():string => {
@@ -166,7 +166,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={this.strings.job_Type}
             options={this.props.jobType}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKeys={selectedItems}
             multiselect
             ariaLabelRequired={this.strings.required}
@@ -183,9 +183,9 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"programArea"}
             name={"programArea"}
             title={this.strings.program_Area}
-            options={[{key:"", text: "--Select--"}, ...this.props.programArea]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.programArea]}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKey={this.props.values.programArea.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -200,9 +200,9 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"classificationCode"}
             name={"classificationCode"}
             title={this.strings.classification_Code}
-            options={[{key:"", text: "--Select--"}, ...this.props.classificationCode]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.classificationCode]}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKey={this.props.values.classificationCode.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -217,9 +217,9 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"classificationLevel"}
             name={"classificationLevel"}
             title={this.strings.classification_Level}
-            options={[{key:"", text: "--Select--"}, ...this.props.classificationLevel]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.classificationLevel]}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKey={this.props.values.classificationLevel.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -236,7 +236,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={this.strings.number_of_Opportunities}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.numberOfOpportunities}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
             ariaLabelRequired={this.strings.required}
           />
@@ -256,7 +256,7 @@ export default class Details extends React.Component<IDetailsProps> {
           <Stack horizontal tokens={customSpacingStackTokens}>
             <StackItem align='baseline'>
               <Stack>
-                <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}><span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>*</span>{this.strings.length}</label>
+                <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}>{this.strings.length}</label>
                 <input 
                   type="number"
                   id={"durationLength"}
@@ -283,10 +283,10 @@ export default class Details extends React.Component<IDetailsProps> {
                 id={"duration"}
                 name={"duration"}
                 title={this.strings.time_period}
-                options={[{key:"", text: "--Select--"}, ...this.props.duration]}
+                options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.duration]}
                 onChange={this.onChangeDropDownItem}
                 selectedKey={this.props.values.duration.key}
-                readOnly={isReadOnly}
+                disabled={isReadOnly}
                 ariaLabelRequired={this.strings.required}
               />
 
@@ -310,7 +310,8 @@ export default class Details extends React.Component<IDetailsProps> {
           </Stack>
 
             <DatePicker
-            id={"deadline"}          
+            id={"deadline"}
+            className={styles.labelStyle}     
             ariaLabel="Select a date"
             onSelectDate={this.onSelectedDate}
             disabled={isReadOnly}

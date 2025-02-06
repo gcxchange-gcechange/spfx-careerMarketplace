@@ -197,7 +197,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
           || (stringValues.includes(key) && value === "") 
-          || value.text === "--Select--" || (currentPgFields.includes(key) && value.length === 1) || value.text === 'No'
+          || value.text === `--${this.strings.select}--` || (currentPgFields.includes(key) && value.length === 1) || value.text === 'No'
         ){
         
         checkValues.push({key, value })
@@ -263,12 +263,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
+    console.log(this.state.hasError)
   
     if(this.state.hasError.length !== 0) {
       this.setState({
         disableButton: true
       })
-    }
+    } else (
+      this.setState({
+        disableButton: false
+      })
+    )
 
     if (this.state.currentPage > 0 && this.state.hasError.length === 0) {
       this.setState({
@@ -1029,18 +1034,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 this.state.validationStatus === 400 ? (
                 <>                  
                   <div>
-                    <Complete/>
+                    <Complete prefLang={this.props.prefLang}/>
                   </div>  
                   <div style={{width: '100%', display: 'flex'}}>                  
                     <div style={{width: '40%'}}>
                       <Stack horizontal horizontalAlign="space-between">
-                        <CustomButton id={'edit'} name={'Edit'} buttonType={'secondary'} onClick={() => this.prev()}/>
-                        <CustomButton id={'view'} name={'View Opportunity'} buttonType={'secondary'} onClick={() => this.prev()}/>
+                        <CustomButton id={'view'} name={this.strings.view} buttonType={'secondary'} onClick={() => this.prev()}/>
                       </Stack> 
                     </div>
                     <div style={{width: '60%'}}>
                       <Stack horizontal horizontalAlign='end'>
-                        <CustomButton id={'home'} name={'Career Marketplace HomePage'} buttonType={'primary'} onClick={() => this.prev()}/>
+                        <CustomButton id={'home'} name={this.strings.complete_button} buttonType={'primary'} onClick={() => this.prev()}/>
                       </Stack> 
                     </div>
                   </div>
@@ -1086,14 +1090,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     <Stack horizontal horizontalAlign={currentPage !== 0 ?'space-between' : 'end'}>
                       {
                         currentPage !== 0 && (
-                          <CustomButton id={'prev'} name={'Previous'} buttonType={'secondary'} disabled={this.state.disableButton} onClick={() => this.prev()}/>
+                          <CustomButton id={'prev'} name={this.strings.prev_btn} buttonType={'secondary'} disabled={this.state.disableButton} onClick={() => this.prev()}/>
                         )
                       }
                      
                       { currentPage === 3 ? 
                         <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
                         :
-                        <CustomButton id={'next'} name={'Next'} buttonType={'primary'} disabled={this.state.disableButton}  onClick={() => this.next()}/>
+                        <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} disabled={this.state.disableButton}  onClick={() => this.next()}/>
                       }
                     </Stack>
                   </div>

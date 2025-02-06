@@ -36,13 +36,17 @@ define([], function() {
     "region":"Region",
     "city":"City",
     "security_level":"Security level",
-    "language_requirements":"language requirements",
-    "writtenEN": "Writtten expresion",
-    "readingEN": "Reading comprehension",
-    "oralEN": "Oral expression",
+    "language_requirements":"Language requirements",
+    "writtenEN": "English Writtten expresion",
+    "readingEN": "English Reading comprehension",
+    "oralEN": "English Oral expression",
     "writtenFr": "French writtten expresion",
     "readingFr": "French reading comprehension",
     "oralFr": "French oral expression",
+    "work_arrangment":"Work arrangement",
+    "approved_staffing":"Approved staffing",
+
+
 
     //Page 4 - Review and Submit
     "reviewSubmit_title": "Review and submit",
@@ -52,6 +56,8 @@ define([], function() {
     "complete_title":"Complete",
     "complete_para1":"Congratulations! You have created a new opportunity.",
     "view":"View Opportunity",
+    "complete_para2":"You can edit or view your opportunity or go to Career Marketplace homepage.",
+
 
     //buttons
     "prev_btn":"Previous",
@@ -62,7 +68,10 @@ define([], function() {
 
     //languages
     'english': "(english)",
-    "french": "(french)"
+    "french": "(french)",
+    "select": "Select",
+    "submit_btn": "Submit",
+    "complete_button": "Career Marketplace Homepage",
 
    
    

@@ -89,7 +89,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const langDropdownStyle : Partial<IDropdownStyles>= {
       dropdown: {
         width: 100,
-        paddingBottom: '5px'
+        paddingBottom: '5px',
+      },
+      root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
       }
     }
 
@@ -114,7 +119,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             options={this.props.skills}
             selectedKeys={selectedSkillItems}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             multiselect
             ariaLabelRequired={'required'}
           />
@@ -130,7 +135,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.time_in_hours}
             options={this.props.workSchedule}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKeys={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -145,7 +150,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.province}
             options={this.props.province}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKey={this.props.values.province.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -161,7 +166,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.region}
             options={filteredRegions}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -177,7 +182,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.city}
             options={filteredCities}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKey={this.props.values.city.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -193,7 +198,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.security_level}
             options={this.props.security}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKey={this.props.values.security.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -210,7 +215,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 title={this.strings.language_requirements}
                 options={this.props.language}
                 onChange={this.onChangeDropDownItem}
-                readOnly={isReadOnly}
+                disabled={isReadOnly}
                 selectedKey={this.props.values.languageRequirements[0].language.key}
                 ariaLabelRequired={this.strings.required}
               />
@@ -249,7 +254,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                       />
                     </Stack>
                     <Stack horizontal>
-                      <Label style={{width:'200px'}}>{this.strings.oralEN}</Label>
+                      <Label style={{width:'200px'}}>{this.props.prefLang === 'fr-fr' ? this.strings.writtenEN.replace(/\s\w+$/, "") : this.strings.writtenEN.replace(/^\w+\s/, "")}</Label>
                       <Dropdown
                         id={"oralEN"}
                         title = {"Oral expression"}
@@ -309,10 +314,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"workArrangment"}
             name={"workArrangment"}
-            title={"Work arrangement"}
+            title={this.strings.work_arrangment}
             options={this.props.workArrangment}
             onChange={this.onChangeDropDownItem}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             selectedKey={this.props.values.workArrangment.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -328,7 +333,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                   <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
                     *
                   </span>
-                  Approved Staffing
+                  {this.strings.approved_staffing}
                 </Label>
               </StackItem>
             </Stack>
