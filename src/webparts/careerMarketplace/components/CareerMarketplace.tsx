@@ -263,19 +263,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
-    console.log(this.state.hasError)
+    //console.log(this.state.hasError)
   
-    if(this.state.hasError.length !== 0) {
-      this.setState({
-        disableButton: true
-      })
-    } else (
-      this.setState({
-        disableButton: false
-      })
-    )
+    // if(this.state.hasError.length !== 0) {
+    //   this.setState({
+    //     disableButton: true
+    //   })
+    // } else (
+    //   this.setState({
+    //     disableButton: false
+    //   })
+    // )
 
-    if (this.state.currentPage > 0 && this.state.hasError.length === 0) {
+    if (this.state.currentPage > 0 ) {
       this.setState({
         currentPage: prevPage
       })
@@ -1070,14 +1070,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       {
                         this.changeFieldNameFormat()
                       }
-                     
-                        {/* {this.state.hasError.map((item) => (
-                          <ul key={item.key} style={{color: '#8F0000'}}>
-                            <li>
-                              <a href={`#${item.key}`}>The {item.key} field is required</a> 
-                            </li>
-                          </ul>
-                        ))} */}
+                    
                     </div>
                     )
                   }
@@ -1090,14 +1083,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     <Stack horizontal horizontalAlign={currentPage !== 0 ?'space-between' : 'end'}>
                       {
                         currentPage !== 0 && (
-                          <CustomButton id={'prev'} name={this.strings.prev_btn} buttonType={'secondary'} disabled={this.state.disableButton} onClick={() => this.prev()}/>
+                          <CustomButton id={'prev'} name={this.strings.prev_btn} buttonType={'secondary'} onClick={() => this.prev()}/>
                         )
                       }
                      
                       { currentPage === 3 ? 
                         <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
                         :
-                        <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} disabled={this.state.disableButton}  onClick={() => this.next()}/>
+                        <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
                       }
                     </Stack>
                   </div>

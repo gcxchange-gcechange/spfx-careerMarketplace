@@ -63,6 +63,8 @@ export default class Details extends React.Component<IDetailsProps> {
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventId = event.target.id;
+    const eventName = event.target.name
+    console.log(eventName)
 
     if (item) {
       this.props.handleDropDownItem(eventId, item);
