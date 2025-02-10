@@ -99,7 +99,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
 
     const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
-    console.log('skills', this.props.values.skills)
 
     return (
       <>

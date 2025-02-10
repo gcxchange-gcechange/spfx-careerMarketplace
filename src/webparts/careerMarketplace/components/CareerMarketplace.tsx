@@ -138,8 +138,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobTitleFr: "",
         jobDescriptionEn: "",
         jobDescriptionFr: "",
-        jobType: [{pageNumber: 1}],
-        programArea: {value: "" , pageNumber: 1},
+        jobType: [{pageNumber: 1, Label:"", Guid:""}],
+        programArea: {value: "" , pageNumber: 1, Label:"", Guid:""},
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
         numberOfOpportunities: "1",
@@ -192,7 +192,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
     for (const [key,value] of Object.entries(values)) {
-      console.log("value", value)
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
@@ -244,17 +243,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
       const error = document.getElementById(element.key);
-      console.log(error)
         
       if (error) {
-        const childError = error.firstElementChild?.classList.add(styles.borderRemove);
-        const textFieldError = error.parentElement?.classList.add(styles.borderRemove)
+        error.firstElementChild?.classList.add(styles.borderRemove);
+        error.parentElement?.classList.add(styles.borderRemove)
         error.classList.add(styles.error);
-        
-        console.log(childError);
-        console.log(textFieldError)         
-         // error.style.removeProperty('borderColor:rgb(96, 94, 92)');
-         // error.style.removeProperty('borderWidth')
+
       } 
 
     });
@@ -263,17 +257,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
-    //console.log(this.state.hasError)
-  
-    // if(this.state.hasError.length !== 0) {
-    //   this.setState({
-    //     disableButton: true
-    //   })
-    // } else (
-    //   this.setState({
-    //     disableButton: false
-    //   })
-    // )
 
     if (this.state.currentPage > 0 ) {
       this.setState({
@@ -288,8 +271,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
+
+    const newJoBTypeFormat = this.state.values.jobType.map((item) => ({Label:item.text, Guid: item.value}))
+    const languageComprehensionValues = this.state.values.languageRequirements.map(item => [item.readingEN, item.writtenEN, item.oralEN, "-", item.readingFR, item.writtenFR, item.oralFR].join(""));
+
+    //const formatJobType = this.state.values.jobType.filter(item => Object.keys(item).includes('value')).map(item =>  item.value);
     
-    const formatJobType = this.state.values.jobType.filter(item => Object.keys(item).includes('value')).map(item => item.value);
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => item.value);
    
@@ -307,26 +294,28 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
               "ContactObjectId": "${this.state.userId}",
               "ContactName": "${this.props.userDisplayName}",
-              "DepartmentLookupId": "${this.state.values.department.key}",
+              "DepartmentId": "${this.state.values.department.key}",
               "ContactEmail": "${this.props.workEmail}",
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
-              "JobTypeLookupId": ${JSON.stringify(formatJobType)},
-              "ProgramAreaLookupId": "${this.state.values.programArea.key}",
-              "ClassificationCodeLookupId": "${this.state.values.classificationCode.key}",
-              "ClassificationLevelLookupId": "${this.state.values.classificationLevel.key}",
+              "JobType": ${JSON.stringify(newJoBTypeFormat)},
+              "ProgramArea": "${this.state.values.programArea.key}",
+              "ClassificationCodeId": "${this.state.values.classificationCode.key}",
+              "ClassificationLevelId": "${this.state.values.classificationLevel.key}",
               "NumberOfOpportunities": "${this.state.values.numberOfOpportunities}",
-              "DurationLookupId": "${this.state.values.duration.key}",
+              "DurationId": "${this.state.values.duration.key}",
               "ApplicationDeadlineDate": "${isoString}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
               "Skills": "${JSON.stringify(skills)}",
-              "WorkScheduleLookupId": "${this.state.values.workSchedule.key}",
-              "SecurityClearanceLookupId": "${this.state.values.security.key}",
-              "LanguageRequirementLookupId": "${this.state.values.languageRequirements[0].language}",
-              "WorkArrangementLookupId": "${this.state.values.workArrangment.key}",
-              "ApprovedStaffing": true,
-              "CityLookupId": "${this.state.values.city.key}"
+              "WorkScheduleId": "${this.state.values.workSchedule.key}",
+              "SecurityClearanceId": "${this.state.values.security.key}",
+              "LanguageRequirementId": "${this.state.values.languageRequirements[0].language}",
+              "LanguageComprehension:"${languageComprehensionValues}",
+              "WorkArrangementId": "${this.state.values.workArrangment.key}",
+              "ApprovedStaffing": "${this.state.values.approvedStaffing}",
+              "CityLookupId": "${this.state.values.city.key}",
+              "DurationQuantity":"${this.state.values.durationLength}"
         }`,
       };
 

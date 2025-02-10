@@ -63,8 +63,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventId = event.target.id;
-    const eventName = event.target.name
-    console.log(eventName)
 
     if (item) {
       this.props.handleDropDownItem(eventId, item);
@@ -82,6 +80,8 @@ export default class Details extends React.Component<IDetailsProps> {
 
 
   public render(): React.ReactElement<IDetailsProps> {
+ 
+    console.log("JOBTYPE",this.props.values.jobType)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
