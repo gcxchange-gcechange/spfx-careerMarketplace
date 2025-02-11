@@ -272,11 +272,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
 
-    const newJoBTypeFormat = this.state.values.jobType.map((item) => ({Label:item.text, Guid: item.value}))
-    const languageComprehensionValues = this.state.values.languageRequirements.map(item => [item.readingEN, item.writtenEN, item.oralEN, "-", item.readingFR, item.writtenFR, item.oralFR].join(""));
+    const newJoBTypeFormat = this.state.values.jobType.filter(item => Object.keys(item).includes('value') || Object.keys(item).includes('label')).map(item => ({ Label: item.label, Guid: item.value }));
+    console.log("newJobTye",newJoBTypeFormat)
+    const languageComprehensionValues = this.state.values.languageRequirements.map(item => [item.readingEN.value, item.writtenEN.value, item.oralEN.value, "-", item.readingFR.value, item.writtenFR.value, item.oralFR.value].join(""));
 
     //const formatJobType = this.state.values.jobType.filter(item => Object.keys(item).includes('value')).map(item =>  item.value);
-    
+    console.log(languageComprehensionValues)
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => item.value);
    
@@ -313,7 +314,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "LanguageRequirementId": "${this.state.values.languageRequirements[0].language}",
               "LanguageComprehension:"${languageComprehensionValues}",
               "WorkArrangementId": "${this.state.values.workArrangment.key}",
-              "ApprovedStaffing": "${this.state.values.approvedStaffing}",
+              "ApprovedStaffing": "${this.state.values.approvedStaffing.key}",
               "CityLookupId": "${this.state.values.city.key}",
               "DurationQuantity":"${this.state.values.durationLength}"
         }`,
@@ -491,7 +492,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           ...prevState.values,
           jobType: jobTypeExists
             ? prevState.values.jobType.filter((item) => item.value !== value.key) 
-            : [...prevState.values.jobType, {value: value.key}],  
+            : [...prevState.values.jobType, {value: value.key}, {label: value.text}, {Guid: value.key}],  
         },    
       }));
     }
@@ -846,6 +847,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
+    console.log("JJO", this.state.values.jobType)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
