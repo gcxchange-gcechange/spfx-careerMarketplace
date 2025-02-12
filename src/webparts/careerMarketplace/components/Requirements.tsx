@@ -75,7 +75,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const isReadOnly = this.props.currentPage === 3;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
-    const disabledField = this.props.values.languageRequirements[0].language.key !== 3 ;
+    const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 3;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
 
 
@@ -238,6 +238,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         styles={langDropdownStyle}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
+                        selectedKey={this.props.values.languageRequirements[0].readingEN.key}
                       />
                     </Stack>
                     <Stack horizontal>
@@ -249,11 +250,11 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         styles={langDropdownStyle}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
-                        
+                        selectedKey={this.props.values.languageRequirements[0].writtenEN.key}
                       />
                     </Stack>
                     <Stack horizontal>
-                      <Label style={{width:'200px'}}>{this.props.prefLang === 'fr-fr' ? this.strings.writtenEN.replace(/\s\w+$/, "") : this.strings.writtenEN.replace(/^\w+\s/, "")}</Label>
+                      <Label style={{width:'200px'}}>{this.props.prefLang === 'fr-fr' ? this.strings.oralEN.replace(/\s\w+$/, "") : this.strings.oralEN.replace(/^\w+\s/, "")}</Label>
                       <Dropdown
                         id={"oralEN"}
                         title = {"Oral expression"}
@@ -261,6 +262,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         styles={langDropdownStyle}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
+                        selectedKey={this.props.values.languageRequirements[0].oralEN.key}
                       />
                     </Stack>
                   </StackItem>
@@ -276,6 +278,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         ariaLabel={this.strings.readingFR}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
+                        selectedKey={this.props.values.languageRequirements[0].readingFR.key}
                     />
                     <Dropdown
                         id={"writtenFR"}
@@ -284,6 +287,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         ariaLabel={strings.writtenFR}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
+                        selectedKey={this.props.values.languageRequirements[0].writtenFR.key}
                     />
                     <Dropdown
                         id={"oralFR"}
@@ -292,6 +296,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                         ariaLabel={strings.oralFR}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
+                        selectedKey={this.props.values.languageRequirements[0].oralFR.key}
                     />
                     
                   </StackItem>
@@ -299,7 +304,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             {
               languageComprehension
                 .filter((lang) => this.props.inlineFieldErrors?.includes(lang))
-                .some((field) => validate(this.props.values.languageRequirements?.[0]?.[field].key)) && (
+                .some((field) => validate(this.props.values.languageRequirements[0]?.[field].text)) && (
                   <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
                       <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>Please select an option</p>
                    </div>

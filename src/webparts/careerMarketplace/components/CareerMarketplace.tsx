@@ -65,7 +65,7 @@ export interface ICareerMarketplaceState {
     skills: any[],
     approvedStaffing: any;
     jobType: any[],
-    programArea: any,
+    programArea: any[],
     classificationCode: any,
     classificationLevel: any,
     durationLength:any,
@@ -139,7 +139,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobDescriptionEn: "",
         jobDescriptionFr: "",
         jobType: [{pageNumber: 1, Label:"", Guid:""}],
-        programArea: {value: "" , pageNumber: 1, Label:"", Guid:""},
+        programArea:[{value: "" , pageNumber: 1}],
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
         numberOfOpportunities: "1",
@@ -273,11 +273,23 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const isoString = momentDate.toISOString(); 
 
     const newJoBTypeFormat = this.state.values.jobType.filter(item => Object.keys(item).includes('value') || Object.keys(item).includes('label')).map(item => ({ Label: item.label, Guid: item.value }));
-    console.log("newJobTye",newJoBTypeFormat)
-    const languageComprehensionValues = this.state.values.languageRequirements.map(item => [item.readingEN.value, item.writtenEN.value, item.oralEN.value, "-", item.readingFR.value, item.writtenFR.value, item.oralFR.value].join(""));
+    const programArea = this.state.values.programArea;
+    const programAreaFormat = (Array.isArray(programArea) 
+      ? programArea 
+      : programArea ? [programArea] : [] 
+       ).map((item: any) => ({
+        Label: item.text,
+        Guid: item.key,
+      }));
 
-    //const formatJobType = this.state.values.jobType.filter(item => Object.keys(item).includes('value')).map(item =>  item.value);
-    console.log(languageComprehensionValues)
+
+    const extractedTexts = this.state.values.languageRequirements.map((obj) => {
+      return Object.values(obj)
+        .filter((item) => item && typeof item === 'object' && item.text)
+        .map((item) => item.text);
+      }).flat().filter((text) => text !== "Bilingual");
+
+    const formattedText = extractedTexts.join('').replace(/(.{3})/, '$1-');
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => item.value);
    
@@ -300,7 +312,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
               "JobType": ${JSON.stringify(newJoBTypeFormat)},
-              "ProgramArea": "${this.state.values.programArea.key}",
+              "ProgramArea": "${JSON.stringify(programAreaFormat)}",
               "ClassificationCodeId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelId": "${this.state.values.classificationLevel.key}",
               "NumberOfOpportunities": "${this.state.values.numberOfOpportunities}",
@@ -311,12 +323,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "Skills": "${JSON.stringify(skills)}",
               "WorkScheduleId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceId": "${this.state.values.security.key}",
-              "LanguageRequirementId": "${this.state.values.languageRequirements[0].language}",
-              "LanguageComprehension:"${languageComprehensionValues}",
+              "LanguageRequirementId": "${this.state.values.languageRequirements[0].language.key}",
+              "LanguageComprehension:"${formattedText}",
               "WorkArrangementId": "${this.state.values.workArrangment.key}",
-              "ApprovedStaffing": "${this.state.values.approvedStaffing.key}",
+              "ApprovedStaffing": "${this.state.values.approvedStaffing.value}",
               "CityLookupId": "${this.state.values.city.key}",
-              "DurationQuantity":"${this.state.values.durationLength}"
+              "DurationQuantity":"${this.state.values.durationLength.value}"
         }`,
       };
 
@@ -492,10 +504,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           ...prevState.values,
           jobType: jobTypeExists
             ? prevState.values.jobType.filter((item) => item.value !== value.key) 
-            : [...prevState.values.jobType, {value: value.key}, {label: value.text}, {Guid: value.key}],  
+            : [...prevState.values.jobType, {value: value.key, label: value.text }],  
         },    
       }));
     }
+
 
     else if( valueName === "skills") {
       const findSkillItem = [...this.state.values.skills];
@@ -846,8 +859,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
-
-    console.log("JJO", this.state.values.jobType)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
