@@ -6,6 +6,7 @@ import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
 
+
 export interface IRequirementsProps {
   prefLang: string;
   language: any[];
@@ -94,8 +95,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
       root: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
-      }
+        alignItems: 'center',
+      },
     }
 
     const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];

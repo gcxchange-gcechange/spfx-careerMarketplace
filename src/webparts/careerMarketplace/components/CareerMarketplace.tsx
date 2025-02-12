@@ -296,8 +296,8 @@ console.log(extractedTexts);
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
    
-    const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-    const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
+    const clientId = "c";
+    const url = "h";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
@@ -323,14 +323,14 @@ console.log(extractedTexts);
               "ApplicationDeadlineDate": "${isoString}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
               "JobDescriptionFr": "${this.state.values.jobDescriptionFr}",
-              "Skills": ${JSON.stringify(skills)},
               "WorkScheduleId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceId": "${this.state.values.security.key}",
               "LanguageRequirementId": "${this.state.values.languageRequirements[0].language.key}",
-              "LanguageComprehension:"${formattedText}",
+              "LanguageComprehension":"${formattedText}",
               "WorkArrangementId": "${this.state.values.workArrangment.key}",
-              "ApprovedStaffing": "${this.state.values.approvedStaffing.value}",
-              "CityLookupId": "${this.state.values.city.key}",
+              "ApprovedStaffing": ${this.state.values.approvedStaffing.value},
+              "SkillsIds": ${JSON.stringify(skills)},
+              "CityId": "${this.state.values.city.key}",
               "DurationQuantity":"${this.state.values.durationLength.value}"
         }`,
       };
@@ -1038,7 +1038,7 @@ console.log(extractedTexts);
           <section>
             <div>
               {
-                this.state.validationStatus === 400 ? (
+                this.state.validationStatus === 200 ? (
                 <>                  
                   <div>
                     <Complete prefLang={this.props.prefLang}/>

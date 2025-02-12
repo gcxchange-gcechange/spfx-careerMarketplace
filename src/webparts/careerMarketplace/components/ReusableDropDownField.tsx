@@ -58,8 +58,12 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         borderLeft: '2px solid rgb(164, 38, 44)',
         paddingLeft: '5px',
         marginTop: '2px'
+      },
+      dropdownItemDisabled: {
+        color: 'black',
       }
     }
+
     const langDropdownStyle : Partial<IDropdownStyles>= {
       dropdown: {
         width: 50
