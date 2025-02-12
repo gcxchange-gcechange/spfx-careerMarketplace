@@ -296,8 +296,8 @@ console.log(extractedTexts);
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
    
-    const clientId = "c";
-    const url = "h";
+    const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+    const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");

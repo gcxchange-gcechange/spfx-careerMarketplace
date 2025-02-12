@@ -38,7 +38,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
   };
 
   public render(): React.ReactElement<IPosterInfoProps> {
-    const isReadOnly = this.props.currentPage === 0 || this.props.currentPage === 3;
+    const isReadOnly = this.props.currentPage === 0;
 
     return (
       <>
@@ -56,6 +56,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             title={this.strings.fullName}
             defaultValue={this.props.userInfo}
             readOnly={isReadOnly}
+            disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
           />
           <ReusableDropdownField
@@ -78,6 +79,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             title={this.strings.workEmail}
             defaultValue={this.props.workEmail}
             readOnly={isReadOnly}
+            disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
           />
         </div>

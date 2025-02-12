@@ -1,4 +1,4 @@
-import { Label, Stack, StackItem, TextField } from '@fluentui/react';
+import { ITextFieldStyles, Label, Stack, StackItem, TextField } from '@fluentui/react';
 import * as React from 'react';
 import styles from './CareerMarketplace.module.scss';
 
@@ -41,10 +41,18 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
 
 
   public render(): React.ReactElement<IReusableTextFieldProps> {
+
+    const disabledStyle : Partial<ITextFieldStyles>= {
+      field: {
+        color: 'black'
+      }
+    }
+
     return (
       <div>
         <TextField
-          className={styles.labelStyle} 
+          className={styles.labelStyle}
+          styles={disabledStyle}
           onRenderLabel={this.customLabel}  
           validateOnLoad={false} 
           validateOnFocusOut={true}

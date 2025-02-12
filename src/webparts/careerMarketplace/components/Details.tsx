@@ -120,7 +120,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={`${this.strings.job_Title} ${this.strings.english}`}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobTitleEn}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn')}
             ariaLabelRequired={this.strings.required}
           />
@@ -132,7 +132,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={`${this.strings.job_Title} ${this.strings.french}`}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleFr, 'jobTitleFr')}
             ariaLabelRequired={this.strings.required}
           />
@@ -144,7 +144,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionEn}
             multiline={true}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionEn, 'jobDescriptionEn')}
             ariaLabelRequired={this.strings.required}
           />
@@ -155,7 +155,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             multiline={true}
-            readOnly={isReadOnly}
+            disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescritpionFr')}
             ariaLabelRequired={this.strings.required}
           />
@@ -268,7 +268,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   defaultValue={this.props.values.durationLength.value}
                   required
                   className={styles.durationLengthInput}
-                  readOnly={isReadOnly}
+                  disabled={isReadOnly}
                 />
               </Stack>
               {

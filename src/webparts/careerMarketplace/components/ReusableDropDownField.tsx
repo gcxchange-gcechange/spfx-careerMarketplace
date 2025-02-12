@@ -59,7 +59,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         paddingLeft: '5px',
         marginTop: '2px'
       },
-      dropdownItemDisabled: {
+      title: {
         color: 'black',
       }
     }

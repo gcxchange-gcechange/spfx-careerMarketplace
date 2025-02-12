@@ -33,6 +33,7 @@
   :global{
     .ms-Label {
       font-weight: 700;
+      color: 'black';
     }
     // .ms-Label::before {
     //   content: "*";
@@ -163,10 +164,6 @@
   text-overflow: ellipsis;
   border: 1px solid rgb(96, 94, 92);
   border-radius: 2px;
-}
-
-.readOnly{
-  color: 'black'
 }
 
 
