@@ -135,7 +135,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             options={this.props.workSchedule}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
-            selectedKeys={this.props.values.workSchedule.key}
+            selectedKey={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
           />
 
