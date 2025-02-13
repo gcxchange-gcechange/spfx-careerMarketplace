@@ -7,5 +7,7 @@ export interface ICareerMarketplaceProps {
   userDisplayName: string;
   workEmail: string;
   url: string;
+  edit: boolean;
+  jobOpportunityId: string;
 
 }

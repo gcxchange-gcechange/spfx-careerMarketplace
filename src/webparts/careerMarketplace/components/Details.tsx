@@ -21,7 +21,6 @@ export interface IDetailsProps {
   handleOnChange: (event: string, newValue?: string) => void;
   handleOnDateChange: (date: Date) => void
   handleDurationLength: ( value: string)=> void;
-  jobTypeValues: string[];
   hasError:  {key: string, value: any}[] 
   onBlur?:(value: any) => void;
   fields: string[];

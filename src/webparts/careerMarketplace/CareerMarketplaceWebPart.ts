@@ -4,7 +4,8 @@ import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
   type IPropertyPaneConfiguration,
-  PropertyPaneDropdown
+  PropertyPaneDropdown,
+  PropertyPaneToggle
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
@@ -22,12 +23,15 @@ export interface ICareerMarketplaceWebPartProps {
   userDisplayName: string;
   workEmail: string;
   url: string;
+  edit: boolean;
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
 
+  private jobOpportunityId: string | null = null;
 
   public render(): void {
+
     const element: React.ReactElement<ICareerMarketplaceProps> = React.createElement(
       CareerMarketplace,
       {
@@ -35,7 +39,9 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         context: this.context,
         userDisplayName: this.context.pageContext.user.displayName,
         workEmail: this.context.pageContext.user.email,
-        url: this.context.pageContext.site.absoluteUrl
+        url: this.context.pageContext.site.absoluteUrl,
+        edit: this.properties.edit,
+        jobOpportunityId: this.jobOpportunityId || ''
         
       }
     );
@@ -53,6 +59,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
     getSP(this.context);
     GraphService.setup(this.context);
+    this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
     
   }
   
@@ -73,6 +80,11 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
       this.domElement.style.setProperty('--linkHovered', semanticColors.linkHovered || null);
     }
 
+  }
+
+  private getQueryParam(param: string): string | null {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(param);
   }
 
   protected onDispose(): void {
@@ -101,6 +113,12 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                     { key: 'en-us', text: 'English' },
                     { key: 'fr-fr', text: 'Français' }
                   ]
+                }),
+                PropertyPaneToggle('edit', {
+                  key: 'EditToggle',
+                  label: 'Edit Opportunity',
+                  onText: 'Yes',
+                  offText: 'No'
                 })
               ]
             }

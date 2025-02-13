@@ -19,74 +19,9 @@ import { toTitleCase } from './Functions';
 import { RefObject } from 'react';
 import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
+import { ICareerMarketplaceState } from './ICareerMarketplaceState';
 
 
-
-
-export interface ICareerMarketplaceState {
-  currentPage: number;
-  departmentList: any[];
-  jobType: any[];
-  city: any[];
-  programArea: any[];
-  classificationCode: any[];
-  classificationLevel: any[];
-  security: any[];
-  language: any[];
-  wrkArrangement: any[];
-  duration: any[];
-  wrkSchedule: any[];
-  province: any[];
-  region:any[];
-  validationStatus: number;
-  jobTypeValue: string[];
-  userId: string | number;
-  hasError:  {key: string, value: any}[] ;
-  fieldErrorTitles :string[];
-  disableButton: boolean;
-  inlineFieldErrors: any[];
-  dropdownFields: string[];
-  skillsList: any[];
-  jobOpportunityId: string;
-
-  values: {
-    jobTitleEn: string;
-    jobTitleFr: string;
-    jobDescriptionEn: string;
-    jobDescriptionFr: string;
-    numberOfOpportunities: string;
-    deadline: Date | undefined;
-    department: any, 
-    skills: any[],
-    approvedStaffing: any;
-    jobType: any[],
-    programArea: any,
-    classificationCode: any,
-    classificationLevel: any,
-    durationLength:any,
-    duration: any, 
-    security: any,
-    city: any, 
-    province: any,
-    region: any, 
-    workArrangment: any, 
-    workSchedule: any, 
-    languageRequirements:[
-      {
-        pageNumber: number,
-        language: any,
-        readingEN: {value: ""},
-        readingFR: {value: ""},
-        writtenEN: {value: ""},
-        writtenFR: {value: ""},
-        oralEN: {value: ""},
-        oralFR: {value: ""},
-      },
-    ]
-  }
-
-}
- 
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
@@ -102,8 +37,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const threeMonthsLater = new Date();
     threeMonthsLater.setMonth(today.getMonth() + 3);
     
-   
-
     super(props);
  
     this.state = {
@@ -122,7 +55,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       province: [],
       region:[],
       validationStatus: 0,
-      jobTypeValue: [],
       userId: '',
       hasError: [],
       fieldErrorTitles: [],
@@ -170,8 +102,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     };
     this.alertRef = React.createRef();
     this._sp = getSP(this.props.context);
-
-
   }
 
  
@@ -550,10 +480,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }))
   }
 
+  public async _populateEditableFields(): Promise<void> {
+    const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId)).select("Department", "Department/NameEn", "Department/NameFr", "ClassificationCode", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "NumberOfOpportunities", "JobTitleFr", "JobTitleEn", "JobDescriptionEn", "JobDescriptionFr", "ApplicationDeadlineDate", "ContactEmail", "ProgramArea", "JobType", "Duration", "Duration/NameEn", "Duration/NameFr", "DurationQuantity", "WorkArrangement", "WorkArrangement/NameEn", "WorkArrangement/NameFr", "City", "City/NameEn", "City/NameFr", "SecurityClearance", "SecurityClearance/NameEn", "SecurityClearance/NameFr", "LanguageRequirement", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension").expand("Department", "ClassificationCode", "Duration", "WorkArrangement", "City", "SecurityClearance", "LanguageRequirement")();
+    console.log(item);
+
+    this.setState({
+      //add all the values to the values state 
+    })
+  } 
+
   public async _populateDropDowns(): Promise<void> {
     const {currentPage} = this.state;
-    // const _sp: SPFI = getSP(this.props.context);
-    // console.log("SPContext",_sp);
     const parameters = [
       [
       '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
@@ -561,7 +498,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       ]  
     ];
   
-    if (currentPage === 0 ) {
+    if (currentPage === 0  ) {
       const departments = await this._sp.web.lists.getByTitle('Department').items();
       if ( departments) {
         const dataArray = departments.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
@@ -711,9 +648,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public _getUser = async ():Promise<void> => {
-   // const _sp: SPFI = getSP(this.props.context);
     const user = await  this._sp.web.currentUser();
-
     const userID = user.UserId.NameId
 
     this.setState({
@@ -791,7 +726,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public async componentDidMount(): Promise<void> {
-    
+    if(this.props.edit) {
+      await this._populateEditableFields();
+    }
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
@@ -857,13 +794,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
-    console.log("program Area", this.state.values.programArea)
-
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
     };
 
-    
     const myTheme = createTheme({
       palette: {
         themePrimary: '#03787c',
@@ -929,7 +863,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleDurationLength={this.handleDurationLength}
             values={this.state.values}
             hasError={this.state.hasError}
-            jobTypeValues={this.state.jobTypeValue}
             inlineFieldErrors ={this.state.inlineFieldErrors}
             fields={this.state.dropdownFields}
             prefLang={this.props.prefLang}
@@ -991,7 +924,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleOnDateChange={this.handleOnDateChange}
                 handleDurationLength={this.handleDurationLength}
                 values={this.state.values}
-                jobTypeValues={this.state.jobTypeValue}
                 hasError={this.state.hasError}
                 fields={this.state.dropdownFields}
                 prefLang={this.props.prefLang}
