@@ -92,16 +92,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   private alertRef: RefObject<HTMLDivElement>;
   public strings = SelectLanguage(this.props.prefLang);
-
+  private _sp: SPFI;
+  private clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+  private url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
 
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
-
+    
     const today = new Date();
     const threeMonthsLater = new Date();
     threeMonthsLater.setMonth(today.getMonth() + 3);
+    
    
 
     super(props);
+ 
     this.state = {
       currentPage: 0,
       departmentList: [],
@@ -165,6 +169,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
     };
     this.alertRef = React.createRef();
+    this._sp = getSP(this.props.context);
+
 
   }
 
@@ -273,27 +279,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const programAreaFormat= {Label: programArea.text, Guid: programArea.key };
 
-
-
     const extractedTexts = this.state.values.languageRequirements
-  .filter((obj) => obj.language === 3) // Check for key === 3
-  .map((obj) => {
+    .filter((obj) => obj.language === 3).map((obj) => {
     return Object.values(obj)
       .filter((item) => item && typeof item === 'object' && item.text)
       .map((item) => item.text);
-  })
-  .flat()
-  .filter((text) => text !== "Bilingual");
-
-console.log(extractedTexts);
-
+    }).flat().filter((text) => text !== "Bilingual");
 
     const formattedText = extractedTexts.join('').replace(/(.{3})/, '$1-');
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
    
-    const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-    const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
+    // const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+    // const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
@@ -334,10 +332,10 @@ console.log(extractedTexts);
       console.log("BODY", postOptions.body)
       try {
         this.props.context.aadHttpClientFactory
-        .getClient(clientId)
+        .getClient(this.clientId)
         .then((client: AadHttpClient): void => {
           client
-          .post(url, AadHttpClient.configurations.v1, postOptions)
+          .post(this.url, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
             console.log("response", response)
             if (response.status) {
@@ -352,12 +350,6 @@ console.log(extractedTexts);
                     this.setState({
                       jobOpportunityId: responseText
                     })
-                    console.log("respond is ", responseText);
-                    if (response.ok) {
-                      console.log("response OK");
-                    } else {
-                      console.log("Response error");
-                    }
                   })
                   .catch((response: any) => {
                     const errMsg: string = `WARNING - error when calling URL. Error = ${response.message}`;
@@ -560,8 +552,8 @@ console.log(extractedTexts);
 
   public async _populateDropDowns(): Promise<void> {
     const {currentPage} = this.state;
-    const _sp: SPFI = getSP(this.props.context);
-    console.log("SPContext",_sp);
+    // const _sp: SPFI = getSP(this.props.context);
+    // console.log("SPContext",_sp);
     const parameters = [
       [
       '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
@@ -570,7 +562,7 @@ console.log(extractedTexts);
     ];
   
     if (currentPage === 0 ) {
-      const departments = await _sp.web.lists.getByTitle('Department').items();
+      const departments = await this._sp.web.lists.getByTitle('Department').items();
       if ( departments) {
         const dataArray = departments.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
           this.setState({
@@ -581,11 +573,11 @@ console.log(extractedTexts);
       }
 
     } else if (currentPage === 1) {
-      const classificationLevel = await _sp.web.lists.getByTitle('ClassificationLevel').items();
+      const classificationLevel = await this._sp.web.lists.getByTitle('ClassificationLevel').items();
 
-      const classificationCode = await  _sp.web.lists.getByTitle('ClassificationCode').items();
+      const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
 
-      const duration = await _sp.web.lists.getByTitle('Duration').items();
+      const duration = await this._sp.web.lists.getByTitle('Duration').items();
 
       const classLevelResults = classificationLevel.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
       const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
@@ -627,18 +619,18 @@ console.log(extractedTexts);
     } else 
     if(currentPage === 2) {
       const skillsData = [];
-      const skills = await _sp.web.lists.getByTitle('Skills').items.top(700)();
+      const skills = await this._sp.web.lists.getByTitle('Skills').items.top(700)();
       const skillItemData = skills.map((items) => ({key: items.Id,  text: this.props.prefLang === 'fr-fr' ? items.TitleFr: items.TitleEN, pageNumber: 2}))
       skillsData.push(...skillItemData)
 
 
-      const languageReq = await _sp.web.lists.getByTitle('LanguageRequirement').items();
-      const securityClearance = await _sp.web.lists.getByTitle('SecurityClearance').items();
-      const workArrangment = await _sp.web.lists.getByTitle('WorkArrangement').items();
-      const wrkSchedule = await _sp.web.lists.getByTitle('WorkSchedule').items();
-      const city =  await _sp.web.lists.getByTitle('City').items();
-      const province =  await _sp.web.lists.getByTitle('Province').items();
-      const region =  await _sp.web.lists.getByTitle('Region').items();
+      const languageReq = await this._sp.web.lists.getByTitle('LanguageRequirement').items();
+      const securityClearance = await this._sp.web.lists.getByTitle('SecurityClearance').items();
+      const workArrangment = await this._sp.web.lists.getByTitle('WorkArrangement').items();
+      const wrkSchedule = await this._sp.web.lists.getByTitle('WorkSchedule').items();
+      const city =  await this._sp.web.lists.getByTitle('City').items();
+      const province =  await this._sp.web.lists.getByTitle('Province').items();
+      const region =  await this._sp.web.lists.getByTitle('Region').items();
 
  
       
@@ -719,8 +711,8 @@ console.log(extractedTexts);
   }
 
   public _getUser = async ():Promise<void> => {
-    const _sp: SPFI = getSP(this.props.context);
-    const user = await  _sp.web.currentUser();
+   // const _sp: SPFI = getSP(this.props.context);
+    const user = await  this._sp.web.currentUser();
 
     const userID = user.UserId.NameId
 
