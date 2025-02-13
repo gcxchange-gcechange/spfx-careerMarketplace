@@ -12,7 +12,7 @@ define([], function() {
 
     //Page 2 - Opportunity Details
     "oppotunityDetails_Title":"Opportunity Details",
-    "oppotunityDetails_para1": "",
+    "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information.",
     "job_Title":"Job Title ",
     "number_of_Opportunities":"Number of Opportunities",
     "job_Description":"Job Description",
