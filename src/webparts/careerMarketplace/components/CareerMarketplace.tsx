@@ -17,12 +17,6 @@ import * as moment from 'moment';
 import Complete from './Complete';
 import { toTitleCase } from './Functions';
 import { RefObject } from 'react';
-// import { graphfi } from '@pnp/graph';
-//import { TermStore } from '@microsoft/microsoft-graph-types';
-//import { ITermGroup } from '@pnp/graph/taxonomy';
-// import "@pnp/graph/taxonomy";
-// import "@pnp/graph/sites";
-//import { MSGraphClientV3 } from "@microsoft/sp-http";
 import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
 
@@ -48,11 +42,12 @@ export interface ICareerMarketplaceState {
   jobTypeValue: string[];
   userId: string | number;
   hasError:  {key: string, value: any}[] ;
-  fieldErrorTitles :string[],
-  disableButton: boolean,
-  inlineFieldErrors: any[],
-  dropdownFields: string[],
+  fieldErrorTitles :string[];
+  disableButton: boolean;
+  inlineFieldErrors: any[];
+  dropdownFields: string[];
   skillsList: any[];
+  jobOpportunityId: string;
 
   values: {
     jobTitleEn: string;
@@ -131,6 +126,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       inlineFieldErrors: [],
       dropdownFields: [],
       skillsList: [],
+      jobOpportunityId: "",
 
       values: {
         department: {value: "" , pageNumber: 0},
@@ -343,15 +339,19 @@ console.log(extractedTexts);
           client
           .post(url, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
+            console.log("response", response)
             if (response.status) {
               this.setState({
-                validationStatus: response.status
+                validationStatus: response.status,
               })
             }
             response
                   .json()
                   .then((responseJSON: JSON) => {
                     responseText = JSON.stringify(responseJSON);
+                    this.setState({
+                      jobOpportunityId: responseText
+                    })
                     console.log("respond is ", responseText);
                     if (response.ok) {
                       console.log("response OK");
@@ -729,6 +729,8 @@ console.log(extractedTexts);
     })
   }
 
+
+
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
@@ -1031,6 +1033,7 @@ console.log(extractedTexts);
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
+    const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`
 
     return (
       <>      
@@ -1046,12 +1049,12 @@ console.log(extractedTexts);
                   <div style={{width: '100%', display: 'flex'}}>                  
                     <div style={{width: '40%'}}>
                       <Stack horizontal horizontalAlign="space-between">
-                        <CustomButton id={'view'} name={this.strings.view} buttonType={'secondary'} onClick={() => this.prev()}/>
+                        <CustomButton id={'view'} name={this.strings.view} buttonType={'secondary'} url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)}/>
                       </Stack> 
                     </div>
                     <div style={{width: '60%'}}>
                       <Stack horizontal horizontalAlign='end'>
-                        <CustomButton id={'home'} name={this.strings.complete_button} buttonType={'primary'} onClick={() => this.prev()}/>
+                        <CustomButton id={'home'} name={this.strings.complete_button} buttonType={'primary'} url={this.props.url} onClick={() => (this.props.url)}/> 
                       </Stack> 
                     </div>
                   </div>

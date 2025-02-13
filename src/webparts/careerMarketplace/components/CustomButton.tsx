@@ -8,6 +8,7 @@ export interface ICustomButtonProps {
   buttonType: 'primary' | 'secondary';
   onClick: (value: any) => void ;
   disabled?: boolean;
+  url?: string;
 }
 
 
@@ -17,10 +18,16 @@ export default class CustomButton extends React.Component<ICustomButtonProps> {
 
 
   private handleOnClick = (ev?: any): void => {
-    console.log("clicked",ev.target)
+    console.log(ev)
+ 
+    if(this.props.url) {
+      window.open(this.props.url, "_blank");
+    } 
     const buttonName: any= ev.target
     this.props.onClick(buttonName)
   }
+
+
    
 
 
