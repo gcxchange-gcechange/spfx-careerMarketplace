@@ -17,6 +17,7 @@ export interface IPosterInfoProps {
   workEmail: string;
   currentPage: number;
   readOnly: boolean;
+  jobOpportunityId: string;
   values: {
     department: any;
   };
@@ -66,7 +67,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
             onChange={this.onChangeDropDownItem}
             disabled={this.props.currentPage === 3}
-            selectedKey={this.props.values.department.key}
+            selectedKey={ this.props.values.department.key}
             ariaLabelRequired={'required'}
           />
           {this.props.inlineFieldErrors.includes('department') &&( 

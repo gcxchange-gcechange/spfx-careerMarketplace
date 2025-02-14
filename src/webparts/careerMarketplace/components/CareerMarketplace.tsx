@@ -481,12 +481,42 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public async _populateEditableFields(): Promise<void> {
-    const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId)).select("Department", "Department/NameEn", "Department/NameFr", "ClassificationCode", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "NumberOfOpportunities", "JobTitleFr", "JobTitleEn", "JobDescriptionEn", "JobDescriptionFr", "ApplicationDeadlineDate", "ContactEmail", "ProgramArea", "JobType", "Duration", "Duration/NameEn", "Duration/NameFr", "DurationQuantity", "WorkArrangement", "WorkArrangement/NameEn", "WorkArrangement/NameFr", "City", "City/NameEn", "City/NameFr", "SecurityClearance", "SecurityClearance/NameEn", "SecurityClearance/NameFr", "LanguageRequirement", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension").expand("Department", "ClassificationCode", "Duration", "WorkArrangement", "City", "SecurityClearance", "LanguageRequirement")();
+    const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
+    .select(
+      "Department", 
+      "Department/NameEn", 
+      "Department/NameFr", 
+      "Department/ID", 
+      "JobTitleFr", 
+      "JobTitleEn", 
+      "JobDescriptionEn", 
+      "JobDescriptionFr", 
+      "JobType", 
+      "ProgramArea",
+      "ClassificationCode", 
+      "ClassificationCode/ID", 
+      "ClassificationCode/NameEn", 
+      "ClassificationCode/NameFr",
+      "ClassificationLevel"
+    )
+    .expand("Department", "ClassificationCode")();
     console.log(item);
 
-    this.setState({
-      //add all the values to the values state 
-    })
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        department: { key: item.Department.ID, text: item.Department.NameEn , pageNumber: 0 },
+        jobTitleEn: item.JobTitleEn,
+        jobTitleFr: item.JobTitleFr,
+        jobDescriptionEn: item.JobDescriptionEn,
+        jobDescriptionFr: item.JobDescriptionFr,
+        JobType: {key: item.JobType[0].TermGuid, text: item.JobType[0].Label },
+        ProgramArea : {key: item.ProgramArea.TermGuid, text: item.ProgramArea.Label},
+        classificationCode: {key:item.ClassificationCode.ID , text: item.ClassificationCode.NameEn}
+       
+      }
+
+    }))
   } 
 
   public async _populateDropDowns(): Promise<void> {
@@ -726,11 +756,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public async componentDidMount(): Promise<void> {
-    if(this.props.edit) {
-      await this._populateEditableFields();
-    }
+    
     await this._populateDropDowns();
     await this._getUser();
+    await this._populateEditableFields();
     await this.getDropdownElements();
   }
 
@@ -794,6 +823,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
+    console.log("depart", this.state.values.department)
+
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',
     };
@@ -843,6 +874,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             fields={this.state.dropdownFields}
             inlineFieldErrors={this.state.inlineFieldErrors}
             prefLang={this.props.prefLang}
+            jobOpportunityId={this.props.jobOpportunityId}
           />
         ),
       },
@@ -911,6 +943,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 fields={this.state.dropdownFields}
                 inlineFieldErrors={this.state.inlineFieldErrors}
                 prefLang={this.props.prefLang}
+                jobOpportunityId={this.props.jobOpportunityId}
               />
               <Details 
                 programArea={this.state.programArea} 
