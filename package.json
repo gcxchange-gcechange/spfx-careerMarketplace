@@ -10,7 +10,7 @@
     "build": "gulp bundle",
     "clean": "gulp clean",
     "test": "gulp test",
-    "jest:ci": "jest --ci --reporters=jest-junit",
+    "jest:ci": "jest --ci --reporters=jest-junit --verbose",
     "jest": "jest",
     "jest-watch": "jest --watch"
   },
