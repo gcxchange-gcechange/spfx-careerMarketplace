@@ -199,3 +199,62 @@ stages:
 ############################################################
 ##              - script: m365 spo app upgrade --id 0EA66617-4448-4585-A3A9-0542DD83747C --siteUrl https://devgcx.sharepoint.com/
 ##                displayName: Upgrades the app to a specific site
+
+- stage: E2E_test 
+  dependsOn: 
+    - Dev_Deployment
+  jobs:
+    - job: e2etests
+      pool:
+        vmImage: 'ubuntu-latest'
+          
+      steps:
+        - task: CmdLine@2
+          displayName: 'npm ci'
+          inputs:
+            script: |
+              cd haibun
+              npm ci
+          
+        - task: CmdLine@2
+          displayName: 'playwright deps'
+          inputs:
+            script: |
+              cd haibun
+              npx playwright install
+
+        - task: CmdLine@2
+          displayName: 'make junit test directory'
+          inputs:
+            script: |
+              cd haibun
+              mkdir junit
+
+        - task: CmdLine@2
+          displayName: 'Running e2e-basic tests'
+          continueOnError: true
+          inputs:
+            script: |
+              cd haibun
+              HAIBUN_ENVC="USERNAME=$(test_username),PASSWORD=$(test_password)" HAIBUN_O_WEBPLAYWRIGHT_HEADLESS=true HAIBUN_DESCRIPTION="gcx e2e tests" npm run e2e-basic
+
+        # - task: CmdLine@2
+        #   displayName: 'Publish test result history'
+        #   continueOnError: true
+        #   inputs:
+        #     script: |
+        #       npm run publish-history-azure
+            
+        # - task: CmdLine@2
+        #   displayName: 'Publish dashboard'
+        #   continueOnError: true
+        #   inputs:
+        #     script: |
+        #       pwd
+        #       ls -la
+        #       npm run publish-reviewer-azure
+
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: 'JUnit'
+            testResultsFiles: 'haibun/junit/**.xml'
