@@ -101,7 +101,7 @@ export default class Details extends React.Component<IDetailsProps> {
     const selectedItems =  this.props.values.jobType.map((item: any) => item.value).filter((item: any) => item !== undefined)
 
 
-
+    console.log("values", this.props.values)
     return (
       <>
         <div>

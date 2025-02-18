@@ -497,9 +497,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       "ClassificationCode/ID", 
       "ClassificationCode/NameEn", 
       "ClassificationCode/NameFr",
-      "ClassificationLevel"
+      "ClassificationLevel/ID",
+      "ClassificationLevel/NameFr",
+      "Duration/ID",
+      "DurationQuantity",
+      "Duration/NameEn",
+      "NumberOfOpportunities"
     )
-    .expand("Department", "ClassificationCode")();
+    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration")();
     console.log(item);
 
     this.setState((prevState) => ({
@@ -510,9 +515,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobTitleFr: item.JobTitleFr,
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
-        JobType: {key: item.JobType[0].TermGuid, text: item.JobType[0].Label },
-        ProgramArea : {key: item.ProgramArea.TermGuid, text: item.ProgramArea.Label},
-        classificationCode: {key:item.ClassificationCode.ID , text: item.ClassificationCode.NameEn}
+        JobType: {Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label },
+        ProgramArea : {key: item.ProgramArea.TermGuid},
+        classificationCode: {key:item.ClassificationCode.ID , text: item.ClassificationCode.NameEn},
+        classificationLevel:{key:item.ClassificationLevel.ID},
+        numberOfOpportunities: item.NumberOfOpportunities,
+        duration:{key: item.Duration.ID},
+        durationLength: item.DurationQuantity
        
       }
 
@@ -810,7 +819,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           {properCaseValues.map((item, index) => (
             <ul key={index}>
               <li>
-                <a href={`#${item.key}`}>The {item.properCase} {item.errorMessage}</a>
+                <a href={`#${item.key}`}>{item.properCase} {item.errorMessage}</a>
               </li>
             </ul>
           ))}
