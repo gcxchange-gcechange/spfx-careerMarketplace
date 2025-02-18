@@ -24,7 +24,7 @@ stages:
         ##- task: NodeTool@0
           ##inputs:
             ##versionSpec: '16.13.0' # Specify the Node.js version to use
-        - script: npm install
+        - script: npm ci
           displayName: Install npm dependencies 
         
 ############################################################
@@ -85,9 +85,61 @@ stages:
             artifactName: spfx-package
             publishLocation: 'Container'
 
+############################################################
+## Test Stage
+############################################################
+
+- stage: Test
+  dependsOn: []
+  jobs:
+
+############################################################
+## installs: npm dependencies and jest-junit 
+############################################################
+    - job: run_tests
+      displayName: Install test dependencies and jest-junit
+      steps:
+        - script: npm ci
+          displayName: Install test dependencies
+          
+############################################################
+## executes: gulp build
+############################################################
+        - task: gulp@0
+          displayName: SPFx build
+          inputs:
+            targets: build
+
+############################################################
+## executes: tests
+############################################################
+        - script: npm run jest:ci
+          displayName: Run unit test scripts
+          continueOnError: true 
+
+############################################################
+## publishes: code coverage results to the pipeline run 
+############################################################
+        - task: PublishCodeCoverageResults@2
+          displayName: Publish Code Coverage Results 
+          inputs:
+            codecoverageTool: cobertura 
+            summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+
+############################################################
+## publishes: test results using junit tests to the pipeline run
+############################################################
+        - task: PublishTestResults@2
+          displayName: Publish Test Results
+          inputs:
+            testResultsFormat: JUnit
+            testResultsFiles: '**/junit.xml'
+            failTaskOnFailedTests: true
+
 - stage: Dev_Deployment
   dependsOn:
     - Build
+    - Test
   variables:
     SpPkgFilename: $[StageDependencies.Build. build_package.outputs['GetSharePointPackage.SpPkgFilename']]
 

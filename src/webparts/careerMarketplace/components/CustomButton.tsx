@@ -7,6 +7,7 @@ export interface ICustomButtonProps {
   name: string;
   buttonType: 'primary' | 'secondary';
   onClick: (value: any) => void ;
+  disabled?: boolean;
 }
 
 
@@ -39,7 +40,7 @@ export default class CustomButton extends React.Component<ICustomButtonProps> {
             ):
             (
               <div id={this.props.id} >
-                <DefaultButton text={this.props.name} style={{color: '#03787c'}} onClick={this.handleOnClick} />
+                <DefaultButton text={this.props.name} style={{color: '#03787c'}} onClick={this.handleOnClick} disabled={this.props.disabled}/>
               </div>
             )
           }
