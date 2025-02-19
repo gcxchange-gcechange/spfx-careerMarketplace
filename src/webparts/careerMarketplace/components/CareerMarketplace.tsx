@@ -502,11 +502,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       "Duration/ID",
       "DurationQuantity",
       "Duration/NameEn",
-      "NumberOfOpportunities"
+      "NumberOfOpportunities",
+      "ApplicationDeadlineDate"
+     
     )
-    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration")();
+    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration",  )();
     console.log(item);
+    
 
+    const timeZone = require('moment-timezone');
+
+    const isoString = item.ApplicationDeadlineDate;
+
+    const formattedDate = timeZone(isoString)
+      .tz("America/New_York")
+      .format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)");
+    
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
@@ -515,13 +526,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobTitleFr: item.JobTitleFr,
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
-        JobType: {Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label },
-        ProgramArea : {key: item.ProgramArea.TermGuid},
+        jobType: [{...prevState.jobType, value: item.JobType[0].TermGuid, Label: item.JobType[0].Label}],
+        programArea : {...prevState.programArea, key: item.ProgramArea.TermGuid},
         classificationCode: {key:item.ClassificationCode.ID , text: item.ClassificationCode.NameEn},
         classificationLevel:{key:item.ClassificationLevel.ID},
         numberOfOpportunities: item.NumberOfOpportunities,
-        duration:{key: item.Duration.ID},
-        durationLength: item.DurationQuantity
+        duration:{...prevState.duration, key: item.Duration.ID, text: item.Duration.NameEn},
+        durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
+        deadline: formattedDate
+        
+
        
       }
 
@@ -593,7 +607,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       })
 
     } else 
-    if(currentPage === 2) {
+    if (currentPage === 2) {
       const skillsData = [];
       const skills = await this._sp.web.lists.getByTitle('Skills').items.top(700)();
       const skillItemData = skills.map((items) => ({key: items.Id,  text: this.props.prefLang === 'fr-fr' ? items.TitleFr: items.TitleEN, pageNumber: 2}))
