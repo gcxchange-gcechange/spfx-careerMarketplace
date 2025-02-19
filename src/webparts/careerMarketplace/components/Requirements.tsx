@@ -49,7 +49,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public onChangeDropDownItem = (event: any, item: any): void => {
     const eventName = event.target.id;
-    console.log( item)
 
     if (item) {
       this.props.handleDropDownItem(eventName, item);
@@ -67,7 +66,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
   
 
   public render(): React.ReactElement<IRequirementsProps> {
-
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: 20,
@@ -101,6 +99,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
 
+    console.log("values-3", this.props.values)
     return (
       <>
         <div>
@@ -133,7 +132,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"workSchedule"}
             name={"workSchedule"}
             title={this.strings.time_in_hours}
-            options={[{key:"", text: `--${this.strings.select}--`},this.props.workSchedule]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workSchedule]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.workSchedule.key}
@@ -148,7 +147,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"province"}
             name={"province"}
             title={this.strings.province}
-            options={[{key:"", text: `--${this.strings.select}--`},this.props.province]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.province]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.province.key}
@@ -164,7 +163,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"region"}
             name={"region"}
             title={this.strings.region}
-            options={[{key:"", text: `--${this.strings.select}--`},filteredRegions]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...filteredRegions]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.region.key}
@@ -180,7 +179,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"city"}
             name={"city"}
             title={this.strings.city}
-            options={[{key:"", text: `--${this.strings.select}--`},filteredCities]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...filteredCities]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.city.key}
@@ -196,7 +195,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"security"}
             name={"security"}
             title={this.strings.security_level}
-            options={[{key:"", text: `--${this.strings.select}--`}, this.props.security]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.security]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.security.key}
@@ -320,7 +319,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"workArrangment"}
             name={"workArrangment"}
             title={this.strings.work_arrangment}
-            options={[{key:"", text: `--${this.strings.select}--`},this.props.workArrangment]}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workArrangment]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.workArrangment.key}

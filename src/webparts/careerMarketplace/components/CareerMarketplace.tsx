@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
@@ -117,8 +118,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
-
-    console.log("currentPageFields",currentPgFields)
    
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
@@ -220,8 +219,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
    
-    // const clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-    // const url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
@@ -322,7 +319,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
-   
       if (valueName === "language") {
         this.setState((prevState) => ({
           values: {
@@ -434,7 +430,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }));
     }
 
-
     else if( valueName === "skills") {
       const findSkillItem = [...this.state.values.skills];
       const skillExists = findSkillItem.some((item: any) => item.value === value.key);
@@ -483,40 +478,43 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public async _populateEditableFields(): Promise<void> {
     const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
     .select(
-      "Department", 
-      "Department/NameEn", 
-      "Department/NameFr", 
-      "Department/ID", 
+      "Department",  "Department/NameEn",  "Department/NameFr", "Department/ID", 
       "JobTitleFr", 
       "JobTitleEn", 
       "JobDescriptionEn", 
       "JobDescriptionFr", 
       "JobType", 
       "ProgramArea",
-      "ClassificationCode", 
-      "ClassificationCode/ID", 
-      "ClassificationCode/NameEn", 
-      "ClassificationCode/NameFr",
-      "ClassificationLevel/ID",
-      "ClassificationLevel/NameFr",
-      "Duration/ID",
-      "DurationQuantity",
-      "Duration/NameEn",
+      "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr",
+      "ClassificationLevel/ID","ClassificationLevel/NameFr",
+      "Duration/ID","DurationQuantity","Duration/NameEn",
       "NumberOfOpportunities",
-      "ApplicationDeadlineDate"
+      "ApplicationDeadlineDate",
+      "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
+      "City/ID", "City/NameEn", "City/NameFr", 
+      "SecurityClearance/ID", 
+      "WorkSchedule/ID",
+      "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension"
+   
      
     )
-    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration",  )();
+    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement")();
     console.log(item);
-    
+    const cityId = item.City.ID;
 
-    const timeZone = require('moment-timezone');
+    const regionData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
 
-    const isoString = item.ApplicationDeadlineDate;
+    const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionData.RegionId)();
 
-    const formattedDate = timeZone(isoString)
-      .tz("America/New_York")
-      .format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)");
+  
+
+    // const timeZone = require('moment-timezone');
+
+    // const isoString = item.ApplicationDeadlineDate;
+
+    // const formattedDate = timeZone(isoString)
+    //   .tz("America/New_York")
+    //   .format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)");
     
     this.setState((prevState) => ({
       values: {
@@ -533,9 +531,18 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         numberOfOpportunities: item.NumberOfOpportunities,
         duration:{...prevState.duration, key: item.Duration.ID, text: item.Duration.NameEn},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
-        deadline: formattedDate
-        
-
+        //deadline: formattedDate
+        skills: [{...prevState.values.skills}],
+        province: {key:provinceData.ID, text: provinceData.NameEn},
+        region: {key: regionData.ID, text:regionData.NameEn , provinceId:provinceData.ID},
+        city:{ key: item.City.ID, text: item.City.NameEn, regionID: regionData.ID},
+        workSchedule: { key: item.WorkSchedule.ID},
+        workArrangment: {key: item.WorkArrangement.ID},
+        security:{key: item.SecurityClearance.ID},
+        languageRequirements:[
+          {...prevState.values.languageRequirements[0], 
+          language: { key: item.LanguageRequirement.ID, text:item.LanguageRequirement.NameEn}
+        }]
        
       }
 
@@ -543,6 +550,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   } 
 
   public async _populateDropDowns(): Promise<void> {
+    
     const {currentPage} = this.state;
     const parameters = [
       [
@@ -782,8 +790,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     
     await this._populateDropDowns();
     await this._getUser();
-    await this._populateEditableFields();
     await this.getDropdownElements();
+    if (this.props.jobOpportunityId !== "") {
+      await this._populateEditableFields();
+
+    }
   }
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
@@ -794,7 +805,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         });
 
         await this._populateDropDowns();
-        await this.getDropdownElements();       
+        await this.getDropdownElements();   
+
+        // if (this.props.jobOpportunityId !== "") {
+        //   await this._populateEditableFields();
+    
+        // }  
     }
 
     if(this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
@@ -845,8 +861,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
-
-    console.log("depart", this.state.values.department)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '3%',

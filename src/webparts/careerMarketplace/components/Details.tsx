@@ -77,7 +77,6 @@ export default class Details extends React.Component<IDetailsProps> {
   }
 
 
-
   public render(): React.ReactElement<IDetailsProps> {
  
 
@@ -86,10 +85,10 @@ export default class Details extends React.Component<IDetailsProps> {
     };
 
     const isReadOnly = this.props.currentPage === 3;
-    const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities} = this.props.values;
+    const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities, deadline, jobType} = this.props.values;
 
     const reformatDate = ():string => {
-      const formattedDate = moment(this.props.values.deadline).format("YYYY-MM-DD");
+      const formattedDate = moment(deadline).format("YYYY-MM-DD");
     
       return formattedDate
     }
@@ -98,10 +97,8 @@ export default class Details extends React.Component<IDetailsProps> {
     const oneMonthLater = new Date();
     oneMonthLater.setMonth(today.getMonth() + 1);
 
-    const selectedItems =  this.props.values.jobType.map((item: any) => item.value).filter((item: any) => item !== undefined)
+    const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined)
 
-
-    console.log("values", this.props.values)
     return (
       <>
         <div>
