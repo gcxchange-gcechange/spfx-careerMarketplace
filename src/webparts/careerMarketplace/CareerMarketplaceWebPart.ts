@@ -14,6 +14,7 @@ import CareerMarketplace from './components/CareerMarketplace';
 import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
 import GraphService from '../../services/GraphService';
+
  
  
 
@@ -24,11 +25,13 @@ export interface ICareerMarketplaceWebPartProps {
   workEmail: string;
   url: string;
   edit: boolean;
+  jobOppOwner: string | undefined;
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
 
   private jobOpportunityId: string | null = null;
+  private jobOpportunityOwner: string | undefined = undefined ; 
 
   public render(): void {
 
@@ -41,7 +44,9 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         workEmail: this.context.pageContext.user.email,
         url: this.context.pageContext.site.absoluteUrl,
         edit: this.properties.edit,
-        jobOpportunityId: this.jobOpportunityId || ''
+        jobOpportunityId: this.jobOpportunityId || '',
+        jobOppOwner: this.jobOpportunityOwner
+        
         
       }
     );
@@ -57,9 +62,16 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
     await super.onInit();
 
-    getSP(this.context);
+    const sp =  getSP(this.context);
     GraphService.setup(this.context);
     this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
+    try {
+      const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
+      console.log(jobOppList)
+      this.jobOpportunityOwner = jobOppList.ContactEmail
+    }catch (error){
+      console.error("Error fetching list", error);
+    }
     
   }
   
@@ -86,6 +98,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     const params = new URLSearchParams(window.location.search);
     return params.get(param);
   }
+
+
 
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);

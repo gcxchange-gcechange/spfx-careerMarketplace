@@ -9,5 +9,6 @@ export interface ICareerMarketplaceProps {
   url: string;
   edit: boolean;
   jobOpportunityId: string;
+  jobOppOwner: string | undefined;
 
 }

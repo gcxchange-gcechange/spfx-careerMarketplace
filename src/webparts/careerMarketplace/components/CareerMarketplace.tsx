@@ -65,6 +65,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       dropdownFields: [],
       skillsList: [],
       jobOpportunityId: "",
+      jobOpportunityOwner: true,
 
       values: {
         department: {value: "" , pageNumber: 0},
@@ -822,13 +823,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public async componentDidMount(): Promise<void> {
+
+    const checkUser = this.props.jobOppOwner === this.props.workEmail;
+    console.log(checkUser)
     
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
-    if (this.props.jobOpportunityId !== "") {
+    if (this.props.jobOpportunityId !== "" && checkUser === true) {
       await this._populateEditableFields();
 
+    } else {
+      this.setState({
+        jobOpportunityOwner: checkUser
+      })
     }
   }
 
@@ -1069,6 +1077,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         <ThemeProvider applyTo='body' theme={myTheme}>
           <section>
             <div>
+              
               {
                 this.state.validationStatus === 200 ? (
                 <>                  
@@ -1088,6 +1097,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     </div>
                   </div>
                 </>
+                ) 
+                :
+                this.state.jobOpportunityOwner !== true  ? 
+                (
+                  <>  
+                    <div>
+                      <h2>You are not the owner</h2>
+                      <CustomButton id={'home'} name={"Go on, git! 🤠"} buttonType={'primary'} url={this.props.url} onClick={() => (this.props.url)}/> 
+                    </div>
+                  </>
                 )
                 :
                 <>
