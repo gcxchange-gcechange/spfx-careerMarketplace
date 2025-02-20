@@ -50,12 +50,12 @@ export interface ICareerMarketplaceState {
         {
           pageNumber: number,
           language: any,
-          readingEN: {value: ""},
-          readingFR: {value: ""},
-          writtenEN: {value: ""},
-          writtenFR: {value: ""},
-          oralEN: {value: ""},
-          oralFR: {value: ""},
+          readingEN: any,
+          readingFR: any,
+          writtenEN: any,
+          writtenFR: any,
+          oralEN: any,
+          oralFR: any,
         },
       ]
     }

@@ -89,7 +89,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           {
             pageNumber: 2,
             language: {value: ""},
-            readingEN: {value: ""},
+            readingEN: {key: ""},
             readingFR: {value: ""},
             writtenEN: {value: ""},
             writtenFR: {value: ""},
@@ -505,6 +505,24 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const regionData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionData.RegionId)();
+  
+    const languageComprehensionArray = item.LanguageComprehension.split("");
+    
+
+    const getIndex = languageComprehensionArray.map((letter:string) => {
+      if (letter === 'A') {
+        return {key: 0, text: letter}
+      }
+      else if (letter === "B") {
+        return {key:1, text: letter}
+      }
+      else if (letter === "C") {
+        return {key:2, text: letter}
+      }
+    })
+
+    console.log(getIndex)
+    
 
   
 
@@ -541,8 +559,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         security:{key: item.SecurityClearance.ID},
         languageRequirements:[
           {...prevState.values.languageRequirements[0], 
-          language: { key: item.LanguageRequirement.ID, text:item.LanguageRequirement.NameEn}
+          language: { key: item.LanguageRequirement.ID, text:item.LanguageRequirement.NameEn},
+            readingEN: {key: getIndex[0].key, text: getIndex[0].text},
+            writtenEN: {key: getIndex[1].key, text: getIndex[1].text},
+            oralEN: {key: getIndex[2].key, text: getIndex[2].text},
+            readingFR: {key: getIndex[4].key, text: getIndex[4].text},
+            writtenFR: {key: getIndex[5].key, text: getIndex[5].text},
+            oralFR: {key: getIndex[6].key, text: getIndex[6].text},
+
         }]
+        
        
       }
 
