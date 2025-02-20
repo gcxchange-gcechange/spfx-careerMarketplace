@@ -29,8 +29,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private alertRef: RefObject<HTMLDivElement>;
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
-  private clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-  private url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
+  private clientId = "c121f403-ff41-4db ";
+  private url = "https://app vc  ";
 
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
     
@@ -522,8 +522,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
     })
 
-    console.log(getIndex)
-    
 
     const skillsArray = item.Skills.length;
 

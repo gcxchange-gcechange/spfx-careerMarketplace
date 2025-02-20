@@ -66,7 +66,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
   
 
   public render(): React.ReactElement<IRequirementsProps> {
-    console.log("skillValues", this.props.values.skills)
+ 
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: 20,
@@ -77,8 +77,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 3;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
-    console.log('selectedSkills',selectedSkillItems)
-
+ 
 
     const languageEvaluationOptions : IDropdownOption[] = [
       {key: 0, text: 'A'},
