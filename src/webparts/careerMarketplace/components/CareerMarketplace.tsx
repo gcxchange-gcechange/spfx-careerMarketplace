@@ -494,11 +494,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       "City/ID", "City/NameEn", "City/NameFr", 
       "SecurityClearance/ID", 
       "WorkSchedule/ID",
-      "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension"
+      "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
+      "Skills/ID"
    
      
     )
-    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement")();
+    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     console.log(item);
     const cityId = item.City.ID;
 
@@ -524,7 +525,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log(getIndex)
     
 
-  
+    const skillsArray = item.Skills.length;
+
+    const skillResult  = Array.from({ length: skillsArray }, (_, item) => ({
+      value: item,
+    }));
+
+
 
     // const timeZone = require('moment-timezone');
 
@@ -550,7 +557,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         duration:{...prevState.duration, key: item.Duration.ID, text: item.Duration.NameEn},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
         //deadline: formattedDate
-        skills: [{...prevState.values.skills}],
+        skills: skillResult,
         province: {key:provinceData.ID, text: provinceData.NameEn},
         region: {key: regionData.ID, text:regionData.NameEn , provinceId:provinceData.ID},
         city:{ key: item.City.ID, text: item.City.NameEn, regionID: regionData.ID},
@@ -567,7 +574,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             writtenFR: {key: getIndex[5].key, text: getIndex[5].text},
             oralFR: {key: getIndex[6].key, text: getIndex[6].text},
 
-        }]
+        }],
+        approvedStaffing: {...prevState.values.approvedStaffing, value: true}
         
        
       }
