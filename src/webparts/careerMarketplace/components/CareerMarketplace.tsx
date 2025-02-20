@@ -29,8 +29,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private alertRef: RefObject<HTMLDivElement>;
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
-  private clientId = "c121f403-ff41-4db ";
-  private url = "https://app vc  ";
+  private clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+  private url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
+
 
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
     
@@ -531,13 +532,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
 
-    // const timeZone = require('moment-timezone');
+    const timeZone = require('moment-timezone');
 
-    // const isoString = item.ApplicationDeadlineDate;
+    const isoString = item.ApplicationDeadlineDate;
 
-    // const formattedDate = timeZone(isoString)
-    //   .tz("America/New_York")
-    //   .format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)");
+    console.log("date",isoString)
+
+    const formattedDate = timeZone(isoString)
+      .tz("America/New_York")
+      .format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)");
     
     this.setState((prevState) => ({
       values: {
@@ -554,7 +557,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         numberOfOpportunities: item.NumberOfOpportunities,
         duration:{...prevState.duration, key: item.Duration.ID, text: item.Duration.NameEn},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
-        //deadline: formattedDate
+        deadline: new Date(formattedDate),
         skills: skillResult,
         province: {key:provinceData.ID, text: provinceData.NameEn},
         region: {key: regionData.ID, text:regionData.NameEn , provinceId:provinceData.ID},

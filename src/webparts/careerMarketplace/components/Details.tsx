@@ -79,6 +79,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
   public render(): React.ReactElement<IDetailsProps> {
  
+    console.log("deadline", this.props.values.deadline)
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
