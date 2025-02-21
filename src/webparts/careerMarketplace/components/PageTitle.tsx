@@ -1,12 +1,15 @@
 import * as React from 'react';
+import { SelectLanguage } from './SelectLanguage';
 
 
 export interface IPageTitleProps {
 currentPage: number;
+prefLang:string;
 }
 
 
 export default class PageTitle extends React.Component<IPageTitleProps> {
+  public strings = SelectLanguage(this.props.prefLang)
 
 
 
@@ -18,16 +21,16 @@ export default class PageTitle extends React.Component<IPageTitleProps> {
           <div>
 
             {this.props.currentPage === 0 && (
-              <h2>Poster Information </h2>
+              <h2>{this.strings.posterInformation_title}</h2>
             )}
             {this.props.currentPage === 1 && (
-              <h2>Opportunity Details</h2>
+              <h2>{this.strings.opportunityRequirements_title}</h2>
             )}
             {this.props.currentPage === 2 && (
-              <h2>Opportunity Requirements</h2>
+              <h2>{this.strings.opportunityRequirements_title}</h2>
             )}
             {this.props.currentPage === 3 && (
-              <h2>Review and submit</h2>
+              <h2>{this.strings.reviewSubmit_title}</h2>
             )}
           </div>
          

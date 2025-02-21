@@ -9,6 +9,7 @@ import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/batching";
 import "@pnp/sp/site-users/web";
+import "@pnp/sp/sites"
 
 let _sp: SPFI | null = null;
 

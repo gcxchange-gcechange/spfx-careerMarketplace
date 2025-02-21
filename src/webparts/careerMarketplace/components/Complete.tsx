@@ -1,16 +1,17 @@
 import { IImageProps, ImageFit } from '@fluentui/react';
 import * as React from 'react';
+import { SelectLanguage } from "./SelectLanguage";
 
 
 
 export interface ICompleteProps {
-
+  prefLang: string;
 }
 
 
 export default class Complete extends React.Component<ICompleteProps> {
 
-
+  public strings = SelectLanguage(this.props.prefLang);
 
   public render(): React.ReactElement<ICompleteProps>{
 
@@ -24,14 +25,14 @@ export default class Complete extends React.Component<ICompleteProps> {
     return (
       <>   
         <div>
-          <h2>Complete</h2>
+          <h2>{this.strings.complete_title}</h2>
         </div>
         <div style={{display:'flex', justifyContent: 'center'}}>
           <img {...imageProps} alt={'people high five'}/>
         </div>
         <div>
-          <p>Congratualtions! You have created a new opportunity</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p><strong>{this.strings.complete_para1}</strong></p>
+          <p>{this.strings.complete_para2}</p>
         </div>
          
       </>

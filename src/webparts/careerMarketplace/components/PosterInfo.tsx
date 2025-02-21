@@ -6,16 +6,18 @@ import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { IDropdownOption } from "@fluentui/react";
 import { validate } from "./Validations";
+import { SelectLanguage } from './SelectLanguage';
 
 
 export interface IPosterInfoProps {
-   
+  prefLang: string;
   handleDropDownItem: (event: any, item: any) => void;
   items: IDropdownOption[];
   userInfo: string;
   workEmail: string;
   currentPage: number;
   readOnly: boolean;
+  jobOpportunityId: string;
   values: {
     department: any;
   };
@@ -26,7 +28,8 @@ export interface IPosterInfoProps {
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
   
-
+  public strings = SelectLanguage(this.props.prefLang);
+  
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventName = event.target.id;
 
@@ -36,14 +39,14 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
   };
 
   public render(): React.ReactElement<IPosterInfoProps> {
-    const isReadOnly = this.props.currentPage === 0 || this.props.currentPage === 3;
+    const isReadOnly = this.props.currentPage === 0;
 
     return (
       <>
         <div>
           {this.props.currentPage === 0 && (
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+              {this.strings.posterInformation_para1}
             </p>
           )}
         </div>
@@ -51,19 +54,20 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           <ReusableTextField
             id={"contactName"}
             name={"contactName"}
-            title={"Full name"}
+            title={this.strings.fullName}
             defaultValue={this.props.userInfo}
             readOnly={isReadOnly}
+            disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
           />
           <ReusableDropdownField
             id={"department"}
             name={"department"}
-            title={"Department"}
-            options={[{key: "", text: "--Select--"},...this.props.items.sort()]}
+            title={this.strings.department}
+            options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
             onChange={this.onChangeDropDownItem}
             disabled={this.props.currentPage === 3}
-            selectedKey={this.props.values.department.key}
+            selectedKey={ this.props.values.department.key}
             ariaLabelRequired={'required'}
           />
           {this.props.inlineFieldErrors.includes('department') &&( 
@@ -73,9 +77,10 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           <ReusableTextField
             id={"workEmail"}
             name={"workEmail"}
-            title={"Work Email"}
+            title={this.strings.workEmail}
             defaultValue={this.props.workEmail}
             readOnly={isReadOnly}
+            disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
           />
         </div>
