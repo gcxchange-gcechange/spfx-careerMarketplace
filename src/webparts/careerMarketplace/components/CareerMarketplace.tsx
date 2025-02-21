@@ -29,7 +29,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private alertRef: RefObject<HTMLDivElement>;
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
-  private clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
+  private clientId = "";
+  // private clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
   private url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
 
 
@@ -101,6 +102,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         ],
         workArrangment: {value: "" , pageNumber: 2}, 
         approvedStaffing:{value:"", pageNumber: 2},
+        formattedlanguageRequirements: "XXX-XXX"
       }
     };
     this.alertRef = React.createRef();
@@ -210,14 +212,28 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const programAreaFormat= {Label: programArea.text, Guid: programArea.key };
 
-    const extractedTexts = this.state.values.languageRequirements
-    .filter((obj) => obj.language === 3).map((obj) => {
-    return Object.values(obj)
-      .filter((item) => item && typeof item === 'object' && item.text)
-      .map((item) => item.text);
-    }).flat().filter((text) => text !== "Bilingual");
 
-    const formattedText = extractedTexts.join('').replace(/(.{3})/, '$1-');
+    let langCompText = "";
+
+    langCompText = this.state.values.languageRequirements[0].readingEN.text + 
+    this.state.values.languageRequirements[0].writtenEN.text + 
+    this.state.values.languageRequirements[0].oralEN.text + '-' +
+    this.state.values.languageRequirements[0].readingFR.text +
+    this.state.values.languageRequirements[0].writtenFR.text +
+    this.state.values.languageRequirements[0].oralFR.text;
+ 
+
+    // const extractedTexts = this.state.values.languageRequirements
+    // .filter((obj) => obj.language === 3).map((obj) => {
+    //   console.log(obj)
+    // return Object.values(obj)
+    //   .filter((item) => item && typeof item === 'object' && item.text)
+    //   .map((item) => item.text);
+    // }).flat().filter((text) => text !== "Bilingual");
+    // console.log("extracted",extractedTexts)
+
+    // const formattedText = extractedTexts.join('').replace(/(.{3})/, '$1-');
+    // console.log(formattedText)
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
    
@@ -249,7 +265,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "WorkScheduleId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceId": "${this.state.values.security.key}",
               "LanguageRequirementId": "${this.state.values.languageRequirements[0].language.key}",
-              "LanguageComprehension":"${formattedText}",
+              "LanguageComprehension":"${langCompText}",
               "WorkArrangementId": "${this.state.values.workArrangment.key}",
               "ApprovedStaffing": ${this.state.values.approvedStaffing.value},
               "SkillsIds": ${JSON.stringify(skills)},
@@ -348,9 +364,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     readingEN: value,
                   },
                 ],
+  
               },
             }));
           } else if (valueName === 'writtenEN') {
+            
             this.setState((prevState) => ({
               values: {
                 ...prevState.values,
@@ -360,6 +378,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     writtenEN: value,
                   },
                 ],
+
               },
             }));
           }
@@ -508,21 +527,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const regionData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionData.RegionId)();
-  
-    const languageComprehensionArray = item.LanguageComprehension.split("");
-    
 
-    const getIndex = languageComprehensionArray.map((letter:string) => {
-      if (letter === 'A') {
-        return {key: 0, text: letter}
-      }
-      else if (letter === "B") {
-        return {key:1, text: letter}
-      }
-      else if (letter === "C") {
-        return {key:2, text: letter}
-      }
-    })
+   
+    const getIndex: any[] =  [];
+  
+    if (item.LanguageRequirement.ID === 3 ) {
+
+     const languageComprehensionArray= item.LanguageComprehension.split("") 
+      
+  
+      getIndex.push ( languageComprehensionArray.map((letter:string) => {
+        if (letter === 'A') {
+          return {key: 0, text: letter}
+        }
+        else if (letter === "B") {
+          return {key:1, text: letter}
+        }
+        else if (letter === "C") {
+          return {key:2, text: letter}
+        }
+      }))
+    }
 
 
     const skillsArray = item.Skills.length;
@@ -825,7 +850,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public async componentDidMount(): Promise<void> {
 
     const checkUser = this.props.jobOppOwner === this.props.workEmail;
-    console.log(checkUser)
+    console.log("ID",this.props.jobOpportunityId)
+    console.log("owner", this.props.jobOppOwner)
     
     await this._populateDropDowns();
     await this._getUser();
@@ -1098,10 +1124,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   </div>
                 </>
                 ) 
-               
                 :
                 <>
-                
+                  {
+                  (this.props.jobOpportunityId  !== "" &&  this.state.jobOpportunityOwner ===  false) ? (
+                  
+                      <>  
+                        <div>
+                          <h2>You are not the owner</h2>
+                          <CustomButton id={'home'} name={"Go on, git! 🤠"} buttonType={'primary'} url={this.props.url} onClick={() => (this.props.url)}/> 
+                        </div>
+                      </>
+                    
+                  ) : (
+                    <>
                   <div>
                     <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang}/>
                   </div>
@@ -1143,6 +1179,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       }
                     </Stack>
                   </div>
+                  </>
+                  )}
                 </>
               }
             </div>

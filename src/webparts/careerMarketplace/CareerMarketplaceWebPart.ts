@@ -59,23 +59,31 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
     await super.onInit();
 
-    const sp =  getSP(this.context);
+    const sp = getSP(this.context);
     GraphService.setup(this.context);
     this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
-    console.log(this.jobOpportunityId)
+    console.log("id", this.jobOpportunityId)
     try {
-      if(this.jobOpportunityId !== null ) {
+      if (this.jobOpportunityId !== null ) {
         const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
-        console.log(jobOppList)
+        console.log("jobOppList",jobOppList)
         this.jobOpportunityOwner = jobOppList.ContactEmail
       }
-    }catch (error){
+    } catch (error){
       console.error("Error fetching list", error);
     }
+    console.log(this.jobOpportunityOwner)
+    
+  }
+
+  private getQueryParam(param: string): string | null {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(param);
+
+    
     
   }
   
-
 
   protected onThemeChanged(currentTheme: IReadonlyTheme | undefined): void {
     if (!currentTheme) {
@@ -94,10 +102,6 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
   }
 
-  private getQueryParam(param: string): string | null {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(param);
-  }
 
 
 
