@@ -200,7 +200,7 @@ stages:
 ##              - script: m365 spo app upgrade --id 0EA66617-4448-4585-A3A9-0542DD83747C --siteUrl https://devgcx.sharepoint.com/
 ##                displayName: Upgrades the app to a specific site
 
-- stage: E2E_test 
+- stage: E2E_Accessibility_Tests
   dependsOn: 
     - Dev_Deployment
   jobs:
