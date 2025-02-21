@@ -1,6 +1,8 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import ReusableTextField, { IReusableTextFieldProps } from "./ReusableTextField";
+import "@testing-library/jest-dom";
+
 
 describe("ReusableTextField Component", () => {
   const mockOnChange = jest.fn();

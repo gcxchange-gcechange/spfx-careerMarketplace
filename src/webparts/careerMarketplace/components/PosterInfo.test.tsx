@@ -4,6 +4,8 @@ jest.mock("./ReusableDropDownField");
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import PosterInfo, { IPosterInfoProps } from "./PosterInfo";
+import "@testing-library/jest-dom";
+
 
 describe("PosterInfo Component", () => {
     const mockHandleOnChange = jest.fn();

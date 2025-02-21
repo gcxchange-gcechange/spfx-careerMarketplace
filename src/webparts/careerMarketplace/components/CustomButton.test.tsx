@@ -11,6 +11,8 @@ jest.mock('@fluentui/react', () => ({
   import React from "react";
   import { render, fireEvent } from "@testing-library/react";
   import CustomButton, { ICustomButtonProps } from "./CustomButton";
+  import "@testing-library/jest-dom";
+
   
   describe("CustomButton Component", () => {
     const mockOnClick = jest.fn();

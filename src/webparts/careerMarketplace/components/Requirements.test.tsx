@@ -4,6 +4,8 @@ jest.mock("./ReusableDropDownField");
 import { render, fireEvent } from "@testing-library/react";
 import Requirements, { IRequirementsProps } from "./Requirements"; // Import your component and its props interface
 import React from "react";
+import "@testing-library/jest-dom";
+
 
 describe("Requirements Component", () => {
     const mockHandleOnChange = jest.fn();

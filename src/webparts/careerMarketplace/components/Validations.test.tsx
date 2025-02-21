@@ -1,6 +1,8 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { validateEmpty, validateDropdowns, validate } from "./Validations"; 
+import "@testing-library/jest-dom";
+
 
 describe("Validation Functions", () => {
   describe("validateEmpty", () => {

@@ -1,11 +1,13 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import PageTitle, { IPageTitleProps } from "./PageTitle";
+import "@testing-library/jest-dom";
+
 
 describe("PageTitle Component", () => {
     const defaultProps: IPageTitleProps = {
         currentPage: 0,
-        prefLang: "en", // Add prefLang here!  Provide a default language.
+        prefLang: "en", 
     };
 
     it("renders 'Poster Information' when currentPage is 0", () => {

@@ -7,6 +7,8 @@ jest.mock("@fluentui/react", () => ({
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Details, { IDetailsProps } from "./Details";
+import "@testing-library/jest-dom";
+
 
 describe("Details Component", () => {
     const mockHandleOnChange = jest.fn();
