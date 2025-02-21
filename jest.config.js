@@ -16,7 +16,7 @@ module.exports = {
     "json"
   ],
   testMatch: [
-    "**/src/**/*.test.+(ts|tsx|js)"
+    "**/src/**/**/**/*.test.+(ts|tsx|js)"
   ],
 
   moduleNameMapper: {
