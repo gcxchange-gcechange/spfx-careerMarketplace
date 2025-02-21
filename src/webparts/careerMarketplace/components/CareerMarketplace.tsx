@@ -1098,16 +1098,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   </div>
                 </>
                 ) 
-                :
-                this.state.jobOpportunityOwner !== true  ? 
-                (
-                  <>  
-                    <div>
-                      <h2>You are not the owner</h2>
-                      <CustomButton id={'home'} name={"Go on, git! 🤠"} buttonType={'primary'} url={this.props.url} onClick={() => (this.props.url)}/> 
-                    </div>
-                  </>
-                )
+               
                 :
                 <>
                 
@@ -1122,17 +1113,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     />
                   </div>
                   <div>
-                  {this.state.hasError.length !== 0  && (
-                    <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
-                      <h3 id="alertHeading">Please fix the following errors before proceeding.</h3>
-                      {
-                        this.changeFieldNameFormat()
-                      }
-                    
-                    </div>
-                    )
-                  }
-                </div>
+                    {this.state.hasError.length !== 0  && (
+                      <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
+                        <h3 id="alertHeading">Please fix the following errors before proceeding.</h3>
+                        {
+                          this.changeFieldNameFormat()
+                        }
+                      
+                      </div>
+                      )
+                    }
+                  </div>
                   <div>
                     {steps[currentPage].content}
                   </div>
