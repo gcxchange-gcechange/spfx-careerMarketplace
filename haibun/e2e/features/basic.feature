@@ -23,4 +23,6 @@ Go to the login page, enter credentials, be on the welcome page.
    wait for "Welcome to GCXchange"
    take a screenshot
 
+   page at https://devgcx.sharepoint.com is accessible accepting serious 0 and moderate 2
+
 
