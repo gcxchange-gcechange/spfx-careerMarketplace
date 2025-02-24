@@ -14,6 +14,7 @@ import CareerMarketplace from './components/CareerMarketplace';
 import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
 import GraphService from '../../services/GraphService';
+import { IServicesConfig } from '../../servicesConfig';
 
  
  
@@ -26,14 +27,21 @@ export interface ICareerMarketplaceWebPartProps {
   url: string;
   edit: boolean;
   jobOppOwner: string | undefined;
+  apiUrl: string,
+  clientId: string,
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
 
   private jobOpportunityId: string | null = null;
   private jobOpportunityOwner: string | undefined = undefined ; 
+  private services: IServicesConfig = {
+    clientId: "c121f403-ff41-4db3-8426-f3b9c5016cd4",
+    apiUrl:"https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D",
+  }
 
   public render(): void {
+
 
     const element: React.ReactElement<ICareerMarketplaceProps> = React.createElement(
       CareerMarketplace,
@@ -45,9 +53,10 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         url: this.context.pageContext.site.absoluteUrl,
         edit: this.properties.edit,
         jobOpportunityId: this.jobOpportunityId || '',
-        jobOppOwner: this.jobOpportunityOwner
-        
-        
+        jobOppOwner: this.jobOpportunityOwner,
+        apiUrl: this.services.apiUrl,
+        clientId: this.services.clientId
+    
       }
     );
 

@@ -21,6 +21,7 @@ import { RefObject } from 'react';
 import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
 import { ICareerMarketplaceState } from './ICareerMarketplaceState';
+ 
 
 
 
@@ -29,9 +30,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private alertRef: RefObject<HTMLDivElement>;
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
-  private clientId = "";
-  // private clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-  private url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
+ 
 
 
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
@@ -107,6 +106,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     };
     this.alertRef = React.createRef();
     this._sp = getSP(this.props.context);
+ 
   }
 
  
@@ -277,10 +277,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       console.log("BODY", postOptions.body)
       try {
         this.props.context.aadHttpClientFactory
-        .getClient(this.clientId)
+        .getClient(this.props.clientId)
         .then((client: AadHttpClient): void => {
           client
-          .post(this.url, AadHttpClient.configurations.v1, postOptions)
+          .post(this.props.url, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
             console.log("response", response)
             if (response.status) {
@@ -530,31 +530,34 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
    
     const getIndex: any[] =  [];
-  
-    if (item.LanguageRequirement.ID === 3 ) {
+   
 
-     const languageComprehensionArray= item.LanguageComprehension.split("") 
-      
-  
-      getIndex.push ( languageComprehensionArray.map((letter:string) => {
-        if (letter === 'A') {
-          return {key: 0, text: letter}
-        }
-        else if (letter === "B") {
-          return {key:1, text: letter}
-        }
-        else if (letter === "C") {
-          return {key:2, text: letter}
-        }
-      }))
+    if (item.LanguageRequirement.ID === 3) {
+
+      const languageComprehensionArray= item.LanguageComprehension?.split("") 
+ 
+      if(languageComprehensionArray.length !== 0) {
+       
+         getIndex.push ( languageComprehensionArray.map((letter:string) => {
+          if (letter === 'A') {
+            return {key: 0, text: letter}
+          }
+          else if (letter === "B") {
+            return {key:1, text: letter}
+          }
+          else if (letter === "C") {
+            return {key:2, text: letter}
+          }
+        }))
+       }
     }
-
 
     const skillsArray = item.Skills.length;
 
     const skillResult  = Array.from({ length: skillsArray }, (_, item) => ({
       value: item,
     }));
+    console.log("skillResult", skillResult)
 
 
 
@@ -594,12 +597,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         languageRequirements:[
           {...prevState.values.languageRequirements[0], 
           language: { key: item.LanguageRequirement.ID, text:item.LanguageRequirement.NameEn},
-            readingEN: {key: getIndex[0].key, text: getIndex[0].text},
-            writtenEN: {key: getIndex[1].key, text: getIndex[1].text},
-            oralEN: {key: getIndex[2].key, text: getIndex[2].text},
-            readingFR: {key: getIndex[4].key, text: getIndex[4].text},
-            writtenFR: {key: getIndex[5].key, text: getIndex[5].text},
-            oralFR: {key: getIndex[6].key, text: getIndex[6].text},
+            readingEN: getIndex.length !== 0 ? getIndex[0][0] : {...prevState.values.languageRequirements[0].readingEN},
+            writtenEN: getIndex[0][1],
+            oralEN: getIndex[0][2],
+            readingFR: getIndex[0][4],
+            writtenFR: getIndex[0][5],
+            oralFR: getIndex[0][6],
 
         }],
         approvedStaffing: {...prevState.values.approvedStaffing, value: true}
