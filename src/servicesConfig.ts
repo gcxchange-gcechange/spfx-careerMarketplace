@@ -3,3 +3,7 @@ export interface IServicesConfig {
   apiUrl:string;
 
 }
+
+export interface IEditOpportunity {
+  apiIUrl: string;
+}

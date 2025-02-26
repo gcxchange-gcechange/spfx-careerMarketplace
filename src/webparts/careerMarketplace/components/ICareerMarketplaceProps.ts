@@ -12,5 +12,6 @@ export interface ICareerMarketplaceProps {
   jobOppOwner: string | undefined;
   apiUrl: string,
   clientId: string,
+  apiUrlEdit: string,
 
 }

@@ -35,9 +35,14 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
   private jobOpportunityId: string | null = null;
   private jobOpportunityOwner: string | undefined = undefined ; 
-  private services: IServicesConfig = {
-    clientId: "c121f403-ff41-4db3-8426-f3b9c5016cd4",
-    apiUrl:"https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D",
+  private createServices: IServicesConfig = {
+    clientId: "",
+    apiUrl:"",
+  }
+
+  private editServices: IServicesConfig = {
+    clientId: "",
+    apiUrl:"",
   }
 
   public render(): void {
@@ -54,8 +59,9 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         edit: this.properties.edit,
         jobOpportunityId: this.jobOpportunityId || '',
         jobOppOwner: this.jobOpportunityOwner,
-        apiUrl: this.services.apiUrl,
-        clientId: this.services.clientId
+        apiUrl: this.createServices.apiUrl,
+        clientId: this.createServices.clientId,
+        apiUrlEdit: this.editServices.apiUrl
     
       }
     );

@@ -222,18 +222,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state.values.languageRequirements[0].writtenFR.text +
     this.state.values.languageRequirements[0].oralFR.text;
  
-
-    // const extractedTexts = this.state.values.languageRequirements
-    // .filter((obj) => obj.language === 3).map((obj) => {
-    //   console.log(obj)
-    // return Object.values(obj)
-    //   .filter((item) => item && typeof item === 'object' && item.text)
-    //   .map((item) => item.text);
-    // }).flat().filter((text) => text !== "Bilingual");
-    // console.log("extracted",extractedTexts)
-
-    // const formattedText = extractedTexts.join('').replace(/(.{3})/, '$1-');
-    // console.log(formattedText)
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
    
@@ -270,7 +258,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ApprovedStaffing": ${this.state.values.approvedStaffing.value},
               "SkillIds": ${JSON.stringify(skills)},
               "CityId": "${this.state.values.city.key}",
-              "DurationQuantity":"${this.state.values.durationLength.value}"
+              "DurationQuantity":"${this.state.values.durationLength.value}",
+              "ItemId":"${this.props.jobOpportunityId !== null && (this.props.jobOpportunityId)}"
         }`,
       };
 
@@ -280,7 +269,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         .getClient(this.props.clientId)
         .then((client: AadHttpClient): void => {
           client
-          .post(this.props.apiUrl, AadHttpClient.configurations.v1, postOptions)
+          .post(this.props.jobOpportunityId ? this.props.apiUrlEdit :this.props.apiUrl, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
             console.log("response", response)
             if (response.status) {
