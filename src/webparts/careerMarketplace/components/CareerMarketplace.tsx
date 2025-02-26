@@ -21,6 +21,7 @@ import { RefObject } from 'react';
 import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
 import { ICareerMarketplaceState } from './ICareerMarketplaceState';
+ 
 
 
 
@@ -29,9 +30,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private alertRef: RefObject<HTMLDivElement>;
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
-  private clientId = "";
-  // private clientId = "c121f403-ff41-4db3-8426-f3b9c5016cd4";
-  private url = "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity?code=SqdzqkkJo5j_TxoqTSv4zQdcpRp1WaxsvWUal8KLR61bAzFuVVQOUw%3D%3D";
+ 
 
 
   constructor(props: ICareerMarketplaceProps, state: ICareerMarketplaceState) {
@@ -92,7 +91,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           {
             pageNumber: 2,
             language: {value: ""},
-            readingEN: {key: ""},
+            readingEN: {value: ""},
             readingFR: {value: ""},
             writtenEN: {value: ""},
             writtenFR: {value: ""},
@@ -107,6 +106,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     };
     this.alertRef = React.createRef();
     this._sp = getSP(this.props.context);
+ 
   }
 
  
@@ -265,10 +265,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "WorkScheduleId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceId": "${this.state.values.security.key}",
               "LanguageRequirementId": "${this.state.values.languageRequirements[0].language.key}",
-              "LanguageComprehension":"${langCompText}",
+              "LanguageComprehension":"${this.state.values.languageRequirements[0].language.key === 3 ? langCompText : ""}",
               "WorkArrangementId": "${this.state.values.workArrangment.key}",
               "ApprovedStaffing": ${this.state.values.approvedStaffing.value},
-              "SkillsIds": ${JSON.stringify(skills)},
+              "SkillIds": ${JSON.stringify(skills)},
               "CityId": "${this.state.values.city.key}",
               "DurationQuantity":"${this.state.values.durationLength.value}"
         }`,
@@ -277,10 +277,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       console.log("BODY", postOptions.body)
       try {
         this.props.context.aadHttpClientFactory
-        .getClient(this.clientId)
+        .getClient(this.props.clientId)
         .then((client: AadHttpClient): void => {
           client
-          .post(this.url, AadHttpClient.configurations.v1, postOptions)
+          .post(this.props.apiUrl, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
             console.log("response", response)
             if (response.status) {
@@ -530,32 +530,29 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
    
     const getIndex: any[] =  [];
-  
-    if (item.LanguageRequirement.ID === 3 ) {
+   
 
-     const languageComprehensionArray= item.LanguageComprehension.split("") 
-      
-  
-      getIndex.push ( languageComprehensionArray.map((letter:string) => {
-        if (letter === 'A') {
-          return {key: 0, text: letter}
-        }
-        else if (letter === "B") {
-          return {key:1, text: letter}
-        }
-        else if (letter === "C") {
-          return {key:2, text: letter}
-        }
-      }))
+    if (item.LanguageRequirement.ID === 3) {
+
+      const languageComprehensionArray= item.LanguageComprehension?.split("") 
+ 
+      if(languageComprehensionArray.length !== 0) {
+       
+         getIndex.push ( languageComprehensionArray.map((letter:string) => {
+          if (letter === 'A') {
+            return {key: 0, text: letter}
+          }
+          else if (letter === "B") {
+            return {key:1, text: letter}
+          }
+          else if (letter === "C") {
+            return {key:2, text: letter}
+          }
+        }))
+      }
     }
 
-
-    const skillsArray = item.Skills.length;
-
-    const skillResult  = Array.from({ length: skillsArray }, (_, item) => ({
-      value: item,
-    }));
-
+    const skills = item.Skills.map((item:any) => ({ value: item.ID}));
 
 
     const timeZone = require('moment-timezone');
@@ -584,7 +581,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         duration:{...prevState.duration, key: item.Duration.ID, text: item.Duration.NameEn},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
         deadline: new Date(formattedDate),
-        skills: skillResult,
+        skills: skills,
         province: {key:provinceData.ID, text: provinceData.NameEn},
         region: {key: regionData.ID, text:regionData.NameEn , provinceId:provinceData.ID},
         city:{ key: item.City.ID, text: item.City.NameEn, regionID: regionData.ID},
@@ -594,12 +591,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         languageRequirements:[
           {...prevState.values.languageRequirements[0], 
           language: { key: item.LanguageRequirement.ID, text:item.LanguageRequirement.NameEn},
-            readingEN: {key: getIndex[0].key, text: getIndex[0].text},
-            writtenEN: {key: getIndex[1].key, text: getIndex[1].text},
-            oralEN: {key: getIndex[2].key, text: getIndex[2].text},
-            readingFR: {key: getIndex[4].key, text: getIndex[4].text},
-            writtenFR: {key: getIndex[5].key, text: getIndex[5].text},
-            oralFR: {key: getIndex[6].key, text: getIndex[6].text},
+            readingEN: getIndex.length !== 0 ? getIndex[0][0] : {...prevState.values.languageRequirements[0].readingEN},
+            writtenEN: getIndex.length !== 0 ? getIndex[0][1] : {...prevState.values.languageRequirements[0].writtenEN},
+            oralEN:  getIndex.length !== 0 ? getIndex[0][2] : {...prevState.values.languageRequirements[0].oralEN},
+            readingFR:  getIndex.length !== 0 ? getIndex[0][4] : {...prevState.values.languageRequirements[0].readingFR},
+            writtenFR: getIndex.length !== 0 ?  getIndex[0][5]: {...prevState.values.languageRequirements[0].writtenFR },
+            oralFR:  getIndex.length !== 0 ? getIndex[0][6] : {...prevState.values.languageRequirements[0].oralFR},
 
         }],
         approvedStaffing: {...prevState.values.approvedStaffing, value: true}
@@ -608,7 +605,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
 
     }))
-  } 
+  }
 
   public async _populateDropDowns(): Promise<void> {
     
