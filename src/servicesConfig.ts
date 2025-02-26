@@ -1,9 +1,9 @@
-export interface IServicesConfig {
+export interface ICreateOpportunity {
   clientId: string;
   apiUrl:string;
 
 }
 
 export interface IEditOpportunity {
-  apiIUrl: string;
+  apiUrlEdit: string;
 }

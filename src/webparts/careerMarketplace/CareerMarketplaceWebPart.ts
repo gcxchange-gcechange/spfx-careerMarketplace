@@ -14,7 +14,7 @@ import CareerMarketplace from './components/CareerMarketplace';
 import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
 import GraphService from '../../services/GraphService';
-import { IServicesConfig } from '../../servicesConfig';
+import { IEditOpportunity, ICreateOpportunity } from '../../servicesConfig';
 
  
  
@@ -35,14 +35,13 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
   private jobOpportunityId: string | null = null;
   private jobOpportunityOwner: string | undefined = undefined ; 
-  private createServices: IServicesConfig = {
+  private createServices: ICreateOpportunity = {
     clientId: "",
     apiUrl:"",
   }
 
-  private editServices: IServicesConfig = {
-    clientId: "",
-    apiUrl:"",
+  private editServices: IEditOpportunity = {
+    apiUrlEdit:"",
   }
 
   public render(): void {
@@ -61,7 +60,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         jobOppOwner: this.jobOpportunityOwner,
         apiUrl: this.createServices.apiUrl,
         clientId: this.createServices.clientId,
-        apiUrlEdit: this.editServices.apiUrl
+        apiUrlEdit: this.editServices.apiUrlEdit
     
       }
     );
