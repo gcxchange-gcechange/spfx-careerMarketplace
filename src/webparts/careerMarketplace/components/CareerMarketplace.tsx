@@ -553,16 +553,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     const skills = item.Skills.map((item:any) => ({ value: item.ID}));
-    console.log(skills);
-
-    const skillsArray = item.Skills.length
-    console.log(skillsArray)
-
-    const skillResult  = Array.from({ length: skillsArray }, (_, item) => ({
-      value: item,
-    }));
-    console.log("skillResult", skillResult)
-
 
 
     const timeZone = require('moment-timezone');
