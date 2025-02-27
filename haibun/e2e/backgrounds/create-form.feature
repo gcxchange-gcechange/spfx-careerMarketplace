@@ -1,1 +1,1 @@
-Set CareerMarketplace field to //a[span[text()='Career Marketplace']]
+Set CareerMarketplace to xpath://a[span[text()='Career Marketplace']]
