@@ -39,6 +39,7 @@ export interface IDetailsProps {
     durationLength: any;
   };
   inlineFieldErrors?:any[];
+  jobOppId : string;
 }
 
 export default class Details extends React.Component<IDetailsProps> {
@@ -315,7 +316,7 @@ export default class Details extends React.Component<IDetailsProps> {
             disabled={isReadOnly}
             formatDate={reformatDate}
             value={this.props.values.deadline}
-            minDate={oneMonthLater}
+            minDate={this.props.jobOppId ? undefined : oneMonthLater}
             
           />
         </div>

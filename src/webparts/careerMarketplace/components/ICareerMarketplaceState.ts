@@ -59,7 +59,6 @@ export interface ICareerMarketplaceState {
           oralFR: any,
         },
       ]
-      formattedlanguageRequirements:string
     }
   
   }

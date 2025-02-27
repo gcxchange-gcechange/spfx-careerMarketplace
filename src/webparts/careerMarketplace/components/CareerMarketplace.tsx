@@ -101,7 +101,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         ],
         workArrangment: {value: "" , pageNumber: 2}, 
         approvedStaffing:{value:"", pageNumber: 2},
-        formattedlanguageRequirements: "XXX-XXX"
+
       }
     };
     this.alertRef = React.createRef();
@@ -990,6 +990,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             inlineFieldErrors ={this.state.inlineFieldErrors}
             fields={this.state.dropdownFields}
             prefLang={this.props.prefLang}
+            jobOppId = {this.props.jobOpportunityId}
           />
         ),
       },
@@ -1052,6 +1053,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 hasError={this.state.hasError}
                 fields={this.state.dropdownFields}
                 prefLang={this.props.prefLang}
+                jobOppId = {this.props.jobOpportunityId}
               />
             </StackItem>
             <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
