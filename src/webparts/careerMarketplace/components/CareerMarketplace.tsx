@@ -658,7 +658,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const securityClearance = await this._sp.web.lists.getByTitle('SecurityClearance').items();
       const workArrangment = await this._sp.web.lists.getByTitle('WorkArrangement').items();
       const wrkSchedule = await this._sp.web.lists.getByTitle('WorkSchedule').items();
-      const city =  await this._sp.web.lists.getByTitle('City').items();
+      const city =  await this._sp.web.lists.getByTitle('City').items.top(1300)();
       const province =  await this._sp.web.lists.getByTitle('Province').items();
       const region =  await this._sp.web.lists.getByTitle('Region').items();
 
