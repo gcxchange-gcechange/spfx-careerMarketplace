@@ -76,11 +76,9 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     const sp = getSP(this.context);
     GraphService.setup(this.context);
     this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
-    console.log("id", this.jobOpportunityId)
     try {
       if (this.jobOpportunityId !== null ) {
         const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
-        console.log("jobOppList",jobOppList)
         this.jobOpportunityOwner = jobOppList.ContactEmail
       }
     } catch (error){
