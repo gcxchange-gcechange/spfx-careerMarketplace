@@ -435,7 +435,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           ...prevState.values,
           jobType: jobTypeExists
             ? prevState.values.jobType.filter((item) => item.value !== value.key) 
-            : [...prevState.values.jobType, {value: value.key, label: value.text }],  
+            : [...prevState.values.jobType, {value: value.key, label: value.text }], 
+            
         },    
       }));
     }
