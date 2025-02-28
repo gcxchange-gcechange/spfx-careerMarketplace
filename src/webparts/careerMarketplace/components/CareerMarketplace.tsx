@@ -507,20 +507,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
       "Skills/ID"
    
-     
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     console.log(item);
     const cityId = item.City.ID;
 
-    const regionData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
+    const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
+ 
+    const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
 
-    const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionData.RegionId)();
+    const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(cityData.RegionId)(); 
 
-   
     const getIndex: any[] =  [];
    
-
     if (item.LanguageRequirement.ID === 3) {
 
       const languageComprehensionArray= item.LanguageComprehension?.split("") 
@@ -543,12 +542,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const skills = item.Skills.map((item:any) => ({ value: item.ID}));
 
-
     const timeZone = require('moment-timezone');
 
     const isoString = item.ApplicationDeadlineDate;
-
-    console.log("date",isoString)
 
     const formattedDate = timeZone(isoString)
       .tz("America/New_York")
@@ -572,8 +568,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         deadline: new Date(formattedDate),
         skills: skills,
         province: {key:provinceData.ID, text: provinceData.NameEn},
-        region: {key: regionData.ID, text:regionData.NameEn , provinceId:provinceData.ID},
-        city:{ key: item.City.ID, text: item.City.NameEn, regionID: regionData.ID},
+        region: {key: regionDetails.Id, text: regionDetails.NameEn , provinceId:regionDetails.ProvinceId},
+        city:{ key: cityData.ID, text: cityData.NameEn, regionID: cityData.RegionId},
         workSchedule: { key: item.WorkSchedule.ID},
         workArrangment: {key: item.WorkArrangement.ID},
         security:{key: item.SecurityClearance.ID},
@@ -862,10 +858,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         await this._populateDropDowns();
         await this.getDropdownElements();   
 
-        // if (this.props.jobOpportunityId !== "") {
-        //   await this._populateEditableFields();
-    
-        // }  
     }
 
     if(this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
