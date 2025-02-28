@@ -497,13 +497,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       "ProgramArea",
       "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr",
       "ClassificationLevel/ID","ClassificationLevel/NameFr",
-      "Duration/ID","DurationQuantity","Duration/NameEn",
+      "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
       "NumberOfOpportunities",
       "ApplicationDeadlineDate",
       "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
       "City/ID", "City/NameEn", "City/NameFr", 
       "SecurityClearance/ID", 
-      "WorkSchedule/ID",
+      "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
       "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
       "Skills/ID"
    
@@ -517,6 +517,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(cityData.RegionId)(); 
+    console.log("provinceData", provinceData)
 
     const getIndex: any[] =  [];
    
@@ -549,27 +550,31 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const formattedDate = timeZone(isoString)
       .tz("America/New_York")
       .format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ (z)");
+
+    const evaluateLanguage = (languageValue: string, value: { NameFr: string; NameEn: string }):string => {
+      return languageValue === 'fr-fr' ? value.NameFr : value.NameEn
+    }
     
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
-        department: { key: item.Department.ID, text: item.Department.NameEn , pageNumber: 0 },
+        department: { key: item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department) },
         jobTitleEn: item.JobTitleEn,
         jobTitleFr: item.JobTitleFr,
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
         jobType: [{...prevState.jobType, value: item.JobType[0].TermGuid, Label: item.JobType[0].Label}],
         programArea : {...prevState.programArea, key: item.ProgramArea.TermGuid},
-        classificationCode: {key:item.ClassificationCode.ID , text: item.ClassificationCode.NameEn},
+        classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},
         numberOfOpportunities: item.NumberOfOpportunities,
-        duration:{...prevState.duration, key: item.Duration.ID, text: item.Duration.NameEn},
+        duration:{...prevState.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
         deadline: new Date(formattedDate),
         skills: skills,
-        province: {key:provinceData.ID, text: provinceData.NameEn},
-        region: {key: regionDetails.Id, text: regionDetails.NameEn , provinceId:regionDetails.ProvinceId},
-        city:{ key: cityData.ID, text: cityData.NameEn, regionID: cityData.RegionId},
+        province: {key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
+        region: {key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
+        city:{ key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},
         workSchedule: { key: item.WorkSchedule.ID},
         workArrangment: {key: item.WorkArrangement.ID},
         security:{key: item.SecurityClearance.ID},
@@ -1076,7 +1081,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
-    const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`
+    const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.props.jobOpportunityId}`
 
     return (
       <>      
