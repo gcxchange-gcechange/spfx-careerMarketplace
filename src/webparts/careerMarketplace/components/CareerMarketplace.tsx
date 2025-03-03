@@ -510,7 +510,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
-    console.log(item);
     const cityId = item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
@@ -518,8 +517,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(cityData.RegionId)(); 
-    console.log("provinceData", provinceData)
-
     const getIndex: any[] =  [];
    
     if (item.LanguageRequirement.ID === 3) {
@@ -838,9 +835,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public async componentDidMount(): Promise<void> {
 
     const checkUser = this.props.jobOppOwner === this.props.workEmail;
-    console.log("ID",this.props.jobOpportunityId)
-    console.log("owner", this.props.jobOppOwner)
-    
+
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
