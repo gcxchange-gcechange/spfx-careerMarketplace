@@ -77,18 +77,19 @@ export default class Details extends React.Component<IDetailsProps> {
 
   }
 
-
   public render(): React.ReactElement<IDetailsProps> {
     console.log("JobType", this.props.values.jobType)
  
     console.log("deadline", this.props.values.deadline)
-    const disableDuration = this.props.values.jobType.label === "Deployment" ;
+    const disableDuration = this.props.values.jobType.map((item: any) => item.label === "Deployment")
+    console.log("DISABLE", disableDuration)
  
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
     };
 
     const isReadOnly = this.props.currentPage === 3;
+    const durationDisabled = this.props.currentPage === 3 || disableDuration.includes(true);
     const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities, deadline, jobType} = this.props.values;
 
     const reformatDate = ():string => {
@@ -101,7 +102,17 @@ export default class Details extends React.Component<IDetailsProps> {
     const oneMonthLater = new Date();
     oneMonthLater.setMonth(today.getMonth() + 1);
 
-    const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined)
+    const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined);
+
+    const getDisabledElement = document.getElementsByName('durationLength')[0];
+
+    if(getDisabledElement) {
+      if (disableDuration) {
+        getDisabledElement.style.backgroundColor = ' rgb(96, 94, 92)'
+    }
+  }
+
+    console.log(getDisabledElement)
 
     return (
       <>
@@ -243,6 +254,9 @@ export default class Details extends React.Component<IDetailsProps> {
           />
           
           </Stack>
+
+          <div >
+
           <Stack  horizontal verticalAlign="center" >
                 <StackItem >
                   <Label htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
@@ -254,7 +268,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 </StackItem>
             </Stack>
 
-          <Stack horizontal tokens={customSpacingStackTokens} style={disableDuration ? {visibility: 'hidden'} : {visibility: 'visible'} }>
+          <Stack horizontal tokens={customSpacingStackTokens} >
             <StackItem align='baseline'>
               <Stack>
                 <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}>{this.strings.length}</label>
@@ -268,7 +282,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   defaultValue={this.props.values.durationLength.value}
                   required
                   className={styles.durationLengthInput}
-                  disabled={isReadOnly || disableDuration}
+                  disabled={durationDisabled}
                 />
               </Stack>
               {
@@ -287,7 +301,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.duration]}
                 onChange={this.onChangeDropDownItem}
                 selectedKey={this.props.values.duration.key}
-                disabled={isReadOnly || disableDuration}
+                disabled={durationDisabled}
                 ariaLabelRequired={this.strings.required}
               />
 
@@ -298,6 +312,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 }
             </StackItem>
           </Stack>
+          </div>
 
           <Stack  horizontal verticalAlign="center" >
             <StackItem >

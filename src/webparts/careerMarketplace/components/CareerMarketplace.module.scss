@@ -35,16 +35,6 @@
       font-weight: 700;
       color: 'black';
     }
-    // .ms-Label::before {
-    //   content: "*";
-    //   color: #C61515;
-    // }
-
-  
-    // .ms-Label::after{
-    //   content: "";
-    // }
-
   }
     
 }
@@ -164,6 +154,11 @@
   text-overflow: ellipsis;
   border: 1px solid rgb(96, 94, 92);
   border-radius: 2px;
+}
+
+.disabledInput {
+  background-color: rgb(96, 94, 92);
+  border-color: rgb(96, 94, 92);
 }
 
 
