@@ -135,6 +135,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           continue;
       }
 
+      if (key === 'numberOfOpportunities' && stringValues.includes(key)) {
+        if (value === "" || isNaN(Number(value))) {
+            checkValues.push({ key, value });
+            continue; 
+        }
+      }
+
+
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
