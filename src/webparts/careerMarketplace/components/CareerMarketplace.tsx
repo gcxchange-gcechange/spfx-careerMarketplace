@@ -122,16 +122,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
+
+    console.log("currentFields", currentPgFields);
    
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
-
     for (const [key,value] of Object.entries(values)) {
+
+      const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
+
+      if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
+          continue;
+      }
+
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
           || (stringValues.includes(key) && value === "") 
-          || value.text === `--${this.strings.select}--` || (currentPgFields.includes(key) && value.length === 1) || value.text === 'No'
+          || value.text === `--${this.strings.select}--` 
+          || (currentPgFields.includes(key) && value.length === 1) 
+          || value.text === 'No'
+
         ){
         
         checkValues.push({key, value })

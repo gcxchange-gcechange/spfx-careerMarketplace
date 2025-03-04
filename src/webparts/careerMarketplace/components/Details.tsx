@@ -78,11 +78,8 @@ export default class Details extends React.Component<IDetailsProps> {
   }
 
   public render(): React.ReactElement<IDetailsProps> {
-    console.log("JobType", this.props.values.jobType)
- 
-    console.log("deadline", this.props.values.deadline)
+
     const disableDuration = this.props.values.jobType.map((item: any) => item.label === "Deployment")
-    console.log("DISABLE", disableDuration)
  
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
@@ -107,12 +104,15 @@ export default class Details extends React.Component<IDetailsProps> {
     const getDisabledElement = document.getElementsByName('durationLength')[0];
 
     if(getDisabledElement) {
-      if (disableDuration) {
-        getDisabledElement.style.backgroundColor = ' rgb(96, 94, 92)'
+      if (durationDisabled) {
+        getDisabledElement.style.backgroundColor = 'rgb(243, 242, 241)'
+        getDisabledElement.style.borderColor = 'rgb(243, 242, 241)'
+    } else {
+      getDisabledElement.style.backgroundColor = 'rgb(255, 255, 255)'
+      getDisabledElement.style.borderColor = 'rgb(96, 94, 92)'
     }
   }
 
-    console.log(getDisabledElement)
 
     return (
       <>
@@ -241,6 +241,31 @@ export default class Details extends React.Component<IDetailsProps> {
               <div>{validate(this.props.values.classificationLevel.key)}</div>
             )
           }
+
+            {/* <Stack>
+                <StackItem >
+                  <Label htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
+                    <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
+                      *
+                    </span>
+                      {this.strings.number_of_Opportunities}
+                  </Label>
+                </StackItem>
+                <StackItem >
+                  <input 
+                    type="number"
+                    id={"numberOfOpportunities"}
+                    name={"numberOfOpportunities"}
+                    min={0}
+                    max={100}
+                    onChange = {e => this.props.handleDurationLength(e.target.value)}
+                    defaultValue={this.props.values.numberOfOpportunities}
+                    required
+                    disabled={durationDisabled}
+                    className={styles.numbOfOppInput}
+                  />
+                </StackItem>
+            </Stack> */}
 
           <ReusableTextField
             id={"numberOfOpportunities"}
