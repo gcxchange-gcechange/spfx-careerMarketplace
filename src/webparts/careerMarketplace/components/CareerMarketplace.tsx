@@ -73,7 +73,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobTitleFr: "",
         jobDescriptionEn: "",
         jobDescriptionFr: "",
-        jobType: [{pageNumber: 1, Label:"", Guid:""}],
+        jobType: {pageNumber: 1, Label:"", Guid:""},
         programArea:{value: "" , pageNumber: 1},
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
@@ -128,8 +128,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
+      const jobTypeIncludesDeployment = values.jobType.Label === 'Deployment';
 
-      const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
+      //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
 
       if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
           continue;
@@ -226,7 +227,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
 
-    const newJoBTypeFormat = this.state.values.jobType.filter(item => Object.keys(item).includes('value') || Object.keys(item).includes('label')).map(item => ({ Label: item.label, Guid: item.value }));
+    const newJoBTypeFormat = this.state.values.jobType.filter((item: any) => Object.keys(item).includes('value') || Object.keys(item).includes('label')).map((item:any) => ({ Label: item.label, Guid: item.value }));
     const programArea = this.state.values.programArea;
 
     const programAreaFormat= {Label: programArea.text, Guid: programArea.key };
@@ -445,19 +446,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }  
     else  if (valueName === "jobType") {
 
-      const findItem = [...this.state.values.jobType];
-      
-      const jobTypeExists = findItem.some((item: any) => item.value === value.key);
+     this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
+          
+      },    
+    }));
     
-      this.setState((prevState) => ({
-        values: {
-          ...prevState.values,
-          jobType: jobTypeExists
-            ? prevState.values.jobType.filter((item) => item.value !== value.key) 
-            : [...prevState.values.jobType, {value: value.key, label: value.text }], 
-            
-        },    
-      }));
     }
 
     else if( valueName === "skills") {

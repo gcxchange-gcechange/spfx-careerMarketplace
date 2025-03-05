@@ -78,16 +78,17 @@ export default class Details extends React.Component<IDetailsProps> {
   }
 
   public render(): React.ReactElement<IDetailsProps> {
-
-    const disableDuration = this.props.values.jobType.map((item: any) => item.label === "Deployment")
+    console.log("JobTYPE",this.props.values.jobType)
+    const disableDuration = this.props.values.jobType.Label === "Deployment"
+    //const disableDuration = this.props.values.jobType.map((item: any) => item.label === "Deployment")
  
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
     };
 
     const isReadOnly = this.props.currentPage === 3;
-    const durationDisabled = this.props.currentPage === 3 || disableDuration.includes(true);
-    const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities, deadline, jobType} = this.props.values;
+    const durationDisabled = this.props.currentPage === 3 || disableDuration;
+    const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities, deadline} = this.props.values;
 
     const reformatDate = ():string => {
       const formattedDate = moment(deadline).format("YYYY-MM-DD");
@@ -99,7 +100,7 @@ export default class Details extends React.Component<IDetailsProps> {
     const oneMonthLater = new Date();
     oneMonthLater.setMonth(today.getMonth() + 1);
 
-    const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined);
+    //const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined);
 
     const getDisabledElement = document.getElementsByName('durationLength')[0];
 
@@ -176,15 +177,15 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"jobType"}
             name={"jobType"}
             title={this.strings.job_Type}
-            options={this.props.jobType}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.jobType]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
-            selectedKey={selectedItems}
+            selectedKey={this.props.values.jobType.Guid}
             ariaLabelRequired={this.strings.required}
           />
           {
             this.props.inlineFieldErrors?.includes('jobType') && (
-              <div>{validate(selectedItems)}</div>
+              <div>{validate(this.props.values.jobType.Label)}</div>
             )
           }
           </div>
@@ -240,31 +241,6 @@ export default class Details extends React.Component<IDetailsProps> {
               <div>{validate(this.props.values.classificationLevel.key)}</div>
             )
           }
-
-            {/* <Stack>
-                <StackItem >
-                  <Label htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
-                    <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
-                      *
-                    </span>
-                      {this.strings.number_of_Opportunities}
-                  </Label>
-                </StackItem>
-                <StackItem >
-                  <input 
-                    type="number"
-                    id={"numberOfOpportunities"}
-                    name={"numberOfOpportunities"}
-                    min={0}
-                    max={100}
-                    onChange = {e => this.props.handleDurationLength(e.target.value)}
-                    defaultValue={this.props.values.numberOfOpportunities}
-                    required
-                    disabled={durationDisabled}
-                    className={styles.numbOfOppInput}
-                  />
-                </StackItem>
-            </Stack> */}
 
           <ReusableTextField
             id={"numberOfOpportunities"}

@@ -35,7 +35,7 @@ export interface ICareerMarketplaceState {
       department: any, 
       skills: any[],
       approvedStaffing: any;
-      jobType: any[],
+      jobType: any,
       programArea: any,
       classificationCode: any,
       classificationLevel: any,
