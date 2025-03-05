@@ -179,8 +179,7 @@ export default class Details extends React.Component<IDetailsProps> {
             options={this.props.jobType}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
-            selectedKeys={selectedItems}
-            multiselect
+            selectedKey={selectedItems}
             ariaLabelRequired={this.strings.required}
           />
           {
