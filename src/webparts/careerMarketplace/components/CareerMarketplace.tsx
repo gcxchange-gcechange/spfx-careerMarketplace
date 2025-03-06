@@ -226,8 +226,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
+    const newJoBTypeFormat = [{Label: this.state.values.jobType.Label, Guid: this.state.values.jobType.Guid}]
 
-    const newJoBTypeFormat = this.state.values.jobType.filter((item: any) => Object.keys(item).includes('value') || Object.keys(item).includes('label')).map((item:any) => ({ Label: item.label, Guid: item.value }));
+    //const newJoBTypeFormat = this.state.values.jobType.map((item:any) => ({ Label: item.label, Guid: item.value }));
     const programArea = this.state.values.programArea;
 
     const programAreaFormat= {Label: programArea.text, Guid: programArea.key };
@@ -576,7 +577,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobTitleFr: item.JobTitleFr,
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
-        jobType: [{...prevState.jobType, value: item.JobType[0].TermGuid, Label: item.JobType[0].Label}],
+        jobType: {...prevState.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
         programArea : {...prevState.programArea, key: item.ProgramArea.TermGuid},
         classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},

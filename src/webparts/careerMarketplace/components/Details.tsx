@@ -78,7 +78,8 @@ export default class Details extends React.Component<IDetailsProps> {
   }
 
   public render(): React.ReactElement<IDetailsProps> {
-    console.log("JobTYPE",this.props.values.jobType)
+    console.log(this.props.values.jobType)
+
     const disableDuration = this.props.values.jobType.Label === "Deployment"
     //const disableDuration = this.props.values.jobType.map((item: any) => item.label === "Deployment")
  
@@ -177,7 +178,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"jobType"}
             name={"jobType"}
             title={this.strings.job_Type}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.jobType]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.jobType]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.jobType.Guid}
@@ -195,7 +196,7 @@ export default class Details extends React.Component<IDetailsProps> {
             id={"programArea"}
             name={"programArea"}
             title={this.strings.program_Area}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.programArea]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.programArea]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.programArea.key}
