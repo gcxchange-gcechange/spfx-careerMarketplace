@@ -35,16 +35,6 @@
       font-weight: 700;
       color: 'black';
     }
-    // .ms-Label::before {
-    //   content: "*";
-    //   color: #C61515;
-    // }
-
-  
-    // .ms-Label::after{
-    //   content: "";
-    // }
-
   }
     
 }
@@ -159,6 +149,18 @@
   height: 100%;
   padding: 0px 8px 0px 9px;
   min-width: 61px;
+  height:30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: 1px solid rgb(96, 94, 92);
+  border-radius: 2px;
+}
+.numbOfOppInput {
+  font-size: 14px;
+  color: rgb(50,49,48);
+  height: 100%;
+  padding: 0px 8px 0px 9px;
+  //min-width: 61px;
   height:30px;
   white-space: nowrap;
   text-overflow: ellipsis;

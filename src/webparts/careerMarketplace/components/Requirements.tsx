@@ -66,8 +66,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
   
 
   public render(): React.ReactElement<IRequirementsProps> {
- 
-
+    
+    
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: 20,
     };
@@ -100,7 +100,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
 
-    console.log("values-3", this.props.values)
+   
     return (
       <>
         <div>

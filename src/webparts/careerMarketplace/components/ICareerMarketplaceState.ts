@@ -23,6 +23,7 @@ export interface ICareerMarketplaceState {
     dropdownFields: string[];
     skillsList: { key: string; text: string; }[];
     jobOpportunityId: string;
+    jobOpportunityOwner: boolean;
   
     values: {
       jobTitleEn: string;
@@ -34,7 +35,7 @@ export interface ICareerMarketplaceState {
       department: any, 
       skills: any[],
       approvedStaffing: any;
-      jobType: any[],
+      jobType: any,
       programArea: any,
       classificationCode: any,
       classificationLevel: any,

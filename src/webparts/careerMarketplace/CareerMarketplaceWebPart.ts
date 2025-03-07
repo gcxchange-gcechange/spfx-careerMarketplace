@@ -14,6 +14,8 @@ import CareerMarketplace from './components/CareerMarketplace';
 import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
 import GraphService from '../../services/GraphService';
+import { IEditOpportunity, ICreateOpportunity } from '../../servicesConfig';
+
  
  
 
@@ -24,13 +26,26 @@ export interface ICareerMarketplaceWebPartProps {
   workEmail: string;
   url: string;
   edit: boolean;
+  jobOppOwner: string | undefined;
+  apiUrl: string,
+  clientId: string,
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
 
   private jobOpportunityId: string | null = null;
+  private jobOpportunityOwner: string | undefined = undefined ; 
+  private createServices: ICreateOpportunity = {
+    clientId: "",
+    apiUrl:"",
+  }
+
+  private editServices: IEditOpportunity = {
+    apiUrlEdit:"",
+  }
 
   public render(): void {
+
 
     const element: React.ReactElement<ICareerMarketplaceProps> = React.createElement(
       CareerMarketplace,
@@ -41,29 +56,46 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         workEmail: this.context.pageContext.user.email,
         url: this.context.pageContext.site.absoluteUrl,
         edit: this.properties.edit,
-        jobOpportunityId: this.jobOpportunityId || ''
-        
+        jobOpportunityId: this.jobOpportunityId || '',
+        jobOppOwner: this.jobOpportunityOwner,
+        apiUrl: this.createServices.apiUrl,
+        clientId: this.createServices.clientId,
+        apiUrlEdit: this.editServices.apiUrlEdit
+    
       }
     );
 
     ReactDom.render(element, this.domElement);
   }
 
-  // protected onInit(): Promise<void> {
-  //   return Promise.resolve();
-  // }
 
   protected async onInit(): Promise<void> {
 
     await super.onInit();
 
-    getSP(this.context);
+    const sp = getSP(this.context);
     GraphService.setup(this.context);
     this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
+    try {
+      if (this.jobOpportunityId !== null ) {
+        const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
+        this.jobOpportunityOwner = jobOppList.ContactEmail
+      }
+    } catch (error){
+      console.error("Error fetching list", error);
+    }
+    console.log(this.jobOpportunityOwner)
+    
+  }
+
+  private getQueryParam(param: string): string | null {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(param);
+
+    
     
   }
   
-
 
   protected onThemeChanged(currentTheme: IReadonlyTheme | undefined): void {
     if (!currentTheme) {
@@ -82,10 +114,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
   }
 
-  private getQueryParam(param: string): string | null {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(param);
-  }
+
+
 
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);
