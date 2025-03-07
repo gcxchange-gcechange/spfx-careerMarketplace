@@ -186,7 +186,7 @@ export default class Details extends React.Component<IDetailsProps> {
           />
           {
             this.props.inlineFieldErrors?.includes('jobType') && (
-              <div>{validate(this.props.values.jobType.Label)}</div>
+              <div>{validate(this.props.values.jobType.Guid)}</div>
             )
           }
           </div>

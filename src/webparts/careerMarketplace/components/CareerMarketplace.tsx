@@ -128,6 +128,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
+      console.log(value)
       const jobTypeIncludesDeployment = values.jobType.Label === 'Deployment';
 
       //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
@@ -147,6 +148,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
+          || (currentPgFields.includes(key) && value.Guid === '0') 
           || (stringValues.includes(key) && value === "") 
           || value.text === `--${this.strings.select}--` 
           || (currentPgFields.includes(key) && value.length === 1) 
