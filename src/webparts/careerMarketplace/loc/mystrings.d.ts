@@ -55,6 +55,9 @@ declare interface ICareerMarketplaceWebPartStrings {
   "view": string;
   "complete_para2": string;
 
+  //update
+  "update_para1":string;
+
 
   //buttons
   "prev_btn":string;
@@ -62,9 +65,10 @@ declare interface ICareerMarketplaceWebPartStrings {
 
   //accessibility
   'required':string;
+  'asteriks':string;
 
   //languages
-  'english':string;
+  "english":string;
   "french":string;
   "select":string;
   "submit_btn": string;

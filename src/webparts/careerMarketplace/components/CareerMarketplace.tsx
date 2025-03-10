@@ -346,6 +346,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
+    console.log("VALUE",value)
   
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
@@ -448,6 +449,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     
       }  
     else  if (valueName === "jobType") {
+
+
 
      this.setState((prevState) => ({
       values: {
@@ -1107,7 +1110,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 this.state.validationStatus === 200 ? (
                 <>                  
                   <div>
-                    <Complete prefLang={this.props.prefLang}/>
+                    <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId}/>
                   </div>  
                   <div style={{width: '100%', display: 'flex'}}>                  
                     <div style={{width: '40%'}}>

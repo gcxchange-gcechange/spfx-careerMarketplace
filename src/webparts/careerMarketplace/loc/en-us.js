@@ -58,6 +58,8 @@ define([], function() {
     "view":"View Opportunity",
     "complete_para2":"You can edit or view your opportunity or go to Career Marketplace homepage.",
 
+    //update
+    "update_para1":"Congratulations! You have update your opportunity.",
 
     //buttons
     "prev_btn":"Previous",
@@ -65,6 +67,7 @@ define([], function() {
 
     //accessibility
     'required': 'required field',
+    'asteriks':'Fields marked with an asterisk (*) are required.',
 
     //languages
     'english': "(english)",
