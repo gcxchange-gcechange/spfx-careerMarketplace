@@ -19,12 +19,12 @@ define([], function() {
       "job_Description":"Description du poste",
       "job_Type":"Type d’emploi",
       "program_Area":"Secteur de programme",
-      "classification_Code":"Classification",
+      "classification_Code":"Code de classification",
       "classification_Level":"Niveau de classification",
       "duration":"Durée de la possibilité d’emploi",
-      "length":"Length",
-      "time_period":"Time period",
-      "application_deadline":"Date limite",
+      "length":"Durée",
+      "time_period":"Période",
+      "application_deadline":"Date limite de candidature",
 
 
       //Page 3 - Opportunity Requirements
@@ -35,7 +35,7 @@ define([], function() {
       "province":"Province",
       "region":"Région",
       "city":"Ville",
-      "security_level":"Niveaux de sécurité",
+      "security_level":"Niveau de sécurité",
       "language_requirements":"Exigences linguistiques",
       "writtenEN": "Expression écrite anglais",
       "readingEN": "Compréhension de l’écrit anglais",
@@ -44,7 +44,7 @@ define([], function() {
       "readingFR": "Compréhension de l’écrit francais",
       "oralFR": "Compétence orale francais",
       "work_arrangment":"Régimes de travail",
-      "approved_staffing":"Effectif approuvé",
+      "approved_staffing":"Effectifs approuvés",
      
       //Page 4 - Review and Submit
       "reviewSubmit_title": "Revoir et soumettre",
