@@ -45,9 +45,14 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
       <>
         <div>
           {this.props.currentPage === 0 && (
+            <>
             <p>
               {this.strings.posterInformation_para1}
             </p>
+            <p>
+              {this.strings.asteriks}
+            </p>
+          </>
           )}
         </div>
         <div>

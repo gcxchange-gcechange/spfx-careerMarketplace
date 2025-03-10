@@ -120,9 +120,14 @@ export default class Details extends React.Component<IDetailsProps> {
       <>
         <div>
           {this.props.currentPage === 1 && (
+            <>
             <p>
               {this.strings.oppotunityDetails_para1}
             </p>
+            <p>
+              {this.strings.asteriks}
+            </p>
+            </>
           )}
         </div>
         <div>

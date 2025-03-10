@@ -55,7 +55,10 @@ define([], function() {
       "complete_para1":"Félicitations! Vous avez créé une nouvelle possibilité d’emploi",
       "view":"Afficher la possibilité d’emploi",
       "complete_para2":"Vous pouvez modifier ou consulter votre possibilité d’emploi ou vous rendre sur la page d’accueil du Carrefour de carrière.",
+      
 
+      //update
+      "update_para1":"Félicitations! Vous avez mis à jour votre possibilité d’emploi.",
     
       //buttons
       "prev_btn":"Précédent",
@@ -63,6 +66,7 @@ define([], function() {
 
       //accessibility
       'required': 'champ obligatoire',
+      'asteriks':'Les champs suivis d’un astérisque (*) doivent obligatoirement être remplis.',
 
       //languages
       'english': "(anglais)",

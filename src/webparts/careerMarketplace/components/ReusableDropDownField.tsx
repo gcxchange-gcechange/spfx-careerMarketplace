@@ -50,9 +50,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
 
     const dropdownStyle: Partial<IDropdownStyles> = {
-      callout: {
-        maxHeight:'500px'
-      },
+   
       errorMessage: {
         fontWeight: 700,
         borderLeft: '2px solid rgb(164, 38, 44)',
@@ -68,9 +66,9 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
       dropdown: {
         width: 50
       }
+      
     }
-
-
+    
     const excludedIds = ['readingEN', 'writtenEN', 'oralEN','readingFr', 'writtenFr', 'oralFr'];
 
    
@@ -81,7 +79,6 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         <Dropdown
           options={this.props.options as IDropdownOption[]} 
           onRenderLabel={this.customLabel} 
-          className={ !excludedIds.includes(this.props.id) ? styles.labelStyle : styles.languageLabels} 
           multiSelect={this.props.multiselect} 
           styles={!excludedIds.includes(this.props.id) ? dropdownStyle : langDropdownStyle} 
           {...this.props}

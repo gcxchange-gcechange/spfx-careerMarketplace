@@ -66,7 +66,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
   
 
   public render(): React.ReactElement<IRequirementsProps> {
-    
+
     
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: 20,
@@ -105,9 +105,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
       <>
         <div>
           {this.props.currentPage === 2 && (
+            <>
             <p>
               {this.strings.opportunityRequirements_para1}
             </p>
+            <p>
+              {this.strings.asteriks}
+            </p>
+            </>
           )}
         </div>
         <div>
