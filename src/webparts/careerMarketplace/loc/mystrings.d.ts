@@ -5,7 +5,7 @@ declare interface ICareerMarketplaceWebPartStrings {
   "posterInformation_title": string;
   "posterInformation_para1": string;
   "fullName": string;
-  "department": string;
+  "departmentField": string;
   "workEmail": string;
 
   //Page 2 - Opportunity Details
@@ -18,7 +18,7 @@ declare interface ICareerMarketplaceWebPartStrings {
   "program_Area": string;
   "classification_Code": string;
   "classification_Level": string;
-  "duration": string;
+  "durationField": string;
   "length": string;
   "time_period": string;
   "application_deadline": string;
@@ -27,11 +27,11 @@ declare interface ICareerMarketplaceWebPartStrings {
   //Page 3 - Opportunity Requirements
   "opportunityRequirements_title": string;
   "opportunityRequirements_para1": string;
-  "skills":string;
+  "skillsField":string;
   "time_in_hours": string;
-  "province": string;
-  "region": string;
-  "city": string;
+  "provinceField": string;
+  "regionField": string;
+  "cityField": string;
   "security_level": string;
   "language_requirements": string;
   "writtenEN": string;
@@ -73,6 +73,43 @@ declare interface ICareerMarketplaceWebPartStrings {
   "select":string;
   "submit_btn": string;
   "complete_button": string;
+
+
+  //errors
+  "fixErrors":string;
+  "requiredField":string;
+  "numberValue":string;
+  "DepFieldError":string;
+  "selectOption": string;
+  "minChar": string;
+  "cannotBeBlank": string;
+  "lessThanOne": string;
+  "shouldBeYes":string;
+  "requiredAndshouldBeYes": string;
+
+  //fieldErrors
+  "department":string;
+  "jobTitleEn":string;
+  "jobTitleFr":string;
+  "jobDescriptionEn":string;
+  "jobDescriptionFr":string;
+  "jobType":string;
+  "programArea":string;
+  "classigicationCode":string;
+  "classificationLevel":string;
+  "numberOfOpportunities": string;
+  "durationLength":string;
+  "duration":string;
+  "skills":string;
+  "workSchedule":string;
+  "province":string;
+  "region":string;
+  "city":string;
+  "security":string;
+  "workArrangment":string;
+  "approvedStaffing":string;
+  "language":string;
+  "languageRequirements":string;
 
 }
 

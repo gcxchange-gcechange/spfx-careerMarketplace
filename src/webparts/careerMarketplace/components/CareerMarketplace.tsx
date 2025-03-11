@@ -22,6 +22,7 @@ import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
 import { ICareerMarketplaceState } from './ICareerMarketplaceState';
  
+ 
 
 
 
@@ -532,12 +533,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
+    console.log("citydata", cityId)
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
+    console.log(cityData)
  
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
+    console.log("region", regionDetails)
 
-    const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(cityData.RegionId)(); 
+    const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
+    console.log("province", provinceData)
     const getIndex: any[] =  [];
    
     if (item.LanguageRequirement.ID === 3) {
@@ -891,21 +896,26 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const properCaseValues: any[] = [];
   
     const convertString = this.state.hasError.map((item: any) => {
-      const isApprovedStaffing = item.key === "approvedStaffing";
-      const isEmpty = !item.value || item.value === ""; 
+      console.log("item",item)
+      // const isApprovedStaffing = item.key === "approvedStaffing";
+      // const isEmpty = !item.value || item.value === ""; 
       const properCase = item.key
         .replace(/([A-Z])/g, " $1")
         .replace(/^ /, "")
         .toLowerCase();
-  
+        const key = item.key as keyof ICareerMarketplaceWebPartStrings;
+        const localizedKey = this.strings[key] || item.key;
+
       return {
         key: item.key,
-        properCase,
-        errorMessage: isApprovedStaffing
-          ? isEmpty
-            ? "field is required and should be set to Yes"
-            : "field should be set to Yes"
-          : "field is required",
+        properCase: properCase,
+        localizedKey: localizedKey,
+        errorMessage : `${localizedKey}`
+        // errorMessage: isApprovedStaffing
+        //   ? isEmpty
+        //     ? `${this.strings.requiredAndshouldBeYes}`
+        //     : `${this.strings.shouldBeYes}`
+        //   : `${localizedKey}`,
       };
     });
   
@@ -918,7 +928,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           {properCaseValues.map((item, index) => (
             <ul key={index}>
               <li>
-                <a href={`#${item.key}`}>{item.properCase} {item.errorMessage}</a>
+                <a href={`#${item.key}`}>{item.errorMessage}</a>
               </li>
             </ul>
           ))}
@@ -926,7 +936,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       </>
     );
   };
-  
+
+
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
@@ -1153,7 +1164,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   <div>
                     {this.state.hasError.length !== 0  && (
                       <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
-                        <h3 id="alertHeading">Please fix the following errors before proceeding.</h3>
+                        <h3 id="alertHeading">{this.strings.fixErrors}</h3>
                         {
                           this.changeFieldNameFormat()
                         }

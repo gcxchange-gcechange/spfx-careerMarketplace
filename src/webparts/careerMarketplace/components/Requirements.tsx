@@ -120,7 +120,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"skills"}
             name={"skills"}
-            title={this.strings.skills}
+            title={this.strings.skillsField}
             onChange={this.onChangeDropDownItem}
             options={this.props.skills}
             selectedKeys={selectedSkillItems}
@@ -130,7 +130,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           />
 
           { this.props.inlineFieldErrors?.includes('skills') && (
-                <div>{validate(selectedSkillItems)}</div>
+                <div>{validate(selectedSkillItems,  this.props.prefLang)}</div>
               )
             }
       
@@ -146,13 +146,13 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           />
 
             { this.props.inlineFieldErrors?.includes('workSchedule') && (
-                <div>{validate(this.props.values.workSchedule.key)}</div>
+                <div>{validate(this.props.values.workSchedule.key, this.props.prefLang)}</div>
               )
             }
           <ReusableDropdownField
             id={"province"}
             name={"province"}
-            title={this.strings.province}
+            title={this.strings.provinceField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.province]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
@@ -161,14 +161,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           />
 
            { this.props.inlineFieldErrors?.includes('province') && (
-                <div>{validate(this.props.values.province.key)}</div>
+                <div>{validate(this.props.values.province.key, this.props.prefLang)}</div>
               )
             }
 
           <ReusableDropdownField
             id={"region"}
             name={"region"}
-            title={this.strings.region}
+            title={this.strings.regionField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...filteredRegions]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
@@ -177,14 +177,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           />
 
           { this.props.inlineFieldErrors?.includes('region') && (
-                <div>{validate(this.props.values.region.key)}</div>
+                <div>{validate(this.props.values.region.key, this.props.prefLang)}</div>
               )
           }
 
           <ReusableDropdownField
             id={"city"}
             name={"city"}
-            title={this.strings.city}
+            title={this.strings.cityField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...filteredCities]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
@@ -193,7 +193,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           />
 
            { this.props.inlineFieldErrors?.includes('city') && (
-                <div>{validate(this.props.values.city.key)}</div>
+                <div>{validate(this.props.values.city.key, this.props.prefLang)}</div>
               )
             }
 
@@ -209,7 +209,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           />
 
            { this.props.inlineFieldErrors?.includes('security') && (
-                <div>{validate(this.props.values.security.key)}</div>
+                <div>{validate(this.props.values.security.key, this.props.prefLang)}</div>
               )
             }
           <Stack tokens={customSpacingStackTokens}>
@@ -225,7 +225,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 ariaLabelRequired={this.strings.required}
               />
                { this.props.inlineFieldErrors?.includes('language') && (
-                <div>{validate(this.props.values.languageRequirements[0].language.key)}</div>
+                <div>{validate(this.props.values.languageRequirements[0].language.key, this.props.prefLang)}</div>
               )
             }
             </StackItem>
@@ -310,7 +310,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             {
               languageComprehension
                 .filter((lang) => this.props.inlineFieldErrors?.includes(lang))
-                .some((field) => validate(this.props.values.languageRequirements[0]?.[field].text)) && (
+                .some((field) => validate(this.props.values.languageRequirements[0]?.[field].text, this.props.prefLang)) && (
                   <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
                       <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>Please select an option</p>
                    </div>
@@ -332,7 +332,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             ariaLabelRequired={this.strings.required}
           />
             { this.props.inlineFieldErrors?.includes('workArrangment') && (
-                <div>{validate(this.props.values.workArrangment.key)}</div>
+                <div>{validate(this.props.values.workArrangment.key, this.props.prefLang)}</div>
               )
             }
 
@@ -352,7 +352,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
              <Checkbox id='1' name={"approvedStaffing"} label={"Yes"} onChange={ this.onChange } defaultChecked={this.props.values.approvedStaffing.value} disabled={isReadOnly}/>
 
             { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
-                <div>{validate(this.props.values.approvedStaffing.key)}</div>
+                <div>{validate(this.props.values.approvedStaffing.key,  this.props.prefLang)}</div>
               )
             }
           </div>
