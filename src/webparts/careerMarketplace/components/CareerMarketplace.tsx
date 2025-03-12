@@ -569,7 +569,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     console.log("region", regionDetails)
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
-    console.log("province", provinceData)
     const getIndex: any[] =  [];
    
     if (item.LanguageRequirement.ID === 3) {
