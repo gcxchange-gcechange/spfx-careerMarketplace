@@ -139,7 +139,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobTitleEn}
             disabled={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn')}
+            onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
           
@@ -151,7 +151,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             disabled={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobTitleFr, 'jobTitleFr')}
+            onGetErrorMessage={() => validateEmpty(jobTitleFr, 'jobTitleFr',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
 
@@ -163,7 +163,7 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobDescriptionEn}
             multiline={true}
             disabled={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobDescriptionEn, 'jobDescriptionEn')}
+            onGetErrorMessage={() => validateEmpty(jobDescriptionEn, 'jobDescriptionEn',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
           <ReusableTextField
@@ -174,7 +174,7 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobDescriptionFr}
             multiline={true}
             disabled={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescritpionFr')}
+            onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescritpionFr',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
 
@@ -191,7 +191,7 @@ export default class Details extends React.Component<IDetailsProps> {
           />
           {
             this.props.inlineFieldErrors?.includes('jobType') && (
-              <div>{validate(this.props.values.jobType.Guid)}</div>
+              <div>{validate(this.props.values.jobType.Guid, this.props.prefLang)}</div>
             )
           }
           </div>
@@ -209,7 +209,7 @@ export default class Details extends React.Component<IDetailsProps> {
           />
             {
             this.props.inlineFieldErrors?.includes('programArea') && (
-              <div>{validate(this.props.values.programArea.key)}</div>
+              <div>{validate(this.props.values.programArea.key, this.props.prefLang)}</div>
             )
           }
 
@@ -227,7 +227,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
             {
             this.props.inlineFieldErrors?.includes('classificationCode') && (
-              <div>{validate(this.props.values.classificationCode.key)}</div>
+              <div>{validate(this.props.values.classificationCode.key, this.props.prefLang)}</div>
             )
           }
 
@@ -244,7 +244,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
             {
             this.props.inlineFieldErrors?.includes('classificationLevel') && (
-              <div>{validate(this.props.values.classificationLevel.key)}</div>
+              <div>{validate(this.props.values.classificationLevel.key,  this.props.prefLang)}</div>
             )
           }
 
@@ -255,7 +255,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.numberOfOpportunities}
             disabled={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities')}
+            onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities', this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
           
@@ -269,7 +269,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
                       *
                     </span>
-                      {this.strings.duration}
+                      {this.strings.durationField}
                   </Label>
                 </StackItem>
             </Stack>
@@ -293,7 +293,7 @@ export default class Details extends React.Component<IDetailsProps> {
               </Stack>
               {
                   this.props.inlineFieldErrors?.includes('durationLength') && (
-                    <div>{validateDuration(this.props.values.durationLength.value)}</div>
+                    <div>{validateDuration(this.props.values.durationLength.value, this.props.prefLang)}</div>
                   )
                 }
               
@@ -313,7 +313,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
                 {
                   this.props.inlineFieldErrors?.includes('duration') && (
-                    <div>{validate(this.props.values.duration.key)}</div>
+                    <div>{validate(this.props.values.duration.key, this.props.prefLang)}</div>
                   )
                 }
             </StackItem>

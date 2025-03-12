@@ -29,7 +29,7 @@ export default class Complete extends React.Component<ICompleteProps> {
           <h2>{this.strings.complete_title}</h2>
         </div>
         <div style={{display:'flex', justifyContent: 'center'}}>
-          <img {...imageProps} alt={'people high five'}/>
+          <img {...imageProps} alt=""/>
         </div>
         <div>
           <p><strong>{this.props.jobOppId ? this.strings.update_para1 :this.strings.complete_para1}</strong></p>

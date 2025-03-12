@@ -7,7 +7,7 @@ define([], function() {
     "posterInformation_title": "Poster Information",
     "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information.",
     "fullName":"Full name",
-    "department":"Department",
+    "departmentField":"Department",
     "workEmail":"Work Email",
 
     //Page 2 - Opportunity Details
@@ -20,7 +20,7 @@ define([], function() {
     "program_Area":"Program Area",
     "classification_Code":"Classification Code",
     "classification_Level":"Classification Level",
-    "duration":"Duration for opportunity",
+    "durationField":"Duration for opportunity",
     "length":"Length",
     "time_period":"Time period",
     "application_deadline":"Application deadline",
@@ -30,11 +30,11 @@ define([], function() {
     //Page 3 - Opportunity Requirements
     "opportunityRequirements_title": "Opportunity Requirements",
     "opportunityRequirements_para1":"Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information.",
-    "skills":"Skills",
+    "skillsField":"Skills",
     "time_in_hours":"Time in hours",
-    "province":"Province",
-    "region":"Region",
-    "city":"City",
+    "provinceField":"Province",
+    "regionField":"Region",
+    "cityField":"City",
     "security_level":"Security level",
     "language_requirements":"Language requirements",
     "writtenEN": "English Writtten expresion",
@@ -75,6 +75,43 @@ define([], function() {
     "select": "Select",
     "submit_btn": "Submit",
     "complete_button": "Career Marketplace Homepage",
+
+    //Errors
+    "fixErrors":"Please fix the following errors before proceeeding.",
+    "requiredField":"Field is required",
+    "numberValue":"Value must be a number",
+    "selectOption":"Please select an option",
+    "minChar":"Minimum 5 characters required",
+    "cannotBeBlank":"Field cannot be blank",
+    "lessThanOne":"Value cannot be less than one",
+    "shouldBeYes":"field should be set to &quot;Yes&quot",
+    "requiredAndshouldBeYes":"field is required and should be set to &quot;Yes&quot",
+
+ 
+    //fieldErrors
+    "department":"Department field is required",
+    "jobTitleEn":"Job title En field is required",
+    "jobTitleFr":"Job title Fr  field is required",
+    "jobDescriptionEn":"Job description En field is required",
+    "jobDescriptionFr":"Job description Fr field is required",
+    "jobType":"Job type field is required",
+    "programArea":"Program area field is required",
+    "classificationCode":"Classification code field is required",
+    "classificationLevel":"Classification level field is required",
+    "numberOfOpportunities": "Number of opportunities field is required",
+    "durationLength":"Duration length field is required",
+    "duration":"Duration time period field is required",
+    "skills":"Skills field is required",
+    "workSchedule":"Time in hours field is required",
+    "province":"Province field is required",
+    "region":"Region field is required",
+    "city":"City field is required",
+    "security":"Security field is required",
+    "language":"Language field is required",
+    "languageRequirements":"Language requirement fields are required",
+    "workArrangment":"Work arrangement field is required",
+    "approvedStaffing": "Approved Staffing field should be set to \"Yes\"",
+
 
    
    

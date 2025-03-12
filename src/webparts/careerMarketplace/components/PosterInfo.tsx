@@ -68,7 +68,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           <ReusableDropdownField
             id={"department"}
             name={"department"}
-            title={this.strings.department}
+            title={this.strings.departmentField}
             options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
             onChange={this.onChangeDropDownItem}
             disabled={this.props.currentPage === 3}
@@ -76,7 +76,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             ariaLabelRequired={'required'}
           />
           {this.props.inlineFieldErrors.includes('department') &&( 
-            <div>{validate(this.props.values.department.key)}</div>
+            <div>{validate(this.props.values.department.key, this.props.prefLang)}</div>
           )}
 
           <ReusableTextField

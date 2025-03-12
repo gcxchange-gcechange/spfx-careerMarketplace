@@ -29,9 +29,9 @@
 }
 
 .labelStyle {
-
+  font-weight: 700;
   :global{
-    .ms-Label {
+    .ms-Label{
       font-weight: 700;
       color: 'black';
     }

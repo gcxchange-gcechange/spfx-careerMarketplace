@@ -80,6 +80,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           options={this.props.options as IDropdownOption[]} 
           onRenderLabel={this.customLabel} 
           multiSelect={this.props.multiselect} 
+          className={!excludedIds.includes(this.props.id) ? styles.labelStyle : styles.languageLabels} 
           styles={!excludedIds.includes(this.props.id) ? dropdownStyle : langDropdownStyle} 
           {...this.props}
         />        

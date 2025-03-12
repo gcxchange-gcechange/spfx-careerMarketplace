@@ -22,6 +22,7 @@ import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
 import { ICareerMarketplaceState } from './ICareerMarketplaceState';
  
+ 
 
 
 
@@ -149,9 +150,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
           || (currentPgFields.includes(key) && value.Guid === '0') 
+          || (currentPgFields.includes(key) && value.length === 1) 
           || (stringValues.includes(key) && value === "") 
           || value.text === `--${this.strings.select}--` 
-          || (currentPgFields.includes(key) && value.length === 1) 
           || value.text === 'No'
 
         ){
@@ -173,8 +174,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         checkValues.push({key:"languageRequirements", value:""})
       }
     }
-
+    console.log('checkvalues', checkValues)
+    
     const newArray = toTitleCase(checkValues)
+    const reorderArray = this.reorderLanguage(checkValues)
+
 
 
     const nextPage = this.state.currentPage + 1;
@@ -183,7 +187,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if (checkValues.length !== 0 ) {
         await this.setState({
-          hasError: checkValues,
+          hasError: reorderArray,
           fieldErrorTitles: newArray
         })
       } else {
@@ -196,6 +200,30 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.addInLineErrors();
 
   }
+
+  public reorderLanguage(arr: { key: string; value: string; }[]): { key: string; value: string; }[] {
+  const langIndex = arr.findIndex((item) => item.key === "language");
+  const securityIndex = arr.findIndex((item) => item.key === "security");
+  const workArrIndex = arr.findIndex((item) => item.key === "workArrangment");
+
+  if (langIndex === -1) return arr; 
+
+  // Only move "language" if at least one of "security" or "work arrangment" exists
+  if (securityIndex === -1 && workArrIndex === -1) return arr;
+
+  // Remove "language" from its current position
+  const [languageItem] = arr.splice(langIndex, 1);
+
+  // Determine the new position (after "security", before "work arrangment")
+  let newIndex = securityIndex !== -1 ? securityIndex + 1 : langIndex;
+  if (workArrIndex !== -1) newIndex = Math.min(newIndex, workArrIndex);
+
+  // Insert "language" at the correct position
+  arr.splice(newIndex, 0, languageItem);
+
+  return arr;
+  }
+  
 
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
@@ -532,10 +560,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
+    console.log("citydata", cityId)
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
+    console.log(cityData)
  
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
+    console.log("region", regionDetails)
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
@@ -888,24 +919,30 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public changeFieldNameFormat = (): JSX.Element => {
+    console.log("error", this.state.hasError)
     const properCaseValues: any[] = [];
   
     const convertString = this.state.hasError.map((item: any) => {
-      const isApprovedStaffing = item.key === "approvedStaffing";
-      const isEmpty = !item.value || item.value === ""; 
+      console.log("item",item)
+      // const isApprovedStaffing = item.key === "approvedStaffing";
+      // const isEmpty = !item.value || item.value === ""; 
       const properCase = item.key
         .replace(/([A-Z])/g, " $1")
         .replace(/^ /, "")
         .toLowerCase();
-  
+        const key = item.key as keyof ICareerMarketplaceWebPartStrings;
+        const localizedKey = this.strings[key] || item.key;
+
       return {
         key: item.key,
-        properCase,
-        errorMessage: isApprovedStaffing
-          ? isEmpty
-            ? "field is required and should be set to Yes"
-            : "field should be set to Yes"
-          : "field is required",
+        properCase: properCase,
+        localizedKey: localizedKey,
+        errorMessage : `${localizedKey}`
+        // errorMessage: isApprovedStaffing
+        //   ? isEmpty
+        //     ? `${this.strings.requiredAndshouldBeYes}`
+        //     : `${this.strings.shouldBeYes}`
+        //   : `${localizedKey}`,
       };
     });
   
@@ -918,7 +955,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           {properCaseValues.map((item, index) => (
             <ul key={index}>
               <li>
-                <a href={`#${item.key}`}>{item.properCase} {item.errorMessage}</a>
+                <a href={`#${item.key}`}>{item.errorMessage}</a>
               </li>
             </ul>
           ))}
@@ -926,7 +963,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       </>
     );
   };
-  
+
+
 
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
@@ -1153,7 +1191,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   <div>
                     {this.state.hasError.length !== 0  && (
                       <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
-                        <h3 id="alertHeading">Please fix the following errors before proceeding.</h3>
+                        <h3 id="alertHeading">{this.strings.fixErrors}</h3>
                         {
                           this.changeFieldNameFormat()
                         }
