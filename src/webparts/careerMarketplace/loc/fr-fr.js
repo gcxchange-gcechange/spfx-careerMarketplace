@@ -106,7 +106,7 @@ define([], function() {
       "region":"Le champ « Région » est obligatoire.",
       "city":"Le champ « Ville » est obligatoire.",
       "security":"Le champ « Niveau de sécurité » est obligatoire.",
-      "language":"Le champ « Langue » est obligatoire.",
+      "language":"Le champ « Exigences linguistiques » est obligatoire.",
       "languageRequirements":"Le champ « Exigences linguistiques » est obligatoire.",
       "workArrangment":"Le champ « Régime de travail » est obligatoire.",
       "approvedStaffing":"La valeur du champ « Effectifs approuvés » doit être « Oui ».",
