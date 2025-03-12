@@ -100,16 +100,16 @@ define([], function() {
       "numberOfOpportunities": "Le champ « Nombre de possibilités d’emploi » est obligatoire.",
       "durationLength":"Le champ « Durée » est obligatoire.",
       "duration":"Le champ « Période » est obligatoire.",
-      "skills":"Le champ « Compétences » est obligatoire.",
+      "skills":"Le champ « Qualifications » est obligatoire.",
       "workSchedule":"Le champ « Durée en heures » est obligatoire.",
       "province":"Le champ « Province » est obligatoire.",
       "region":"Le champ « Région » est obligatoire.",
       "city":"Le champ « Ville » est obligatoire.",
-      "security":"Le champ « Sécurité » est obligatoire.",
+      "security":"Le champ « Niveau de sécurité » est obligatoire.",
       "language":"Le champ « Langue » est obligatoire.",
       "languageRequirements":"Le champ « Exigences linguistiques » est obligatoire.",
       "workArrangment":"Le champ « Régime de travail » est obligatoire.",
-      "approvedStaffing":"La valeur du champ « Dotation approuvée » doit être « Oui ».",
+      "approvedStaffing":"La valeur du champ « Effectifs approuvés » doit être « Oui ».",
       
      
       
