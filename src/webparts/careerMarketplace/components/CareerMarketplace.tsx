@@ -916,6 +916,25 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if(this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
       this.alertRef.current?.focus();
     }
+
+    if (this.state.values.jobType.Label === "Deployment" && prevState.values.jobType.Label !== "Deployment") {
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          durationLength: {...prevState.values.durationLength, value: "0"},
+          duration: {...prevState.values.duration, key:"", text: ""},
+        }
+      }))
+    }
+    if (this.state.values.jobType.Label === "Secondment" && prevState.values.jobType.Label !== "Secondment") {
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          durationLength: {value: "0"},
+          duration: {...prevState.values.duration, key:"", text: ""},
+        }
+      }))
+    }
   }
 
   public changeFieldNameFormat = (): JSX.Element => {
