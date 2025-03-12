@@ -150,9 +150,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
           || (currentPgFields.includes(key) && value.Guid === '0') 
+          || (currentPgFields.includes(key) && value.length === 1) 
           || (stringValues.includes(key) && value === "") 
           || value.text === `--${this.strings.select}--` 
-          || (currentPgFields.includes(key) && value.length === 1) 
           || value.text === 'No'
 
         ){
@@ -174,8 +174,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         checkValues.push({key:"languageRequirements", value:""})
       }
     }
-
+    console.log('checkvalues', checkValues)
+    
     const newArray = toTitleCase(checkValues)
+    const reorderArray = this.reorderLanguage(checkValues)
+
 
 
     const nextPage = this.state.currentPage + 1;
@@ -184,7 +187,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if (checkValues.length !== 0 ) {
         await this.setState({
-          hasError: checkValues,
+          hasError: reorderArray,
           fieldErrorTitles: newArray
         })
       } else {
@@ -197,6 +200,30 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.addInLineErrors();
 
   }
+
+  public reorderLanguage(arr: { key: string; value: string; }[]): { key: string; value: string; }[] {
+  const langIndex = arr.findIndex((item) => item.key === "language");
+  const securityIndex = arr.findIndex((item) => item.key === "security");
+  const workArrIndex = arr.findIndex((item) => item.key === "workArrangment");
+
+  if (langIndex === -1) return arr; 
+
+  // Only move "language" if at least one of "security" or "work arrangment" exists
+  if (securityIndex === -1 && workArrIndex === -1) return arr;
+
+  // Remove "language" from its current position
+  const [languageItem] = arr.splice(langIndex, 1);
+
+  // Determine the new position (after "security", before "work arrangment")
+  let newIndex = securityIndex !== -1 ? securityIndex + 1 : langIndex;
+  if (workArrIndex !== -1) newIndex = Math.min(newIndex, workArrIndex);
+
+  // Insert "language" at the correct position
+  arr.splice(newIndex, 0, languageItem);
+
+  return arr;
+  }
+  
 
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
@@ -893,6 +920,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public changeFieldNameFormat = (): JSX.Element => {
+    console.log("error", this.state.hasError)
     const properCaseValues: any[] = [];
   
     const convertString = this.state.hasError.map((item: any) => {
