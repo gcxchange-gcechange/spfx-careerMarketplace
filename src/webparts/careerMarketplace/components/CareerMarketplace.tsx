@@ -569,7 +569,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-    console.log('data', item.DurationQuantity)
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
     console.log(cityData)
