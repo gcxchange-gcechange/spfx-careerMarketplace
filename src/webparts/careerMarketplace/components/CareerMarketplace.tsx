@@ -79,7 +79,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
         numberOfOpportunities: "1",
-        durationLength: {value: "0", pageNumber: 1},
+        durationLength: {value: 0, pageNumber: 1},
         duration: {value: "" , pageNumber: 1},
         deadline: threeMonthsLater,
         skills:[{pageNumber: 2}],
@@ -478,7 +478,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }  
     else  if (valueName === "jobType") {
 
-
+      if(value.text === "Deployment") {
+        this.setState((prevState) => ({
+          values: {
+            ...prevState.values,
+            jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
+            durationLength: {...prevState.values.durationLength, value:'0'},
+              
+          },    
+        }));
+      }
 
      this.setState((prevState) => ({
       values: {
@@ -560,7 +569,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-    console.log("citydata", cityId)
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
     console.log(cityData)
@@ -913,8 +921,24 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if(this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
-      this.alertRef.current?.focus();
+    if (this.state.values.jobType.Label === "Deployment" && prevState.values.jobType.Label !== "Deployment") {
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          durationLength: {...prevState.values.durationLength, value:0},
+          duration: {...prevState.values.duration, key:"", text: ""},
+        }   
+      }))
+
+    }
+    if (this.state.values.jobType.Label === "Secondment" && prevState.values.jobType.Label !== "Secondment") {
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          durationLength:{...prevState.values.durationLength, value: 0},
+          duration: {...prevState.values.duration, key:"", text: ""},
+        }
+      }))
     }
   }
 

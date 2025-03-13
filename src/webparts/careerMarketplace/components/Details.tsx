@@ -78,9 +78,8 @@ export default class Details extends React.Component<IDetailsProps> {
   }
 
   public render(): React.ReactElement<IDetailsProps> {
-    console.log(this.props.values.jobType)
 
-    const disableDuration = this.props.values.jobType.Label === "Deployment"
+    const disableDuration = this.props.values.jobType.Label === "Deployment" || this.props.values.jobType.Label === "Secondment"
     //const disableDuration = this.props.values.jobType.map((item: any) => item.label === "Deployment")
  
     const customSpacingStackTokens: IStackTokens = {
@@ -285,7 +284,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   min={1}
                   max={36}
                   onChange = {e => this.props.handleDurationLength(e.target.value)}
-                  defaultValue={this.props.values.durationLength.value}
+                  value={this.props.values.durationLength.value}
                   required
                   className={styles.durationLengthInput}
                   disabled={durationDisabled}
