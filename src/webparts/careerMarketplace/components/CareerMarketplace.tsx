@@ -7,7 +7,7 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import {  IStackTokens, Stack, StackItem, ThemeProvider, createTheme } from '@fluentui/react';
+import {  IStackTokens, Spinner, SpinnerSize, Stack, StackItem, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
@@ -67,6 +67,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       skillsList: [],
       jobOpportunityId: "",
       jobOpportunityOwner: true,
+      isLoading: false,
+
 
       values: {
         department: {value: "" , pageNumber: 0},
@@ -316,6 +318,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       console.log("BODY", postOptions.body)
       try {
+        this.setState({isLoading: true}, () => {
         this.props.context.aadHttpClientFactory
         .getClient(this.props.clientId)
         .then((client: AadHttpClient): void => {
@@ -326,6 +329,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             if (response.status) {
               this.setState({
                 validationStatus: response.status,
+                isLoading: false
               })
             }
             response
@@ -342,10 +346,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   });
           }) 
         })
+        }) 
       }
       catch(error){
         console.log("ERROR",error)
-      }     
+      }    
+
   };
 
 
@@ -374,7 +380,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
-    console.log("VALUE",value)
   
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
@@ -1202,48 +1207,60 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     
                   ) : (
                     <>
-                  <div>
-                    <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang}/>
-                  </div>
-                  <div className={styles.stepper}>
-                    <Steps
-                      current={currentPage}
-                      labelPlacement="vertical"
-                      items={items}
-                    />
-                  </div>
-                  <div>
-                    {this.state.hasError.length !== 0  && (
-                      <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
-                        <h3 id="alertHeading">{this.strings.fixErrors}</h3>
-                        {
-                          this.changeFieldNameFormat()
-                        }
+                    <div>
+                      {this.state.isLoading ? (
+                        <Spinner
+                          size={SpinnerSize.large}
+                        />
+                      ) : 
                       
-                      </div>
-                      )
-                    }
-                  </div>
-                  <div>
-                    {steps[currentPage].content}
-                  </div>
-
-                  <div style={{marginTop: '20px'}}>
-                    <Stack horizontal horizontalAlign={currentPage !== 0 ?'space-between' : 'end'}>
-                      {
-                        currentPage !== 0 && (
-                          <CustomButton id={'prev'} name={this.strings.prev_btn} buttonType={'secondary'} onClick={() => this.prev()}/>
+                      <>
+                      <div>
+                      <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang}/>
+                    </div>
+                    <div className={styles.stepper}>
+                      <Steps
+                        current={currentPage}
+                        labelPlacement="vertical"
+                        items={items}
+                      />
+                    </div>
+                    <div>
+                      {this.state.hasError.length !== 0  && (
+                        <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
+                          <h3 id="alertHeading">{this.strings.fixErrors}</h3>
+                          {
+                            this.changeFieldNameFormat()
+                          }
+                        
+                        </div>
                         )
                       }
-                     
-                      { currentPage === 3 ? 
-                        <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
-                        :
-                        <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
+                    </div>
+                    <div>
+                      {steps[currentPage].content}
+                    </div>
+  
+                    <div style={{marginTop: '20px'}}>
+                      <Stack horizontal horizontalAlign={currentPage !== 0 ?'space-between' : 'end'}>
+                        {
+                          currentPage !== 0 && (
+                            <CustomButton id={'prev'} name={this.strings.prev_btn} buttonType={'secondary'} onClick={() => this.prev()}/>
+                          )
+                        }
+                       
+                        { currentPage === 3 ? 
+                          <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
+                          :
+                          <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
+                        }
+                      </Stack>
+                    </div>
+                    </>
                       }
-                    </Stack>
-                  </div>
+                    </div>
                   </>
+
                   )}
                 </>
               }
