@@ -24,6 +24,7 @@ export interface ICareerMarketplaceState {
     skillsList: { key: string; text: string; }[];
     jobOpportunityId: string;
     jobOpportunityOwner: boolean;
+    isLoading: boolean;
   
     values: {
       jobTitleEn: string;
