@@ -111,6 +111,9 @@ declare interface ICareerMarketplaceWebPartStrings {
   "language":string;
   "languageRequirements":string;
 
+  //loader
+  "submitting_your_information": string; 
+
 }
 
 declare module 'CareerMarketplaceWebPartStrings' {

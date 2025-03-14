@@ -111,6 +111,8 @@ define([], function() {
       "workArrangment":"Le champ « Régime de travail » est obligatoire.",
       "approvedStaffing":"La valeur du champ « Effectifs approuvés » doit être « Oui ».",
       
+      //loader
+      'submitting_your_information': 'Prenez le temps de savourer votre café ou thé; nous sommes en train de soumettre vos renseignements.',
      
       
     }

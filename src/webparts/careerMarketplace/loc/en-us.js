@@ -112,6 +112,11 @@ define([], function() {
     "workArrangment":"Work arrangement field is required",
     "approvedStaffing": "Approved Staffing field should be set to \"Yes\"",
 
+    //loader
+
+    'submitting_your_information': 'Grab a sip of coffee, we are submitting your information.',
+   
+
 
    
    
