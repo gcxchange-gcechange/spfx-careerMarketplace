@@ -105,7 +105,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         workArrangment: {value: "" , pageNumber: 2}, 
         approvedStaffing:{value:"", pageNumber: 2},
 
-      }
+      },
+
     };
     this.alertRef = React.createRef();
     this._sp = getSP(this.props.context);
@@ -896,6 +897,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     });
   };
 
+ 
+
+
 
   public async componentDidMount(): Promise<void> {
 
@@ -904,6 +908,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
+    this.context.application.navigatedEvent.add(this, this.getDropdownElements());
+
     if (this.props.jobOpportunityId !== "" && checkUser === true) {
       await this._populateEditableFields();
 
@@ -912,9 +918,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobOpportunityOwner: checkUser
       })
     }
+
   }
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
+
+
     if (this.state.currentPage !== prevState.currentPage) {
 
         this.setState({
@@ -946,6 +955,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }))
     }
   }
+
+  public componentWillUnmount():void {
+    this.context.application.navigatedEvent.remove(this, this.getDropdownElements);
+  }
+
 
   public changeFieldNameFormat = (): JSX.Element => {
     console.log("error", this.state.hasError)
