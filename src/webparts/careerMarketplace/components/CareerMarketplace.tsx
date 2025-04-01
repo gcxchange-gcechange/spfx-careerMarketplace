@@ -117,18 +117,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private next = async (): Promise<void > => {
 
     const { values, currentPage } = this.state;
-
     const checkValues: {key: string, value: any}[] = [];
+
+    //Get fields to validate (all if currentPage === 3, otherwise filter)
 
     const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
       if ( Array.isArray(fieldData) && field !== "languageRequirements") {
-        return fieldData.some(item => item.pageNumber === currentPage);
+        return currentPage === 3 || fieldData.some(item => item.pageNumber === currentPage);
+        //return fieldData.some(item => item.pageNumber === currentPage);
       }
-      return fieldData.pageNumber === currentPage;
+      return  currentPage === 3 || fieldData.pageNumber === currentPage;
+
     }).map(([field]) => field)
 
     console.log("currentFields", currentPgFields);
    
+    //Extract string based fields
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
@@ -137,11 +141,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
 
+      //Skip validation when deployment is selected
       if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
           continue;
       }
 
-      if (key === 'numberOfOpportunities' && stringValues.includes(key)) {
+      //validate NumOfOpp seperately
+      if (key === 'numberOfOpportunities' ) {
+        console.log("val", value)
         if (value === "" || isNaN(Number(value))) {
             checkValues.push({ key, value });
             continue; 
@@ -149,6 +156,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
 
 
+      //General validation logic for required fields
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
@@ -165,7 +173,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (currentPage === 2) {    
+    //Additional validation for language requirement fields
+    if (currentPage === 2 ) {    
         const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
         const isWrittenEmpty = this.state.values.languageRequirements[0].writtenEN.value === "" || this.state.values.languageRequirements[0].writtenFR.value=== "";
         const isOralEmpty = this.state.values.languageRequirements[0].oralEN.value === "" || this.state.values.languageRequirements[0].oralFR.value === "";
@@ -186,7 +195,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const nextPage = this.state.currentPage + 1;
 
-    if (this.state.currentPage < 4 ) {
+    if(currentPage === 3 && checkValues.length === 0) {
+      //Run Sumbit function if no errors and on page 3
+      this.submit();
+
+    }
+    else if (this.state.currentPage < 4 ) {
 
       if (checkValues.length !== 0 ) {
         await this.setState({
@@ -205,26 +219,26 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public reorderLanguage(arr: { key: string; value: string; }[]): { key: string; value: string; }[] {
-  const langIndex = arr.findIndex((item) => item.key === "language");
-  const securityIndex = arr.findIndex((item) => item.key === "security");
-  const workArrIndex = arr.findIndex((item) => item.key === "workArrangment");
+    const langIndex = arr.findIndex((item) => item.key === "language");
+    const securityIndex = arr.findIndex((item) => item.key === "security");
+    const workArrIndex = arr.findIndex((item) => item.key === "workArrangment");
 
-  if (langIndex === -1) return arr; 
+    if (langIndex === -1) return arr; 
 
-  // Only move "language" if at least one of "security" or "work arrangment" exists
-  if (securityIndex === -1 && workArrIndex === -1) return arr;
+    // Only move "language" if at least one of "security" or "work arrangment" exists
+    if (securityIndex === -1 && workArrIndex === -1) return arr;
 
-  // Remove "language" from its current position
-  const [languageItem] = arr.splice(langIndex, 1);
+    // Remove "language" from its current position
+    const [languageItem] = arr.splice(langIndex, 1);
 
-  // Determine the new position (after "security", before "work arrangment")
-  let newIndex = securityIndex !== -1 ? securityIndex + 1 : langIndex;
-  if (workArrIndex !== -1) newIndex = Math.min(newIndex, workArrIndex);
+    // Determine the new position (after "security", before "work arrangment")
+    let newIndex = securityIndex !== -1 ? securityIndex + 1 : langIndex;
+    if (workArrIndex !== -1) newIndex = Math.min(newIndex, workArrIndex);
 
-  // Insert "language" at the correct position
-  arr.splice(newIndex, 0, languageItem);
+    // Insert "language" at the correct position
+    arr.splice(newIndex, 0, languageItem);
 
-  return arr;
+    return arr;
   }
   
 
@@ -256,6 +270,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   private submit = (): void => {
+
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
@@ -925,9 +940,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
     if (this.state.currentPage !== prevState.currentPage) {
-
+      console.log("hi")
         this.setState({
-          inlineFieldErrors: []
+          inlineFieldErrors: [],
+          hasError:[],
         });
 
         await this._populateDropDowns();
@@ -1266,7 +1282,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                         }
                        
                         { currentPage === 3 ? 
-                          <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
+                          <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.next()}/>
                           :
                           <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
                         }
