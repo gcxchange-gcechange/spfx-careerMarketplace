@@ -9,6 +9,7 @@ import styles from './CareerMarketplace.module.scss';
 import { SelectLanguage } from "./SelectLanguage";
 
 
+
 export interface IDetailsProps {
   prefLang: string;
   programArea: any[];
@@ -115,6 +116,7 @@ export default class Details extends React.Component<IDetailsProps> {
   }
 
 
+
     return (
       <>
         <div>
@@ -187,6 +189,8 @@ export default class Details extends React.Component<IDetailsProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.jobType.Guid}
             ariaLabelRequired={this.strings.required}
+            instruction={this.strings.job_Type_description}
+            prefLang={this.props.prefLang}
           />
           {
             this.props.inlineFieldErrors?.includes('jobType') && (
@@ -205,6 +209,7 @@ export default class Details extends React.Component<IDetailsProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.programArea.key}
             ariaLabelRequired={this.strings.required}
+            instruction={this.strings.programArea_description}
           />
             {
             this.props.inlineFieldErrors?.includes('programArea') && (
@@ -222,6 +227,7 @@ export default class Details extends React.Component<IDetailsProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.classificationCode.key}
             ariaLabelRequired={this.strings.required}
+            instruction={this.strings.classification_Code_description}
           />
 
             {
@@ -239,6 +245,7 @@ export default class Details extends React.Component<IDetailsProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.classificationLevel.key}
             ariaLabelRequired={this.strings.required}
+            instruction={this.strings.classification_Level_description}
           />
 
             {
@@ -270,6 +277,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     </span>
                       {this.strings.durationField}
                   </Label>
+                  <p className={styles.instruction}>{this.strings.durationDescription}</p>
                 </StackItem>
             </Stack>
 
@@ -327,6 +335,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 </span>
                 {this.strings.application_deadline}
               </Label>
+              <p className={styles.instruction}>{this.strings.application_deadline_description}</p>
             </StackItem>
           </Stack>
 
