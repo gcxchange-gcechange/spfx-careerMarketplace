@@ -86,8 +86,8 @@ export default class Details extends React.Component<IDetailsProps> {
       childrenGap: '10%',
     };
 
-    const isReadOnly = this.props.currentPage === 3;
-    const durationDisabled = this.props.currentPage === 3 || disableDuration;
+   // const isReadOnly = this.props.currentPage === 3;
+    const durationDisabled = disableDuration;
     const {jobTitleEn, jobTitleFr, jobDescriptionFr, jobDescriptionEn, numberOfOpportunities, deadline} = this.props.values;
 
     const reformatDate = ():string => {
@@ -137,7 +137,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={`${this.strings.job_Title} ${this.strings.english}`}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobTitleEn}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
@@ -149,7 +149,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={`${this.strings.job_Title} ${this.strings.french}`}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleFr, 'jobTitleFr',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
@@ -161,7 +161,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionEn}
             multiline={true}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionEn, 'jobDescriptionEn',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
@@ -172,7 +172,7 @@ export default class Details extends React.Component<IDetailsProps> {
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.jobDescriptionFr}
             multiline={true}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescritpionFr',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
@@ -184,7 +184,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={this.strings.job_Type}
             options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.jobType]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.jobType.Guid}
             ariaLabelRequired={this.strings.required}
           />
@@ -202,7 +202,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={this.strings.program_Area}
             options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.programArea]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.programArea.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -219,7 +219,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={this.strings.classification_Code}
             options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.classificationCode]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.classificationCode.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -236,7 +236,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={this.strings.classification_Level}
             options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.classificationLevel]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.classificationLevel.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -253,7 +253,7 @@ export default class Details extends React.Component<IDetailsProps> {
             title={this.strings.number_of_Opportunities}
             onChange={this.onChangeTextValue}
             defaultValue={this.props.values.numberOfOpportunities}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities', this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
@@ -335,7 +335,7 @@ export default class Details extends React.Component<IDetailsProps> {
             className={styles.labelStyle}     
             ariaLabel="Select a date"
             onSelectDate={this.onSelectedDate}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             formatDate={reformatDate}
             value={this.props.values.deadline}
             minDate={this.props.jobOppId ? undefined : oneMonthLater}

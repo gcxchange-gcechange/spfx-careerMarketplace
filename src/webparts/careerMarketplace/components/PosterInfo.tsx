@@ -71,7 +71,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             title={this.strings.departmentField}
             options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
             onChange={this.onChangeDropDownItem}
-            disabled={this.props.currentPage === 3}
+            //disabled={this.props.currentPage === 3}
             selectedKey={ this.props.values.department.key}
             ariaLabelRequired={'required'}
           />

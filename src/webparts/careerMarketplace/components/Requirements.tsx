@@ -75,7 +75,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const isReadOnly = this.props.currentPage === 3;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
-    const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 3;
+    const disabledField = this.props.values.languageRequirements[0].language.key !== 3  ;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
  
 
@@ -124,7 +124,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             options={this.props.skills}
             selectedKeys={selectedSkillItems}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             multiselect
             ariaLabelRequired={'required'}
           />
@@ -140,7 +140,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.time_in_hours}
             options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workSchedule]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -155,7 +155,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.provinceField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.province]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.province.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -171,7 +171,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.regionField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...filteredRegions]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -187,7 +187,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.cityField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...filteredCities]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.city.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -203,7 +203,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.security_level}
             options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.security]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.security.key}
             ariaLabelRequired={this.strings.required}
           />
@@ -220,7 +220,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 title={this.strings.language_requirements}
                 options={this.props.language}
                 onChange={this.onChangeDropDownItem}
-                disabled={isReadOnly}
+                //disabled={isReadOnly}
                 selectedKey={this.props.values.languageRequirements[0].language.key}
                 ariaLabelRequired={this.strings.required}
               />
@@ -327,7 +327,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.work_arrangment}
             options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workArrangment]}
             onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
+            //disabled={isReadOnly}
             selectedKey={this.props.values.workArrangment.key}
             ariaLabelRequired={this.strings.required}
           />
