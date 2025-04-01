@@ -126,7 +126,7 @@ define([], function() {
       "approvedStaffing":"La valeur du champ « Effectifs approuvés » doit être « Oui ».",
       
       //loader
-      'submitting_your_information': 'Prenez le temps de savourer votre café ou thé; nous sommes en train de soumettre vos renseignements.',
+      'submitting_your_information': 'Prenez le temps de savourer votre café ou thé; nous sommes en train de soumettre vos renseignements. L`utilisation des boutons de navigation « Précedente » de votre fureteur peut entraîner des conséquences imprévisibles. ',
      
       
     }

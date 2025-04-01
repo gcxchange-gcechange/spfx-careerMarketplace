@@ -127,7 +127,7 @@ define([], function() {
 
     //loader
 
-    'submitting_your_information': 'Grab a sip of coffee, we are submitting your information.',
+    'submitting_your_information': 'Grab a sip of coffee, we are submitting your information. Using your browsers navigation buttons "Back" may cause unpredictable results.',
    
 
 
