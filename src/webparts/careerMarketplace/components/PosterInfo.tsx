@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
-import ReusableDropdownField from "./ReusableDropDownField";
-import { IDropdownOption } from "@fluentui/react";
+//import ReusableDropdownField from "./ReusableDropDownField";
+import { ComboBox, IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
 import { validate } from "./Validations";
 import { SelectLanguage } from './SelectLanguage';
 
@@ -65,7 +65,32 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
           />
-          <ReusableDropdownField
+
+        <div>
+          <Stack  horizontal verticalAlign="center" >
+            <StackItem >
+              <Label htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
+                <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
+                  *
+                </span>
+                {this.strings.departmentField}
+              </Label>
+            </StackItem>
+          </Stack>
+          <ComboBox
+              id={"department"}
+              options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
+              onChange={this.onChangeDropDownItem}
+              disabled={this.props.currentPage === 3}
+              selectedKey={ this.props.values.department.key}
+              autoComplete="on"
+              allowFreeform
+          />
+           {this.props.inlineFieldErrors.includes('department') &&( 
+            <div>{validate(this.props.values.department.key, this.props.prefLang)}</div>
+          )} 
+          </div>
+          {/* <ReusableDropdownField
             id={"department"}
             name={"department"}
             title={this.strings.departmentField}
@@ -77,7 +102,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           />
           {this.props.inlineFieldErrors.includes('department') &&( 
             <div>{validate(this.props.values.department.key, this.props.prefLang)}</div>
-          )}
+          )} */}
 
           <ReusableTextField
             id={"workEmail"}
