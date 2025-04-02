@@ -149,7 +149,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       //validate NumOfOpp seperately
       if (key === 'numberOfOpportunities' ) {
         console.log("val", value)
-        if (value === "" || isNaN(Number(value))) {
+        if (value === ""  || isNaN(Number(value))) {
             checkValues.push({ key, value });
             continue; 
         }
@@ -163,6 +163,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           || (currentPgFields.includes(key) && value.Guid === '0') 
           || (currentPgFields.includes(key) && value.length === 1) 
           || (stringValues.includes(key) && value === "") 
+          || (stringValues.includes(key) && value === "0") 
           || value.text === `--${this.strings.select}--` 
           || value.text === 'No'
 
@@ -174,7 +175,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     //Additional validation for language requirement fields
-    if (currentPage === 2 ) {    
+    if (currentPage === 2 || currentPage === 3) {    
         const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
         const isWrittenEmpty = this.state.values.languageRequirements[0].writtenEN.value === "" || this.state.values.languageRequirements[0].writtenFR.value=== "";
         const isOralEmpty = this.state.values.languageRequirements[0].oralEN.value === "" || this.state.values.languageRequirements[0].oralFR.value === "";
