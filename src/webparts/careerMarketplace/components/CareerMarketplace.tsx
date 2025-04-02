@@ -1266,7 +1266,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                         }
                        
                         { currentPage === 3 ? 
-                          <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
+                          <CustomButton id={'submit'} name={this.strings.submit_btn} buttonType={'primary'}  onClick={() => this.submit()}/>
                           :
                           <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
                         }
