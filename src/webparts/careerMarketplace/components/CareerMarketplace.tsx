@@ -924,6 +924,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
 
 
+    if (this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
+      console.log("current", this.alertRef.current)
+      // Focus the dialog when errors exist
+      if (this.alertRef.current) {
+        this.alertRef.current.focus();
+      }
+    }
+
     if (this.state.currentPage !== prevState.currentPage) {
 
         this.setState({
@@ -1243,7 +1251,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     </div>
                     <div>
                       {this.state.hasError.length !== 0  && (
-                        <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
+                        <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={-1}  ref={this.alertRef}>
                           <h3 id="alertHeading">{this.strings.fixErrors}</h3>
                           {
                             this.changeFieldNameFormat()
