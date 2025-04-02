@@ -58,7 +58,7 @@ define([], function() {
       "work_arrangment_description": "À l’aide du menu déroulant, sélectionnez le type de régime de travail qui correspond à votre occasion.",
       "approved_staffing":"Effectifs approuvés",
       "approved_staffing_description":"En cochant les cases correspondantes, veuillez confirmer si cette occasion est conforme aux mandats d’effectifs fournis par votre service des ressources humaines.",
-
+      "approved_staffing_checkbox":"Oui",
      
       //Page 4 - Review and Submit
       "reviewSubmit_title": "Revoir et soumettre",

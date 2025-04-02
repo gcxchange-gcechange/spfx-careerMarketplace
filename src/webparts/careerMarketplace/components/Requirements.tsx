@@ -356,7 +356,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             </Stack>
 
 
-             <Checkbox id='1' name={"approvedStaffing"} label={"Yes"} onChange={ this.onChange } defaultChecked={this.props.values.approvedStaffing.value} disabled={isReadOnly}/>
+             <Checkbox id='1' name={"approvedStaffing"} label={this.strings.approved_staffing_checkbox} onChange={ this.onChange } defaultChecked={this.props.values.approvedStaffing.value} disabled={isReadOnly}/>
 
             { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
                 <div>{validate(this.props.values.approvedStaffing.key,  this.props.prefLang)}</div>

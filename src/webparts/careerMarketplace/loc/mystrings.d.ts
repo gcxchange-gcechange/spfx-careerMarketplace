@@ -55,6 +55,7 @@ declare interface ICareerMarketplaceWebPartStrings {
   "work_arrangment_description": string;
   "approved_staffing": string;
   "approved_staffing_description":string,
+  "approved_staffing_checkbox": string,
 
 
 

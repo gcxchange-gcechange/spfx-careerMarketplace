@@ -58,7 +58,7 @@ define([], function() {
     "work_arrangment_description": "Using the drop-down menu, select the type of work arrangement that corresponds with your opportunity.",
     "approved_staffing":"Approved staffing",
     "approved_staffing_description":"Using check boxes, please confirm if this opportunity aligns with the staffing mandates provided by your HR department.",
-
+    "approved_staffing_checkbox":"Yes",
 
 
     //Page 4 - Review and Submit
@@ -90,7 +90,7 @@ define([], function() {
     "complete_button": "Career Marketplace Homepage",
 
     //Errors
-    "fixErrors":"Please fix the following errors before proceeeding.",
+    "fixErrors":"Please fix the following errors before proceeding.",
     "requiredField":"Field is required",
     "numberValue":"Value must be a number",
     "selectOption":"Please select an option",
