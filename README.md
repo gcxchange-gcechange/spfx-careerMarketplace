@@ -2,7 +2,7 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
+Short summary on functionality and used technologies. Career marketplace is a job posting application
 
 [picture of the solution in action, if possible]
 
