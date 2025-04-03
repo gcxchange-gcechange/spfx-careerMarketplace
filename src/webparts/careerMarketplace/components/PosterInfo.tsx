@@ -4,7 +4,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 //import ReusableDropdownField from "./ReusableDropDownField";
-import { ComboBox, IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
+import { ComboBox, IComboBox, IComboBoxOption, IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
 import { validate } from "./Validations";
 import { SelectLanguage } from './SelectLanguage';
 
@@ -31,12 +31,26 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
   public strings = SelectLanguage(this.props.prefLang);
   
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
+    console.log("ITEM:",item)
     const eventName = event.target.id;
 
     if (item) {
       this.props.handleDropDownItem(eventName, item);
     }
   };
+
+  public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
+
+    const selectedValue = item ? item.key : "department-input";
+    const selectedText = item ? item.text : value;
+
+
+    if (item) {
+      this.props.handleDropDownItem("department", { key: selectedValue, text: selectedText });
+    }
+  };
+
+
 
   public render(): React.ReactElement<IPosterInfoProps> {
     const isReadOnly = this.props.currentPage === 0;
@@ -80,7 +94,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           <ComboBox
               id={"department"}
               options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
-              onChange={this.onChangeDropDownItem}
+              onChange={this.onChangeComboItem}
               disabled={this.props.currentPage === 3}
               selectedKey={ this.props.values.department.key}
               autoComplete="on"
