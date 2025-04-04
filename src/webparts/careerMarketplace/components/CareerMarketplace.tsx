@@ -114,116 +114,211 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
  
-  private next = async (): Promise<void > => {
+  // private next = async (): Promise<void > => {
 
+  //   const { values, currentPage } = this.state;
+  //   const checkValues: {key: string, value: any}[] = [];
+
+  //   //Get fields to validate (all if currentPage === 3, otherwise filter)
+
+  //   const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
+  //     if ( currentPage === 3 &&  field === "numberOfOpportunities") {
+  //      return false
+  //     }
+  //     if ( currentPage === 3 &&  field === "languageRequirements") {
+  //       return false
+  //      }
+  //     if (Array.isArray(fieldData) && field !== "languageRequirements") {
+  //       return currentPage === 3 || fieldData.some(item => item.pageNumber === currentPage);
+  //       //return fieldData.some(item => item.pageNumber === currentPage);
+  //     }
+  //     return  currentPage === 3 || fieldData.pageNumber === currentPage;
+
+  //   }).map(([field]) => field)
+
+  //   console.log("currentFields", currentPgFields);
+   
+  //   //Extract string based fields
+  //   const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
+
+  //   for (const [key,value] of Object.entries(values)) {
+  //     console.log(value)
+  //     const jobTypeIncludesDeployment = values.jobType.Label === 'Deployment';
+
+  //     //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
+
+  //     //Skip validation when deployment is selected
+  //     if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
+  //         continue;
+  //     }
+
+  //     //validate NumOfOpp seperately
+  //     if (key === 'numberOfOpportunities' ) {
+  //       console.log("val", value)
+  //       if (value === ""  || isNaN(Number(value))) {
+  //           checkValues.push({ key, value });
+  //           continue; 
+  //       }
+  //     }
+
+
+  //     //General validation logic for required fields
+
+  //     if ((currentPgFields.includes(key) && value.value === "" )
+  //         || (currentPgFields.includes(key) && value.value === '0') 
+  //         || (currentPgFields.includes(key) && value.Guid === '0') 
+  //         || (currentPgFields.includes(key) && value === 0 ) 
+  //         || (currentPgFields.includes(key) && value.length === 1 && key !== "") 
+  //         || (stringValues.includes(key) && value === "") 
+  //         || (stringValues.includes(key) && value === "0") 
+  //         || value.text === `--${this.strings.select}--` 
+  //         || value.text === 'No'
+
+  //       ){
+        
+  //       checkValues.push({key, value })
+  //     }
+
+  //   }
+
+  //   //Additional validation for language requirement fields
+  //   if (currentPage === 2 || currentPage === 3) {    
+  //       const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
+  //       const isWrittenEmpty = this.state.values.languageRequirements[0].writtenEN.value === "" || this.state.values.languageRequirements[0].writtenFR.value=== "";
+  //       const isOralEmpty = this.state.values.languageRequirements[0].oralEN.value === "" || this.state.values.languageRequirements[0].oralFR.value === "";
+
+  //     if (this.state.values.languageRequirements[0].language.value === "") {
+  //       checkValues.push({key:"language", value:""})
+  //     }
+  //     else if (this.state.values.languageRequirements[0].language.key === 3 && (isReadingEmpty || isWrittenEmpty || isOralEmpty )) {
+  //       checkValues.push({key:"languageRequirements", value:""})
+  //     }
+  //   }
+  //   console.log('checkvalues', checkValues)
+    
+  //   const newArray = toTitleCase(checkValues)
+  //   const reorderArray = this.reorderLanguage(checkValues)
+
+
+
+  //   const nextPage = this.state.currentPage + 1;
+
+  //   if(currentPage === 3 && checkValues.length === 0) {
+  //     //Run Sumbit function if no errors and on page 3
+  //     this.submit();
+
+  //   }
+  //   else if (this.state.currentPage < 4 ) {
+
+  //     if (checkValues.length !== 0 ) {
+  //       await this.setState({
+  //         hasError: reorderArray,
+  //         fieldErrorTitles: newArray
+  //       })
+  //     } else {
+  //       this.setState({
+  //         currentPage: nextPage,
+  //         hasError: []
+  //        })
+  //     }  
+  //   }
+  //   this.addInLineErrors();
+
+  // }
+
+  private next = async (): Promise<void> => {
     const { values, currentPage } = this.state;
-    const checkValues: {key: string, value: any}[] = [];
-
-    //Get fields to validate (all if currentPage === 3, otherwise filter)
-
-    const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
-      if ( currentPage === 3 &&  field === "numberOfOpportunities") {
-       return false
+    const checkValues: { key: string; value: any }[] = [];
+  
+    const isFieldOnCurrentPage = (field: string, fieldData: any): boolean => {
+      if (currentPage === 3 && ["numberOfOpportunities", "languageRequirements"].includes(field)) {
+        return false;
       }
-      if ( currentPage === 3 &&  field === "languageRequirements") {
-        return false
-       }
       if (Array.isArray(fieldData) && field !== "languageRequirements") {
         return currentPage === 3 || fieldData.some(item => item.pageNumber === currentPage);
-        //return fieldData.some(item => item.pageNumber === currentPage);
       }
-      return  currentPage === 3 || fieldData.pageNumber === currentPage;
-
-    }).map(([field]) => field)
-
+      return currentPage === 3 || fieldData.pageNumber === currentPage;
+    };
+  
+    const currentPgFields = Object.entries(values)
+      .filter(([field, fieldData]) => isFieldOnCurrentPage(field, fieldData))
+      .map(([field]) => field);
+  
     console.log("currentFields", currentPgFields);
-   
-    //Extract string based fields
-    const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
-
-    for (const [key,value] of Object.entries(values)) {
-      console.log(value)
-      const jobTypeIncludesDeployment = values.jobType.Label === 'Deployment';
-
-      //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
-
-      //Skip validation when deployment is selected
-      if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
-          continue;
+  
+    const stringValues = Object.entries(values)
+      .filter(([key, value]) => typeof value === "string" && document.getElementById(key))
+      .map(([key]) => key);
+  
+    const jobTypeIncludesDeployment = values.jobType.Label === "Deployment";
+  
+    for (const [key, value] of Object.entries(values)) {
+      console.log(value);
+  
+      if (jobTypeIncludesDeployment && ["duration", "durationLength"].includes(key)) {
+        continue;
       }
-
-      //validate NumOfOpp seperately
-      if (key === 'numberOfOpportunities' ) {
-        console.log("val", value)
-        if (value === ""  || isNaN(Number(value))) {
-            checkValues.push({ key, value });
-            continue; 
+  
+      if (key === "numberOfOpportunities") {
+        if (value === "" || isNaN(Number(value))) {
+          checkValues.push({ key, value });
         }
+        continue;
       }
-
-
-      //General validation logic for required fields
-
-      if ((currentPgFields.includes(key) && value.value === "" )
-          || (currentPgFields.includes(key) && value.value === '0') 
-          || (currentPgFields.includes(key) && value.Guid === '0') 
-          || (currentPgFields.includes(key) && value.length === 1 && key !== "") 
-          || (stringValues.includes(key) && value === "") 
-          || (stringValues.includes(key) && value === "0") 
-          || value.text === `--${this.strings.select}--` 
-          || value.text === 'No'
-
-        ){
-        
-        checkValues.push({key, value })
-      }
-
-    }
-
-    //Additional validation for language requirement fields
-    if (currentPage === 2 || currentPage === 3) {    
-        const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
-        const isWrittenEmpty = this.state.values.languageRequirements[0].writtenEN.value === "" || this.state.values.languageRequirements[0].writtenFR.value=== "";
-        const isOralEmpty = this.state.values.languageRequirements[0].oralEN.value === "" || this.state.values.languageRequirements[0].oralFR.value === "";
-
-      if (this.state.values.languageRequirements[0].language.value === "") {
-        checkValues.push({key:"language", value:""})
-      }
-      else if (this.state.values.languageRequirements[0].language.key === 3 && (isReadingEmpty || isWrittenEmpty || isOralEmpty )) {
-        checkValues.push({key:"languageRequirements", value:""})
+  
+      const isRequiredFieldEmpty =
+        (currentPgFields.includes(key) && (value?.value === "" || value?.value === "0" || value?.Guid === "0" || value?.value === 0)) ||
+        (currentPgFields.includes(key) && value?.length === 1 && key !== "") ||
+        (stringValues.includes(key) && (value === "" || value === "0")) ||
+        value?.text === `--${this.strings.select}--` ||
+        value?.text === "No";
+  
+      if (isRequiredFieldEmpty) {
+        checkValues.push({ key, value });
       }
     }
-    console.log('checkvalues', checkValues)
+  
+    if (currentPage === 2 || currentPage === 3) {
+      const langReq = this.state.values.languageRequirements?.[0];
     
-    const newArray = toTitleCase(checkValues)
-    const reorderArray = this.reorderLanguage(checkValues)
-
-
-
-    const nextPage = this.state.currentPage + 1;
-
-    if(currentPage === 3 && checkValues.length === 0) {
-      //Run Sumbit function if no errors and on page 3
-      this.submit();
-
+      const isLangEmpty = langReq?.language?.value === "";
+      const isReadingEmpty = langReq?.readingEN?.value === "" || langReq?.readingFR?.value === "";
+      const isWrittenEmpty = langReq?.writtenEN?.value === "" || langReq?.writtenFR?.value === "";
+      const isOralEmpty = langReq?.oralEN?.value === "" || langReq?.oralFR?.value === "";
+    
+      if (isLangEmpty) {
+        checkValues.push({ key: "language", value: "" });
+      } else if (langReq.language?.key === 3 && (isReadingEmpty || isWrittenEmpty || isOralEmpty)) {
+        checkValues.push({ key: "languageRequirements", value: "" });
+      }
     }
-    else if (this.state.currentPage < 4 ) {
-
-      if (checkValues.length !== 0 ) {
+  
+    console.log("checkvalues", checkValues);
+  
+    const newArray = toTitleCase(checkValues);
+    const reorderArray = this.reorderLanguage(checkValues);
+  
+    const nextPage = currentPage + 1;
+  
+    if (currentPage === 3 && checkValues.length === 0) {
+      this.submit();
+    } else if (currentPage < 4) {
+      if (checkValues.length !== 0) {
         await this.setState({
           hasError: reorderArray,
           fieldErrorTitles: newArray
-        })
+        });
       } else {
         this.setState({
           currentPage: nextPage,
           hasError: []
-         })
-      }  
+        });
+      }
     }
+  
     this.addInLineErrors();
-
-  }
+  };
+  
 
   public reorderLanguage(arr: { key: string; value: string; }[]): { key: string; value: string; }[] {
     const langIndex = arr.findIndex((item) => item.key === "language");
