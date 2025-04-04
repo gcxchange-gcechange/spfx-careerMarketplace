@@ -122,7 +122,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     //Get fields to validate (all if currentPage === 3, otherwise filter)
 
     const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
-      if ( Array.isArray(fieldData) && field !== "languageRequirements") {
+      if ( currentPage === 3 &&  field === "numberOfOpportunities") {
+       return false
+      }
+      if ( currentPage === 3 &&  field === "languageRequirements") {
+        return false
+       }
+      if (Array.isArray(fieldData) && field !== "languageRequirements") {
         return currentPage === 3 || fieldData.some(item => item.pageNumber === currentPage);
         //return fieldData.some(item => item.pageNumber === currentPage);
       }
@@ -161,7 +167,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
           || (currentPgFields.includes(key) && value.Guid === '0') 
-          || (currentPgFields.includes(key) && value.length === 1) 
+          || (currentPgFields.includes(key) && value.length === 1 && key !== "") 
           || (stringValues.includes(key) && value === "") 
           || (stringValues.includes(key) && value === "0") 
           || value.text === `--${this.strings.select}--` 
