@@ -924,6 +924,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
 
 
+    if (this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
+      // Focus the dialog when errors exist
+      if (this.alertRef.current) {
+        this.alertRef.current.focus();
+      }
+    }
+
     if (this.state.currentPage !== prevState.currentPage) {
 
         this.setState({
@@ -1231,7 +1238,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       ) : 
                       
                       <>
-                      <div>
+                    <div>
                       <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang}/>
                     </div>
                     <div className={styles.stepper}>
@@ -1241,9 +1248,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                         items={items}
                       />
                     </div>
-                    <div>
+                    <div tabIndex={-1}  ref={this.alertRef}>
                       {this.state.hasError.length !== 0  && (
-                        <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} tabIndex={0}  ref={this.alertRef}>
+                        <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} >
                           <h3 id="alertHeading">{this.strings.fixErrors}</h3>
                           {
                             this.changeFieldNameFormat()
@@ -1266,7 +1273,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                         }
                        
                         { currentPage === 3 ? 
-                          <CustomButton id={'submit'} name={'Submit'} buttonType={'primary'}  onClick={() => this.submit()}/>
+                          <CustomButton id={'submit'} name={this.strings.submit_btn} buttonType={'primary'}  onClick={() => this.submit()}/>
                           :
                           <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
                         }

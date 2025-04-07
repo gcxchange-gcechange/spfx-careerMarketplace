@@ -15,25 +15,36 @@ declare interface ICareerMarketplaceWebPartStrings {
   "number_of_Opportunities": string;
   "job_Description": string;
   "job_Type":string;
+  "job_Type_description": string;
   "program_Area": string;
+  "programArea_description": string,
   "classification_Code": string;
+  "classification_Code_description":string,
   "classification_Level": string;
+  "classification_Level_description":string;
   "durationField": string;
+  "durationDescription":string;
   "length": string;
   "time_period": string;
   "application_deadline": string;
+  "application_deadline_description": string;
   
 
   //Page 3 - Opportunity Requirements
   "opportunityRequirements_title": string;
   "opportunityRequirements_para1": string;
   "skillsField":string;
+  "skills_description": string;
+  "skills_description_link":string;
   "time_in_hours": string;
   "provinceField": string;
+  "provinceField_description":string;
   "regionField": string;
   "cityField": string;
   "security_level": string;
+  "security_level_description": string;
   "language_requirements": string;
+  "language_requirements_description": string;
   "writtenEN": string;
   "readingEN": string;
   "oralEN": string;
@@ -41,7 +52,11 @@ declare interface ICareerMarketplaceWebPartStrings {
   "readingFR": string;
   "oralFR": string;
   "work_arrangment": string;
+  "work_arrangment_description": string;
   "approved_staffing": string;
+  "approved_staffing_description":string,
+  "approved_staffing_checkbox": string,
+
 
 
  

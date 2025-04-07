@@ -5,7 +5,7 @@ import { Checkbox, Dropdown,  IDropdownOption, IDropdownStyles, IStackTokens, La
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
-
+import styles from './CareerMarketplace.module.scss';
 
 export interface IRequirementsProps {
   prefLang: string;
@@ -127,6 +127,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={isReadOnly}
             multiselect
             ariaLabelRequired={'required'}
+            instruction={this.strings.skills_description}
+            instructionLink={this.strings.skills_description_link}
           />
 
           { this.props.inlineFieldErrors?.includes('skills') && (
@@ -158,6 +160,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.province.key}
             ariaLabelRequired={this.strings.required}
+            instruction={this.strings.provinceField_description}
           />
 
            { this.props.inlineFieldErrors?.includes('province') && (
@@ -206,6 +209,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.security.key}
             ariaLabelRequired={this.strings.required}
+            instruction={this.strings.security_level_description}
           />
 
            { this.props.inlineFieldErrors?.includes('security') && (
@@ -223,6 +227,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 disabled={isReadOnly}
                 selectedKey={this.props.values.languageRequirements[0].language.key}
                 ariaLabelRequired={this.strings.required}
+                instruction={this.strings.language_requirements_description}
               />
                { this.props.inlineFieldErrors?.includes('language') && (
                 <div>{validate(this.props.values.languageRequirements[0].language.key, this.props.prefLang)}</div>
@@ -330,6 +335,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.workArrangment.key}
             ariaLabelRequired={this.strings.required}
+            instruction={this.strings.work_arrangment_description}
           />
             { this.props.inlineFieldErrors?.includes('workArrangment') && (
                 <div>{validate(this.props.values.workArrangment.key, this.props.prefLang)}</div>
@@ -345,11 +351,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                   </span>
                   {this.strings.approved_staffing}
                 </Label>
+                <p className={styles.instruction}>{this.strings.approved_staffing_description}</p>
               </StackItem>
             </Stack>
 
 
-             <Checkbox id='1' name={"approvedStaffing"} label={"Yes"} onChange={ this.onChange } defaultChecked={this.props.values.approvedStaffing.value} disabled={isReadOnly}/>
+             <Checkbox id='1' name={"approvedStaffing"} label={this.strings.approved_staffing_checkbox} onChange={ this.onChange } defaultChecked={this.props.values.approvedStaffing.value} disabled={isReadOnly}/>
 
             { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
                 <div>{validate(this.props.values.approvedStaffing.key,  this.props.prefLang)}</div>

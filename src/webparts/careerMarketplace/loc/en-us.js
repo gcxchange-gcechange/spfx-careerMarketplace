@@ -17,13 +17,19 @@ define([], function() {
     "number_of_Opportunities":"Number of Opportunities",
     "job_Description":"Job Description",
     "job_Type":"Job Type",
+    "job_Type_description": "Click here for guidance and definitions about each type of opportunity",
     "program_Area":"Program Area",
+    "programArea_description": "Using the drop-down menu, select the field of work that most closely corresponds with your opportunity.",
     "classification_Code":"Classification Code",
+    "classification_Code_description":"Use the drop-down menu to identify the classification required for your opportunity.",
     "classification_Level":"Classification Level",
+    "classification_Level_description":"Use the drop-down menu to identify the group/level required for your opportunity.",
     "durationField":"Duration for opportunity",
+    "durationDescription":"Using the drop-down menu, select the duration that most closely corresponds with your opportunity type.",
     "length":"Length",
     "time_period":"Time period",
     "application_deadline":"Application deadline",
+    "application_deadline_description": "Click on the field and, using the pop-up calendar, select a date for the application deadline.",
 
     
 
@@ -31,12 +37,17 @@ define([], function() {
     "opportunityRequirements_title": "Opportunity Requirements",
     "opportunityRequirements_para1":"Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information.",
     "skillsField":"Skills",
+    "skills_description":"Using the auto-suggest text box, identify the top skills you are seeking. Note: This information will be used by the matching system to generate the list of potentially qualified candidates for your opportunity.",
+    "skills_description_link":" To view the complete Skills Inventory, click here.",
     "time_in_hours":"Time in hours",
     "provinceField":"Province",
+    "provinceField_description":"Using the drop-down menu, indicate your location.",
     "regionField":"Region",
     "cityField":"City",
     "security_level":"Security level",
+    "security_level_description": "Using the drop-down menu, select the appropriate security level required to participate in your opportunity.",
     "language_requirements":"Language requirements",
+    "language_requirements_description": "Click on the drop-down menu to view the additional fields and complete the form using additional drop-down menus.",
     "writtenEN": "English Writtten expresion",
     "readingEN": "English Reading comprehension",
     "oralEN": "English Oral expression",
@@ -44,8 +55,10 @@ define([], function() {
     "readingFr": "French reading comprehension",
     "oralFr": "French oral expression",
     "work_arrangment":"Work arrangement",
+    "work_arrangment_description": "Using the drop-down menu, select the type of work arrangement that corresponds with your opportunity.",
     "approved_staffing":"Approved staffing",
-
+    "approved_staffing_description":"Using check boxes, please confirm if this opportunity aligns with the staffing mandates provided by your HR department.",
+    "approved_staffing_checkbox":"Yes",
 
 
     //Page 4 - Review and Submit
@@ -77,7 +90,7 @@ define([], function() {
     "complete_button": "Career Marketplace Homepage",
 
     //Errors
-    "fixErrors":"Please fix the following errors before proceeeding.",
+    "fixErrors":"Please fix the following errors before proceeding.",
     "requiredField":"Field is required",
     "numberValue":"Value must be a number",
     "selectOption":"Please select an option",
@@ -114,7 +127,7 @@ define([], function() {
 
     //loader
 
-    'submitting_your_information': 'Grab a sip of coffee, we are submitting your information.',
+    'submitting_your_information': 'Grab a sip of coffee, we are submitting your information. Using your browsers navigation buttons "Back" may cause unpredictable results.',
    
 
 
