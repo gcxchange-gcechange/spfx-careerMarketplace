@@ -80,7 +80,8 @@ export default class Details extends React.Component<IDetailsProps> {
 
   public render(): React.ReactElement<IDetailsProps> {
 
-    const disableDuration = this.props.values.jobType.Label === "Deployments" || this.props.values.jobType.Label === "Secondments"
+    const disableDuration = this.props.values.jobType.Label === "Deployments"
+    // const disableDuration = this.props.values.jobType.Label === "Deployments" || this.props.values.jobType.Label === "Secondments"
     //const disableDuration = this.props.values.jobType.map((item: any) => item.label === "Deployment")
  
     const customSpacingStackTokens: IStackTokens = {
