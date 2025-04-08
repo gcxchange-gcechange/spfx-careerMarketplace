@@ -83,7 +83,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
         <div>
           <Stack  horizontal verticalAlign="center" >
             <StackItem >
-              <Label htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
+              <Label htmlFor={'department'} style={{padding:'5px 0px', fontWeight: '700'}}>
                 <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
                   *
                 </span>
@@ -103,20 +103,8 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
            {this.props.inlineFieldErrors.includes('department') &&( 
             <div>{validate(this.props.values.department.key, this.props.prefLang)}</div>
           )} 
-          </div>
-          {/* <ReusableDropdownField
-            id={"department"}
-            name={"department"}
-            title={this.strings.departmentField}
-            options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
-            onChange={this.onChangeDropDownItem}
-            disabled={this.props.currentPage === 3}
-            selectedKey={ this.props.values.department.key}
-            ariaLabelRequired={'required'}
-          />
-          {this.props.inlineFieldErrors.includes('department') &&( 
-            <div>{validate(this.props.values.department.key, this.props.prefLang)}</div>
-          )} */}
+        </div>
+        
 
           <ReusableTextField
             id={"workEmail"}

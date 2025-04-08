@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { DatePicker, IDropdownOption, IStackTokens, Label, Stack, StackItem  } from "@fluentui/react";
+import { ComboBox, DatePicker, IComboBox, IComboBoxOption, IDropdownOption, IStackTokens, Label, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
 import {  validate,  validateDuration,  validateEmpty } from "./Validations";
 import styles from './CareerMarketplace.module.scss';
@@ -78,11 +78,20 @@ export default class Details extends React.Component<IDetailsProps> {
 
   }
 
+   public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
+  
+      const selectedValue = item ? item.key : "classificationCode-input";
+      const selectedText = item ? item.text : value;
+  
+  
+      if (item) {
+        this.props.handleDropDownItem("classificationCode", { key: selectedValue, text: selectedText });
+      }
+    };
+
   public render(): React.ReactElement<IDetailsProps> {
 
-    const disableDuration = this.props.values.jobType.Label === "Deployments"
-    // const disableDuration = this.props.values.jobType.Label === "Deployments" || this.props.values.jobType.Label === "Secondments"
-    //const disableDuration = this.props.values.jobType.map((item: any) => item.label === "Deployment")
+    const disableDuration = this.props.values.jobType.Label === "Deployments" || this.props.values.jobType.Label === "Mutations"
  
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
@@ -116,6 +125,7 @@ export default class Details extends React.Component<IDetailsProps> {
     }
   }
 
+  const classificationCodeItems = this.props.classificationCode.sort();
 
 
     return (
@@ -218,24 +228,32 @@ export default class Details extends React.Component<IDetailsProps> {
             )
           }
 
-        
-          <ReusableDropdownField
-            id={"classificationCode"}
-            name={"classificationCode"}
-            title={this.strings.classification_Code}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.classificationCode]}
-            onChange={this.onChangeDropDownItem}
-            disabled={isReadOnly}
-            selectedKey={this.props.values.classificationCode.key}
-            ariaLabelRequired={this.strings.required}
-            instruction={this.strings.classification_Code_description}
-          />
-
-            {
-            this.props.inlineFieldErrors?.includes('classificationCode') && (
+          <div>
+            <Stack  horizontal verticalAlign="center" >
+              <StackItem >
+                <Label htmlFor={'classificationCode'} style={{padding:'5px 0px', fontWeight: '700'}}>
+                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
+                    *
+                  </span>
+                  {this.strings.classification_Code}
+                </Label>
+                <p className={styles.instruction}>{this.strings.classification_Code_description}</p>
+              </StackItem>
+            </Stack>
+            <ComboBox
+                id={"classificationCode"}
+                options={[{key: "", text: `--${this.strings.select}--`},...classificationCodeItems]}
+                onChange={this.onChangeComboItem}
+                disabled={this.props.currentPage === 3}
+                selectedKey={ this.props.values.classificationCode.key}
+                autoComplete="on"
+                allowFreeform
+            />
+              {this.props.inlineFieldErrors?.includes('classificationCode') &&( 
               <div>{validate(this.props.values.classificationCode.key, this.props.prefLang)}</div>
-            )
-          }
+            )} 
+          </div>
+
 
           <ReusableDropdownField
             id={"classificationLevel"}
