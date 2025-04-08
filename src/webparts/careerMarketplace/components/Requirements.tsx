@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { Checkbox, Dropdown,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
+import { Checkbox, ComboBox, Dropdown,  IComboBox,  IComboBoxOption,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
@@ -63,6 +63,17 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
 }
 
+public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
+
+    const selectedValue = item ? item.key : "skills-input";
+    const selectedText = item ? item.text : value;
+
+
+    if (item) {
+      this.props.handleDropDownItem("skills", { key: selectedValue, text: selectedText });
+    }
+  };
+
   
 
   public render(): React.ReactElement<IRequirementsProps> {
@@ -117,24 +128,37 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         </div>
         <div>
           
-          <ReusableDropdownField
-            id={"skills"}
-            name={"skills"}
-            title={this.strings.skillsField}
-            onChange={this.onChangeDropDownItem}
-            options={this.props.skills}
-            selectedKeys={selectedSkillItems}
-            disabled={isReadOnly}
-            multiselect
-            ariaLabelRequired={'required'}
-            instruction={this.strings.skills_description}
-            instructionLink={this.strings.skills_description_link}
-          />
-
-          { this.props.inlineFieldErrors?.includes('skills') && (
-                <div>{validate(selectedSkillItems,  this.props.prefLang)}</div>
-              )
-            }
+          <div>
+            <Stack  horizontal verticalAlign="center" >
+              <StackItem >
+                <Label htmlFor={'skills'} style={{padding:'5px 0px', fontWeight: '700'}}>
+                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
+                    *
+                  </span>
+                  {this.strings.skillsField}
+                </Label>
+                <p className={styles.instruction}>{this.strings.skills_description} 
+                  {
+                  this.props.prefLang === "en-en" 
+                  ? <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en">{this.strings.skills_description_link}</a>
+                  : <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr">{this.strings.skills_description_link}</a>
+                  }</p>
+              </StackItem>
+            </Stack>
+            <ComboBox
+                id={"skills"}
+                options={this.props.skills}
+                onChange={this.onChangeComboItem}
+                disabled={this.props.currentPage === 3}
+                selectedKey={selectedSkillItems}
+                autoComplete="on"
+                allowFreeform
+                multiSelect
+            />
+              {this.props.inlineFieldErrors?.includes('skills') && ( 
+                <div>{validate(selectedSkillItems, this.props.prefLang)}</div>
+            )} 
+          </div>
       
           <ReusableDropdownField
             id={"workSchedule"}

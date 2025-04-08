@@ -133,7 +133,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     for (const [key,value] of Object.entries(values)) {
       console.log(value)
-      const jobTypeIncludesDeployment = values.jobType.Label === 'Deployment';
+      const jobTypeIncludesDeployment = values.jobType.Label === 'Deployments' || values.jobType.Label === 'Mutations';
 
       //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
 
@@ -942,7 +942,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (this.state.values.jobType.Label === "Deployment" && prevState.values.jobType.Label !== "Deployment") {
+    if (this.state.values.jobType.Label === "Deployments" && prevState.values.jobType.Label !== "Deployments") {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -952,7 +952,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }))
 
     }
-    if (this.state.values.jobType.Label === "Secondment" && prevState.values.jobType.Label !== "Secondment") {
+    if (this.state.values.jobType.Label === "Mutations" && prevState.values.jobType.Label !== "Mutations") {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
