@@ -36,15 +36,21 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem >
-        <Label htmlFor={this.props.id} className={!excludedIds.includes(this.props.id) ? styles.width200 : ''} >
-          { this.props.id !== 'duration' ? <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
-            *
-          </span>
+        <Label  id={`${this.props.id}-label`} htmlFor={this.props.id} className={!excludedIds.includes(this.props.id) ? styles.width200 : ''} >
+          <span>
+          { this.props.id !== 'duration' 
+          ? 
+            <>
+              <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">
+                *
+              </span>
+              <span className={styles.visuallyHidden}>{this.props.ariaLabelRequired}</span>
+            </>
           : ''
           }
             {this.props.title}
-        </Label>
-        {this.props.id === 'jobType' ? (<p className={styles.instruction}><a href="http://www.gcpedia.gc.ca/wiki/Jobs_Marketplace">{this.props.instruction}</a></p>) 
+          </span>
+          {this.props.id === 'jobType' ? (<p className={styles.instruction}><a href="http://www.gcpedia.gc.ca/wiki/Jobs_Marketplace">{this.props.instruction}</a></p>) 
         : this.props.id === 'skills' ?
          (<p className={styles.instruction}>{this.props.instruction} 
         {
@@ -53,6 +59,8 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         : <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr">{this.props.instructionLink}</a>
         }</p>) 
         : (<p className={styles.instruction}>{this.props.instruction}</p>)}
+        </Label>
+       
         
       </StackItem>
     </Stack>
@@ -91,6 +99,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
       <>      
       <div>
         <Dropdown
+          aria-labelledby={`${this.props.id}-label`}
           options={this.props.options as IDropdownOption[]} 
           onRenderLabel={this.customLabel} 
           multiSelect={this.props.multiselect} 

@@ -28,11 +28,14 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem >
-        <Label htmlFor={this.props.id} >
-          <span style={{color: 'rgb(164, 38, 44)'}} aria-label={'required'}>
-            *
-          </span>
+        <Label htmlFor={this.props.id} id={`${this.props.id}-label`}>
+          <span>
+            <span  aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}} >
+              *
+            </span>
+             <span className={styles.visuallyHidden}>{this.props.ariaLabelRequired}</span>
             {this.props.title}
+          </span>
         </Label>
       </StackItem>
     </Stack>
@@ -51,6 +54,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     return (
       <div>
         <TextField
+          aria-labelledby={`${this.props.id}-label`}
           className={styles.labelStyle}
           styles={disabledStyle}
           onRenderLabel={this.customLabel}  

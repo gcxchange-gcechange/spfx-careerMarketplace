@@ -34,14 +34,14 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     
 // }
 
-export const validate = (value: any, language:string ) : string| JSX.Element | undefined => {
+export const validate = (value: any, language:string, errorId?: string ) : string| JSX.Element | undefined => {
     const strings = SelectLanguage(language);
     console.log("VALIDATE:", value)
 
     if (value === undefined || value === "" ||value.length === 0 || value.key === "false" || value === "0"|| value.key === "" || value === 0) {
 
         return ( 
-            <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
+            <div id={errorId} style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{strings.selectOption}</p>
             </div>
         )

@@ -103,10 +103,10 @@ define([], function() {
  
     //fieldErrors
     "department":"Department field is required",
-    "jobTitleEn":"Job title En field is required",
-    "jobTitleFr":"Job title Fr  field is required",
-    "jobDescriptionEn":"Job description En field is required",
-    "jobDescriptionFr":"Job description Fr field is required",
+    "jobTitleEn":"Job title English field is required",
+    "jobTitleFr":"Job title French  field is required",
+    "jobDescriptionEn":"Job description English field is required",
+    "jobDescriptionFr":"Job description French field is required",
     "jobType":"Job type field is required",
     "programArea":"Program area field is required",
     "classificationCode":"Classification code field is required",

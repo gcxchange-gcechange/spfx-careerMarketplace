@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { ComboBox, DatePicker, IComboBox, IComboBoxOption, IDropdownOption, IStackTokens, Label, Stack, StackItem  } from "@fluentui/react";
+import { ComboBox, DatePicker, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, IStackTokens, Label, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
 import {  validate,  validateDuration,  validateEmpty } from "./Validations";
 import styles from './CareerMarketplace.module.scss';
@@ -96,6 +96,7 @@ export default class Details extends React.Component<IDetailsProps> {
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
     };
+    const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
 
     const isReadOnly = this.props.currentPage === 3;
     const durationDisabled = this.props.currentPage === 3 || disableDuration;
@@ -248,10 +249,12 @@ export default class Details extends React.Component<IDetailsProps> {
                 selectedKey={ this.props.values.classificationCode.key}
                 autoComplete="on"
                 allowFreeform
+                errorMessage={this.props.values.classificationCode.key === ""  ? `${this.strings.selectOption}`: undefined}
+                styles={comboBoxStyles}
             />
-              {this.props.inlineFieldErrors?.includes('classificationCode') &&( 
+              {/* {this.props.inlineFieldErrors?.includes('classificationCode') &&( 
               <div>{validate(this.props.values.classificationCode.key, this.props.prefLang)}</div>
-            )} 
+            )}  */}
           </div>
 
 

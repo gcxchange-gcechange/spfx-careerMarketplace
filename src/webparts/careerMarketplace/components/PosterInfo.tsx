@@ -4,9 +4,10 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 //import ReusableDropdownField from "./ReusableDropDownField";
-import { ComboBox, IComboBox, IComboBoxOption, IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
-import { validate } from "./Validations";
+import { ComboBox, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
+//import { validate } from "./Validations";
 import { SelectLanguage } from './SelectLanguage';
+import styles from './CareerMarketplace.module.scss';
 
 
 export interface IPosterInfoProps {
@@ -53,6 +54,8 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
 
   public render(): React.ReactElement<IPosterInfoProps> {
+
+    const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
     const isReadOnly = this.props.currentPage === 0;
 
     return (
@@ -83,26 +86,30 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
         <div>
           <Stack  horizontal verticalAlign="center" >
             <StackItem >
-              <Label htmlFor={'department'} style={{padding:'5px 0px', fontWeight: '700'}}>
-                <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
-                  *
+              <Label id={"department-label"} htmlFor={'department'} style={{padding:'5px 0px', fontWeight: '700'}} >
+                <span>
+                  <span aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}}>*</span>
+                  <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                  {this.strings.departmentField}
                 </span>
-                {this.strings.departmentField}
               </Label>
             </StackItem>
           </Stack>
           <ComboBox
               id={"department"}
+              aria-labelledby={"department-label"}
               options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
               onChange={this.onChangeComboItem}
               disabled={this.props.currentPage === 3}
               selectedKey={ this.props.values.department.key}
               autoComplete="on"
               allowFreeform
+              errorMessage={this.props.values.department.key === ""  ? `${this.strings.selectOption}`: undefined}
+              styles={comboBoxStyles}
           />
-           {this.props.inlineFieldErrors.includes('department') &&( 
-            <div>{validate(this.props.values.department.key, this.props.prefLang)}</div>
-          )} 
+           {/* {this.props.inlineFieldErrors.includes('department') && ( 
+            <div>{validate(this.props.values.department.key, this.props.prefLang, "department-error" )}</div>
+          )}  */}
         </div>
         
 

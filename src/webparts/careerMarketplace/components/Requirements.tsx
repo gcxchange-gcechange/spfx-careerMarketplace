@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { Checkbox, ComboBox, Dropdown,  IComboBox,  IComboBoxOption,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
+import { Checkbox, ComboBox, Dropdown,  IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
@@ -83,6 +83,8 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
       childrenGap: 20,
     };
 
+    const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
+
     const isReadOnly = this.props.currentPage === 3;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
@@ -140,8 +142,8 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 <p className={styles.instruction}>{this.strings.skills_description} 
                   {
                   this.props.prefLang === "en-en" 
-                  ? <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en">{this.strings.skills_description_link}</a>
-                  : <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr">{this.strings.skills_description_link}</a>
+                  ? <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</a>
+                  : <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</a>
                   }</p>
               </StackItem>
             </Stack>
@@ -154,6 +156,8 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 autoComplete="on"
                 allowFreeform
                 multiSelect
+                errorMessage={selectedSkillItems === ""  ? `${this.strings.selectOption}`: undefined}
+                styles={comboBoxStyles}
             />
               {this.props.inlineFieldErrors?.includes('skills') && ( 
                 <div>{validate(selectedSkillItems, this.props.prefLang)}</div>

@@ -834,14 +834,18 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
+    const getComboBox = document.querySelectorAll('[class^="ms-ComboBox-Input"]');
     const getInputElement = document.querySelectorAll('[class^="durationLength"]');
+
+    console.log(getComboBox)
    
-    if(getElements) {
+    if(getElements || getComboBox) {
       getElements.forEach(element => {
         elementId.push(element.id)
-       
+        console.log(elementId)
       });
     }
+
 
     if(getInputElement) {
       getInputElement.forEach(el => {
@@ -864,6 +868,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     fields.forEach((fieldId) => {
       const dropdownElement = document.getElementById(fieldId);
+      console.log("dropdownEl",dropdownElement)
   
       if (dropdownElement) {
         let tab: boolean = false;
