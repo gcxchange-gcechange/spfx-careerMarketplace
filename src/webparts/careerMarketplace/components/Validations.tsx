@@ -7,11 +7,15 @@ import { SelectLanguage } from './SelectLanguage';
 export const validateEmpty = (value: string, fieldName: string, language:string): JSX.Element  | undefined  | string=> {
     const strings = SelectLanguage(language);
 
+
+    const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
+    const localizedKey = strings[key] || fieldName;
+
     if ( value.length === 0 || value === undefined  ) {
 
         return (
             <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', margin: '0px', paddingLeft: '5px'}}>
-                <p style={{margin: '0px', fontWeight: '700'}}>{strings.cannotBeBlank}</p>
+                <p style={{margin: '0px', fontWeight: '700'}}>{localizedKey}</p>
             </div>
         )
     } 
@@ -34,15 +38,16 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     
 // }
 
-export const validate = (value: any, language:string, errorId?: string ) : string| JSX.Element | undefined => {
+export const validate = (value: any, language:string, fieldName?: string ) : string| JSX.Element | undefined => {
     const strings = SelectLanguage(language);
-    console.log("VALIDATE:", value)
+    const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
+    const localizedKey = strings[key] || fieldName;
 
     if (value === undefined || value === "" ||value.length === 0 || value.key === "false" || value === "0"|| value.key === "" || value === 0) {
 
         return ( 
-            <div id={errorId} style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
-                <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{strings.selectOption}</p>
+            <div id={`${fieldName}-error`} style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
+                <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}> {localizedKey}</p>
             </div>
         )
     }

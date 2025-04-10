@@ -8,6 +8,7 @@ import { ComboBox, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption,
 //import { validate } from "./Validations";
 import { SelectLanguage } from './SelectLanguage';
 import styles from './CareerMarketplace.module.scss';
+import { isInvalid } from "./Functions";
 
 
 export interface IPosterInfoProps {
@@ -32,7 +33,6 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
   public strings = SelectLanguage(this.props.prefLang);
   
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
-    console.log("ITEM:",item)
     const eventName = event.target.id;
 
     if (item) {
@@ -55,6 +55,9 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   public render(): React.ReactElement<IPosterInfoProps> {
 
+    const key = "department" as keyof ICareerMarketplaceWebPartStrings;
+    const localizedKey = this.strings[key];
+  
     const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
     const isReadOnly = this.props.currentPage === 0;
 
@@ -104,8 +107,9 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
               selectedKey={ this.props.values.department.key}
               autoComplete="on"
               allowFreeform
-              errorMessage={this.props.values.department.key === ""  ? `${this.strings.selectOption}`: undefined}
+              errorMessage={this.props.values.department.key === ""  ? `${localizedKey}`: undefined}
               styles={comboBoxStyles}
+              aria-invalid = {isInvalid("department", this.props.inlineFieldErrors)}
           />
            {/* {this.props.inlineFieldErrors.includes('department') && ( 
             <div>{validate(this.props.values.department.key, this.props.prefLang, "department-error" )}</div>

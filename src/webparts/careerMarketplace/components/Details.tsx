@@ -7,6 +7,7 @@ import * as moment from "moment";
 import {  validate,  validateDuration,  validateEmpty } from "./Validations";
 import styles from './CareerMarketplace.module.scss';
 import { SelectLanguage } from "./SelectLanguage";
+import { isInvalid } from "./Functions";
 
 
 
@@ -128,6 +129,9 @@ export default class Details extends React.Component<IDetailsProps> {
 
   const classificationCodeItems = this.props.classificationCode.sort();
 
+  // const isInvalid = (fieldName: string): boolean | undefined => {
+  //   return  this.props.inlineFieldErrors?.includes(fieldName);
+  // }
 
     return (
       <>
@@ -154,6 +158,7 @@ export default class Details extends React.Component<IDetailsProps> {
             disabled={isReadOnly}
             onGetErrorMessage={() => validateEmpty(jobTitleEn, 'jobTitleEn',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
+            ariaInvalid={isInvalid("jobTitleEn", this.props.inlineFieldErrors)}
           />
           
           
@@ -187,7 +192,7 @@ export default class Details extends React.Component<IDetailsProps> {
             defaultValue={this.props.values.jobDescriptionFr}
             multiline={true}
             disabled={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescritpionFr',this.props.prefLang)}
+            onGetErrorMessage={() => validateEmpty(jobDescriptionFr,'jobDescriptionFr',this.props.prefLang)}
             ariaLabelRequired={this.strings.required}
           />
 
@@ -203,10 +208,11 @@ export default class Details extends React.Component<IDetailsProps> {
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.job_Type_description}
             prefLang={this.props.prefLang}
+            ariaInvalid={isInvalid("jobType",this.props.inlineFieldErrors)}
           />
           {
             this.props.inlineFieldErrors?.includes('jobType') && (
-              <div>{validate(this.props.values.jobType.Guid, this.props.prefLang)}</div>
+              <div>{validate(this.props.values.jobType.Guid, this.props.prefLang,'jobType' )}</div>
             )
           }
           </div>
@@ -225,32 +231,37 @@ export default class Details extends React.Component<IDetailsProps> {
           />
             {
             this.props.inlineFieldErrors?.includes('programArea') && (
-              <div>{validate(this.props.values.programArea.key, this.props.prefLang)}</div>
+              <div>{validate(this.props.values.programArea.key, this.props.prefLang,"programArea")}</div>
             )
           }
 
           <div>
             <Stack  horizontal verticalAlign="center" >
-              <StackItem >
-                <Label htmlFor={'classificationCode'} style={{padding:'5px 0px', fontWeight: '700'}}>
-                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
-                    *
-                  </span>
-                  {this.strings.classification_Code}
+              <StackItem style={{padding:'5px 0px'}}>
+                <Label id={"classificationCode-label"} htmlFor={'classificationCode'} style={{fontWeight: '700'}}>
+                  <p className={styles.mrg0}>
+                    <span style={{color: 'rgb(164, 38, 44)'}} aria-hidden='true'>
+                      *
+                    </span>
+                    <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                    {this.strings.classification_Code}
+                  </p>
+                  <p className={styles.instruction}>{this.strings.classification_Code_description}</p>
                 </Label>
-                <p className={styles.instruction}>{this.strings.classification_Code_description}</p>
               </StackItem>
             </Stack>
             <ComboBox
-                id={"classificationCode"}
-                options={[{key: "", text: `--${this.strings.select}--`},...classificationCodeItems]}
-                onChange={this.onChangeComboItem}
-                disabled={this.props.currentPage === 3}
-                selectedKey={ this.props.values.classificationCode.key}
-                autoComplete="on"
-                allowFreeform
-                errorMessage={this.props.values.classificationCode.key === ""  ? `${this.strings.selectOption}`: undefined}
-                styles={comboBoxStyles}
+              id={"classificationCode"}
+              aria-labelledby={"classificationCode-label"}
+              aria-errormessage="classificationCode-error"
+              options={[{key: "", text: `--${this.strings.select}--`},...classificationCodeItems]}
+              onChange={this.onChangeComboItem}
+              disabled={this.props.currentPage === 3}
+              selectedKey={ this.props.values.classificationCode.key}
+              autoComplete="on"
+              allowFreeform
+              errorMessage={this.props.values.classificationCode.key === ""  ? `${this.strings.selectOption}`: undefined}
+              styles={comboBoxStyles}
             />
               {/* {this.props.inlineFieldErrors?.includes('classificationCode') &&( 
               <div>{validate(this.props.values.classificationCode.key, this.props.prefLang)}</div>
@@ -272,7 +283,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
             {
             this.props.inlineFieldErrors?.includes('classificationLevel') && (
-              <div>{validate(this.props.values.classificationLevel.key,  this.props.prefLang)}</div>
+              <div>{validate(this.props.values.classificationLevel.key,  this.props.prefLang,"classificationLevel" )}</div>
             )
           }
 
@@ -342,7 +353,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
                 {
                   this.props.inlineFieldErrors?.includes('duration') && (
-                    <div>{validate(this.props.values.duration.key, this.props.prefLang)}</div>
+                    <div>{validate(this.props.values.duration.key, this.props.prefLang, "duration")}</div>
                   )
                 }
             </StackItem>
@@ -352,12 +363,14 @@ export default class Details extends React.Component<IDetailsProps> {
           <Stack  horizontal verticalAlign="center" >
             <StackItem >
               <Label htmlFor={'deadline'} >
-                <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
-                  *
-                </span>
-                {this.strings.application_deadline}
+                <p className={styles.mrg0}>
+                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
+                    *
+                  </span>
+                  {this.strings.application_deadline}
+                </p>
+                <p className={styles.instruction}>{this.strings.application_deadline_description}</p>
               </Label>
-              <p className={styles.instruction}>{this.strings.application_deadline_description}</p>
             </StackItem>
           </Stack>
 
@@ -370,7 +383,6 @@ export default class Details extends React.Component<IDetailsProps> {
             formatDate={reformatDate}
             value={this.props.values.deadline}
             minDate={this.props.jobOppId ? undefined : oneMonthLater}
-            
           />
         </div>
       </>

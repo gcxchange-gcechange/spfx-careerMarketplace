@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 export const toTitleCase = ( value: {key: string, value: string | number}[]): string[] => {
@@ -15,3 +16,9 @@ export const toTitleCase = ( value: {key: string, value: string | number}[]): st
 
 
 }
+
+
+export const isInvalid = (fieldName: string, inlineErrors:any): boolean | undefined => {
+  return  inlineErrors?.includes(fieldName);
+}
+

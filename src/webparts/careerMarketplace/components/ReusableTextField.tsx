@@ -17,6 +17,7 @@ export interface IReusableTextFieldProps {
   onGetErrorMessage?:(value: string | number) => string | JSX.Element | undefined;
   onBlur?: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => void;
   ariaLabelRequired: string;
+  ariaInvalid?: boolean;
 }
 
 
@@ -29,13 +30,13 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
     <Stack  horizontal verticalAlign="center" >
       <StackItem >
         <Label htmlFor={this.props.id} id={`${this.props.id}-label`}>
-          <span>
+          <p className={styles.mrg0}>
             <span  aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}} >
               *
             </span>
              <span className={styles.visuallyHidden}>{this.props.ariaLabelRequired}</span>
             {this.props.title}
-          </span>
+          </p>
         </Label>
       </StackItem>
     </Stack>
@@ -55,6 +56,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
       <div>
         <TextField
           aria-labelledby={`${this.props.id}-label`}
+          aria-invalid={this.props.ariaInvalid}
           className={styles.labelStyle}
           styles={disabledStyle}
           onRenderLabel={this.customLabel}  

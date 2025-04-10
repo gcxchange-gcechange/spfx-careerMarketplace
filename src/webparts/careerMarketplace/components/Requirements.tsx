@@ -132,19 +132,22 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
           
           <div>
             <Stack  horizontal verticalAlign="center" >
-              <StackItem >
-                <Label htmlFor={'skills'} style={{padding:'5px 0px', fontWeight: '700'}}>
-                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
-                    *
-                  </span>
-                  {this.strings.skillsField}
+              <StackItem style={{padding:'5px 0px'}}>
+                <Label htmlFor={'skills'} style={{fontWeight: '700'}}>
+                  <p className={styles.mrg0}>
+                    <span style={{color: 'rgb(164, 38, 44)'}} aria-hidden='true'>
+                      *
+                    </span>
+                    <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                    {this.strings.skillsField}
+                  </p>
+                  <p className={styles.instruction}>{this.strings.skills_description} 
+                    {
+                    this.props.prefLang === "en-en" 
+                    ? <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</a>
+                    : <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</a>
+                    }</p>
                 </Label>
-                <p className={styles.instruction}>{this.strings.skills_description} 
-                  {
-                  this.props.prefLang === "en-en" 
-                  ? <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</a>
-                  : <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</a>
-                  }</p>
               </StackItem>
             </Stack>
             <ComboBox
