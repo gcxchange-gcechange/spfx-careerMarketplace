@@ -124,7 +124,13 @@
 }
 
 .borderRemove{
-  border: none;
+  border: transparent;
+}
+
+.errorLine {
+  border-left: 2px solid rgb(164, 38, 44);
+  margin: 0px;
+  padding-left: 5px;
 }
 
 .errorDialog {

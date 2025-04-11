@@ -163,7 +163,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 styles={comboBoxStyles}
             />
               {this.props.inlineFieldErrors?.includes('skills') && ( 
-                <div>{validate(selectedSkillItems, this.props.prefLang)}</div>
+                <div>{validate(selectedSkillItems, this.props.prefLang, 'skills')}</div>
             )} 
           </div>
       
@@ -179,7 +179,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
           />
 
             { this.props.inlineFieldErrors?.includes('workSchedule') && (
-                <div>{validate(this.props.values.workSchedule.key, this.props.prefLang)}</div>
+                <div>{validate(this.props.values.workSchedule.key, this.props.prefLang, "workSchedule")}</div>
               )
             }
           <ReusableDropdownField
@@ -195,7 +195,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
           />
 
            { this.props.inlineFieldErrors?.includes('province') && (
-                <div>{validate(this.props.values.province.key, this.props.prefLang)}</div>
+                <div>{validate(this.props.values.province.key, this.props.prefLang,"province")}</div>
               )
             }
 
@@ -211,7 +211,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
           />
 
           { this.props.inlineFieldErrors?.includes('region') && (
-                <div>{validate(this.props.values.region.key, this.props.prefLang)}</div>
+                <div>{validate(this.props.values.region.key, this.props.prefLang, "region")}</div>
               )
           }
 
@@ -227,7 +227,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
           />
 
            { this.props.inlineFieldErrors?.includes('city') && (
-                <div>{validate(this.props.values.city.key, this.props.prefLang)}</div>
+                <div>{validate(this.props.values.city.key, this.props.prefLang, "city")}</div>
               )
             }
 
@@ -244,7 +244,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
           />
 
            { this.props.inlineFieldErrors?.includes('security') && (
-                <div>{validate(this.props.values.security.key, this.props.prefLang)}</div>
+                <div>{validate(this.props.values.security.key, this.props.prefLang, "security")}</div>
               )
             }
           <Stack tokens={customSpacingStackTokens}>
@@ -261,7 +261,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 instruction={this.strings.language_requirements_description}
               />
                { this.props.inlineFieldErrors?.includes('language') && (
-                <div>{validate(this.props.values.languageRequirements[0].language.key, this.props.prefLang)}</div>
+                <div>{validate(this.props.values.languageRequirements[0].language.key, this.props.prefLang, "language")}</div>
               )
             }
             </StackItem>
@@ -346,7 +346,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             {
               languageComprehension
                 .filter((lang) => this.props.inlineFieldErrors?.includes(lang))
-                .some((field) => validate(this.props.values.languageRequirements[0]?.[field].text, this.props.prefLang)) && (
+                .some((field) => validate(this.props.values.languageRequirements[0]?.[field].text, this.props.prefLang, "")) && (
                   <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
                       <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>Please select an option</p>
                    </div>
@@ -369,7 +369,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             instruction={this.strings.work_arrangment_description}
           />
             { this.props.inlineFieldErrors?.includes('workArrangment') && (
-                <div>{validate(this.props.values.workArrangment.key, this.props.prefLang)}</div>
+                <div>{validate(this.props.values.workArrangment.key, this.props.prefLang, "workArrangment")}</div>
               )
             }
 
@@ -390,7 +390,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
              <Checkbox id='1' name={"approvedStaffing"} label={this.strings.approved_staffing_checkbox} onChange={ this.onChange } defaultChecked={this.props.values.approvedStaffing.value} disabled={isReadOnly}/>
 
             { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
-                <div>{validate(this.props.values.approvedStaffing.key,  this.props.prefLang)}</div>
+                <div>{validate(this.props.values.approvedStaffing.key,  this.props.prefLang, 'deadline')}</div>
               )
             }
           </div>

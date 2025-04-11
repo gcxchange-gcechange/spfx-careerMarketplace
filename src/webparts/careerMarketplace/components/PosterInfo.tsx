@@ -58,7 +58,9 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
     const key = "department" as keyof ICareerMarketplaceWebPartStrings;
     const localizedKey = this.strings[key];
   
-    const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
+    const comboBoxStyles: Partial<IComboBoxStyles> = { 
+      errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' } 
+    }
     const isReadOnly = this.props.currentPage === 0;
 
     return (
@@ -90,11 +92,11 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           <Stack  horizontal verticalAlign="center" >
             <StackItem >
               <Label id={"department-label"} htmlFor={'department'} style={{padding:'5px 0px', fontWeight: '700'}} >
-                <span>
+                <p className={styles.mrg0}>
                   <span aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}}>*</span>
                   <span className={styles.visuallyHidden}>{this.strings.required}</span>
                   {this.strings.departmentField}
-                </span>
+                </p>
               </Label>
             </StackItem>
           </Stack>

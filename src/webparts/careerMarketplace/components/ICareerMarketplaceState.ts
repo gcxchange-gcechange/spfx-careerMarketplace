@@ -31,7 +31,7 @@ export interface ICareerMarketplaceState {
       jobTitleFr: string;
       jobDescriptionEn: string;
       jobDescriptionFr: string;
-      numberOfOpportunities: string;
+      numberOfOpportunities: any;
       deadline: Date | undefined;
       department: any, 
       skills: any[],

@@ -81,7 +81,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         programArea:{value: "" , pageNumber: 1},
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
-        numberOfOpportunities: "1",
+        numberOfOpportunities: {value: 0, pageNumber: 1},
         durationLength: {value: 0, pageNumber: 1},
         duration: {value: "" , pageNumber: 1},
         deadline: threeMonthsLater,
@@ -142,12 +142,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           continue;
       }
 
-      if (key === 'numberOfOpportunities' && stringValues.includes(key)) {
-        if (value === "" || isNaN(Number(value))) {
-            checkValues.push({ key, value });
-            continue; 
-        }
-      }
+      // if (key === 'numberOfOpportunities' && stringValues.includes(key)) {
+      //   if (value === "" || isNaN(Number(value))) {
+      //       checkValues.push({ key, value });
+      //       continue; 
+      //   }
+      // }
 
 
 
@@ -232,6 +232,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
       const error = document.getElementById(element.key);
+      console.log("ERROR:",error)
+      console.log("Parent", error?.parentElement)
         
       if (error) {
         error.firstElementChild?.classList.add(styles.borderRemove);
@@ -376,6 +378,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       values: {
         ...prevState.values,
         durationLength: {...prevState.values.durationLength, value}
+
+      }
+    }))
+  }
+
+  public handleNumberofOpp = (value: string) :void => {
+     
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        numberOfOpportunities: {...prevState.values.numberOfOpportunities, value}
 
       }
     }))
@@ -575,6 +588,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
+    console.log("EDIT:", item)
     const cityId = item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
@@ -838,7 +852,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const getComboBox = document.querySelectorAll('[class^="ms-ComboBox-Input"]');
     const getInputElement = document.querySelectorAll('[class^="durationLength"]');
 
-    console.log(getComboBox)
    
     if(getElements || getComboBox) {
       getElements.forEach(element => {
@@ -910,13 +923,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public async componentDidMount(): Promise<void> {
 
     const checkUser = this.props.jobOppOwner === this.props.workEmail;
+    console.log("checkUSer", checkUser)
 
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
-    this.context.application.navigatedEvent.add(this, this.getDropdownElements());
+    this.context.application.navigatedEvent?.add(this, this.getDropdownElements());
 
     if (this.props.jobOpportunityId !== "" && checkUser === true) {
+      console.log("ID",this.props.jobOpportunityId)
       await this._populateEditableFields();
 
     } else {
@@ -1093,6 +1108,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handleOnChange={this.handleOnChangeTextField} 
             handleOnDateChange={this.handleOnDateChange}
             handleDurationLength={this.handleDurationLength}
+            handleNumberofOpp={this. handleNumberofOpp}
             values={this.state.values}
             hasError={this.state.hasError}
             inlineFieldErrors ={this.state.inlineFieldErrors}
@@ -1157,6 +1173,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 handleOnChange={this.handleOnChangeTextField} 
                 handleOnDateChange={this.handleOnDateChange}
                 handleDurationLength={this.handleDurationLength}
+                handleNumberofOpp={this. handleNumberofOpp}
                 values={this.state.values}
                 hasError={this.state.hasError}
                 fields={this.state.dropdownFields}
