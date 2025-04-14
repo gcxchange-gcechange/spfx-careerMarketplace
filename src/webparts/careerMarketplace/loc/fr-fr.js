@@ -104,6 +104,7 @@ define([], function() {
       //fieldErrors
       "department":"Le champ « Ministère » est obligatoire.",
       "jobTitleEn":"Le champ « Titre du poste en anglais » est obligatoire.",
+      "jobTitleEn-minChar":"Un minimum de 5 caractères pour le champ « Titre du poste en anglais » est obligatoire.",
       "jobTitleFr":"Le champ « Titre du poste en français » est obligatoire.",
       "jobDescriptionEn":"Le champ « Description de travail en anglais » est obligatoire.",
       "jobDescriptionFr":"Le champ « Description de travail en français » est obligatoire.",

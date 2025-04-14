@@ -94,7 +94,6 @@ define([], function() {
     "requiredField":"Field is required",
     "numberValue":"Value must be a number",
     "selectOption":"Please select an option",
-    "minChar":"Minimum 5 characters required",
     "cannotBeBlank":"Field cannot be blank",
     "lessThanOne":"Value cannot be less than one",
     "shouldBeYes":"field should be set to &quot;Yes&quot",
@@ -104,6 +103,7 @@ define([], function() {
     //fieldErrors
     "department":"Department field is required",
     "jobTitleEn":"Job title English field is required",
+    "jobTitleEn-minChar":"Minimum 5 characters for Job title English field is required",
     "jobTitleFr":"Job title French  field is required",
     "jobDescriptionEn":"Job description English field is required",
     "jobDescriptionFr":"Job description French field is required",

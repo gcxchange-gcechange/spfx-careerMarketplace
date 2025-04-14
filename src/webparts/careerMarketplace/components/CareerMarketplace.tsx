@@ -29,6 +29,7 @@ import { ICareerMarketplaceState } from './ICareerMarketplaceState';
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
   private alertRef: RefObject<HTMLDivElement>;
+  private titleRef: RefObject<HTMLDivElement>;
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
   
@@ -110,6 +111,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     };
     this.alertRef = React.createRef();
+    this.titleRef = React.createRef();
     this._sp = getSP(this.props.context);
  
   }
@@ -148,7 +150,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       //       continue; 
       //   }
       // }
-
 
 
       if ((currentPgFields.includes(key) && value.value === "" )
@@ -202,6 +203,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }  
     }
     this.addInLineErrors();
+
+    
+    if (this.titleRef.current) {
+      this.titleRef.current.focus();
+    }
 
   }
 
@@ -882,7 +888,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     fields.forEach((fieldId) => {
       const dropdownElement = document.getElementById(fieldId);
-      console.log("dropdownEl",dropdownElement)
+      //console.log("dropdownEl",dropdownElement)
   
       if (dropdownElement) {
         let tab: boolean = false;
@@ -928,7 +934,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
-    this.context.application.navigatedEvent?.add(this, this.getDropdownElements());
+
+    if (this.context.application.navigatedEvent !== undefined) {
+      this.context.application.navigatedEvent?.add(this, this.getDropdownElements());
+    }
 
     if (this.props.jobOpportunityId !== "" && checkUser === true) {
       console.log("ID",this.props.jobOpportunityId)
@@ -953,6 +962,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     if (this.state.currentPage !== prevState.currentPage) {
+
 
         this.setState({
           inlineFieldErrors: []
@@ -1261,10 +1271,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       ) : 
                       
                       <>
-                    <div>
-                      <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang}/>
+                    <div tabIndex={-1} ref={this.titleRef}>
+                      <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
                     </div>
-                    <div className={styles.stepper}>
+                    <div className={styles.stepper} 
+                      role="progressbar" 
+                      aria-valuemax={4} 
+                      aria-valuemin={0} 
+                      aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}  
+                      aria-valuetext={`Step ${this.state.currentPage + 1} out of 4`} 
+                    >
                       <Steps
                         current={currentPage}
                         labelPlacement="vertical"

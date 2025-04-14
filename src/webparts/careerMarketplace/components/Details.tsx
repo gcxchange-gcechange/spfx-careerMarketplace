@@ -33,7 +33,7 @@ export interface IDetailsProps {
     jobTitleFr: string;
     jobDescriptionEn: string;
     jobDescriptionFr: string;
-    numberOfOpportunities: string;
+    numberOfOpportunities: any;
     deadline: Date |  undefined;
     programArea: any;
     classificationCode: any;
@@ -92,6 +92,7 @@ export default class Details extends React.Component<IDetailsProps> {
     };
 
   public render(): React.ReactElement<IDetailsProps> {
+    console.log("NUBOPP",this.props.values.numberOfOpportunities)
 
     const disableDuration = this.props.values.jobType.Label === "Deployments" || this.props.values.jobType.Label === "Mutations"
  
@@ -296,7 +297,8 @@ export default class Details extends React.Component<IDetailsProps> {
                     id={"numberOfOpportunities"}
                     name={"numberOfOpportunities"}
                     min={1}
-                    max={50}
+                    max={60}
+                    value={numberOfOpportunities.value}
                     onChange = {e => this.props.handleNumberofOpp(e.target.value)}
                     required
                     className={styles.durationLengthInput}
@@ -305,7 +307,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 </Stack>
                 {
                   this.props.inlineFieldErrors?.includes('numberOfOpportunities') && (
-                    <div>{validateNumericField(numberOfOpportunities, this.props.prefLang, "numberOfOpportunities")}</div>
+                    <div>{validateNumericField(numberOfOpportunities.value, this.props.prefLang, "numberOfOpportunities")}</div>
                   )
                 }
               </div>
@@ -364,7 +366,7 @@ export default class Details extends React.Component<IDetailsProps> {
                       id={"durationLength"}
                       name={"durationLength"}
                       min={1}
-                      max={36}
+                      max={60}
                       onChange = {e => this.props.handleDurationLength(e.target.value)}
                       value={this.props.values.durationLength.value}
                       required

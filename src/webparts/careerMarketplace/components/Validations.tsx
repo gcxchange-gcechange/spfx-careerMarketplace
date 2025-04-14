@@ -7,10 +7,11 @@ import styles from './CareerMarketplace.module.scss';
 
 export const validateEmpty = (value: string, fieldName: string, language:string): JSX.Element  | undefined  | string=> {
     const strings = SelectLanguage(language);
-
-
     const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
+    const minCharKey = `${fieldName}-minChar` as keyof ICareerMarketplaceWebPartStrings;
     const localizedKey = strings[key] || fieldName;
+    const localizedMinChar = strings[minCharKey] || `Minimum 5 characters for ${localizedKey}`;
+  
 
     if ( value.length === 0 || value === undefined  ) {
 
@@ -23,7 +24,7 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     else if (value.length < 5 && fieldName !== 'numberOfOpportunities' ) {
         return (
             <div id='error' className={styles.errorLine}>
-                <p style={{margin: '0px', fontWeight: '700'}}>{strings.minChar}</p>
+                <p style={{margin: '0px', fontWeight: '700'}}>{localizedMinChar}</p>
             </div>
         )
     }
@@ -57,11 +58,12 @@ export const validate = (value: any, language:string, fieldName?: string ) : str
 }
 
 export const validateNumericField = (value: any, language:string, fieldName: string) : string| JSX.Element | undefined => {
+    console.log(fieldName)
     const strings = SelectLanguage(language);
     const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
     const localizedKey = strings[key] || fieldName;
-    const min: number = 0;
-    const max:number = 36
+    const min: number = 1;
+    const max:number = 60
 
     // if (isNaN(value)) {
     //     return ( 
@@ -71,7 +73,7 @@ export const validateNumericField = (value: any, language:string, fieldName: str
     //     )
     // }
 
-    if (value === "" || undefined || null || value === "0") {
+    if (value === "" || undefined || null || value === 0 || value === '0') {
         return ( 
             <div id='error' className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{localizedKey}</p>
