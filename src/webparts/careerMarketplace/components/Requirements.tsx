@@ -34,6 +34,7 @@ export interface IRequirementsProps {
   };
 
   inlineFieldErrors?:string[];
+  hasTouchedSkillCombo?: boolean;
 }
 
 export default class Requirements extends React.Component<IRequirementsProps> {
@@ -113,6 +114,11 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
 
     const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
 
+    // const key = "skills" as keyof ICareerMarketplaceWebPartStrings;
+    // const localizedKey = this.strings[key];
+    // const hasValidSkill = this.props.values.skills.map((item:any) => item.value !== undefined)
+    // console.log("VALIDSKILL:",hasValidSkill);
+
    
     return (
       <>
@@ -159,7 +165,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 autoComplete="on"
                 allowFreeform
                 multiSelect
-                errorMessage={selectedSkillItems === ""  ? `${this.strings.selectOption}`: undefined}
+               // errorMessage={this.props.hasTouchedSkillCombo && hasValidSkill ===  false ? `${localizedKey}`: undefined}
                 styles={comboBoxStyles}
             />
               {this.props.inlineFieldErrors?.includes('skills') && ( 

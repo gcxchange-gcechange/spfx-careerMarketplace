@@ -92,7 +92,6 @@ export default class Details extends React.Component<IDetailsProps> {
     };
 
   public render(): React.ReactElement<IDetailsProps> {
-    console.log("NUBOPP",this.props.values.numberOfOpportunities)
 
     const disableDuration = this.props.values.jobType.Label === "Deployments" || this.props.values.jobType.Label === "Mutations"
  
@@ -130,6 +129,8 @@ export default class Details extends React.Component<IDetailsProps> {
   }
 
   const classificationCodeItems = this.props.classificationCode.sort();
+  const key = "classificationCode" as keyof ICareerMarketplaceWebPartStrings;
+  const localizedKey = this.strings[key];
 
   // const isInvalid = (fieldName: string): boolean | undefined => {
   //   return  this.props.inlineFieldErrors?.includes(fieldName);
@@ -262,7 +263,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   selectedKey={ this.props.values.classificationCode.key}
                   autoComplete="on"
                   allowFreeform
-                  errorMessage={this.props.values.classificationCode.key === ""  ? `${this.strings.selectOption}`: undefined}
+                  errorMessage={this.props.values.classificationCode.key === ""  ? `${localizedKey}`: undefined}
                   styles={comboBoxStyles}
                 />
                   {/* {this.props.inlineFieldErrors?.includes('classificationCode') &&( 
@@ -291,7 +292,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
               <div>
                 <Stack>
-                  <label htmlFor={"numberOfOpportunities"} style={{padding:'5px 0px', fontWeight: '700'}}>{this.strings.numberOfOpportunities}</label>
+                  <label htmlFor={"numberOfOpportunities"} style={{padding:'5px 0px', fontWeight: '700'}}>{this.strings.number_of_Opportunities}</label>
                   <input 
                     type="number"
                     id={"numberOfOpportunities"}
@@ -302,7 +303,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     onChange = {e => this.props.handleNumberofOpp(e.target.value)}
                     required
                     className={styles.durationLengthInput}
-                    disabled={durationDisabled}
+                    disabled={isReadOnly}
                   />
                 </Stack>
                 {

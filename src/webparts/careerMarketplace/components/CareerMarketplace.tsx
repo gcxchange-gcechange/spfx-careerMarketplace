@@ -70,6 +70,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       jobOpportunityId: "",
       jobOpportunityOwner: true,
       isLoading: false,
+      hasTouchedSkillCombo: false,
 
 
       values: {
@@ -156,7 +157,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           || (currentPgFields.includes(key) && value.value === '0') 
           || (currentPgFields.includes(key) && value.Guid === '0') 
           || (currentPgFields.includes(key) && value.length === 1) 
-          || (stringValues.includes(key) && value === "") 
+          || (stringValues.includes(key) && value === "")
+          || (stringValues.includes(key) && value.length < 5)
           || value.text === `--${this.strings.select}--` 
           || value.text === 'No'
 
@@ -204,8 +206,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
     this.addInLineErrors();
 
-    
-    if (this.titleRef.current) {
+    //focus on the title when selecting next but only if no errors
+    if (this.titleRef.current && this.state.hasError.length === 0) {
       this.titleRef.current.focus();
     }
 
@@ -529,6 +531,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const findSkillItem = [...this.state.values.skills];
       const skillExists = findSkillItem.some((item: any) => item.value === value.key);
       this.setState((prevState) => ({
+        hasTouchedSkillCombo: true,
         values: {
           ...prevState.values,
           skills: skillExists
@@ -855,21 +858,28 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
-    const getComboBox = document.querySelectorAll('[class^="ms-ComboBox-Input"]');
+    const getComboBox = document.querySelectorAll('div[class^="ms-ComboBox"]');
     const getInputElement = document.querySelectorAll('[class^="durationLength"]');
 
    
-    if(getElements || getComboBox) {
+    if(getElements ) {
       getElements.forEach(element => {
         elementId.push(element.id)
         console.log(elementId)
       });
     }
 
+    if(getComboBox) {
+      getElements.forEach(combo => {
+        elementId.push(combo.id || combo)
+        console.log("COMBO:",elementId)
+      });
+    }
+
 
     if(getInputElement) {
       getInputElement.forEach(el => {
-        elementId.push(...elementId, el.id);
+        elementId.push(el.id);
       })
     }
 
@@ -1148,6 +1158,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             inlineFieldErrors={this.state.inlineFieldErrors}
             prefLang={this.props.prefLang}
             skills={this.state.skillsList}
+            hasTouchedSkillCombo={this.state.hasTouchedSkillCombo}
 
           />
         ),
@@ -1208,6 +1219,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 values={this.state.values}
                 inlineFieldErrors={this.state.inlineFieldErrors}
                 skills={this.state.skillsList}
+                hasTouchedSkillCombo={this.state.hasTouchedSkillCombo}
                 
               />
             </StackItem>
@@ -1261,67 +1273,67 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     
                   ) : (
                     <>
-                    <div>
-                      {this.state.isLoading ? (
-                        <Spinner
-                          label={this.strings.submitting_your_information}
-                          labelPosition="right"
-                          size={SpinnerSize.large}
-                        />
-                      ) : 
-                      
-                      <>
-                    <div tabIndex={-1} ref={this.titleRef}>
-                      <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
-                    </div>
-                    <div className={styles.stepper} 
-                      role="progressbar" 
-                      aria-valuemax={4} 
-                      aria-valuemin={0} 
-                      aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}  
-                      aria-valuetext={`Step ${this.state.currentPage + 1} out of 4`} 
-                    >
-                      <Steps
-                        current={currentPage}
-                        labelPlacement="vertical"
-                        items={items}
-                      />
-                    </div>
-                    <div tabIndex={-1}  ref={this.alertRef}>
-                      {this.state.hasError.length !== 0  && (
-                        <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} >
-                          <h3 id="alertHeading">{this.strings.fixErrors}</h3>
-                          {
-                            this.changeFieldNameFormat()
-                          }
+                      <div>
+                        {this.state.isLoading ? (
+                          <Spinner
+                            label={this.strings.submitting_your_information}
+                            labelPosition="right"
+                            size={SpinnerSize.large}
+                          />
+                        ) : 
                         
+                        <>
+                        <div tabIndex={-1}  ref={this.titleRef}>
+                          <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
                         </div>
-                        )
-                      }
-                    </div>
-                    <div>
-                      {steps[currentPage].content}
-                    </div>
-  
-                    <div style={{marginTop: '20px'}}>
-                      <Stack horizontal horizontalAlign={currentPage !== 0 ?'space-between' : 'end'}>
-                        {
-                          currentPage !== 0 && (
-                            <CustomButton id={'prev'} name={this.strings.prev_btn} buttonType={'secondary'} onClick={() => this.prev()}/>
-                          )
+                        <div className={styles.stepper} 
+                          role="progressbar" 
+                          aria-valuemax={4} 
+                          aria-valuemin={0} 
+                          aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}  
+                          aria-valuetext={`Step ${this.state.currentPage + 1} out of 4`} 
+                        >
+                          <Steps
+                            current={currentPage}
+                            labelPlacement="vertical"
+                            items={items}
+                          />
+                        </div>
+                        <div tabIndex={-1}  ref={this.alertRef}>
+                          {this.state.hasError.length !== 0  && (
+                            <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} >
+                              <h3 id="alertHeading">{this.strings.fixErrors}</h3>
+                              {
+                                this.changeFieldNameFormat()
+                              }
+                            
+                            </div>
+                            )
+                          }
+                        </div>
+                        <div>
+                          {steps[currentPage].content}
+                        </div>
+    
+                        <div style={{marginTop: '20px'}}>
+                          <Stack horizontal horizontalAlign={currentPage !== 0 ?'space-between' : 'end'}>
+                            {
+                              currentPage !== 0 && (
+                                <CustomButton id={'prev'} name={this.strings.prev_btn} buttonType={'secondary'} onClick={() => this.prev()}/>
+                              )
+                            }
+                          
+                            { currentPage === 3 ? 
+                              <CustomButton id={'submit'} name={this.strings.submit_btn} buttonType={'primary'}  onClick={() => this.submit()}/>
+                              :
+                              <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
+                            }
+                          </Stack>
+                        </div>
+                        </>
                         }
-                       
-                        { currentPage === 3 ? 
-                          <CustomButton id={'submit'} name={this.strings.submit_btn} buttonType={'primary'}  onClick={() => this.submit()}/>
-                          :
-                          <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
-                        }
-                      </Stack>
-                    </div>
+                      </div>
                     </>
-                      }
-                    </div>
-                  </>
 
                   )}
                 </>
