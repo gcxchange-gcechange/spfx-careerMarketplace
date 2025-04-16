@@ -1242,9 +1242,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               {
                 this.state.validationStatus === 200 ? (
                 <>                  
-                  <div>
-                    <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId}/>
-                  </div>  
+                   
+                  <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId}/>
+                    
                   <div style={{width: '100%', display: 'flex'}}>                  
                     <div style={{width: '40%'}}>
                       <Stack horizontal horizontalAlign="space-between">
@@ -1265,10 +1265,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   (this.props.jobOpportunityId  !== "" &&  this.state.jobOpportunityOwner ===  false) ? (
                   
                       <>  
-                        <div>
-                          <h2>You are not the owner</h2>
-                          <CustomButton id={'home'} name={"Go on, git! 🤠"} buttonType={'primary'} url={this.props.url} onClick={() => (this.props.url)}/> 
-                        </div>
+                        
+                        <h2>You are not the owner</h2>
+                        <CustomButton id={'home'} name={"Go on, git! 🤠"} buttonType={'primary'} url={this.props.url} onClick={() => (this.props.url)}/> 
+                        
                       </>
                     
                   ) : (
@@ -1283,13 +1283,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                         ) : 
                         
                         <>
-                        <div tabIndex={-1}  ref={this.titleRef}>
-                          <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
-                        </div>
+                        <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
+
                         <div className={styles.stepper} 
                           role="progressbar" 
                           aria-valuemax={4} 
-                          aria-valuemin={0} 
+                          aria-valuemin={1} 
                           aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}  
                           aria-valuetext={`Step ${this.state.currentPage + 1} out of 4`} 
                         >
@@ -1299,10 +1298,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                             items={items}
                           />
                         </div>
-                        <div tabIndex={-1}  ref={this.alertRef}>
+                       
                           {this.state.hasError.length !== 0  && (
-                            <div id='alertErrors' aria-modal="true" role="alertdialog" aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} >
-                              <h3 id="alertHeading">{this.strings.fixErrors}</h3>
+                            <div role="alertdialog" tabIndex={-1}  ref={this.alertRef} id='alertErrors' aria-modal="true"  aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} >
+                              <h3 id="alertHeading" style={{textWrap: 'wrap'}}>{this.strings.fixErrors}</h3>
                               {
                                 this.changeFieldNameFormat()
                               }
@@ -1310,7 +1309,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                             </div>
                             )
                           }
-                        </div>
+                       
                         <div>
                           {steps[currentPage].content}
                         </div>

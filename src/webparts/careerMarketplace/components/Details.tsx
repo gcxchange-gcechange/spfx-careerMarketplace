@@ -2,7 +2,7 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { ComboBox, DatePicker, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, IStackTokens, Label, Stack, StackItem  } from "@fluentui/react";
+import { ComboBox, DatePicker, Dropdown, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, IStackTokens, Label, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
 import {  validate,  validateNumericField,  validateEmpty } from "./Validations";
 import styles from './CareerMarketplace.module.scss';
@@ -98,6 +98,7 @@ export default class Details extends React.Component<IDetailsProps> {
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
     };
+    const dropdownStyles = { dropdown: { width: 300 } };
     const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
 
     const isReadOnly = this.props.currentPage === 3;
@@ -138,7 +139,7 @@ export default class Details extends React.Component<IDetailsProps> {
 
     return (
       <>
-        <div>
+        
           {this.props.currentPage === 1 && (
             <>
             <p>
@@ -149,8 +150,9 @@ export default class Details extends React.Component<IDetailsProps> {
             </p>
             </>
           )}
-        </div>
-        <div>
+
+          <form>
+        
             <Stack>
               <ReusableTextField
                 id={"jobTitleEn"}
@@ -199,7 +201,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 ariaLabelRequired={this.strings.required}
               />
 
-              <div>
+             
                 <ReusableDropdownField
                   id={"jobType"}
                   name={"jobType"}
@@ -218,7 +220,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     <div>{validate(this.props.values.jobType.Guid, this.props.prefLang,'jobType' )}</div>
                   )
                 }
-              </div>
+            
 
 
               <ReusableDropdownField
@@ -231,12 +233,15 @@ export default class Details extends React.Component<IDetailsProps> {
                 selectedKey={this.props.values.programArea.key}
                 ariaLabelRequired={this.strings.required}
                 instruction={this.strings.programArea_description}
+                inlineFieldErrors={this.props.inlineFieldErrors}
+                prefLang={this.props.prefLang}
+                ariaInvalid={isInvalid("programArea", this.props.inlineFieldErrors)}
               />
-                {
+                {/* {
                 this.props.inlineFieldErrors?.includes('programArea') && (
                   <div>{validate(this.props.values.programArea.key, this.props.prefLang,"programArea")}</div>
                 )
-              }
+              } */}
 
               <div>
                 <Stack  horizontal verticalAlign="center" >
@@ -265,6 +270,8 @@ export default class Details extends React.Component<IDetailsProps> {
                   allowFreeform
                   errorMessage={this.props.values.classificationCode.key === ""  ? `${localizedKey}`: undefined}
                   styles={comboBoxStyles}
+                  aria-invalid={isInvalid("classificationCode", this.props.inlineFieldErrors)}
+                  
                 />
                   {/* {this.props.inlineFieldErrors?.includes('classificationCode') &&( 
                   <div>{validate(this.props.values.classificationCode.key, this.props.prefLang)}</div>
@@ -282,13 +289,14 @@ export default class Details extends React.Component<IDetailsProps> {
                 selectedKey={this.props.values.classificationLevel.key}
                 ariaLabelRequired={this.strings.required}
                 instruction={this.strings.classification_Level_description}
+                ariaInvalid={isInvalid("classificationLevel", this.props.inlineFieldErrors)}
               />
 
-              {
+              {/* {
                 this.props.inlineFieldErrors?.includes('classificationLevel') && (
                   <div>{validate(this.props.values.classificationLevel.key,  this.props.prefLang,"classificationLevel" )}</div>
                 )
-              }
+              } */}
 
               <div>
                 <Stack>
@@ -308,89 +316,120 @@ export default class Details extends React.Component<IDetailsProps> {
                 </Stack>
                 {
                   this.props.inlineFieldErrors?.includes('numberOfOpportunities') && (
-                    <div>{validateNumericField(numberOfOpportunities.value, this.props.prefLang, "numberOfOpportunities")}</div>
+                    validateNumericField(numberOfOpportunities.value, this.props.prefLang, "numberOfOpportunities")
                   )
                 }
               </div>
-
-            {/* <ReusableTextField
-              id={"numberOfOpportunities"}
-              name={"numberOfOpportunities"}
-              title={this.strings.number_of_Opportunities}
-              onChange={this.onChangeTextValue}
-              defaultValue={this.props.values.numberOfOpportunities}
-              disabled={isReadOnly}
-              onGetErrorMessage={() => validateEmpty(numberOfOpportunities, 'numberOfOpportunities', this.props.prefLang)}
-              ariaLabelRequired={this.strings.required}
-            /> */}
             
           </Stack>
 
-            <div>
-              <Stack  horizontal verticalAlign="center" >
+            
+              {/* <Stack  horizontal verticalAlign="center" >
                 <StackItem >
-                  <Label htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
-                    <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
-                      *
-                    </span>
-                      {this.strings.durationField}
-                  </Label>
-                  <p className={styles.instruction}>{this.strings.durationDescription}</p>
+                 
                 </StackItem>
-              </Stack>
+              </Stack> */}
 
-              <Stack horizontal tokens={customSpacingStackTokens} >          
-                <StackItem>
-                  <ReusableDropdownField
-                    id={"duration"}
-                    name={"duration"}
-                    title={this.strings.time_period}
-                    options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.duration]}
-                    onChange={this.onChangeDropDownItem}
-                    selectedKey={this.props.values.duration.key}
-                    disabled={durationDisabled}
-                    ariaLabelRequired={this.strings.required}
-                  />
+                {/* <Label id={"duration-label"} htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
+                  <p className={styles.mrg0}>
+                    <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">*</span>
+                    <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                    {this.strings.durationField}
+                  </p>
+                  <p className={styles.instruction}>{this.strings.durationDescription}</p>
+                </Label>  
+                
 
+                <p id={'duration-input-label'} style={{ fontWeight: 600, marginBottom: 4 }}>
+                  {this.strings.time_period}  
+                </p>
+
+                <Dropdown
+                  id={"duration"}
+                  aria-labelledby={`${"duration-label"} ${"duration-input-label"}`}
+                  options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.duration]} 
+                  onChange={this.onChangeDropDownItem}
+                  selectedKey={this.props.values.duration.key}
+                  disabled={durationDisabled}
+                  aria-invalid={isInvalid("duration", this.props.inlineFieldErrors)}
+                /> */}
+
+            
+                <Label id={"duration-label"} htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
+                    <p className={styles.mrg0}>
+                      <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">*</span>
+                      <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                      {this.strings.durationField}
+                    </p>
+                    <p className={styles.instruction}>{this.strings.durationDescription}</p>
+                  </Label>  
+              
+                  <p id={'duration-input-label'}  style={{padding:'5px 0px', fontWeight: '700'}} className={styles.mrg0}>
+                    {this.strings.time_period}  
+                  </p>  
+                <Stack horizontal  tokens={customSpacingStackTokens}>
+                  <StackItem>
+                    <Dropdown
+                      id={"duration"}
+                      aria-labelledby={`${"duration-label"} ${"duration-input-label"}`}
+                      options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.duration]} 
+                      onChange={this.onChangeDropDownItem}
+                      selectedKey={this.props.values.duration.key}
+                      disabled={durationDisabled}
+                      aria-invalid={isInvalid("duration", this.props.inlineFieldErrors)}
+                      styles={dropdownStyles}
+                    />
+                    {/* <ReusableDropdownField
+                      id={"duration"}
+                      name={"duration"}
+                      title={this.strings.time_period}
+                      options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.duration]}
+                      onChange={this.onChangeDropDownItem}
+                      selectedKey={this.props.values.duration.key}
+                      disabled={durationDisabled}
+                      ariaLabelRequired={this.strings.required}
+                      ariaInvalid={isInvalid("duration", this.props.inlineFieldErrors)}
+                    /> */}
+                      {/* {
+                        this.props.inlineFieldErrors?.includes('duration') && (
+                          validate(this.props.values.duration.key, this.props.prefLang, "duration")
+                        )
+                      } */}
+                  </StackItem>
+
+                  <StackItem >
+                    <Stack>
+                      <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}>{this.strings.length}</label>
+                      <input 
+                        type="number"
+                        id={"durationLength"}
+                        name={"durationLength"}
+                        min={1}
+                        max={60}
+                        onChange = {e => this.props.handleDurationLength(e.target.value)}
+                        value={this.props.values.durationLength.value}
+                        required
+                        className={styles.durationLengthInput}
+                        disabled={durationDisabled}
+                        aria-invalid={isInvalid("durationLength", this.props.inlineFieldErrors)}
+                      />
+                    </Stack>
                     {
-                      this.props.inlineFieldErrors?.includes('duration') && (
-                        <div>{validate(this.props.values.duration.key, this.props.prefLang, "duration")}</div>
+                      this.props.inlineFieldErrors?.includes('durationLength') && (
+                        validateNumericField(this.props.values.durationLength.value, this.props.prefLang, "durationLength") 
                       )
                     }
-                </StackItem>
-
-                <StackItem align='baseline'>
-                  <Stack>
-                    <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}>{this.strings.length}</label>
-                    <input 
-                      type="number"
-                      id={"durationLength"}
-                      name={"durationLength"}
-                      min={1}
-                      max={60}
-                      onChange = {e => this.props.handleDurationLength(e.target.value)}
-                      value={this.props.values.durationLength.value}
-                      required
-                      className={styles.durationLengthInput}
-                      disabled={durationDisabled}
-                    />
-                  </Stack>
-                  {
-                    this.props.inlineFieldErrors?.includes('durationLength') && (
-                      <div>{validateNumericField(this.props.values.durationLength.value, this.props.prefLang, "durationLength")}</div>
-                    )
-                  }
-                </StackItem>
-              </Stack>
-            </div>
+                  </StackItem>
+                </Stack>
+              
+            
 
             <Stack  horizontal verticalAlign="center" >
               <StackItem >
                 <Label htmlFor={'deadline'} >
                   <p className={styles.mrg0}>
-                    <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
-                      *
-                    </span>
+                    <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">*</span>
+                    <span className={styles.visuallyHidden}>{this.strings.required}</span>
                     {this.strings.application_deadline}
                   </p>
                   <p className={styles.instruction}>{this.strings.application_deadline_description}</p>
@@ -408,7 +447,7 @@ export default class Details extends React.Component<IDetailsProps> {
               value={this.props.values.deadline}
               minDate={this.props.jobOppId ? undefined : oneMonthLater}
             />
-        </div>
+          </form>
       </>
     );
   }

@@ -3,7 +3,7 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export interface ICareerMarketplaceProps {
   prefLang: string;
-  context: WebPartContext;
+  context: WebPartContext; 
   userDisplayName: string;
   workEmail: string;
   url: string;

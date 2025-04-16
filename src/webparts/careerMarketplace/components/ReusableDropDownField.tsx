@@ -2,12 +2,13 @@
 import * as React from 'react';
 import { Dropdown, IDropdownOption, IDropdownStyles,  Label, Stack, StackItem} from '@fluentui/react';
 import styles from './CareerMarketplace.module.scss';
+import { validate } from './Validations';
 
 
 export interface IReusableDropdownFieldProps {
   id: string;
   name: string;
-  title: string;
+  title?: string;
   options?: any[];
   onChange: (event: any, item: any) => void;
   readOnly?: boolean;
@@ -21,7 +22,8 @@ export interface IReusableDropdownFieldProps {
   instructionLink?: string;
   prefLang?: string;
   ariaInvalid?: boolean;
-  
+  inlineFieldErrors?: string[];
+ 
 }
 
 
@@ -39,15 +41,16 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
       <StackItem >
         <Label  id={`${this.props.id}-label`} htmlFor={this.props.id} >
           <p className={styles.mrg0}>
-          { this.props.id !== 'duration' 
+          { this.props.id === 'duration' 
           ? 
-            <>
-              <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">
-                *
-              </span>
-              <span className={styles.visuallyHidden}>{this.props.ariaLabelRequired}</span>
-            </>
-          : ''
+           ""
+          : 
+           <>
+          <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">
+            *
+          </span>
+          <span className={styles.visuallyHidden}>{this.props.ariaLabelRequired}</span>
+          </>
           }
             {this.props.title}
           </p>
@@ -101,7 +104,6 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
       <div>
         <Dropdown
           aria-labelledby={`${this.props.id}-label`}
-          aria-errormessage={this.props.ariaInvalid ? `${this.props.id}-error` : undefined}
           aria-invalid={this.props.ariaInvalid}
           options={this.props.options as IDropdownOption[]} 
           onRenderLabel={this.customLabel} 
@@ -109,7 +111,13 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           className={!excludedIds.includes(this.props.id) ? styles.labelStyle : styles.languageLabels} 
           styles={!excludedIds.includes(this.props.id) ? dropdownStyle : langDropdownStyle} 
           {...this.props}
-        />        
+        />       
+
+         {
+             this.props.inlineFieldErrors?.includes(this.props.id) && (
+              validate(this.props.selectedKey, this.props.prefLang,  this.props.id)
+            )
+          } 
       </div>
 
       </>

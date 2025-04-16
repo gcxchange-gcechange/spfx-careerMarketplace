@@ -65,7 +65,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
     return (
       <>
-        <div>
+        
           {this.props.currentPage === 0 && (
             <>
             <p>
@@ -76,8 +76,8 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             </p>
           </>
           )}
-        </div>
-        <div>
+     
+     
           <ReusableTextField
             id={"contactName"}
             name={"contactName"}
@@ -88,7 +88,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             ariaLabelRequired={'required'}
           />
 
-        <div>
+     
           <Stack  horizontal verticalAlign="center" >
             <StackItem >
               <Label id={"department-label"} htmlFor={'department'} style={{padding:'5px 0px', fontWeight: '700'}} >
@@ -116,9 +116,8 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
            {/* {this.props.inlineFieldErrors.includes('department') && ( 
             <div>{validate(this.props.values.department.key, this.props.prefLang, "department-error" )}</div>
           )}  */}
-        </div>
-        
 
+      
           <ReusableTextField
             id={"workEmail"}
             name={"workEmail"}
@@ -128,7 +127,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
           />
-        </div>
+       
       </>
     );
   }
