@@ -74,7 +74,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
   public render(): React.ReactElement<IReusableDropdownFieldProps> {
 
-
+    console.log("selected", this.props.selectedKey)
     const dropdownStyle: Partial<IDropdownStyles> = {
    
       errorMessage: {

@@ -41,11 +41,12 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
 // }
 
 export const validate = (value: any, language:any, fieldName?: string ) : string| JSX.Element | undefined => {
+    console.log("VALUE:", value, fieldName)
     const strings = SelectLanguage(language);
     const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
     const localizedKey = strings[key] || fieldName;
 
-    if (value === undefined || value === "" ||value.length === 0 || value.key === "false" || value === "0"|| value.key === "" || value === 0) {
+    if (value === undefined || value.key === undefined ||value === "" ||value.length === 0 || value.key === "false" || value === "0"|| value.key === "" || value === 0) {
 
         return ( 
             <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>

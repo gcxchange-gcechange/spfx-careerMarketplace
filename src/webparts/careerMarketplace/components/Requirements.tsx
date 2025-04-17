@@ -6,6 +6,7 @@ import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
 import styles from './CareerMarketplace.module.scss';
+import { isInvalid } from "./Functions";
 
 export interface IRequirementsProps {
   prefLang: string;
@@ -177,11 +178,12 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             id={"workSchedule"}
             name={"workSchedule"}
             title={this.strings.time_in_hours}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workSchedule]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.workSchedule]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
+            ariaInvalid={isInvalid("workSchedule", this.props.inlineFieldErrors)}
           />
 
             { this.props.inlineFieldErrors?.includes('workSchedule') && (
@@ -198,10 +200,11 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             selectedKey={this.props.values.province.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.provinceField_description}
+            ariaInvalid={isInvalid("province", this.props.inlineFieldErrors)}
           />
 
            { this.props.inlineFieldErrors?.includes('province') && (
-                <div>{validate(this.props.values.province.key, this.props.prefLang,"province")}</div>
+                validate(this.props.values.province.key, this.props.prefLang,"province")
               )
             }
 
@@ -214,10 +217,11 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             disabled={isReadOnly}
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
+            ariaInvalid={isInvalid("region", this.props.inlineFieldErrors)}
           />
 
           { this.props.inlineFieldErrors?.includes('region') && (
-                <div>{validate(this.props.values.region.key, this.props.prefLang, "region")}</div>
+                validate(this.props.values.region.key, this.props.prefLang, "region")
               )
           }
 
@@ -230,10 +234,11 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             disabled={isReadOnly}
             selectedKey={this.props.values.city.key}
             ariaLabelRequired={this.strings.required}
+            ariaInvalid={isInvalid("city", this.props.inlineFieldErrors)}
           />
 
            { this.props.inlineFieldErrors?.includes('city') && (
-                <div>{validate(this.props.values.city.key, this.props.prefLang, "city")}</div>
+                validate(this.props.values.city.key, this.props.prefLang, "city")
               )
             }
 
@@ -247,12 +252,14 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             selectedKey={this.props.values.security.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.security_level_description}
+            ariaInvalid={isInvalid("security", this.props.inlineFieldErrors)}
           />
 
            { this.props.inlineFieldErrors?.includes('security') && (
-                <div>{validate(this.props.values.security.key, this.props.prefLang, "security")}</div>
+                validate(this.props.values.security.key, this.props.prefLang, "security")
               )
             }
+
           <Stack tokens={customSpacingStackTokens}>
             <StackItem>
               <ReusableDropdownField
@@ -265,11 +272,14 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 selectedKey={this.props.values.languageRequirements[0].language.key}
                 ariaLabelRequired={this.strings.required}
                 instruction={this.strings.language_requirements_description}
+                ariaInvalid={isInvalid("language", this.props.inlineFieldErrors)}
+              
               />
-               { this.props.inlineFieldErrors?.includes('language') && (
-                <div>{validate(this.props.values.languageRequirements[0].language.key, this.props.prefLang, "language")}</div>
-              )
-            }
+              { this.props.inlineFieldErrors?.includes('language') && (
+                validate(this.props.values.languageRequirements[0].language.key, this.props.prefLang, "language")
+                )
+              }
+
             </StackItem>
 
             <StackItem>
@@ -373,9 +383,10 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             selectedKey={this.props.values.workArrangment.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.work_arrangment_description}
+            ariaInvalid={isInvalid("workArrangment", this.props.inlineFieldErrors)}
           />
             { this.props.inlineFieldErrors?.includes('workArrangment') && (
-                <div>{validate(this.props.values.workArrangment.key, this.props.prefLang, "workArrangment")}</div>
+                validate(this.props.values.workArrangment.key, this.props.prefLang, "workArrangment")
               )
             }
 
@@ -393,10 +404,18 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             </Stack>
 
 
-             <Checkbox id='1' name={"approvedStaffing"} label={this.strings.approved_staffing_checkbox} onChange={ this.onChange } defaultChecked={this.props.values.approvedStaffing.value} disabled={isReadOnly}/>
+            <Checkbox 
+              id='1' 
+              name={"approvedStaffing"} 
+              label={this.strings.approved_staffing_checkbox} 
+              onChange={ this.onChange } 
+              defaultChecked={this.props.values.approvedStaffing.value} 
+              disabled={isReadOnly}
+              aria-invalid={isInvalid("approvedStaffing", this.props.inlineFieldErrors)}
+            />
 
             { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
-                <div>{validate(this.props.values.approvedStaffing.key,  this.props.prefLang, 'deadline')}</div>
+                validate(this.props.values.approvedStaffing.key,  this.props.prefLang, 'deadline')
               )
             }
           </div>

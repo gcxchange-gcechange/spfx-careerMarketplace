@@ -56,13 +56,6 @@ export default class Details extends React.Component<IDetailsProps> {
     
   };
 
-  // public onChangeSpinButton = (event: any, item: string):void => {
-
-  //   if(item) {
-  //     this.props.handleDurationLength( item)
-  //   }
-
-  // }
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventId = event.target.id;
@@ -132,10 +125,6 @@ export default class Details extends React.Component<IDetailsProps> {
   const classificationCodeItems = this.props.classificationCode.sort();
   const key = "classificationCode" as keyof ICareerMarketplaceWebPartStrings;
   const localizedKey = this.strings[key];
-
-  // const isInvalid = (fieldName: string): boolean | undefined => {
-  //   return  this.props.inlineFieldErrors?.includes(fieldName);
-  // }
 
     return (
       <>
@@ -215,11 +204,11 @@ export default class Details extends React.Component<IDetailsProps> {
                   prefLang={this.props.prefLang}
                   ariaInvalid={isInvalid("jobType",this.props.inlineFieldErrors)}
                 />
-                {
+                {/* {
                   this.props.inlineFieldErrors?.includes('jobType') && (
                     <div>{validate(this.props.values.jobType.Guid, this.props.prefLang,'jobType' )}</div>
                   )
-                }
+                } */}
             
 
 
@@ -227,7 +216,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 id={"programArea"}
                 name={"programArea"}
                 title={this.strings.program_Area}
-                options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.programArea]}
+                options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.programArea]}
                 onChange={this.onChangeDropDownItem}
                 disabled={isReadOnly}
                 selectedKey={this.props.values.programArea.key}
@@ -379,6 +368,12 @@ export default class Details extends React.Component<IDetailsProps> {
                       aria-invalid={isInvalid("duration", this.props.inlineFieldErrors)}
                       styles={dropdownStyles}
                     />
+
+                      {
+                        this.props.inlineFieldErrors?.includes('duration') && (
+                          validate(this.props.values.duration.key, this.props.prefLang, "duration")
+                        )
+                      }
                     {/* <ReusableDropdownField
                       id={"duration"}
                       name={"duration"}
@@ -390,15 +385,11 @@ export default class Details extends React.Component<IDetailsProps> {
                       ariaLabelRequired={this.strings.required}
                       ariaInvalid={isInvalid("duration", this.props.inlineFieldErrors)}
                     /> */}
-                      {/* {
-                        this.props.inlineFieldErrors?.includes('duration') && (
-                          validate(this.props.values.duration.key, this.props.prefLang, "duration")
-                        )
-                      } */}
+                      
                   </StackItem>
 
                   <StackItem >
-                    <Stack>
+                    <Stack  style={{marginTop: '-28px'}}>
                       <label htmlFor={"durationLength"} style={{padding:'5px 0px', fontWeight: '700'}}>{this.strings.length}</label>
                       <input 
                         type="number"

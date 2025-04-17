@@ -872,7 +872,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if(getComboBox) {
       getElements.forEach(combo => {
         elementId.push(combo.id || combo)
-        console.log("COMBO:",elementId)
+
       });
     }
 
