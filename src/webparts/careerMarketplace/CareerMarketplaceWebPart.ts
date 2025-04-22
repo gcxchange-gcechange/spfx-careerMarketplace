@@ -36,8 +36,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
   private jobOpportunityId: string | null = null;
   private jobOpportunityOwner: string | undefined = undefined ; 
   private createServices: ICreateOpportunity = {
-    clientId: "c121f403-ff41-4db3-8426-f3b9c5016cd4",
-    apiUrl:"",
+    clientId:"" ,
+    apiUrl: ""
   }
 
   private editServices: IEditOpportunity = {

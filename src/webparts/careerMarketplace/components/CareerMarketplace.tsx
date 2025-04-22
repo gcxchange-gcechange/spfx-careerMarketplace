@@ -310,7 +310,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ProgramArea": ${JSON.stringify(programAreaFormat, null, 2)},
               "ClassificationCodeId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelId": "${this.state.values.classificationLevel.key}",
-              "NumberOfOpportunities": "${this.state.values.numberOfOpportunities}",
+              "NumberOfOpportunities": "${this.state.values.numberOfOpportunities.value}",
               "DurationId": "${this.state.values.duration.key}",
               "ApplicationDeadlineDate": "${isoString}",
               "JobDescriptionEn": "${this.state.values.jobDescriptionEn}",
