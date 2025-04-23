@@ -7,7 +7,7 @@ import * as moment from "moment";
 import {  validate,  validateNumericField,  validateEmpty } from "./Validations";
 import styles from './CareerMarketplace.module.scss';
 import { SelectLanguage } from "./SelectLanguage";
-import { isInvalid } from "./Functions";
+import { isInvalid, getLocalizedString } from "./Functions";
 
 
 
@@ -123,6 +123,10 @@ export default class Details extends React.Component<IDetailsProps> {
   }
 
   const classificationCodeItems = this.props.classificationCode.sort();
+
+
+  
+
   const key = "classificationCode" as keyof ICareerMarketplaceWebPartStrings;
   const localizedKey = this.strings[key];
 
@@ -204,11 +208,11 @@ export default class Details extends React.Component<IDetailsProps> {
                   prefLang={this.props.prefLang}
                   ariaInvalid={isInvalid("jobType",this.props.inlineFieldErrors)}
                 />
-                {/* {
+                {
                   this.props.inlineFieldErrors?.includes('jobType') && (
                     <div>{validate(this.props.values.jobType.Guid, this.props.prefLang,'jobType' )}</div>
                   )
-                } */}
+                }
             
 
 
@@ -225,6 +229,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 inlineFieldErrors={this.props.inlineFieldErrors}
                 prefLang={this.props.prefLang}
                 ariaInvalid={isInvalid("programArea", this.props.inlineFieldErrors)}
+                errorMessage={this.props.values.programArea.key === ""   ? getLocalizedString("programArea", this.props.prefLang) : undefined}
               />
                 {/* {
                 this.props.inlineFieldErrors?.includes('programArea') && (
@@ -262,9 +267,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   aria-invalid={isInvalid("classificationCode", this.props.inlineFieldErrors)}
                   
                 />
-                  {/* {this.props.inlineFieldErrors?.includes('classificationCode') &&( 
-                  <div>{validate(this.props.values.classificationCode.key, this.props.prefLang)}</div>
-                )}  */}
+
               </div>
 
 
@@ -279,13 +282,9 @@ export default class Details extends React.Component<IDetailsProps> {
                 ariaLabelRequired={this.strings.required}
                 instruction={this.strings.classification_Level_description}
                 ariaInvalid={isInvalid("classificationLevel", this.props.inlineFieldErrors)}
+                errorMessage={this.props.values.classificationLevel.key === ""  ? getLocalizedString("classificationLevel", this.props.prefLang) : undefined}
               />
 
-              {/* {
-                this.props.inlineFieldErrors?.includes('classificationLevel') && (
-                  <div>{validate(this.props.values.classificationLevel.key,  this.props.prefLang,"classificationLevel" )}</div>
-                )
-              } */}
 
               <div>
                 <Stack>
@@ -311,39 +310,6 @@ export default class Details extends React.Component<IDetailsProps> {
               </div>
             
           </Stack>
-
-            
-              {/* <Stack  horizontal verticalAlign="center" >
-                <StackItem >
-                 
-                </StackItem>
-              </Stack> */}
-
-                {/* <Label id={"duration-label"} htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
-                  <p className={styles.mrg0}>
-                    <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">*</span>
-                    <span className={styles.visuallyHidden}>{this.strings.required}</span>
-                    {this.strings.durationField}
-                  </p>
-                  <p className={styles.instruction}>{this.strings.durationDescription}</p>
-                </Label>  
-                
-
-                <p id={'duration-input-label'} style={{ fontWeight: 600, marginBottom: 4 }}>
-                  {this.strings.time_period}  
-                </p>
-
-                <Dropdown
-                  id={"duration"}
-                  aria-labelledby={`${"duration-label"} ${"duration-input-label"}`}
-                  options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.duration]} 
-                  onChange={this.onChangeDropDownItem}
-                  selectedKey={this.props.values.duration.key}
-                  disabled={durationDisabled}
-                  aria-invalid={isInvalid("duration", this.props.inlineFieldErrors)}
-                /> */}
-
-            
                 <Label id={"duration-label"} htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
                     <p className={styles.mrg0}>
                       <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">*</span>
@@ -367,25 +333,9 @@ export default class Details extends React.Component<IDetailsProps> {
                       disabled={durationDisabled}
                       aria-invalid={isInvalid("duration", this.props.inlineFieldErrors)}
                       styles={dropdownStyles}
+                      errorMessage={(this.props.values.duration.key === "" && disableDuration !== true)  ? getLocalizedString("duration", this.props.prefLang) : undefined}
                     />
 
-                      {
-                        this.props.inlineFieldErrors?.includes('duration') && (
-                          validate(this.props.values.duration.key, this.props.prefLang, "duration")
-                        )
-                      }
-                    {/* <ReusableDropdownField
-                      id={"duration"}
-                      name={"duration"}
-                      title={this.strings.time_period}
-                      options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.duration]}
-                      onChange={this.onChangeDropDownItem}
-                      selectedKey={this.props.values.duration.key}
-                      disabled={durationDisabled}
-                      ariaLabelRequired={this.strings.required}
-                      ariaInvalid={isInvalid("duration", this.props.inlineFieldErrors)}
-                    /> */}
-                      
                   </StackItem>
 
                   <StackItem >

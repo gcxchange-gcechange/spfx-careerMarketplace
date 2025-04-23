@@ -41,7 +41,8 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
 // }
 
 export const validate = (value: any, language:any, fieldName?: string ) : string| JSX.Element | undefined => {
-    console.log("VALUE:", value, fieldName)
+    console.log("VALUE:", value);
+    console.log("FIELD", fieldName);
     const strings = SelectLanguage(language);
     const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
     const localizedKey = strings[key] || fieldName;

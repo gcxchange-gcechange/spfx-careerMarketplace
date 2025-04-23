@@ -155,12 +155,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
+          || (currentPgFields.includes(key) && value === undefined) 
           || (currentPgFields.includes(key) && value.Guid === '0') 
           || (currentPgFields.includes(key) && value.length === 1) 
           || (stringValues.includes(key) && value === "")
           || (stringValues.includes(key) && value.length < 5)
           || value.text === `--${this.strings.select}--` 
           || value.text === 'No'
+  
 
         ){
         
@@ -240,8 +242,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public addInLineErrors = ():void => {
     this.state.hasError.forEach(element => {
       const error = document.getElementById(element.key);
-      console.log("ERROR:",error)
-      console.log("Parent", error?.parentElement)
         
       if (error) {
         error.firstElementChild?.classList.add(styles.borderRemove);

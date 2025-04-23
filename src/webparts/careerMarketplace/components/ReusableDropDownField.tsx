@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Dropdown, IDropdownOption, IDropdownStyles,  Label, Stack, StackItem} from '@fluentui/react';
 import styles from './CareerMarketplace.module.scss';
-import { validate } from './Validations';
+//import { validate } from './Validations';
 
 
 export interface IReusableDropdownFieldProps {
@@ -23,6 +23,7 @@ export interface IReusableDropdownFieldProps {
   prefLang?: string;
   ariaInvalid?: boolean;
   inlineFieldErrors?: string[];
+  errorMessage?: any;
  
 }
 
@@ -113,11 +114,11 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           {...this.props}
         />       
 
-         {
+         {/* {
              this.props.inlineFieldErrors?.includes(this.props.id) && (
               validate(this.props.selectedKey, this.props.prefLang,  this.props.id)
             )
-          } 
+          }  */}
       </div>
 
       </>

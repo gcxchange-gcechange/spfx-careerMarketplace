@@ -6,7 +6,7 @@ import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import * as strings from "CareerMarketplaceWebPartStrings";
 import styles from './CareerMarketplace.module.scss';
-import { isInvalid } from "./Functions";
+import { getLocalizedString, isInvalid } from "./Functions";
 
 export interface IRequirementsProps {
   prefLang: string;
@@ -117,7 +117,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
 
     // const key = "skills" as keyof ICareerMarketplaceWebPartStrings;
     // const localizedKey = this.strings[key];
-    // const hasValidSkill = this.props.values.skills.map((item:any) => item.value !== undefined)
+      const hasValidSkill = this.props.values.skills.map((item:any) => item.value !== undefined)
     // console.log("VALIDSKILL:",hasValidSkill);
 
    
@@ -166,12 +166,12 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 autoComplete="on"
                 allowFreeform
                 multiSelect
-               // errorMessage={this.props.hasTouchedSkillCombo && hasValidSkill ===  false ? `${localizedKey}`: undefined}
+                errorMessage={hasValidSkill ? getLocalizedString("skills", this.props.prefLang) : undefined}
                 styles={comboBoxStyles}
             />
-              {this.props.inlineFieldErrors?.includes('skills') && ( 
+              {/* {this.props.inlineFieldErrors?.includes('skills') && ( 
                 <div>{validate(selectedSkillItems, this.props.prefLang, 'skills')}</div>
-            )} 
+            )}  */}
           </div>
       
           <ReusableDropdownField
@@ -184,12 +184,10 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             selectedKey={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
             ariaInvalid={isInvalid("workSchedule", this.props.inlineFieldErrors)}
+            errorMessage={this.props.values.workSchedule.key === ""  ? getLocalizedString("workSchedule", this.props.prefLang) : undefined}
           />
 
-            { this.props.inlineFieldErrors?.includes('workSchedule') && (
-                <div>{validate(this.props.values.workSchedule.key, this.props.prefLang, "workSchedule")}</div>
-              )
-            }
+
           <ReusableDropdownField
             id={"province"}
             name={"province"}
@@ -201,12 +199,13 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.provinceField_description}
             ariaInvalid={isInvalid("province", this.props.inlineFieldErrors)}
+            errorMessage={this.props.values.province.key === ""  ? getLocalizedString("province", this.props.prefLang) : undefined}
           />
 
-           { this.props.inlineFieldErrors?.includes('province') && (
+           {/* { this.props.inlineFieldErrors?.includes('province') && (
                 validate(this.props.values.province.key, this.props.prefLang,"province")
               )
-            }
+            } */}
 
           <ReusableDropdownField
             id={"region"}
@@ -218,12 +217,13 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
             ariaInvalid={isInvalid("region", this.props.inlineFieldErrors)}
+            errorMessage={this.props.values.region.key === ""  ? getLocalizedString("region", this.props.prefLang) : undefined}
           />
 
-          { this.props.inlineFieldErrors?.includes('region') && (
+          {/* { this.props.inlineFieldErrors?.includes('region') && (
                 validate(this.props.values.region.key, this.props.prefLang, "region")
               )
-          }
+          } */}
 
           <ReusableDropdownField
             id={"city"}
@@ -235,12 +235,13 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             selectedKey={this.props.values.city.key}
             ariaLabelRequired={this.strings.required}
             ariaInvalid={isInvalid("city", this.props.inlineFieldErrors)}
+            errorMessage={this.props.values.city.key === ""  ? getLocalizedString("city", this.props.prefLang) : undefined}
           />
 
-           { this.props.inlineFieldErrors?.includes('city') && (
+           {/* { this.props.inlineFieldErrors?.includes('city') && (
                 validate(this.props.values.city.key, this.props.prefLang, "city")
               )
-            }
+            } */}
 
           <ReusableDropdownField
             id={"security"}
@@ -253,12 +254,14 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.security_level_description}
             ariaInvalid={isInvalid("security", this.props.inlineFieldErrors)}
+            errorMessage={this.props.values.security.key === ""  ? getLocalizedString("security", this.props.prefLang) : undefined}
+            
           />
 
-           { this.props.inlineFieldErrors?.includes('security') && (
+           {/* { this.props.inlineFieldErrors?.includes('security') && (
                 validate(this.props.values.security.key, this.props.prefLang, "security")
               )
-            }
+            } */}
 
           <Stack tokens={customSpacingStackTokens}>
             <StackItem>
@@ -273,12 +276,13 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 ariaLabelRequired={this.strings.required}
                 instruction={this.strings.language_requirements_description}
                 ariaInvalid={isInvalid("language", this.props.inlineFieldErrors)}
+                errorMessage={this.props.values.languageRequirements[0].language.key === ""  ? getLocalizedString("language", this.props.prefLang) : undefined}
               
               />
-              { this.props.inlineFieldErrors?.includes('language') && (
+              {/* { this.props.inlineFieldErrors?.includes('language') && (
                 validate(this.props.values.languageRequirements[0].language.key, this.props.prefLang, "language")
                 )
-              }
+              } */}
 
             </StackItem>
 
