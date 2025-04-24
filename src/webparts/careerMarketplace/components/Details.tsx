@@ -4,7 +4,7 @@ import ReusableTextField from "./ReusableTextField";
 import ReusableDropdownField from "./ReusableDropDownField";
 import { ComboBox, DatePicker, Dropdown, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, IStackTokens, Label, Stack, StackItem  } from "@fluentui/react";
 import * as moment from "moment";
-import {  validate,  validateNumericField,  validateEmpty } from "./Validations";
+import {    validateNumericField,  validateEmpty } from "./Validations";
 import styles from './CareerMarketplace.module.scss';
 import { SelectLanguage } from "./SelectLanguage";
 import { isInvalid, getLocalizedString } from "./Functions";
@@ -127,8 +127,8 @@ export default class Details extends React.Component<IDetailsProps> {
 
   
 
-  const key = "classificationCode" as keyof ICareerMarketplaceWebPartStrings;
-  const localizedKey = this.strings[key];
+  // const key = "classificationCode" as keyof ICareerMarketplaceWebPartStrings;
+  // const localizedKey = this.strings[key];
 
     return (
       <>
@@ -207,12 +207,13 @@ export default class Details extends React.Component<IDetailsProps> {
                   instruction={this.strings.job_Type_description}
                   prefLang={this.props.prefLang}
                   ariaInvalid={isInvalid("jobType",this.props.inlineFieldErrors)}
+                  errorMessage={this.props.values.jobType.Guid === "0"   ? getLocalizedString("jobType", this.props.prefLang) : undefined}
                 />
-                {
+                {/* {
                   this.props.inlineFieldErrors?.includes('jobType') && (
                     <div>{validate(this.props.values.jobType.Guid, this.props.prefLang,'jobType' )}</div>
                   )
-                }
+                } */}
             
 
 
@@ -262,8 +263,8 @@ export default class Details extends React.Component<IDetailsProps> {
                   selectedKey={ this.props.values.classificationCode.key}
                   autoComplete="on"
                   allowFreeform
-                  errorMessage={this.props.values.classificationCode.key === ""  ? `${localizedKey}`: undefined}
                   styles={comboBoxStyles}
+                  errorMessage={this.props.values.classificationCode.key === ""  ? getLocalizedString("classificationCode", this.props.prefLang) : undefined}
                   aria-invalid={isInvalid("classificationCode", this.props.inlineFieldErrors)}
                   
                 />

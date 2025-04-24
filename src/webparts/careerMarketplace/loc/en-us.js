@@ -48,7 +48,7 @@ define([], function() {
     "security_level_description": "Using the drop-down menu, select the appropriate security level required to participate in your opportunity.",
     "language_requirements":"Language requirements",
     "language_requirements_description": "Click on the drop-down menu to view the additional fields and complete the form using additional drop-down menus.",
-    "writtenEN": "English Writtten expresion",
+    "writtenEN": "English Written expresion",
     "readingEN": "English Reading comprehension",
     "oralEN": "English Oral expression",
     "writtenFr": "French writtten expresion",

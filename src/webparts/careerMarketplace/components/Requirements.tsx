@@ -4,7 +4,7 @@ import ReusableDropdownField from "./ReusableDropDownField";
 import { Checkbox, ComboBox, Dropdown,  IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, IDropdownStyles, IStackTokens, Label, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
-import * as strings from "CareerMarketplaceWebPartStrings";
+//import * as strings from "CareerMarketplaceWebPartStrings";
 import styles from './CareerMarketplace.module.scss';
 import { getLocalizedString, isInvalid } from "./Functions";
 
@@ -115,11 +115,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
 
     const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
 
-    // const key = "skills" as keyof ICareerMarketplaceWebPartStrings;
-    // const localizedKey = this.strings[key];
-      const hasValidSkill = this.props.values.skills.map((item:any) => item.value !== undefined)
-    // console.log("VALIDSKILL:",hasValidSkill);
-
    
     return (
       <>
@@ -166,12 +161,10 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 autoComplete="on"
                 allowFreeform
                 multiSelect
-                errorMessage={hasValidSkill ? getLocalizedString("skills", this.props.prefLang) : undefined}
+                errorMessage={selectedSkillItems.length < 1 && this.props.hasTouchedSkillCombo === true ? getLocalizedString("skills", this.props.prefLang) : undefined}
                 styles={comboBoxStyles}
             />
-              {/* {this.props.inlineFieldErrors?.includes('skills') && ( 
-                <div>{validate(selectedSkillItems, this.props.prefLang, 'skills')}</div>
-            )}  */}
+
           </div>
       
           <ReusableDropdownField
@@ -184,7 +177,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             selectedKey={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
             ariaInvalid={isInvalid("workSchedule", this.props.inlineFieldErrors)}
-            errorMessage={this.props.values.workSchedule.key === ""  ? getLocalizedString("workSchedule", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.workSchedule.key === "0"  ? getLocalizedString("workSchedule", this.props.prefLang) : undefined}
           />
 
 
@@ -202,10 +195,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             errorMessage={this.props.values.province.key === ""  ? getLocalizedString("province", this.props.prefLang) : undefined}
           />
 
-           {/* { this.props.inlineFieldErrors?.includes('province') && (
-                validate(this.props.values.province.key, this.props.prefLang,"province")
-              )
-            } */}
+
 
           <ReusableDropdownField
             id={"region"}
@@ -220,10 +210,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             errorMessage={this.props.values.region.key === ""  ? getLocalizedString("region", this.props.prefLang) : undefined}
           />
 
-          {/* { this.props.inlineFieldErrors?.includes('region') && (
-                validate(this.props.values.region.key, this.props.prefLang, "region")
-              )
-          } */}
 
           <ReusableDropdownField
             id={"city"}
@@ -238,10 +224,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             errorMessage={this.props.values.city.key === ""  ? getLocalizedString("city", this.props.prefLang) : undefined}
           />
 
-           {/* { this.props.inlineFieldErrors?.includes('city') && (
-                validate(this.props.values.city.key, this.props.prefLang, "city")
-              )
-            } */}
 
           <ReusableDropdownField
             id={"security"}
@@ -258,10 +240,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             
           />
 
-           {/* { this.props.inlineFieldErrors?.includes('security') && (
-                validate(this.props.values.security.key, this.props.prefLang, "security")
-              )
-            } */}
 
           <Stack tokens={customSpacingStackTokens}>
             <StackItem>
@@ -279,10 +257,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 errorMessage={this.props.values.languageRequirements[0].language.key === ""  ? getLocalizedString("language", this.props.prefLang) : undefined}
               
               />
-              {/* { this.props.inlineFieldErrors?.includes('language') && (
-                validate(this.props.values.languageRequirements[0].language.key, this.props.prefLang, "language")
-                )
-              } */}
 
             </StackItem>
 
@@ -320,6 +294,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                       <Dropdown
                         id={"oralEN"}
                         title = {"Oral expression"}
+                        aria-label={getLocalizedString("oralEN", this.props.prefLang)}
                         options={languageEvaluationOptions}
                         styles={langDropdownStyle}
                         disabled={disabledField}
@@ -337,7 +312,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                         //title={this.strings.readingFR}
                         label={this.strings.french.replace(/[()]/g, "").replace(/^./, c => c.toUpperCase())}
                         styles={langDropdownStyle}
-                        ariaLabel={this.strings.readingFR}
+                        aria-label={getLocalizedString("readingFr", this.props.prefLang)}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
                         selectedKey={this.props.values.languageRequirements[0].readingFR.key}
@@ -345,8 +320,8 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                     <Dropdown
                         id={"writtenFR"}
                         options={languageEvaluationOptions}
+                        aria-label={getLocalizedString("writtenFr", this.props.prefLang)}
                         styles={langDropdownStyle}
-                        ariaLabel={strings.writtenFR}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
                         selectedKey={this.props.values.languageRequirements[0].writtenFR.key}
@@ -354,8 +329,8 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                     <Dropdown
                         id={"oralFR"}
                         options={languageEvaluationOptions}
+                        aria-label={getLocalizedString("oralFr", this.props.prefLang)}
                         styles={langDropdownStyle}
-                        ariaLabel={strings.oralFR}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
                         selectedKey={this.props.values.languageRequirements[0].oralFR.key}
@@ -366,11 +341,12 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             {
               languageComprehension
                 .filter((lang) => this.props.inlineFieldErrors?.includes(lang))
-                .some((field) => validate(this.props.values.languageRequirements[0]?.[field].text, this.props.prefLang, "")) && (
-                  <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
-                      <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>Please select an option</p>
-                   </div>
-                )
+                .some((field) => validate(this.props.values.languageRequirements[0]?.[field].text, this.props.prefLang, "languageRequirements")) 
+                // && (
+                  // <div id='error' style={{borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'}}>
+                  //     <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>Please select an option</p>
+                  //  </div>
+                // )
             }
 
             </StackItem>    

@@ -983,6 +983,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
+    
+    if (this.state.values.skills.length > 1 && prevState.values.skills.length === 0 ) {
+      this.setState({
+        hasTouchedSkillCombo: true
+      })
+
+    }
+
     if (this.state.values.jobType.Label === "Deployments" && prevState.values.jobType.Label !== "Deployments") {
       this.setState((prevState) => ({
         values: {
