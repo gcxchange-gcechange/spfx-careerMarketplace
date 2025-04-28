@@ -125,6 +125,12 @@ declare interface ICareerMarketplaceWebPartStrings {
   "approvedStaffing":string;
   "language":string;
   "languageRequirements":string;
+  "languageRequirements_writtenEN": string;
+  "languageRequirements_readingEN": string;
+  "languageRequirements_oralEN": string;
+  "languageRequirements_writtenFr": string;
+  "languageRequirements_readingFr": string;
+  "languageRequirements_oralFr": string;
 
   //loader
   "submitting_your_information": string; 

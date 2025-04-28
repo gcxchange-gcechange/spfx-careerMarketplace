@@ -103,17 +103,21 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
 
     const langDropdownStyle : Partial<IDropdownStyles>= {
       dropdown: {
-        width: 100,
-        paddingBottom: '5px',
+        width: 200,
+        paddingBottom: '25px',
       },
       root: {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       },
+      errorMessage: {
+        marginTop: '-25px',
+        marginBottom: '3px'
+      }
     }
 
-    const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
+    //const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
 
    
     return (
@@ -240,8 +244,116 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             
           />
 
+          <div style={{marginBottom: '20px'}}>
+            <ReusableDropdownField
+              id={"language"}
+              name={"language"}
+              title={this.strings.language_requirements}
+              options={this.props.language}
+              onChange={this.onChangeDropDownItem}
+              disabled={isReadOnly}
+              selectedKey={this.props.values.languageRequirements[0].language.key}
+              ariaLabelRequired={this.strings.required}
+              instruction={this.strings.language_requirements_description}
+              ariaInvalid={isInvalid("language", this.props.inlineFieldErrors)}
+              errorMessage={this.props.values.languageRequirements[0].language.key === ""  ? getLocalizedString("language", this.props.prefLang) : undefined}
+                
+            />
+          </div>
 
-          <Stack tokens={customSpacingStackTokens}>
+          <Stack tokens={customSpacingStackTokens} horizontal  >
+            <StackItem>
+              <Stack horizontal >
+                <Label htmlFor={'readingEn'} style={{width:'200px'}} >{this.strings.readingEN}</Label>
+                  <Dropdown
+                    id={"readingEN"}
+                    // title={"Reading comprehension"}
+                    // label={this.strings.english.replace(/[()]/g, "").replace(/^./, c => c.toUpperCase())}
+                    options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+                    styles={langDropdownStyle}
+                    disabled={disabledField}
+                    onChange={this.onChangeDropDownItem}
+                    selectedKey={this.props.values.languageRequirements[0].readingEN.key}
+                    errorMessage={this.props.values.languageRequirements[0].readingEN.key === ""  ? getLocalizedString("languageRequirements_readingEN", this.props.prefLang) : undefined}
+
+                  />
+              </Stack>
+              <Stack horizontal>
+                <Label htmlFor={'writtenEN'} style={{width:'225px'}}>{this.strings.writtenEN}</Label>
+                <Dropdown
+                  id={"writtenEN"}
+                  title={this.strings.writtenEN}
+                  options={languageEvaluationOptions}
+                  styles={langDropdownStyle}
+                  disabled={disabledField}
+                  onChange={this.onChangeDropDownItem}
+                  selectedKey={this.props.values.languageRequirements[0].writtenEN.key}
+                />
+              </Stack>
+              <Stack horizontal>
+                <Label htmlFor={'oralEN'} style={{width:'225px'}}>{this.props.prefLang === 'fr-fr' ? this.strings.oralEN.replace(/\s\w+$/, "") : this.strings.oralEN.replace(/^\w+\s/, "")}</Label>
+                <Dropdown
+                  id={"oralEN"}
+                  title = {"Oral expression"}
+                  aria-label={getLocalizedString("oralEN", this.props.prefLang)}
+                  options={languageEvaluationOptions}
+                  styles={langDropdownStyle}
+                  disabled={disabledField}
+                  onChange={this.onChangeDropDownItem}
+                  selectedKey={this.props.values.languageRequirements[0].oralEN.key}
+                />
+              </Stack>
+            </StackItem>
+
+            <StackItem>
+              <Stack horizontal>
+                <Label htmlFor={'readingFR'} style={{width:'225px'}}>{this.strings.readingFR}</Label>
+                <Dropdown
+                  id={"readingFR"}
+                  options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+                  //title={this.strings.readingFR}
+                  //label={this.strings.french.replace(/[()]/g, "").replace(/^./, c => c.toUpperCase())}
+                  styles={langDropdownStyle}
+                  disabled={disabledField}
+                  onChange={this.onChangeDropDownItem}
+                  selectedKey={this.props.values.languageRequirements[0].readingFR.key}
+                  errorMessage={this.props.values.languageRequirements[0].readingFR.key === ""  ? getLocalizedString("languageRequirements_readingFR", this.props.prefLang) : undefined}
+                />
+              </Stack>
+
+              <Stack horizontal>
+                <Label htmlFor={'writtenFR'} style={{width:'225px'}}>{this.strings.readingFR}</Label>
+                <Dropdown
+                    id={"writtenFR"}
+                    options={languageEvaluationOptions}
+                    aria-label={getLocalizedString("writtenFr", this.props.prefLang)}
+                    styles={langDropdownStyle}
+                    disabled={disabledField}
+                    onChange={this.onChangeDropDownItem}
+                    selectedKey={this.props.values.languageRequirements[0].writtenFR.key}
+                />
+                   
+              </Stack>
+              <Stack horizontal>
+                <Label htmlFor={'oralFR'} style={{width:'225px'}}>{this.strings.readingFR}</Label>
+                <Dropdown
+                  id={"oralFR"}
+                  options={languageEvaluationOptions}
+                  aria-label={getLocalizedString("oralFr", this.props.prefLang)}
+                  styles={langDropdownStyle}
+                  disabled={disabledField}
+                  onChange={this.onChangeDropDownItem}
+                  selectedKey={this.props.values.languageRequirements[0].oralFR.key}
+                />
+              </Stack>
+              
+
+            </StackItem>
+                    
+          </Stack>
+
+
+          {/* <Stack tokens={customSpacingStackTokens}>
             <StackItem>
               <ReusableDropdownField
                 id={"language"}
@@ -261,20 +373,22 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             </StackItem>
 
             <StackItem>
-              <Stack horizontal tokens={customSpacingStackTokens}>
+              <Stack horizontal tokens={customSpacingStackTokens} wrap>
                     
                   <StackItem>
-                    <Stack horizontal verticalAlign="end">
+                    <Stack horizontal verticalAlign="center">
                       <Label htmlFor={'readingEn'} style={{width:'200px'}} >{this.props.prefLang === 'fr-fr' ? this.strings.readingEN.replace(/\s\w+$/, "") : this.strings.readingEN.replace(/^\w+\s/, "")}</Label>
                       <Dropdown
                         id={"readingEN"}
                         title={"Reading comprehension"}
                         label={this.strings.english.replace(/[()]/g, "").replace(/^./, c => c.toUpperCase())}
-                        options={languageEvaluationOptions}
+                        options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
                         styles={langDropdownStyle}
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
                         selectedKey={this.props.values.languageRequirements[0].readingEN.key}
+                        errorMessage={this.props.values.languageRequirements[0].readingEN.key === ""  ? getLocalizedString("languageRequirements_readingEN", this.props.prefLang) : undefined}
+
                       />
                     </Stack>
                     <Stack horizontal>
@@ -304,11 +418,11 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                     </Stack>
                   </StackItem>
 
-                  <StackItem>
+                  <StackItem >
                     {/* <Label>French</Label> */}
-                    <Dropdown
+                    {/* <Dropdown
                         id={"readingFR"}
-                        options={languageEvaluationOptions}
+                        options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
                         //title={this.strings.readingFR}
                         label={this.strings.french.replace(/[()]/g, "").replace(/^./, c => c.toUpperCase())}
                         styles={langDropdownStyle}
@@ -316,6 +430,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                         disabled={disabledField}
                         onChange={this.onChangeDropDownItem}
                         selectedKey={this.props.values.languageRequirements[0].readingFR.key}
+                        errorMessage={this.props.values.languageRequirements[0].readingFR.key === ""  ? getLocalizedString("languageRequirements_readingFR", this.props.prefLang) : undefined}
                     />
                     <Dropdown
                         id={"writtenFR"}
@@ -336,9 +451,9 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                         selectedKey={this.props.values.languageRequirements[0].oralFR.key}
                     />
                     
-                  </StackItem>
-              </Stack>
-            {
+                  </StackItem> 
+              </Stack> */}
+            {/* {
               languageComprehension
                 .filter((lang) => this.props.inlineFieldErrors?.includes(lang))
                 .some((field) => validate(this.props.values.languageRequirements[0]?.[field].text, this.props.prefLang, "languageRequirements")) 
@@ -350,7 +465,7 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             }
 
             </StackItem>    
-          </Stack>
+          </Stack> */}
          
 
           <ReusableDropdownField
