@@ -18,7 +18,7 @@ define([], function() {
       "number_of_Opportunities":"Nombre de possibilités d’emploi",
       "job_Description":"Description du poste",
       "job_Type":"Type d’emploi",
-      "job_Type_description": "Cliquez ici pour obtenir des conseils et des définitions sur chaque type d’occasion",
+      "job_Type_description": "Conseils et des définitions sur chaque type d’occasion",
       "program_Area":"Secteur de programme",
       "programArea_description": "À l’aide du menu déroulant, sélectionnez le domaine de travail qui correspond le mieux à votre occasion.",
       "classification_Code":"Code de classification",

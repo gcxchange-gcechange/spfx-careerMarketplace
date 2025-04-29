@@ -17,7 +17,7 @@ define([], function() {
     "number_of_Opportunities":"Number of Opportunities",
     "job_Description":"Job Description",
     "job_Type":"Job Type",
-    "job_Type_description": "Click here for guidance and definitions about each type of opportunity",
+    "job_Type_description": "Guidance and definitions about each type of opportunity",
     "program_Area":"Program Area",
     "programArea_description": "Using the drop-down menu, select the field of work that most closely corresponds with your opportunity.",
     "classification_Code":"Classification Code",
