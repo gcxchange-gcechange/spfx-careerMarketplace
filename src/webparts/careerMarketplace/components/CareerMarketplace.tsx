@@ -98,10 +98,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             pageNumber: 2,
             language: {value: ""},
             readingEN: {value: ""},
-            readingFR: {value: ""},
             writtenEN: {value: ""},
-            writtenFR: {value: ""},
             oralEN: {value: ""},
+            readingFR: {value: ""},
+            writtenFR: {value: ""},
             oralFR: {value: ""},
           },
         ],
@@ -172,15 +172,33 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     if (currentPage === 2) {    
-        const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
-        const isWrittenEmpty = this.state.values.languageRequirements[0].writtenEN.value === "" || this.state.values.languageRequirements[0].writtenFR.value=== "";
-        const isOralEmpty = this.state.values.languageRequirements[0].oralEN.value === "" || this.state.values.languageRequirements[0].oralFR.value === "";
+        const langReq = this.state.values.languageRequirements[0];
+        // const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
+        // const isWrittenEmpty = this.state.values.languageRequirements[0].writtenEN.value === "" || this.state.values.languageRequirements[0].writtenFR.value=== "";
+        // const isOralEmpty = this.state.values.languageRequirements[0].oralEN.value === "" || this.state.values.languageRequirements[0].oralFR.value === "";
 
       if (this.state.values.languageRequirements[0].language.value === "") {
         checkValues.push({key:"language", value:""})
       }
-      else if (this.state.values.languageRequirements[0].language.key === 3 && (isReadingEmpty || isWrittenEmpty || isOralEmpty )) {
-        checkValues.push({key:"languageRequirements", value:""})
+      else if (langReq.language.key === 3) {
+        if (langReq.readingEN.value === "" || langReq.readingEN.key === "" ) {
+          checkValues.push({ key: "readingEN", value: "" });
+        }
+        if (langReq.readingFR.value === "" || langReq.readingFR.key === "") {
+          checkValues.push({ key: "readingFR", value: "" });
+        }
+        if (langReq.writtenEN.value === "") {
+          checkValues.push({ key: "writtenEN", value: "" });
+        }
+        if (langReq.writtenFR.value === "") {
+          checkValues.push({ key: "writtenFR", value: "" });
+        }
+        if (langReq.oralEN.value === "") {
+          checkValues.push({ key: "oralEN", value: "" });
+        }
+        if (langReq.oralFR.value === "") {
+          checkValues.push({ key: "oralFR", value: "" });
+        }
       }
     }
     console.log('checkvalues', checkValues)
@@ -216,6 +234,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public reorderLanguage(arr: { key: string; value: string; }[]): { key: string; value: string; }[] {
+    console.log(arr)
+  const languageReq = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
   const langIndex = arr.findIndex((item) => item.key === "language");
   const securityIndex = arr.findIndex((item) => item.key === "security");
   const workArrIndex = arr.findIndex((item) => item.key === "workArrangment");
@@ -235,6 +255,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   // Insert "language" at the correct position
   arr.splice(newIndex, 0, languageItem);
 
+  //Filter the lang req to see if they exist
+  const langReqItems = arr.filter((item:any) => item.languageReq?.includes(item.key));
+    if(langReqItems.length === 0 ) return arr;
+
+  arr = arr.filter(item => !languageReq.includes(item.key));
+
+  // Determine the new index (before workArrangment or security, whichever comes first)
+  const indices = [securityIndex, workArrIndex].filter(i => i !== -1);
+  const insertIndex = indices.length ? Math.min(...indices) : arr.length;
+
+  // Insert them at the new position
+  arr.splice(insertIndex, 0, ...langReqItems);
+
   return arr;
   }
   
@@ -246,7 +279,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if (error) {
         error.firstElementChild?.classList.add(styles.borderRemove);
         error.parentElement?.classList.add(styles.borderRemove)
-        error.classList.add(styles.error);
+        //error.classList.add(styles.error);
 
       } 
 

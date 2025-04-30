@@ -44,14 +44,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
     const eventName = event.target.name;
-
-      this.props.handleOnChange(eventName, value)
+    this.props.handleOnChange(eventName, value)
     
   };
 
   public onChangeDropDownItem = (event: any, item: any): void => {
     const eventName = event.target.id;
-
     if (item) {
       this.props.handleDropDownItem(eventName, item);
     }
@@ -63,13 +61,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     if(isChecked === true) {
       this.props.checkedTerms( eventName, isChecked) 
     }
-}
+  }
 
-public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
+  public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
 
     const selectedValue = item ? item.key : "skills-input";
     const selectedText = item ? item.text : value;
-
 
     if (item) {
       this.props.handleDropDownItem("skills", { key: selectedValue, text: selectedText });
@@ -80,20 +77,19 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
 
   public render(): React.ReactElement<IRequirementsProps> {
 
-    
+    console.log("ERRORS:",this.props.inlineFieldErrors)
+    console.log("touched", this.props.hasTouchedSkillCombo)
     // const customSpacingStackTokens: IStackTokens = {
     //   childrenGap: 20,
     // };
 
     const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
-
     const isReadOnly = this.props.currentPage === 3;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 3;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
  
-
     const languageEvaluationOptions : IDropdownOption[] = [
       {key: 0, text: 'A'},
       {key: 1, text: 'B'},
@@ -101,10 +97,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
       {key: 3, text: 'E'}
     ]
 
-
-    //const languageComprehension = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
-
-   
     return (
       <>
         <div>
@@ -153,6 +145,12 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
                 errorMessage={selectedSkillItems.length < 1 && this.props.hasTouchedSkillCombo === true ? getLocalizedString("skills", this.props.prefLang) : undefined}
                 styles={comboBoxStyles}
             />
+               {
+                this.props.inlineFieldErrors?.includes('skills') && (
+                  validate(selectedSkillItems, this.props.prefLang,"skills")
+                )
+                
+              }
 
           </div>
       
@@ -210,7 +208,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             errorMessage={this.props.values.city.key === ""  ? getLocalizedString("city", this.props.prefLang) : undefined}
           />
 
-
           <ReusableDropdownField
             id={"security"}
             name={"security"}
@@ -223,7 +220,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             instruction={this.strings.security_level_description}
             ariaInvalid={isInvalid("security", this.props.inlineFieldErrors)}
             errorMessage={this.props.values.security.key === ""  ? getLocalizedString("security", this.props.prefLang) : undefined}
-            
           />
 
           <ReusableDropdownField
@@ -238,85 +234,87 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             instruction={this.strings.language_requirements_description}
             ariaInvalid={isInvalid("language", this.props.inlineFieldErrors)}
             errorMessage={this.props.values.languageRequirements[0].language.key === ""  ? getLocalizedString("language", this.props.prefLang) : undefined}
-              
+          />
+         
+          <ReusableDropdownField
+            id={"readingEN"}
+            name={"readingEN"}
+            title={this.strings.readingEN}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            disabled={disabledField}
+            onChange={this.onChangeDropDownItem}
+            ariaLabelRequired={this.strings.required}
+            selectedKey={this.props.values.languageRequirements[0].readingEN.key}
+            errorMessage={this.props.values.languageRequirements[0].readingEN.key === ""  ? getLocalizedString("languageRequirements_readingEN", this.props.prefLang) : undefined}
+            ariaInvalid={isInvalid("readingEN", this.props.inlineFieldErrors)}
           />
 
-         
-            <ReusableDropdownField
-              id={"readingEN"}
-              name={"readingEN"}
-              title={this.strings.readingEN}
-              options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
-              disabled={disabledField}
-              onChange={this.onChangeDropDownItem}
-              ariaLabelRequired={this.strings.required}
-              selectedKey={this.props.values.languageRequirements[0].readingEN.key}
-              errorMessage={this.props.values.languageRequirements[0].readingEN.key === ""  ? getLocalizedString("languageRequirements_readingEN", this.props.prefLang) : undefined}
-
-            />
-
-            <ReusableDropdownField
-              id={"writtenEN"}
-              name={"writtenEN"}
-              title={this.strings.writtenEN}
-              options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
-              disabled={disabledField}
-              ariaLabelRequired={this.strings.required}
-              onChange={this.onChangeDropDownItem}
-              selectedKey={this.props.values.languageRequirements[0].writtenEN.key}
-              errorMessage={this.props.values.languageRequirements[0].writtenEN.key === ""  ? getLocalizedString("languageRequirements_writtenEN", this.props.prefLang) : undefined}
-            />
+          <ReusableDropdownField
+            id={"writtenEN"}
+            name={"writtenEN"}
+            title={this.strings.writtenEN}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            disabled={disabledField}
+            ariaLabelRequired={this.strings.required}
+            onChange={this.onChangeDropDownItem}
+            selectedKey={this.props.values.languageRequirements[0].writtenEN.key}
+            errorMessage={this.props.values.languageRequirements[0].writtenEN.key === ""  ? getLocalizedString("languageRequirements_writtenEN", this.props.prefLang) : undefined}
+            ariaInvalid={isInvalid("writtenEN", this.props.inlineFieldErrors)}
+          />
         
-           <ReusableDropdownField
-              id={"oralEN"}
-              name={"oralEN"}
-              title= {this.strings.oralEN}
-              options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
-              ariaLabelRequired={this.strings.required}
-              disabled={disabledField}
-              onChange={this.onChangeDropDownItem}
-              selectedKey={this.props.values.languageRequirements[0].oralEN.key}
-              errorMessage={this.props.values.languageRequirements[0].oralEN.key === ""  ? getLocalizedString("languageRequirements_oralEN", this.props.prefLang) : undefined}
-            />
+          <ReusableDropdownField
+            id={"oralEN"}
+            name={"oralEN"}
+            title= {this.strings.oralEN}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            ariaLabelRequired={this.strings.required}
+            disabled={disabledField}
+            onChange={this.onChangeDropDownItem}
+            selectedKey={this.props.values.languageRequirements[0].oralEN.key}
+            errorMessage={this.props.values.languageRequirements[0].oralEN.key === ""  ? getLocalizedString("languageRequirements_oralEN", this.props.prefLang) : undefined}
+            ariaInvalid={isInvalid("oralEN", this.props.inlineFieldErrors)}
+          />
           
-            <ReusableDropdownField
-              id={"readingFR"}
-              name={"readingFR"}
-              title={this.strings.readingFR}
-              options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
-              ariaLabelRequired={this.strings.required}
-              disabled={disabledField}
-              onChange={this.onChangeDropDownItem}
-              selectedKey={this.props.values.languageRequirements[0].readingFR.key}
-              errorMessage={this.props.values.languageRequirements[0].readingFR.key === ""  ? getLocalizedString("languageRequirements_readingFR", this.props.prefLang) : undefined}
-            />
+          <ReusableDropdownField
+            id={"readingFR"}
+            name={"readingFR"}
+            title={this.strings.readingFR}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            ariaLabelRequired={this.strings.required}
+            disabled={disabledField}
+            onChange={this.onChangeDropDownItem}
+            selectedKey={this.props.values.languageRequirements[0].readingFR.key}
+            errorMessage={this.props.values.languageRequirements[0].readingFR.key === ""  ? getLocalizedString("languageRequirements_readingFR", this.props.prefLang) : undefined}
+            ariaInvalid={isInvalid("readingFR", this.props.inlineFieldErrors)}
+          />
 
-            <ReusableDropdownField
-              id={"writtenFR"}
-              name={"writtenFR"}
-              title={this.strings.writtenFR}
-              options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
-              ariaLabelRequired={this.strings.required}
-              disabled={disabledField}
-              onChange={this.onChangeDropDownItem}
-              selectedKey={this.props.values.languageRequirements[0].writtenFR.key}
-              errorMessage={this.props.values.languageRequirements[0].writtenFR.key === ""  ? getLocalizedString("languageRequirements_writtenFR", this.props.prefLang) : undefined}
-            />
+          <ReusableDropdownField
+            id={"writtenFR"}
+            name={"writtenFR"}
+            title={this.strings.writtenFR}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            ariaLabelRequired={this.strings.required}
+            disabled={disabledField}
+            onChange={this.onChangeDropDownItem}
+            selectedKey={this.props.values.languageRequirements[0].writtenFR.key}
+            errorMessage={this.props.values.languageRequirements[0].writtenFR.key === ""  ? getLocalizedString("languageRequirements_writtenFR", this.props.prefLang) : undefined}
+            ariaInvalid={isInvalid("writtenFR", this.props.inlineFieldErrors)}
+          />
 
-            <ReusableDropdownField
-              id={"oralFR"}
-              name={"oralFR"}
-              title={this.strings.oralFR}
-              options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
-              ariaLabelRequired={this.strings.required}
-              disabled={disabledField}
-              onChange={this.onChangeDropDownItem}
-              selectedKey={this.props.values.languageRequirements[0].oralFR.key}
-              errorMessage={this.props.values.languageRequirements[0].oralFR.key === ""  ? getLocalizedString("languageRequirements_oralFR", this.props.prefLang) : undefined}
-              
-            />
+          <ReusableDropdownField
+            id={"oralFR"}
+            name={"oralFR"}
+            title={this.strings.oralFR}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            ariaLabelRequired={this.strings.required}
+            disabled={disabledField}
+            onChange={this.onChangeDropDownItem}
+            selectedKey={this.props.values.languageRequirements[0].oralFR.key}
+            errorMessage={this.props.values.languageRequirements[0].oralFR.key === ""  ? getLocalizedString("languageRequirements_oralFR", this.props.prefLang) : undefined}
+            ariaInvalid={isInvalid("oralFR", this.props.inlineFieldErrors)}
+
+          />
          
-
           <ReusableDropdownField
             id={"workArrangment"}
             name={"workArrangment"}
@@ -330,10 +328,6 @@ public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBox
             ariaInvalid={isInvalid("workArrangment", this.props.inlineFieldErrors)}
             errorMessage={this.props.values.workArrangment.key === "" ? getLocalizedString("workArrangment", this.props.prefLang) : undefined}
           />
-            {/* { this.props.inlineFieldErrors?.includes('workArrangment') && (
-                validate(this.props.values.workArrangment.key, this.props.prefLang, "workArrangment")
-              )
-            } */}
 
           <div style={{marginTop: '10px'}}>
             <Stack  horizontal verticalAlign="center" >
