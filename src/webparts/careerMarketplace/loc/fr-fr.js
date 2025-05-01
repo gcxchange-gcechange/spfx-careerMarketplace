@@ -123,6 +123,12 @@ define([], function() {
       "security":"Le champ « Niveau de sécurité » est obligatoire.",
       "language":"Le champ « Exigences linguistiques » est obligatoire.",
       "languageRequirements":"Le champ « Exigences linguistiques » est obligatoire.",
+      "languageRequirements_writtenEN": "Le champ « Expression écrite anglais » est obligatoire.",
+      "languageRequirements_readingEN": "Le champ « Compréhension de l’écrit anglais » est obligatoire.",
+      "languageRequirements_oralEN": "Le champ « Compétence orale anglais » est obligatoire.",
+      "languageRequirements_writtenFR": "Le champ « Expression écrite francais » est obligatoire.",
+      "languageRequirements_readingFR": "Le champ « Compréhension de l’écrit francais » est obligatoire.",
+      "languageRequirements_oralFR": "Le champ «  Compétence orale francais » est obligatoire.",
       "workArrangment":"Le champ « Régime de travail » est obligatoire.",
       "approvedStaffing":"La valeur du champ « Effectifs approuvés » doit être « Oui ».",
       
