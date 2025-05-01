@@ -103,13 +103,13 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           <ComboBox
               id={"department"}
               aria-labelledby={"department-label"}
-              options={[{key: "", text: `--${this.strings.select}--`},...this.props.items.sort()]}
+              options={[{key: "0", text: `--${this.strings.select}--`},...this.props.items.sort()]}
               onChange={this.onChangeComboItem}
               disabled={this.props.currentPage === 3}
               selectedKey={ this.props.values.department.key}
               autoComplete="on"
               allowFreeform
-              errorMessage={this.props.values.department.key === ""  ? `${localizedKey}`: undefined}
+              errorMessage={this.props.values.department.key === "0"  ? `${localizedKey}`: undefined}
               styles={comboBoxStyles}
               aria-invalid = {isInvalid("department", this.props.inlineFieldErrors)}
           />

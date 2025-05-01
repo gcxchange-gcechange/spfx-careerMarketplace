@@ -91,7 +91,7 @@ export default class Details extends React.Component<IDetailsProps> {
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: '10%',
     };
-    const dropdownStyles = { dropdown: { width: 300 } };
+    const dropdownStyles = { dropdown: { width: 300 }, errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px'  }  };
     const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
 
     const isReadOnly = this.props.currentPage === 3;
@@ -124,11 +124,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
   const classificationCodeItems = this.props.classificationCode.sort();
 
-
-  
-
-  // const key = "classificationCode" as keyof ICareerMarketplaceWebPartStrings;
-  // const localizedKey = this.strings[key];
 
     return (
       <>
@@ -206,7 +201,6 @@ export default class Details extends React.Component<IDetailsProps> {
                   ariaLabelRequired={this.strings.required}
                   instruction={this.strings.job_Type_description}
                   prefLang={this.props.prefLang}
-                  ariaInvalid={isInvalid("jobType",this.props.inlineFieldErrors)}
                   errorMessage={this.props.values.jobType.Guid === "0"   ? getLocalizedString("jobType", this.props.prefLang) : undefined}
                 />
                 {/* {
@@ -221,7 +215,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 id={"programArea"}
                 name={"programArea"}
                 title={this.strings.program_Area}
-                options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.programArea]}
+                options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.programArea]}
                 onChange={this.onChangeDropDownItem}
                 disabled={isReadOnly}
                 selectedKey={this.props.values.programArea.key}
@@ -229,8 +223,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 instruction={this.strings.programArea_description}
                 inlineFieldErrors={this.props.inlineFieldErrors}
                 prefLang={this.props.prefLang}
-                ariaInvalid={isInvalid("programArea", this.props.inlineFieldErrors)}
-                errorMessage={this.props.values.programArea.key === ""   ? getLocalizedString("programArea", this.props.prefLang) : undefined}
+                errorMessage={this.props.values.programArea.key === "0"   ? getLocalizedString("programArea", this.props.prefLang) : undefined}
               />
                 {/* {
                 this.props.inlineFieldErrors?.includes('programArea') && (
@@ -257,18 +250,15 @@ export default class Details extends React.Component<IDetailsProps> {
                   id={"classificationCode"}
                   aria-labelledby={"classificationCode-label"}
                   aria-errormessage="classificationCode-error"
-                  options={[{key: "", text: `--${this.strings.select}--`},...classificationCodeItems]}
+                  options={[{key: "0", text: `--${this.strings.select}--`},...classificationCodeItems]}
                   onChange={this.onChangeComboItem}
                   disabled={this.props.currentPage === 3}
                   selectedKey={ this.props.values.classificationCode.key}
                   autoComplete="on"
                   allowFreeform
                   styles={comboBoxStyles}
-                  errorMessage={this.props.values.classificationCode.key === ""  ? getLocalizedString("classificationCode", this.props.prefLang) : undefined}
-                  aria-invalid={isInvalid("classificationCode", this.props.inlineFieldErrors)}
-                  
+                  errorMessage={this.props.values.classificationCode.key === "0"  ? getLocalizedString("classificationCode", this.props.prefLang) : undefined} 
                 />
-
               </div>
 
 
@@ -276,14 +266,13 @@ export default class Details extends React.Component<IDetailsProps> {
                 id={"classificationLevel"}
                 name={"classificationLevel"}
                 title={this.strings.classification_Level}
-                options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.classificationLevel]}
+                options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.classificationLevel]}
                 onChange={this.onChangeDropDownItem}
                 disabled={isReadOnly}
                 selectedKey={this.props.values.classificationLevel.key}
                 ariaLabelRequired={this.strings.required}
                 instruction={this.strings.classification_Level_description}
-                ariaInvalid={isInvalid("classificationLevel", this.props.inlineFieldErrors)}
-                errorMessage={this.props.values.classificationLevel.key === ""  ? getLocalizedString("classificationLevel", this.props.prefLang) : undefined}
+                errorMessage={this.props.values.classificationLevel.key === "0"  ? getLocalizedString("classificationLevel", this.props.prefLang) : undefined}
               />
 
 
@@ -310,7 +299,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 }
               </div>
             
-          </Stack>
+            </Stack>
                 <Label id={"duration-label"} htmlFor={'duration'} style={{padding:'5px 0px', fontWeight: '700'}}>
                     <p className={styles.mrg0}>
                       <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">*</span>
@@ -332,7 +321,6 @@ export default class Details extends React.Component<IDetailsProps> {
                       onChange={this.onChangeDropDownItem}
                       selectedKey={this.props.values.duration.key}
                       disabled={durationDisabled}
-                      aria-invalid={isInvalid("duration", this.props.inlineFieldErrors)}
                       styles={dropdownStyles}
                       errorMessage={(this.props.values.duration.key === "" && disableDuration !== true)  ? getLocalizedString("duration", this.props.prefLang) : undefined}
                     />
@@ -353,7 +341,6 @@ export default class Details extends React.Component<IDetailsProps> {
                         required
                         className={styles.durationLengthInput}
                         disabled={durationDisabled}
-                        aria-invalid={isInvalid("durationLength", this.props.inlineFieldErrors)}
                       />
                     </Stack>
                     {

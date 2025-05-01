@@ -4,9 +4,8 @@ import ReusableDropdownField from "./ReusableDropDownField";
 import { Checkbox, ComboBox, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
-//import * as strings from "CareerMarketplaceWebPartStrings";
 import styles from './CareerMarketplace.module.scss';
-import { getLocalizedString, isInvalid } from "./Functions";
+import { getLocalizedString  } from "./Functions";
 
 export interface IRequirementsProps {
   prefLang: string;
@@ -77,13 +76,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
   public render(): React.ReactElement<IRequirementsProps> {
 
-    console.log("ERRORS:",this.props.inlineFieldErrors)
-    console.log("touched", this.props.hasTouchedSkillCombo)
-    // const customSpacingStackTokens: IStackTokens = {
-    //   childrenGap: 20,
-    // };
 
-    const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700' } };
+    const comboBoxStyles: Partial<IComboBoxStyles> = { errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' } };
     const isReadOnly = this.props.currentPage === 3;
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
@@ -111,7 +105,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             </>
           )}
         </div>
-        <div>
+        <form>
           
           <div>
             <Stack  horizontal verticalAlign="center" >
@@ -163,7 +157,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={isReadOnly}
             selectedKey={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
-            ariaInvalid={isInvalid("workSchedule", this.props.inlineFieldErrors)}
             errorMessage={this.props.values.workSchedule.key === "0"  ? getLocalizedString("workSchedule", this.props.prefLang) : undefined}
           />
 
@@ -172,54 +165,50 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"province"}
             name={"province"}
             title={this.strings.provinceField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.province]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.province]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.province.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.provinceField_description}
-            ariaInvalid={isInvalid("province", this.props.inlineFieldErrors)}
-            errorMessage={this.props.values.province.key === ""  ? getLocalizedString("province", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.province.key === "0"  ? getLocalizedString("province", this.props.prefLang) : undefined}
           />
 
           <ReusableDropdownField
             id={"region"}
             name={"region"}
             title={this.strings.regionField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...filteredRegions]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...filteredRegions]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
-            ariaInvalid={isInvalid("region", this.props.inlineFieldErrors)}
-            errorMessage={this.props.values.region.key === ""  ? getLocalizedString("region", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.region.key === "0"  ? getLocalizedString("region", this.props.prefLang) : undefined}
           />
 
           <ReusableDropdownField
             id={"city"}
             name={"city"}
             title={this.strings.cityField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...filteredCities]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...filteredCities]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.city.key}
             ariaLabelRequired={this.strings.required}
-            ariaInvalid={isInvalid("city", this.props.inlineFieldErrors)}
-            errorMessage={this.props.values.city.key === ""  ? getLocalizedString("city", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.city.key === "0"  ? getLocalizedString("city", this.props.prefLang) : undefined}
           />
 
           <ReusableDropdownField
             id={"security"}
             name={"security"}
             title={this.strings.security_level}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.security]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.security]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.security.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.security_level_description}
-            ariaInvalid={isInvalid("security", this.props.inlineFieldErrors)}
-            errorMessage={this.props.values.security.key === ""  ? getLocalizedString("security", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.security.key === "0"  ? getLocalizedString("security", this.props.prefLang) : undefined}
           />
 
           <ReusableDropdownField
@@ -232,7 +221,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.languageRequirements[0].language.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.language_requirements_description}
-            ariaInvalid={isInvalid("language", this.props.inlineFieldErrors)}
             errorMessage={this.props.values.languageRequirements[0].language.key === ""  ? getLocalizedString("language", this.props.prefLang) : undefined}
           />
          
@@ -246,7 +234,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             ariaLabelRequired={this.strings.required}
             selectedKey={this.props.values.languageRequirements[0].readingEN.key}
             errorMessage={this.props.values.languageRequirements[0].readingEN.key === ""  ? getLocalizedString("languageRequirements_readingEN", this.props.prefLang) : undefined}
-            ariaInvalid={isInvalid("readingEN", this.props.inlineFieldErrors)}
           />
 
           <ReusableDropdownField
@@ -259,7 +246,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].writtenEN.key}
             errorMessage={this.props.values.languageRequirements[0].writtenEN.key === ""  ? getLocalizedString("languageRequirements_writtenEN", this.props.prefLang) : undefined}
-            ariaInvalid={isInvalid("writtenEN", this.props.inlineFieldErrors)}
           />
         
           <ReusableDropdownField
@@ -272,7 +258,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].oralEN.key}
             errorMessage={this.props.values.languageRequirements[0].oralEN.key === ""  ? getLocalizedString("languageRequirements_oralEN", this.props.prefLang) : undefined}
-            ariaInvalid={isInvalid("oralEN", this.props.inlineFieldErrors)}
           />
           
           <ReusableDropdownField
@@ -285,7 +270,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].readingFR.key}
             errorMessage={this.props.values.languageRequirements[0].readingFR.key === ""  ? getLocalizedString("languageRequirements_readingFR", this.props.prefLang) : undefined}
-            ariaInvalid={isInvalid("readingFR", this.props.inlineFieldErrors)}
+ 
           />
 
           <ReusableDropdownField
@@ -298,7 +283,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].writtenFR.key}
             errorMessage={this.props.values.languageRequirements[0].writtenFR.key === ""  ? getLocalizedString("languageRequirements_writtenFR", this.props.prefLang) : undefined}
-            ariaInvalid={isInvalid("writtenFR", this.props.inlineFieldErrors)}
+ 
           />
 
           <ReusableDropdownField
@@ -311,7 +296,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].oralFR.key}
             errorMessage={this.props.values.languageRequirements[0].oralFR.key === ""  ? getLocalizedString("languageRequirements_oralFR", this.props.prefLang) : undefined}
-            ariaInvalid={isInvalid("oralFR", this.props.inlineFieldErrors)}
+ 
 
           />
          
@@ -325,20 +310,20 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.workArrangment.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.work_arrangment_description}
-            ariaInvalid={isInvalid("workArrangment", this.props.inlineFieldErrors)}
             errorMessage={this.props.values.workArrangment.key === "" ? getLocalizedString("workArrangment", this.props.prefLang) : undefined}
           />
 
           <div style={{marginTop: '10px'}}>
             <Stack  horizontal verticalAlign="center" >
               <StackItem >
-                <Label htmlFor={'deadline'} >
-                  <span style={{color: 'rgb(164, 38, 44)'}} aria-label={this.strings.required}>
-                    *
-                  </span>
-                  {this.strings.approved_staffing}
+                <Label htmlFor={'approvedStaffing'} id={'approvedStaffing_label'}>
+                  <p className={styles.mrg0}>
+                    <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">*</span>
+                    <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                    {this.strings.approved_staffing}
+                  </p>
+                  <p className={styles.instruction}>{this.strings.approved_staffing_description}</p>                
                 </Label>
-                <p className={styles.instruction}>{this.strings.approved_staffing_description}</p>
               </StackItem>
             </Stack>
 
@@ -350,16 +335,16 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               onChange={ this.onChange } 
               defaultChecked={this.props.values.approvedStaffing.value} 
               disabled={isReadOnly}
-              aria-invalid={isInvalid("approvedStaffing", this.props.inlineFieldErrors)}
+              ariaLabelledBy={"approvedStaffing_label"}
             />
 
             { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
-                validate(this.props.values.approvedStaffing.key,  this.props.prefLang, 'deadline')
+                validate(this.props.values.approvedStaffing.key,  this.props.prefLang, 'approvedStaffing')
               )
             }
           </div>
 
-        </div>
+        </form>
       </>
     );
   }
