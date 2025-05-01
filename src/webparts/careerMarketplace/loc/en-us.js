@@ -51,7 +51,7 @@ define([], function() {
     "writtenEN": "English written expression",
     "readingEN": "English reading comprehension",
     "oralEN": "English oral expression",
-    "writtenFR": "French writtten expression",
+    "writtenFR": "French written expression",
     "readingFR": "French reading comprehension",
     "oralFR": "French oral expression",
     "work_arrangment":"Work arrangement",
@@ -72,7 +72,7 @@ define([], function() {
     "complete_para2":"You can edit or view your opportunity or go to Career Marketplace homepage.",
 
     //update
-    "update_para1":"Congratulations! You have update your opportunity.",
+    "update_para1":"Congratulations! You have updated your opportunity.",
 
     //buttons
     "prev_btn":"Previous",
