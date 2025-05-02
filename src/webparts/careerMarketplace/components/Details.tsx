@@ -286,7 +286,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     min={1}
                     max={60}
                     value={numberOfOpportunities.value}
-                    onChange = {e => this.props.handleNumberofOpp(e.target.value)}
+                    onChange = {e => this.props.handleNumberofOpp(e.target.value.replace(/^0+(?=\d)/, ''))}
                     required
                     className={styles.durationLengthInput}
                     disabled={isReadOnly}
