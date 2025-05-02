@@ -224,7 +224,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
          })
       }  
     }
-    this.addInLineErrors();
+   // this.addInLineErrors();
 
     //focus on the title when selecting next but only if no errors
     if (this.titleRef.current && this.state.hasError.length === 0) {
@@ -272,20 +272,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
   
 
-  public addInLineErrors = ():void => {
-    this.state.hasError.forEach(element => {
-      const error = document.getElementById(element.key);
+  // public addInLineErrors = ():void => {
+  //   this.state.hasError.forEach(element => {
+  //     const error = document.getElementById(element.key);
         
-      if (error) {
-        error.firstElementChild?.classList.add(styles.borderRemove);
-        error.parentElement?.classList.add(styles.borderRemove)
-        //error.classList.add(styles.error);
+  //     if (error) {
+  //       error.firstElementChild?.classList.add(styles.borderRemove);
+  //       error.parentElement?.classList.add(styles.borderRemove)
+  //       error.classList.add(styles.error);
 
-      } 
+  //     } 
 
-    });
+  //   });
    
-  }
+  // }
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
@@ -425,7 +425,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleNumberofOpp = (value: string) :void => {
-     
+     console.log("NUMOFOPP",value)
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
