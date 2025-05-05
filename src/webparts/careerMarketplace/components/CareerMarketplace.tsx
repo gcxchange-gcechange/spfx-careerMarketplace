@@ -30,6 +30,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   private alertRef: RefObject<HTMLDivElement>;
   private titleRef: RefObject<HTMLDivElement>;
+  private prevtitleRef: RefObject<HTMLDivElement>;
+  private navigationDirection = 'next';
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
   
@@ -113,6 +115,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     };
     this.alertRef = React.createRef();
     this.titleRef = React.createRef();
+    this.prevtitleRef = React.createRef();
     this._sp = getSP(this.props.context);
  
   }
@@ -205,6 +208,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const newArray = toTitleCase(checkValues)
     const reorderArray = this.reorderLanguage(checkValues)
     const nextPage = this.state.currentPage + 1;
+    this.navigationDirection = 'next';
 
     if (this.state.currentPage < 4 ) {
 
@@ -270,11 +274,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
+    this.navigationDirection = 'prev';
 
     if (this.state.currentPage > 0 ) {
       this.setState({
         currentPage: prevPage
       })
+    }
+
+    //focus on the title when selecting next but only if no errors
+    if (this.prevtitleRef.current && this.state.hasError.length === 0) {
+      this.prevtitleRef.current.focus();
     }
   }
 
@@ -960,7 +970,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     if (this.props.jobOpportunityId !== "" && checkUser === true) {
-      console.log("ID",this.props.jobOpportunityId)
       await this._populateEditableFields();
 
     } else {
@@ -979,8 +988,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if (this.alertRef.current) {
         this.alertRef.current.focus();
       }
-      else {
-        this.titleRef.current?.focus();
+      // else if ( this.navigationDirection === 'next') {
+      //     this.titleRef.current?.focus() 
+      //    } 
+      //    else { 
+      //     this.prevtitleRef.current?.focus()
+      //   }
+    }
+
+    if(this.state.currentPage !== prevState.currentPage && this.state.hasError.length === 0 ) {
+      if (this.navigationDirection === 'prev' && this.prevtitleRef?.current) {
+        this.prevtitleRef.current.focus();
+      } else if (this.navigationDirection === 'next' && this.titleRef?.current) {
+        this.titleRef.current.focus();
       }
     }
 
@@ -1247,6 +1267,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const items = steps.map((item) => ({ key: item.step, title: "" }));
     const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.props.jobOpportunityId}`
 
+    console.log("Naviagtion", this.navigationDirection)
+
+
+ 
     return (
       <>      
         <ThemeProvider applyTo='body' theme={myTheme}>
@@ -1297,10 +1321,32 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                         ) : 
                         
                         <>
-                        <div tabIndex={-1}  ref={this.titleRef}>
-                          <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
+                        <>
+                          <div
+                            tabIndex={-1}
+                            ref={this.titleRef}
+                            style={{ display: this.navigationDirection === 'next' ? 'block' : 'none' }}>
+                            <PageTitle
+                              currentPage={this.state.currentPage}
+                              prefLang={this.props.prefLang}
+                            />
+                          </div>
 
-                        </div>
+                          <div
+                            tabIndex={-1}
+                            ref={this.prevtitleRef}
+                            style={{ display: this.navigationDirection === 'prev' ? 'block' : 'none'  }}>
+                            <PageTitle
+                              currentPage={this.state.currentPage}
+                              prefLang={this.props.prefLang}
+                            />
+                          </div>
+                      </>
+
+{/* 
+                        <div tabIndex={-1}  ref={this.navigationDirection === 'next' ? nextRef : prevRef }>
+                          <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
+                        </div> */}
 
                         <div className={styles.stepper} 
                           role="progressbar" 
