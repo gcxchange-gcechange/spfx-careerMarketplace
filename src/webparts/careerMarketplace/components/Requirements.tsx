@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { Checkbox, ComboBox, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
+import { Checkbox, ComboBox, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import styles from './CareerMarketplace.module.scss';
@@ -121,8 +121,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                   <p className={styles.instruction}>{this.strings.skills_description} 
                     {
                     this.props.prefLang === "en-en" 
-                    ? <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</a>
-                    : <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</a>
+                    ? <Link href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</Link>
+                    : <Link href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</Link>
                     }</p>
                 </Label>
               </StackItem>

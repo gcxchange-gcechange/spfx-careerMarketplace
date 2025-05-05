@@ -3,12 +3,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
-//import ReusableDropdownField from "./ReusableDropDownField";
 import { ComboBox, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
-//import { validate } from "./Validations";
 import { SelectLanguage } from './SelectLanguage';
 import styles from './CareerMarketplace.module.scss';
-import { isInvalid } from "./Functions";
+import { getLocalizedString, isInvalid } from "./Functions";
 
 
 export interface IPosterInfoProps {
@@ -55,9 +53,6 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   public render(): React.ReactElement<IPosterInfoProps> {
 
-    const key = "department" as keyof ICareerMarketplaceWebPartStrings;
-    const localizedKey = this.strings[key];
-  
     const comboBoxStyles: Partial<IComboBoxStyles> = { 
       errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' } 
     }
@@ -109,14 +104,10 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
               selectedKey={ this.props.values.department.key}
               autoComplete="on"
               allowFreeform
-              errorMessage={this.props.values.department.key === "0"  ? `${localizedKey}`: undefined}
+              errorMessage={this.props.values.department.key === "0"  ? getLocalizedString("department", this.props.prefLang): undefined}
               styles={comboBoxStyles}
               aria-invalid = {isInvalid("department", this.props.inlineFieldErrors)}
           />
-           {/* {this.props.inlineFieldErrors.includes('department') && ( 
-            <div>{validate(this.props.values.department.key, this.props.prefLang, "department-error" )}</div>
-          )}  */}
-
       
           <ReusableTextField
             id={"workEmail"}

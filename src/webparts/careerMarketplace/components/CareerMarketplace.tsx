@@ -7,7 +7,7 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import {  IStackTokens, Spinner, SpinnerSize, Stack, StackItem, ThemeProvider, createTheme } from '@fluentui/react';
+import {  IStackTokens, Link, Spinner, SpinnerSize, Stack, StackItem, ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
@@ -201,13 +201,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }
       }
     }
-    console.log('checkvalues', checkValues)
     
     const newArray = toTitleCase(checkValues)
     const reorderArray = this.reorderLanguage(checkValues)
-
-
-
     const nextPage = this.state.currentPage + 1;
 
     if (this.state.currentPage < 4 ) {
@@ -224,7 +220,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
          })
       }  
     }
-   // this.addInLineErrors();
 
     //focus on the title when selecting next but only if no errors
     if (this.titleRef.current && this.state.hasError.length === 0) {
@@ -234,7 +229,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public reorderLanguage(arr: { key: string; value: string; }[]): { key: string; value: string; }[] {
-    console.log(arr)
+
   const languageReq = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
   const langIndex = arr.findIndex((item) => item.key === "language");
   const securityIndex = arr.findIndex((item) => item.key === "security");
@@ -272,20 +267,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
   
 
-  // public addInLineErrors = ():void => {
-  //   this.state.hasError.forEach(element => {
-  //     const error = document.getElementById(element.key);
-        
-  //     if (error) {
-  //       error.firstElementChild?.classList.add(styles.borderRemove);
-  //       error.parentElement?.classList.add(styles.borderRemove)
-  //       error.classList.add(styles.error);
-
-  //     } 
-
-  //   });
-   
-  // }
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
@@ -304,12 +285,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
     const newJoBTypeFormat = [{Label: this.state.values.jobType.Label, Guid: this.state.values.jobType.Guid}]
-
-    //const newJoBTypeFormat = this.state.values.jobType.map((item:any) => ({ Label: item.label, Guid: item.value }));
     const programArea = this.state.values.programArea;
-
     const programAreaFormat= {Label: programArea.text, Guid: programArea.key };
-
+    //const newJoBTypeFormat = this.state.values.jobType.map((item:any) => ({ Label: item.label, Guid: item.value }));
 
     let langCompText = "";
 
@@ -425,7 +403,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleNumberofOpp = (value: string) :void => {
-     console.log("NUMOFOPP",value)
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
@@ -1002,10 +979,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if (this.alertRef.current) {
         this.alertRef.current.focus();
       }
+      else {
+        this.titleRef.current?.focus();
+      }
     }
 
     if (this.state.currentPage !== prevState.currentPage) {
-
 
         this.setState({
           inlineFieldErrors: []
@@ -1055,9 +1034,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const properCaseValues: any[] = [];
   
     const convertString = this.state.hasError.map((item: any) => {
-      console.log("item",item)
-      // const isApprovedStaffing = item.key === "approvedStaffing";
-      // const isEmpty = !item.value || item.value === ""; 
+    
       const properCase = item.key
         .replace(/([A-Z])/g, " $1")
         .replace(/^ /, "")
@@ -1070,11 +1047,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         properCase: properCase,
         localizedKey: localizedKey,
         errorMessage : `${localizedKey}`
-        // errorMessage: isApprovedStaffing
-        //   ? isEmpty
-        //     ? `${this.strings.requiredAndshouldBeYes}`
-        //     : `${this.strings.shouldBeYes}`
-        //   : `${localizedKey}`,
+    
       };
     });
   
@@ -1087,7 +1060,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           {properCaseValues.map((item, index) => (
             <ul key={index}>
               <li>
-                <a href={`#${item.key}`}>{item.errorMessage}</a>
+                <Link href={`#${item.key}`}>{item.errorMessage}</Link>
               </li>
             </ul>
           ))}
@@ -1324,7 +1297,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                         ) : 
                         
                         <>
-                        <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
+                        <div tabIndex={-1}  ref={this.titleRef}>
+                          <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
+
+                        </div>
 
                         <div className={styles.stepper} 
                           role="progressbar" 

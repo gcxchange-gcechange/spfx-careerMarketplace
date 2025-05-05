@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
-import { Dropdown, IDropdownOption, IDropdownStyles,  Label, Stack, StackItem} from '@fluentui/react';
+import { Dropdown, IDropdownOption, IDropdownStyles, Label, Link, Stack, StackItem} from '@fluentui/react';
 import styles from './CareerMarketplace.module.scss';
 //import { validate } from './Validations';
 
@@ -34,8 +34,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
   public customLabel = (): JSX.Element => {
 
-
-    //const excludedIds = ['readingEN', 'writtenEN', 'oralEN','readingFr', 'writtenFr', 'oralFr' ];
+  
 
     return (
     <Stack  horizontal verticalAlign="center" >
@@ -55,14 +54,14 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           }
             {this.props.title}
           </p>
-          {this.props.id === 'jobType' ? (<p className={styles.instruction}><a href="http://www.gcpedia.gc.ca/wiki/Jobs_Marketplace" target="_blank" rel="noreferrer">{this.props.instruction}</a></p>) 
-        : this.props.id === 'skills' ?
-         (<p className={styles.instruction}>{this.props.instruction} 
-        {
-        this.props.prefLang === "en-en" 
-        ? <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.props.instructionLink}</a>
-        : <a href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.props.instructionLink}</a>
-        }</p>) 
+          {this.props.id === 'jobType' ? (<p className={styles.instruction}><Link href="http://www.gcpedia.gc.ca/wiki/Jobs_Marketplace" target="_blank" rel="noreferrer">{this.props.instruction}</Link></p>) 
+        // : this.props.id === 'skills' ?
+        //  (<p className={styles.instruction}>{this.props.instruction} 
+        // {
+        // this.props.prefLang === "en-en" 
+        // ? <Link styles={linkStyle} href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.props.instructionLink}</Link>
+        // : <Link href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.props.instructionLink}</Link>
+        // }</p>) 
         : (<p className={styles.instruction}>{this.props.instruction}</p>)}
         </Label>
        
@@ -75,7 +74,6 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
   public render(): React.ReactElement<IReusableDropdownFieldProps> {
 
-    console.log("selected", this.props.title)
     const dropdownStyle: Partial<IDropdownStyles> = {
    
       errorMessage: {
@@ -103,8 +101,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
     }
     
     const excludedIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
-
-    
+  
 
     return (
       <>      
@@ -120,11 +117,6 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           {...this.props}
         />       
 
-         {/* {
-             this.props.inlineFieldErrors?.includes(this.props.id) && (
-              validate(this.props.selectedKey, this.props.prefLang,  this.props.id)
-            )
-          }  */}
       </div>
 
       </>
