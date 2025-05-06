@@ -214,7 +214,22 @@
 
 input[type="number"][disabled] {
   color: rgb(161, 159, 157);
+  border: none;
  
+}
+
+input[type="text"][disabled] {
+  color: rgb(161, 159, 157);
+}
+
+:global {
+  .ms-Dropdown.is-disabled .ms-Dropdown-title {
+    color: #a6a6a6; 
+  }
+
+  .ms-TextField.is-disabled .ms-TextField-field {
+    color: #a6a6a6; 
+  }
 }
 
 
