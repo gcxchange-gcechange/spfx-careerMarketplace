@@ -1072,7 +1072,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     });
   
     properCaseValues.push(...convertString);
-    console.log(properCaseValues);
+    console.log("PV",properCaseValues);
   
     return (
       <>

@@ -137,11 +137,13 @@ export default class Details extends React.Component<IDetailsProps> {
     //const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined);
 
     const getDisabledElement = document.getElementsByName("durationLength")[0];
+    console.log("DIS",getDisabledElement)
 
     if (getDisabledElement) {
       if (durationDisabled) {
         getDisabledElement.style.backgroundColor = "rgb(243, 242, 241)";
         getDisabledElement.style.borderColor = "rgb(243, 242, 241)";
+        
       } else {
         getDisabledElement.style.backgroundColor = "rgb(255, 255, 255)";
         getDisabledElement.style.borderColor = "rgb(96, 94, 92)";

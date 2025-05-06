@@ -45,12 +45,12 @@ declare interface ICareerMarketplaceWebPartStrings {
   "security_level_description": string;
   "language_requirements": string;
   "language_requirements_description": string;
-  "writtenEN": string;
-  "readingEN": string;
-  "oralEN": string;
-  "writtenFR": string;
-  "readingFR": string;
-  "oralFR": string;
+  "writtenENField": string;
+  "readingENField": string;
+  "oralENField": string;
+  "writtenFRField": string;
+  "readingFRField": string;
+  "oralFRField": string;
   "work_arrangment": string;
   "work_arrangment_description": string;
   "approved_staffing": string;
@@ -125,12 +125,12 @@ declare interface ICareerMarketplaceWebPartStrings {
   "approvedStaffing":string;
   "language":string;
   "languageRequirements":string;
-  "languageRequirements_writtenEN": string;
-  "languageRequirements_readingEN": string;
-  "languageRequirements_oralEN": string;
-  "languageRequirements_writtenFr": string;
-  "languageRequirements_readingFr": string;
-  "languageRequirements_oralFr": string;
+  "writtenEN": string;
+  "readingEN": string;
+  "oralEN": string;
+  "writtenFR": string;
+  "readingFR": string;
+  "oralFR": string;
 
   //loader
   "submitting_your_information": string; 

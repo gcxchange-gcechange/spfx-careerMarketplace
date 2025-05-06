@@ -227,75 +227,75 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <ReusableDropdownField
             id={"readingEN"}
             name={"readingEN"}
-            title={this.strings.readingEN}
+            title={this.strings.readingENField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             ariaLabelRequired={this.strings.required}
             selectedKey={this.props.values.languageRequirements[0].readingEN.key}
-            errorMessage={this.props.values.languageRequirements[0].readingEN.key === ""  ? getLocalizedString("languageRequirements_readingEN", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].readingEN.key === ""  ? getLocalizedString("readingEN", this.props.prefLang) : undefined}
           />
 
           <ReusableDropdownField
             id={"writtenEN"}
             name={"writtenEN"}
-            title={this.strings.writtenEN}
+            title={this.strings.writtenENField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             disabled={disabledField}
             ariaLabelRequired={this.strings.required}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].writtenEN.key}
-            errorMessage={this.props.values.languageRequirements[0].writtenEN.key === ""  ? getLocalizedString("languageRequirements_writtenEN", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].writtenEN.key === ""  ? getLocalizedString("writtenEN", this.props.prefLang) : undefined}
           />
         
           <ReusableDropdownField
             id={"oralEN"}
             name={"oralEN"}
-            title= {this.strings.oralEN}
+            title= {this.strings.oralENField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             ariaLabelRequired={this.strings.required}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].oralEN.key}
-            errorMessage={this.props.values.languageRequirements[0].oralEN.key === ""  ? getLocalizedString("languageRequirements_oralEN", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].oralEN.key === ""  ? getLocalizedString("oralEN", this.props.prefLang) : undefined}
           />
           
           <ReusableDropdownField
             id={"readingFR"}
             name={"readingFR"}
-            title={this.strings.readingFR}
+            title={this.strings.readingFRField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             ariaLabelRequired={this.strings.required}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].readingFR.key}
-            errorMessage={this.props.values.languageRequirements[0].readingFR.key === ""  ? getLocalizedString("languageRequirements_readingFR", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].readingFR.key === ""  ? getLocalizedString("readingFR", this.props.prefLang) : undefined}
  
           />
 
           <ReusableDropdownField
             id={"writtenFR"}
             name={"writtenFR"}
-            title={this.strings.writtenFR}
+            title={this.strings.writtenFRField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             ariaLabelRequired={this.strings.required}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].writtenFR.key}
-            errorMessage={this.props.values.languageRequirements[0].writtenFR.key === ""  ? getLocalizedString("languageRequirements_writtenFR", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].writtenFR.key === ""  ? getLocalizedString("writtenFR", this.props.prefLang) : undefined}
  
           />
 
           <ReusableDropdownField
             id={"oralFR"}
             name={"oralFR"}
-            title={this.strings.oralFR}
+            title={this.strings.oralFRField}
             options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             ariaLabelRequired={this.strings.required}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].oralFR.key}
-            errorMessage={this.props.values.languageRequirements[0].oralFR.key === ""  ? getLocalizedString("languageRequirements_oralFR", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].oralFR.key === ""  ? getLocalizedString("oralFR", this.props.prefLang) : undefined}
  
 
           />
