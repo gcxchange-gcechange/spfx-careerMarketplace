@@ -1,13 +1,5 @@
 /* eslint-disable @rushstack/no-new-null */
-export interface ICreateOpportunity {
-  clientId: string;
-  createJobApiUrl:string;
 
-}
-
-export interface IEditOpportunity {
-  apiUrlEdit: string;
-}
 
 export const createOpportunityConfig = {
   clientId: "c121f403",
