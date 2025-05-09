@@ -128,18 +128,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const checkValues: {key: string, value: any}[] = [];
 
     const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
-      if ( Array.isArray(fieldData) && field !== "languageRequirements") {
+      if ( Array.isArray(fieldData)) {
         return fieldData.some(item => item.pageNumber === currentPage);
       }
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
 
-    console.log("currentFields", currentPgFields);
    
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
-      console.log(value)
+
       const jobTypeIncludesDeployment = values.jobType.Label === 'Deployments' || values.jobType.Label === 'Mutations';
 
       //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
@@ -148,12 +147,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           continue;
       }
 
-      // if (key === 'numberOfOpportunities' && stringValues.includes(key)) {
-      //   if (value === "" || isNaN(Number(value))) {
-      //       checkValues.push({ key, value });
-      //       continue; 
-      //   }
-      // }
 
 
       if ((currentPgFields.includes(key) && value.value === "" )
@@ -164,7 +157,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           || (stringValues.includes(key) && value === "")
           || (stringValues.includes(key) && value.length < 5)
           || value.text === `--${this.strings.select}--` 
-          || value.text === 'No'
+          || value.text === 'No' 
   
 
         ){
@@ -174,11 +167,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
+
     if (currentPage === 2) {    
         const langReq = this.state.values.languageRequirements[0];
-        // const isReadingEmpty = this.state.values.languageRequirements[0].readingEN.value === "" || this.state.values.languageRequirements[0].readingFR.value === ""; 
-        // const isWrittenEmpty = this.state.values.languageRequirements[0].writtenEN.value === "" || this.state.values.languageRequirements[0].writtenFR.value=== "";
-        // const isOralEmpty = this.state.values.languageRequirements[0].oralEN.value === "" || this.state.values.languageRequirements[0].oralFR.value === "";
 
       if (this.state.values.languageRequirements[0].language.value === "") {
         checkValues.push({key:"language", value:""})
@@ -413,6 +404,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleNumberofOpp = (value: string) :void => {
+    
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
@@ -617,14 +609,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
-    console.log("EDIT:", item)
     const cityId = item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
-    console.log(cityData)
  
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
-    console.log("region", regionDetails)
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
@@ -675,7 +664,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         programArea : {...prevState.programArea, key: item.ProgramArea.TermGuid},
         classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},
-        numberOfOpportunities: item.NumberOfOpportunities,
+        numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 1},
         duration:{...prevState.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
         deadline: new Date(formattedDate),
@@ -885,7 +874,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if(getElements ) {
       getElements.forEach(element => {
         elementId.push(element.id)
-        console.log(elementId)
       });
     }
 
@@ -965,9 +953,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     await this._getUser();
     await this.getDropdownElements();
 
-    if (this.context.application.navigatedEvent !== undefined) {
-      this.context.application.navigatedEvent?.add(this, this.getDropdownElements());
-    }
+    // if (this.context.application?.navigatedEvent) {
+    //   this.context.application?.navigatedEvent.add(this, this.getDropdownElements());
+    // }
 
     if (this.props.jobOpportunityId !== "" && checkUser === true) {
       await this._populateEditableFields();
@@ -1045,7 +1033,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public componentWillUnmount():void {
-    this.context.application.navigatedEvent.remove(this, this.getDropdownElements);
+    this.context.application?.navigatedEvent.remove(this, this.getDropdownElements);
   }
 
 

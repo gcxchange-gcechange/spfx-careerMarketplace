@@ -137,7 +137,6 @@ export default class Details extends React.Component<IDetailsProps> {
     //const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined);
 
     const getDisabledElement = document.getElementsByName("durationLength")[0];
-    console.log("DIS",getDisabledElement)
 
     if (getDisabledElement) {
       if (durationDisabled) {
@@ -339,7 +338,8 @@ export default class Details extends React.Component<IDetailsProps> {
                   value={numberOfOpportunities.value}
                   onChange={(e) =>
                     this.props.handleNumberofOpp(
-                      e.target.value.replace(/^0+(?=\d)/, "")
+                      e.target.value.trim()
+                     // e.target.value.replace(/^0+(?=\d)/, "")
                     )
                   }
                   required
