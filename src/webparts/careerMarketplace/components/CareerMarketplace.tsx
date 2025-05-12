@@ -128,13 +128,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const checkValues: {key: string, value: any}[] = [];
 
     const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
-      if ( Array.isArray(fieldData)) {
+      if ( Array.isArray(fieldData) && field !== "languageRequirements") {
         return fieldData.some(item => item.pageNumber === currentPage);
       }
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
 
-   
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
@@ -168,10 +167,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
 
-    if (currentPage === 2) {    
-        const langReq = this.state.values.languageRequirements[0];
+    if (currentPage === 2) {   
+ 
+      const { values } = this.state;
+      const langReq =  values.languageRequirements[0];
 
-      if (this.state.values.languageRequirements[0].language.value === "") {
+      if (langReq.language.value === "" || langReq.language.key === ""){
         checkValues.push({key:"language", value:""})
       }
       else if (langReq.language.key === 3) {
@@ -675,17 +676,33 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         workSchedule: { key: item.WorkSchedule.ID},
         workArrangment: {key: item.WorkArrangement.ID},
         security:{key: item.SecurityClearance.ID},
-        languageRequirements:[
-          {...prevState.values.languageRequirements[0], 
-          language: { key: item.LanguageRequirement.ID, text:item.LanguageRequirement.NameEn},
-            readingEN: getIndex.length !== 0 ? getIndex[0][0] : {...prevState.values.languageRequirements[0].readingEN},
-            writtenEN: getIndex.length !== 0 ? getIndex[0][1] : {...prevState.values.languageRequirements[0].writtenEN},
-            oralEN:  getIndex.length !== 0 ? getIndex[0][2] : {...prevState.values.languageRequirements[0].oralEN},
-            readingFR:  getIndex.length !== 0 ? getIndex[0][4] : {...prevState.values.languageRequirements[0].readingFR},
-            writtenFR: getIndex.length !== 0 ?  getIndex[0][5]: {...prevState.values.languageRequirements[0].writtenFR },
-            oralFR:  getIndex.length !== 0 ? getIndex[0][6] : {...prevState.values.languageRequirements[0].oralFR},
 
-        }],
+        languageRequirements: [
+          {
+            ...prevState.values.languageRequirements[0],
+            language: {
+              key: item.LanguageRequirement.ID,
+              text: item.LanguageRequirement.NameEn,
+            },
+            readingEN: getIndex.length !== 0 ? getIndex[0][0] : { ...prevState.values.languageRequirements[0].readingEN },
+            writtenEN: getIndex.length !== 0 ? getIndex[0][1] : { ...prevState.values.languageRequirements[0].writtenEN },
+            oralEN: getIndex.length !== 0 ? getIndex[0][2] : { ...prevState.values.languageRequirements[0].oralEN },
+            readingFR: getIndex.length !== 0 ? getIndex[0][3] : { ...prevState.values.languageRequirements[0].readingFR },
+            writtenFR: getIndex.length !== 0 ? getIndex[0][4] : { ...prevState.values.languageRequirements[0].writtenFR },
+            oralFR: getIndex.length !== 0 ? getIndex[0][5] : { ...prevState.values.languageRequirements[0].oralFR },
+          },
+        ],
+        // languageRequirements:[
+        //   {...prevState.values.languageRequirements[0], 
+        //     language: { key: item.LanguageRequirement.ID, text:item.LanguageRequirement.NameEn},
+        //     readingEN: getIndex.length !== 0 ? getIndex[0][0] : {...prevState.values.languageRequirements[0].readingEN},
+        //     writtenEN: getIndex.length !== 0 ? getIndex[0][1] : {...prevState.values.languageRequirements[0].writtenEN},
+        //     oralEN:  getIndex.length !== 0 ? getIndex[0][2] : {...prevState.values.languageRequirements[0].oralEN},
+        //     readingFR:  getIndex.length !== 0 ? getIndex[0][4] : {...prevState.values.languageRequirements[0].readingFR},
+        //     writtenFR: getIndex.length !== 0 ?  getIndex[0][5]: {...prevState.values.languageRequirements[0].writtenFR },
+        //     oralFR:  getIndex.length !== 0 ? getIndex[0][6] : {...prevState.values.languageRequirements[0].oralFR},
+
+        // }],
         approvedStaffing: {...prevState.values.approvedStaffing, value: true}
         
        
