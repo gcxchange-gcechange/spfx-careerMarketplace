@@ -14,7 +14,7 @@ import CareerMarketplace from './components/CareerMarketplace';
 import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
 import GraphService from '../../services/GraphService';
-import { IEditOpportunity, ICreateOpportunity } from '../../servicesConfig';
+import { createOpportunityConfig, getJobOpportunityUrl } from '../../servicesConfig';
 
  
  
@@ -27,7 +27,6 @@ export interface ICareerMarketplaceWebPartProps {
   url: string;
   edit: boolean;
   jobOppOwner: string | undefined;
-  apiUrl: string,
   clientId: string,
 }
 
@@ -35,14 +34,6 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
   private jobOpportunityId: string | null = null;
   private jobOpportunityOwner: string | undefined = undefined ; 
-  private createServices: ICreateOpportunity = {
-    clientId:"" ,
-    apiUrl: ""
-  }
-
-  private editServices: IEditOpportunity = {
-    apiUrlEdit:"",
-  }
 
   public render(): void {
 
@@ -58,9 +49,12 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         edit: this.properties.edit,
         jobOpportunityId: this.jobOpportunityId || '',
         jobOppOwner: this.jobOpportunityOwner,
-        apiUrl: this.createServices.apiUrl,
-        clientId: this.createServices.clientId,
-        apiUrlEdit: this.editServices.apiUrlEdit
+        clientId: createOpportunityConfig.clientId,
+        createJobApiUrl: createOpportunityConfig.createJobApiUrl,
+        editJobApiUrl: createOpportunityConfig.editJobApiUrl,
+        jobTypeTermId: createOpportunityConfig.jobTypeTermId,
+        programAreaTermId: createOpportunityConfig.programAreaTermId,
+        jobOpportunityListUrl: `${getJobOpportunityUrl(this.jobOpportunityId)}`
     
       }
     );

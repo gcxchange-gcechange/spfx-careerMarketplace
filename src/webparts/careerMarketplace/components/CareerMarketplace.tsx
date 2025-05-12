@@ -356,7 +356,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         .getClient(this.props.clientId)
         .then((client: AadHttpClient): void => {
           client
-          .post(this.props.jobOpportunityId ? this.props.apiUrlEdit :this.props.apiUrl, AadHttpClient.configurations.v1, postOptions)
+          .post(this.props.jobOpportunityId ? this.props. editJobApiUrl : this.props.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
             console.log("response", response)
             if (response.status) {
@@ -710,8 +710,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const {currentPage} = this.state;
     const parameters = [
       [
-      '45f37f08-3ff4-4d84-bf21-4a77ddffcf3e', // jobType
-      'bd807536-d8e7-456b-aab0-fae3eecedd8a', // programArea
+        this.props.jobTypeTermId,
+        this.props.programAreaTermId,
       ]  
     ];
   
@@ -965,8 +965,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     await this._getUser();
     await this.getDropdownElements();
 
-    if (this.context.application.navigatedEvent !== undefined) {
-      this.context.application.navigatedEvent?.add(this, this.getDropdownElements());
+    if (this.context.application?.navigatedEvent !== undefined) {
+      this.context.application?.navigatedEvent.add(this, this.getDropdownElements());
     }
 
     if (this.props.jobOpportunityId !== "" && checkUser === true) {
@@ -1045,7 +1045,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public componentWillUnmount():void {
-    this.context.application.navigatedEvent.remove(this, this.getDropdownElements);
+    this.context.application?.navigatedEvent.remove(this, this.getDropdownElements);
   }
 
 
@@ -1265,9 +1265,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
-    const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.props.jobOpportunityId}`
-
-    console.log("Naviagtion", this.navigationDirection)
+    const jobOpportunityUrl = this.props.jobOpportunityListUrl;
 
 
  

@@ -10,8 +10,11 @@ export interface ICareerMarketplaceProps {
   edit: boolean;
   jobOpportunityId: string;
   jobOppOwner: string | undefined;
-  apiUrl: string,
   clientId: string,
-  apiUrlEdit: string,
+  createJobApiUrl: string,
+  editJobApiUrl: string,
+  jobTypeTermId: string,
+  programAreaTermId: string,
+  jobOpportunityListUrl: string;
 
 }
