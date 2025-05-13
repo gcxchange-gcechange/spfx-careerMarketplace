@@ -1273,8 +1273,56 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const items = steps.map((item) => ({ key: item.step, title: "" }));
     const jobOpportunityUrl = this.props.jobOpportunityListUrl;
 
-    const {department, jobTitleEn} = this.state.values;
-    const values = {department, jobTitleEn}
+    const {
+      department,
+      jobTitleEn,
+      jobTitleFr,
+      jobDescriptionEn,
+      jobDescriptionFr,
+      jobType,
+      programArea,
+      classificationCode,
+      classificationLevel,
+      numberOfOpportunities,
+      durationLength,
+      duration,
+      deadline,
+      skills,
+      workSchedule,
+      province,
+      region,
+      city,
+      security,
+      languageRequirements,
+      workArrangment,
+      approvedStaffing
+    } = this.state.values;
+
+    const values = {
+      department,
+      jobTitleEn,
+      jobTitleFr,
+      jobDescriptionEn,
+      jobDescriptionFr,
+      jobType,
+      programArea,
+      classificationCode,
+      classificationLevel,
+      numberOfOpportunities,
+      durationLength,
+      duration,
+      deadline,
+      skills,
+      workSchedule,
+      province,
+      region,
+      city,
+      security,
+      languageRequirements,
+      workArrangment,
+      approvedStaffing
+    };
+    
 
     return (
       <>
