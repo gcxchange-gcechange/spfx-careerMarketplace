@@ -70,6 +70,17 @@ declare interface ICareerMarketplaceWebPartStrings {
   "view": string;
   "complete_para2": string;
 
+  //errorPage
+
+  "server_error_title": string;
+  "error_p1": string;
+  "error_p2": string;
+  "error_list_1": string;
+  "error_list_2": string;
+  "error_list_3": string;
+  "error_list_3b": string;
+  "error_p3": string;
+
   //update
   "update_para1":string;
 
