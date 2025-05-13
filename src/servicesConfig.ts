@@ -1,9 +1,16 @@
-export interface ICreateOpportunity {
-  clientId: string;
-  apiUrl:string;
+/* eslint-disable @rushstack/no-new-null */
 
-}
 
-export interface IEditOpportunity {
-  apiUrlEdit: string;
+export const createOpportunityConfig = {
+  clientId: "c121f403-ff41-4db3-8426-f3b9c5016cd4",
+  createJobApiUrl: " api/CreateJobOpportunity",
+  editJobApiUrl:" api/UpdateJobOpportunity",
+  jobTypeTermId: "45f37f08-3ff4-4d84-bf21-4a77ddffcf3e",
+  programAreaTermId:"bd807536-d8e7-456b-aab0-fae3eecedd8a",
+};
+
+const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?";
+
+export const getJobOpportunityUrl = (jobOpportunityId: string | null ):string => {
+  return `${baseJobOpportunityUrl}?JobOpportunityId=${jobOpportunityId}`
 }
