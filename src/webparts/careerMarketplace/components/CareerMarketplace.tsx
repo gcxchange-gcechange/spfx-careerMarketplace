@@ -74,6 +74,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       jobOpportunityOwner: true,
       isLoading: false,
       hasTouchedSkillCombo: false,
+      postDetails: "",
 
 
       values: {
@@ -303,6 +304,39 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
  
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
+    const errorPageSkills = this.state.values.skills.filter(item => Object.keys(item).includes('text')).map(item => (item.text));
+
+    const postDetailsObject = {
+      [this.strings.fullName]: this.props.userDisplayName,
+      [this.strings.departmentField]: this.state.values.department.text,
+      [this.strings.workEmail]: this.props.workEmail,
+      [this.strings.job_Title]: this.state.values.jobTitleEn,
+      [this.strings.job_Title]: this.state.values.jobTitleFr,
+      [this.strings.job_Description]: this.state.values.jobDescriptionEn,
+      [this.strings.job_Description]: this.state.values.jobDescriptionFr,
+      [this.strings.job_Type]: this.state.values.jobType.Label,
+      [this.strings.program_Area]: programArea.text,
+      [this.strings.classification_Code]: this.state.values.classificationCode.text,
+      [this.strings.classification_Level]: this.state.values.classificationLevel.text,
+      [this.strings.number_of_Opportunities]: this.state.values.numberOfOpportunities.value,
+      [this.strings.time_period]: this.state.values.duration.text,
+      [this.strings.length]: this.state.values.durationLength.value,
+      [this.strings.application_deadline]: isoString,
+      [this.strings.skillsField]: errorPageSkills,
+      [this.strings.provinceField]: this.state.values.province.text,
+      [this.strings.regionField]: this.state.values.region.text,
+      [this.strings.cityField]: this.state.values.city.text,
+      [this.strings.time_in_hours]: this.state.values.workSchedule.text,
+      [this.strings.security_level]: this.state.values.security.text,
+      [this.strings.language_requirements]: this.state.values.languageRequirements[0].language.text,
+      ...(this.state.values.languageRequirements[0].language.key === 3 && {
+        [this.strings.language_requirements]: langCompText
+      }),
+      [this.strings.work_arrangment]: this.state.values.workArrangment.text,
+      [this.strings.approved_staffing]: this.state.values.approvedStaffing.value,
+    };
+  
+    
    
   
       const requestHeaders: Headers = new Headers();
@@ -344,7 +378,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       console.log("BODY", postOptions.body)
       try {
-        this.setState({isLoading: true}, () => {
+        this.setState({isLoading: true, postDetails: postDetailsObject}, () => {
         this.props.context.aadHttpClientFactory
         .getClient(this.props.clientId)
         .then((client: AadHttpClient): void => {
@@ -542,6 +576,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     else if( valueName === "skills") {
+      console.log("skills", value)
       const findSkillItem = [...this.state.values.skills];
       const skillExists = findSkillItem.some((item: any) => item.value === value.key);
       this.setState((prevState) => ({
@@ -550,7 +585,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           ...prevState.values,
           skills: skillExists
             ? prevState.values.skills.filter((item) => item.value !== value.key) 
-            : [...prevState.values.skills, {value: value.key}],  
+            : [...prevState.values.skills, {value: value.key, text:value.text}],  
         },
       }));
     }    
@@ -585,6 +620,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         approvedStaffing:  { ...prevState.values.approvedStaffing, value: isChecked}
       }
     }))
+  }
+
+  public handleCopyBtn = (value: any):void  => {
+   console.log("txt", value)
+
   }
 
   public async _populateEditableFields(): Promise<void> {
@@ -1273,56 +1313,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const items = steps.map((item) => ({ key: item.step, title: "" }));
     const jobOpportunityUrl = this.props.jobOpportunityListUrl;
 
-    const {
-      department,
-      jobTitleEn,
-      jobTitleFr,
-      jobDescriptionEn,
-      jobDescriptionFr,
-      jobType,
-      programArea,
-      classificationCode,
-      classificationLevel,
-      numberOfOpportunities,
-      durationLength,
-      duration,
-      deadline,
-      skills,
-      workSchedule,
-      province,
-      region,
-      city,
-      security,
-      languageRequirements,
-      workArrangment,
-      approvedStaffing
-    } = this.state.values;
-
-    const values = {
-      department,
-      jobTitleEn,
-      jobTitleFr,
-      jobDescriptionEn,
-      jobDescriptionFr,
-      jobType,
-      programArea,
-      classificationCode,
-      classificationLevel,
-      numberOfOpportunities,
-      durationLength,
-      duration,
-      deadline,
-      skills,
-      workSchedule,
-      province,
-      region,
-      city,
-      security,
-      languageRequirements,
-      workArrangment,
-      approvedStaffing
-    };
-    
 
     return (
       <>
@@ -1349,9 +1339,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 </div>
               </div>
             </>
-          ) : this.state.validationStatus !== 200 ? (
+          ) : (this.state.validationStatus !== 200 && this.state.validationStatus !== 0) ? (
             // Error 400
-            <ErrorPage prefLang={this.props.prefLang} values={[values]} />
+            <ErrorPage prefLang={this.props.prefLang} values={this.state.postDetails} copyBtn={this.handleCopyBtn}/>
           ) : (
             //  Default fallback
             <>

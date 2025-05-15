@@ -81,6 +81,8 @@ define([], function() {
     "error_list_3": "Send the email to our support team at",
     "error_list_3b": "Our team will post your opportunity as soon as possible, typically within one business day.",
     "error_p3": "We apologize for the inconvenience and appreciate your patience as we address this issue. Thank you for helping us ensure your opportunity is posted!",
+    "postDetails_btn": "",
+    "contact_btn":"Contact Us",
 
     //update
     "update_para1":"Congratulations! You have updated your opportunity.",

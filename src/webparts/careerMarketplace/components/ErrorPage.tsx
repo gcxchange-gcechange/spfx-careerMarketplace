@@ -1,18 +1,50 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { SelectLanguage } from "./SelectLanguage";
-import { Link } from "@fluentui/react";
+import { Link, Stack } from "@fluentui/react";
+import CustomButton from "./CustomButton";
 
 
 export interface IErrorPageProps {
   prefLang: string;
   values: any;
+  copyBtn: (value: any) => void;
 }
 
 
 export default class ErrorPage extends React.Component<IErrorPageProps> {
     
     public strings = SelectLanguage(this.props.prefLang);
+
+    // public copyTxtBtn = async ():Promise<void> => {
+    //     try {
+    //         const copied = await navigator.clipboard.writeText(this.props.values);
+    //         alert('Copied to clipboard!');
+    //         this.props.copyBtn(copied)
+    //       } catch (err) {
+    //         console.error('Failed to copy: ', err);
+    //       }
+    // }
+    public copyTxtBtn = async (): Promise<void> => {
+        try {
+          const valueToCopy = typeof this.props.values === 'string'
+            ? this.props.values
+            : JSON.stringify(this.props.values); // safely convert object
+      
+          await navigator.clipboard.writeText(valueToCopy);
+          alert('Copied to clipboard!');
+      
+          // If you want to pass back the value to parent:
+          this.props.copyBtn(valueToCopy);
+        } catch (err) {
+          console.error('Failed to copy: ', err);
+        }
+    }
+
+    public contactBtn = ():void => {
+        window.location.href = 'mailto:gabriela.morenoramirez@tbs-sct.gc.ca?subject=Hello I need a subject&body=paste your post details';
+    };
+      
 
 
     public render(): React.ReactElement<IErrorPageProps> {
@@ -32,39 +64,21 @@ export default class ErrorPage extends React.Component<IErrorPageProps> {
                     <li>{this.strings.error_list_1}</li>
                     <li>{this.strings.error_list_2}</li>
                     <li>
-                        {this.strings.error_list_3} <Link href="support-soutien@gcx-gce.gc.ca">support-soutien@gcx-gce.gc.ca</Link>{this.strings.error_list_3b}
+                        {this.strings.error_list_3} <Link href="support-soutien@gcx-gce.gc.ca">support-soutien@gcx-gce.gc.ca</Link> {this.strings.error_list_3b}
                     </li>
                 </ol> 
                 <p>{this.strings.error_p3}</p>
 
-                {/* <div>
-                    {jobPosterInfo.map((item:any) => (
-                        <p key={item.label}>{item.label}: {item.value}</p>
-                    ))}
-                </div> */}
+                <div style={{background: "rgb(211, 211, 211)", padding: "10px"}}>
+                    <pre>
+                        <code>{JSON.stringify(this.props.values, null, 2)}</code>
+                    </pre>
+                </div>
 
-                <p>{this.strings.department}: {this.props.values[0].department.text}</p>
-                <p>{this.strings.jobTitleEn}: {this.props.values[0].jobTitleEn.text}</p>
-                <p>{this.strings.jobTitleFr}: {this.props.values[0].jobTitleFr.text}</p>
-                <p>{this.strings.jobDescriptionEn}: {this.props.values[0].jobDescriptionEn.text}</p>
-                <p>{this.strings.jobDescriptionFr}: {this.props.values[0].jobDescriptionFr.text}</p>
-                <p>{this.strings.jobType}: {this.props.values[0].jobType.text}</p>
-                <p>{this.strings.classification_Code}: {this.props.values[0].classificationCode.text}</p>
-                <p>{this.strings.classification_Level}: {this.props.values[0].classification_Level.text}</p>
-                <p>{this.strings.number_of_Opportunities}: {this.props.values[0].numberOfOpportunities}</p>
-                <p>{this.strings.durationLength}: {this.props.values[0].durationLength.text}</p>
-                <p>{this.strings.durationField}: {this.props.values[0].duration}</p>
-                <p>{this.strings.application_deadline}: {this.props.values[0].deadline}</p>
-                <p>{this.strings.skillsField}: {this.props.values[0].skills}</p>
-                <p>{this.strings.work_arrangment}: {this.props.values[0].workArrangment}</p>
-                <p>{this.strings.provinceField}: {this.props.values[0].province}</p>
-                <p>{this.strings.regionField}: {this.props.values[0].region}</p>
-                <p>{this.strings.cityField}: {this.props.values[0].city}</p>
-                <p>{this.strings.workSchedule}: {this.props.values[0].workSchedule}</p>
-
-
-
-
+                <Stack horizontal horizontalAlign={'space-between'} style={{padding: '20px'}}>
+                    <CustomButton id={'1'} name={'Copy'} buttonType={'primary'} onClick={this.copyTxtBtn}/>
+                    <CustomButton id={'2'} name={this.strings.contact_btn} buttonType={'secondary'} onClick={this.contactBtn}/>
+                </Stack>
 
             </>
         )

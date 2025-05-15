@@ -81,6 +81,8 @@ define([], function() {
       "error_list_3": "Envoyez ce courriel à l’adresse",
       "error_list_3b" : "L’équipe de soutien verra à afficher votre offre d’emploi dès que possible, normalement d’ici le jour ouvrable suivant.",
       "error_p3": "Nous vous prions de nous excuser pour cet inconvénient. Merci de votre patience et de votre collaboration pendant que nous y remédions.",
+      "postDetails_btn": "",
+      "contact_btn":"Contactez nous",
       
 
       //update
