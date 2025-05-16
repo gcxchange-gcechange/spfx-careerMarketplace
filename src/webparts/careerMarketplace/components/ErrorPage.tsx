@@ -16,25 +16,16 @@ export default class ErrorPage extends React.Component<IErrorPageProps> {
     
     public strings = SelectLanguage(this.props.prefLang);
 
-    // public copyTxtBtn = async ():Promise<void> => {
-    //     try {
-    //         const copied = await navigator.clipboard.writeText(this.props.values);
-    //         alert('Copied to clipboard!');
-    //         this.props.copyBtn(copied)
-    //       } catch (err) {
-    //         console.error('Failed to copy: ', err);
-    //       }
-    // }
+
     public copyTxtBtn = async (): Promise<void> => {
         try {
           const valueToCopy = typeof this.props.values === 'string'
             ? this.props.values
-            : JSON.stringify(this.props.values); // safely convert object
+            : JSON.stringify(this.props.values);
       
           await navigator.clipboard.writeText(valueToCopy);
-          alert('Copied to clipboard!');
-      
-          // If you want to pass back the value to parent:
+
+
           this.props.copyBtn(valueToCopy);
         } catch (err) {
           console.error('Failed to copy: ', err);
@@ -49,8 +40,6 @@ export default class ErrorPage extends React.Component<IErrorPageProps> {
 
     public render(): React.ReactElement<IErrorPageProps> {
 
-
-   console.log("values", this.props.values)
         
 
         return (
