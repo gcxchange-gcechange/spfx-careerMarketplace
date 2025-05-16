@@ -83,6 +83,8 @@ define([], function() {
     "error_p3": "We apologize for the inconvenience and appreciate your patience as we address this issue. Thank you for helping us ensure your opportunity is posted!",
     "postDetails_btn": "",
     "contact_btn":"Contact Us",
+    "email_subject": "Career Marketplace - Opportunity Post Server Error",
+    "email_body":"[Paste the details of your opportunity post here.]",
 
     //update
     "update_para1":"Congratulations! You have updated your opportunity.",

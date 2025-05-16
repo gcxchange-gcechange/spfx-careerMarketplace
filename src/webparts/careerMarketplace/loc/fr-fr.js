@@ -83,6 +83,8 @@ define([], function() {
       "error_p3": "Nous vous prions de nous excuser pour cet inconvénient. Merci de votre patience et de votre collaboration pendant que nous y remédions.",
       "postDetails_btn": "",
       "contact_btn":"Contactez nous",
+      "email_subject": "Carrefour de carrière - Erreur de serveur touchant la publication d’une offre d’emploi ",
+      "email_body":"[Collez les détails de votre publication d’une offre d’emploi ici.]",
       
 
       //update

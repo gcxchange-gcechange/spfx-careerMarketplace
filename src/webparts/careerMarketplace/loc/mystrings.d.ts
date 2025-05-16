@@ -82,6 +82,8 @@ declare interface ICareerMarketplaceWebPartStrings {
   "error_p3": string;
   "postDetails_btn": string;
   "contact_btn": string;
+  "email_subject": string;
+  "email_body": string;
 
   //update
   "update_para1":string;
