@@ -1339,7 +1339,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     </div>
                   </div>
                 </>
-              ) : (this.state.validationStatus !== 200 && this.state.validationStatus !== 0) ? (
+              ) : (this.state.validationStatus === 400 || this.state.validationStatus === 500 || this.state.validationStatus === null || this.state.validationStatus === 401 || this.state.validationStatus === 404) ? (
                 // Error 400
                 <ErrorPage prefLang={this.props.prefLang} values={this.state.postDetails} copyBtn={this.handleCopyBtn}/>
               ) : (
