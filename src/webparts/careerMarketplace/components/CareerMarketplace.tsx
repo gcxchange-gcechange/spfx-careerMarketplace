@@ -21,6 +21,7 @@ import { RefObject } from 'react';
 import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
 import { ICareerMarketplaceState } from './ICareerMarketplaceState';
+import ErrorPage from './ErrorPage';
  
  
 
@@ -73,6 +74,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       jobOpportunityOwner: true,
       isLoading: false,
       hasTouchedSkillCombo: false,
+      postDetails: "",
 
 
       values: {
@@ -302,6 +304,39 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
  
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
+    const errorPageSkills = this.state.values.skills.filter(item => Object.keys(item).includes('text')).map(item => (item.text));
+
+    const postDetailsObject = {
+      [this.strings.fullName]: this.props.userDisplayName,
+      [this.strings.departmentField]: this.state.values.department.text,
+      [this.strings.workEmail]: this.props.workEmail,
+      [this.strings.job_Title]: this.state.values.jobTitleEn,
+      [this.strings.job_Title]: this.state.values.jobTitleFr,
+      [this.strings.job_Description]: this.state.values.jobDescriptionEn,
+      [this.strings.job_Description]: this.state.values.jobDescriptionFr,
+      [this.strings.job_Type]: this.state.values.jobType.Label,
+      [this.strings.program_Area]: programArea.text,
+      [this.strings.classification_Code]: this.state.values.classificationCode.text,
+      [this.strings.classification_Level]: this.state.values.classificationLevel.text,
+      [this.strings.number_of_Opportunities]: this.state.values.numberOfOpportunities.value,
+      [this.strings.time_period]: this.state.values.duration.text,
+      [this.strings.length]: this.state.values.durationLength.value,
+      [this.strings.application_deadline]: isoString,
+      [this.strings.skillsField]: errorPageSkills,
+      [this.strings.provinceField]: this.state.values.province.text,
+      [this.strings.regionField]: this.state.values.region.text,
+      [this.strings.cityField]: this.state.values.city.text,
+      [this.strings.time_in_hours]: this.state.values.workSchedule.text,
+      [this.strings.security_level]: this.state.values.security.text,
+      [this.strings.language_requirements]: this.state.values.languageRequirements[0].language.text,
+      ...(this.state.values.languageRequirements[0].language.key === 3 && {
+        [this.strings.language_requirements]: langCompText
+      }),
+      [this.strings.work_arrangment]: this.state.values.workArrangment.text,
+      [this.strings.approved_staffing]: this.state.values.approvedStaffing.value,
+    };
+  
+    
    
   
       const requestHeaders: Headers = new Headers();
@@ -343,7 +378,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       console.log("BODY", postOptions.body)
       try {
-        this.setState({isLoading: true}, () => {
+        this.setState({isLoading: true, postDetails: postDetailsObject}, () => {
         this.props.context.aadHttpClientFactory
         .getClient(this.props.clientId)
         .then((client: AadHttpClient): void => {
@@ -541,6 +576,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     else if( valueName === "skills") {
+      console.log("skills", value)
       const findSkillItem = [...this.state.values.skills];
       const skillExists = findSkillItem.some((item: any) => item.value === value.key);
       this.setState((prevState) => ({
@@ -549,7 +585,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           ...prevState.values,
           skills: skillExists
             ? prevState.values.skills.filter((item) => item.value !== value.key) 
-            : [...prevState.values.skills, {value: value.key}],  
+            : [...prevState.values.skills, {value: value.key, text:value.text}],  
         },
       }));
     }    
@@ -584,6 +620,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         approvedStaffing:  { ...prevState.values.approvedStaffing, value: isChecked}
       }
     }))
+  }
+
+  public handleCopyBtn = (value: any):void  => {
+   console.log("txt", value)
+
   }
 
   public async _populateEditableFields(): Promise<void> {
@@ -1273,142 +1314,121 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const jobOpportunityUrl = this.props.jobOpportunityListUrl;
 
 
- 
     return (
-      <>      
-        <ThemeProvider applyTo='body' theme={myTheme}>
-          <section>
-            <div>
-              
-              {
-                this.state.validationStatus === 200 ? (
-                <>                  
-                   
-                  <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId}/>
-                    
-                  <div style={{width: '100%', display: 'flex'}}>                  
-                    <div style={{width: '40%'}}>
+
+      <>
+      <ThemeProvider applyTo='body' theme={myTheme}>
+        <section>
+          <div>
+            {
+              this.state.validationStatus === 200 ? (
+                //Success
+                <>
+                  <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId} />
+
+                  <div style={{ width: '100%', display: 'flex' }}>
+                    <div style={{ width: '40%' }}>
                       <Stack horizontal horizontalAlign="space-between">
-                        <CustomButton id={'view'} name={this.strings.view} buttonType={'secondary'} url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)}/>
-                      </Stack> 
+                        <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)} />
+                      </Stack>
                     </div>
-                    <div style={{width: '60%'}}>
-                      <Stack horizontal horizontalAlign='end'>
-                        <CustomButton id={'home'} name={this.strings.complete_button} buttonType={'primary'} url={this.props.url} onClick={() => (this.props.url)}/> 
-                      </Stack> 
+                    <div style={{ width: '60%' }}>
+                      <Stack horizontal horizontalAlign="end">
+                        <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
+                      </Stack>
                     </div>
                   </div>
                 </>
-                ) 
-                :
+              ) : (this.state.validationStatus === 400 || this.state.validationStatus === 500 || this.state.validationStatus === null || this.state.validationStatus === 401 || this.state.validationStatus === 404) ? (
+                // Error 400
+                <ErrorPage prefLang={this.props.prefLang} values={this.state.postDetails} copyBtn={this.handleCopyBtn}/>
+              ) : (
+                //  Default fallback
                 <>
                   {
-                  (this.props.jobOpportunityId  !== "" &&  this.state.jobOpportunityOwner ===  false) ? (
-                  
-                      <>  
-                        
+                    this.props.jobOpportunityId !== "" && this.state.jobOpportunityOwner === false ? (
+                      <>
                         <h2>You are not the owner</h2>
-                        <CustomButton id={'home'} name={"Go on, git! 🤠"} buttonType={'primary'} url={this.props.url} onClick={() => (this.props.url)}/> 
-                        
+                        <CustomButton id="home" name="Go on, git! 🤠" buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
                       </>
-                    
-                  ) : (
-                    <>
-                      <div>
-                        {this.state.isLoading ? (
-                          <Spinner
-                            label={this.strings.submitting_your_information}
-                            labelPosition="right"
-                            size={SpinnerSize.large}
-                          />
-                        ) : 
-                        
-                        <>
-                        <>
-                          <div
-                            tabIndex={-1}
-                            ref={this.titleRef}
-                            style={{ display: this.navigationDirection === 'next' ? 'block' : 'none' }}>
-                            <PageTitle
-                              currentPage={this.state.currentPage}
-                              prefLang={this.props.prefLang}
-                            />
-                          </div>
-
-                          <div
-                            tabIndex={-1}
-                            ref={this.prevtitleRef}
-                            style={{ display: this.navigationDirection === 'prev' ? 'block' : 'none'  }}>
-                            <PageTitle
-                              currentPage={this.state.currentPage}
-                              prefLang={this.props.prefLang}
-                            />
-                          </div>
-                      </>
-
-{/* 
-                        <div tabIndex={-1}  ref={this.navigationDirection === 'next' ? nextRef : prevRef }>
-                          <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
-                        </div> */}
-
-                        <div className={styles.stepper} 
-                          role="progressbar" 
-                          aria-valuemax={4} 
-                          aria-valuemin={1} 
-                          aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}  
-                          aria-valuetext={`Step ${this.state.currentPage + 1} out of 4`} 
-                        >
-                          <Steps
-                            current={currentPage}
-                            labelPlacement="vertical"
-                            items={items}
-                          />
-                        </div>
-                       
-                          {this.state.hasError.length !== 0  && (
-                            <div role="alertdialog" tabIndex={-1}  ref={this.alertRef} id='alertErrors' aria-modal="true"  aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog} >
-                              <h3 id="alertHeading" style={{textWrap: 'wrap'}}>{this.strings.fixErrors}</h3>
-                              {
-                                this.changeFieldNameFormat()
-                              }
-                            
-                            </div>
-                            )
-                          }
-                       
+                    ) : (
+                      <>
                         <div>
-                          {steps[currentPage].content}
-                        </div>
-    
-                        <div style={{marginTop: '20px'}}>
-                          <Stack horizontal horizontalAlign={currentPage !== 0 ?'space-between' : 'end'}>
-                            {
-                              currentPage !== 0 && (
-                                <CustomButton id={'prev'} name={this.strings.prev_btn} buttonType={'secondary'} onClick={() => this.prev()}/>
-                              )
-                            }
-                          
-                            { currentPage === 3 ? 
-                              <CustomButton id={'submit'} name={this.strings.submit_btn} buttonType={'primary'}  onClick={() => this.submit()}/>
-                              :
-                              <CustomButton id={'next'} name={this.strings.next_btn} buttonType={'primary'} onClick={() => this.next()}/>
-                            }
-                          </Stack>
-                        </div>
-                        </>
-                        }
-                      </div>
-                    </>
+                          {this.state.isLoading ? (
+                            <Spinner
+                              label={this.strings.submitting_your_information}
+                              labelPosition="right"
+                              size={SpinnerSize.large}
+                            />
+                          ) : (
+                            <>
+                              {/* Page title logic */}
+                              <div
+                                tabIndex={-1}
+                                ref={this.titleRef}
+                                style={{ display: this.navigationDirection === 'next' ? 'block' : 'none' }}
+                              >
+                                <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
+                              </div>
 
-                  )}
+                              <div
+                                tabIndex={-1}
+                                ref={this.prevtitleRef}
+                                style={{ display: this.navigationDirection === 'prev' ? 'block' : 'none' }}
+                              >
+                                <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
+                              </div>
+
+                              {/* Stepper */}
+                              <div className={styles.stepper}
+                                role="progressbar"
+                                aria-valuemax={4}
+                                aria-valuemin={1}
+                                aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}
+                                aria-valuetext={`Step ${this.state.currentPage + 1} out of 4`}
+                              >
+                                <Steps current={currentPage} labelPlacement="vertical" items={items} />
+                              </div>
+
+                              {/* Error alert */}
+                              {this.state.hasError.length !== 0 && (
+                                <div role="alertdialog" tabIndex={-1} ref={this.alertRef} id="alertErrors" aria-modal="true"
+                                  aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog}>
+                                  <h3 id="alertHeading" style={{ textWrap: 'wrap' }}>{this.strings.fixErrors}</h3>
+                                  {this.changeFieldNameFormat()}
+                                </div>
+                              )}
+
+                              {/* Page content */}
+                              <div>{steps[currentPage].content}</div>
+
+                              {/* Navigation buttons */}
+                              <div style={{ marginTop: '20px' }}>
+                                <Stack horizontal horizontalAlign={currentPage !== 0 ? 'space-between' : 'end'}>
+                                  {currentPage !== 0 && (
+                                    <CustomButton id="prev" name={this.strings.prev_btn} buttonType="secondary" onClick={() => this.prev()} />
+                                  )}
+                                  {currentPage === 3 ? (
+                                    <CustomButton id="submit" name={this.strings.submit_btn} buttonType="primary" onClick={() => this.submit()} />
+                                  ) : (
+                                    <CustomButton id="next" name={this.strings.next_btn} buttonType="primary" onClick={() => this.next()} />
+                                  )}
+                                </Stack>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </>
+                    )
+                  }
                 </>
-              }
-            </div>
-            
-          </section>
-        </ThemeProvider>
-      </>
+              )
+            }
+          </div>
+        </section>
+      </ThemeProvider>
+    </>
+    )
 
-    );
   }
 }

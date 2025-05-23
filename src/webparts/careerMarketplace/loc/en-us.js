@@ -71,6 +71,21 @@ define([], function() {
     "view":"View Opportunity",
     "complete_para2":"You can edit or view your opportunity or go to Career Marketplace homepage.",
 
+    //errorPage
+
+    "server_error_title": "Server Error",
+    "error_p1": "We’re sorry, but a server error has occurred, and your job opportunity couldn’t be posted at this time.",
+    "error_p2":"To help us resolve this issue, please follow these steps:",
+    "error_list_1": "Copy all the details of your opportunity post provided below.",
+    "error_list_2": "Select the “Contact Us” button below and paste the copied details into the email.",
+    "error_list_3": "Send the email to our support team at",
+    "error_list_3b": "Our team will post your opportunity as soon as possible, typically within one business day.",
+    "error_p3": "We apologize for the inconvenience and appreciate your patience as we address this issue. Thank you for helping us ensure your opportunity is posted!",
+    "postDetails_btn": "Copy Post Details",
+    "contact_btn":"Contact Us",
+    "email_subject": "Career Marketplace - Opportunity Post Server Error",
+    "email_body":"[Paste the details of your opportunity post here.]",
+
     //update
     "update_para1":"Congratulations! You have updated your opportunity.",
 

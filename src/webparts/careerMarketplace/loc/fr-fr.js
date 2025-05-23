@@ -69,6 +69,22 @@ define([], function() {
       "complete_para1":"Félicitations! Vous avez créé une nouvelle possibilité d’emploi",
       "view":"Afficher la possibilité d’emploi",
       "complete_para2":"Vous pouvez modifier ou consulter votre possibilité d’emploi ou vous rendre sur la page d’accueil du Carrefour de carrière.",
+
+
+      //errorPage
+
+      "server_error_title": "Erreur de serveur ",
+      "error_p1": "Désolé, une erreur de serveur empêche actuellement l’affichage de votre offre d’emploi.",
+      "error_p2":"Pour nous aider à corriger la situation, veuillez appliquer la procédure suivante :",
+      "error_list_1": "Copiez le contenu de votre offre d’emploi figurant ci dessous.",
+      "error_list_2": "Cliquez sur le bouton « Contactez nous » ci bas, puis collez le contenu dans le courriel.",
+      "error_list_3": "Envoyez ce courriel à l’adresse",
+      "error_list_3b" : "L’équipe de soutien verra à afficher votre offre d’emploi dès que possible, normalement d’ici le jour ouvrable suivant.",
+      "error_p3": "Nous vous prions de nous excuser pour cet inconvénient. Merci de votre patience et de votre collaboration pendant que nous y remédions.",
+      "postDetails_btn": "Copier les détails de l'opportunité",
+      "contact_btn":"Contactez nous",
+      "email_subject": "Carrefour de carrière - Erreur de serveur touchant la publication d’une offre d’emploi ",
+      "email_body":"[Collez les détails de votre publication d’une offre d’emploi ici.]",
       
 
       //update
