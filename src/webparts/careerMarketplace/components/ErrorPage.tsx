@@ -33,7 +33,7 @@ export default class ErrorPage extends React.Component<IErrorPageProps> {
     }
 
     public contactBtn = ():void => {
-        window.location.href = `mailto:gabriela.morenoramirez@tbs-sct.gc.ca?subject=${this.strings.email_subject}&body=${this.strings.email_body}` ;
+        window.location.href = `mailto:support-soutien@gcx-gce.gc.ca?subject=${this.strings.email_subject}&body=${this.strings.email_body}` ;
     };
       
 
