@@ -5,7 +5,7 @@ export interface ICareerMarketplaceState {
     jobType: string[];
     city: { key: string; text: string; regionID: string; }[];
     programArea: string[];
-    classificationCode: { key: string; text: string; }[];
+    classificationCode: { key: string; text: string; classificationLevelIds: string }[];
     classificationLevel: { key: string; text: string; }[];
     security: { key: string; text: string; }[];
     language: { key: string; text: string; }[];
@@ -42,6 +42,7 @@ export interface ICareerMarketplaceState {
       programArea: any,
       classificationCode: any,
       classificationLevel: any,
+      classificationLevelIds: string,
       durationLength:any,
       duration: any, 
       security: any,
