@@ -81,7 +81,7 @@ define([], function() {
     "error_list_3": "Send the email to our support team at",
     "error_list_3b": "Our team will post your opportunity as soon as possible, typically within one business day.",
     "error_p3": "We apologize for the inconvenience and appreciate your patience as we address this issue. Thank you for helping us ensure your opportunity is posted!",
-    "postDetails_btn": "",
+    "postDetails_btn": "Copy Post Details",
     "contact_btn":"Contact Us",
     "email_subject": "Career Marketplace - Opportunity Post Server Error",
     "email_body":"[Paste the details of your opportunity post here.]",
