@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
-import { ComboBox, IComboBox, IComboBoxOption, IComboBoxStyles, IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
+import { ComboBox, IComboBox, IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
 import { SelectLanguage } from './SelectLanguage';
 import styles from './CareerMarketplace.module.scss';
 import { getLocalizedString, isInvalid } from "./Functions";
@@ -53,11 +53,26 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
   public render(): React.ReactElement<IPosterInfoProps> {
 
+
     const comboBoxStyles: Partial<IComboBoxStyles> = { 
-      errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' } 
+      errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' },
+  
     }
+
     const isReadOnly = this.props.currentPage === 0;
 
+
+    const comboBoxOptions: IComboBoxOption[] = this.props.items.map((item:any) => ({
+      ...item,
+      styles: {
+        optionText: {
+          overflow: 'visible',
+          whiteSpace: 'normal',
+        },
+      },
+    }))
+
+    console.log(comboBoxOptions)
     return (
       <>
         
@@ -98,7 +113,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           <ComboBox
               id={"department"}
               aria-labelledby={"department-label"}
-              options={[{key: "0", text: `--${this.strings.select}--`},...this.props.items.sort()]}
+              options={[{key: "0", text: `--${this.strings.select}--`}, ...comboBoxOptions.sort()] }
               onChange={this.onChangeComboItem}
               disabled={this.props.currentPage === 3}
               selectedKey={ this.props.values.department.key}

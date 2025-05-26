@@ -225,10 +225,19 @@ input[type="text"][disabled] {
 :global {
   .ms-Dropdown.is-disabled .ms-Dropdown-title {
     color: #a6a6a6; 
+    line-height:normal!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    padding: 5px 28px 5px 8px!important;
+    
   }
 
   .ms-TextField.is-disabled .ms-TextField-field {
     color: #a6a6a6; 
+    line-height:normal!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    padding: 5px 28px 5px 8px!important;
   }
 }
 

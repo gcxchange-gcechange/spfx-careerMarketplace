@@ -75,7 +75,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
   public render(): React.ReactElement<IReusableDropdownFieldProps> {
 
     const dropdownStyle: Partial<IDropdownStyles> = {
-   
+      dropdownOptionText: { overflow: 'visible', whiteSpace: 'normal' },
       errorMessage: {
         fontWeight: 700,
         borderLeft: '2px solid rgb(164, 38, 44)',
