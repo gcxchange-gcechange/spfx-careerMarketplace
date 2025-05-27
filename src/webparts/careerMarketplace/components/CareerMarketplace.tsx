@@ -7,7 +7,7 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import {  IStackTokens, Link, Spinner, SpinnerSize, Stack, StackItem, ThemeProvider, createTheme } from '@fluentui/react';
+import {   Link, Spinner, SpinnerSize, Stack,   ThemeProvider, createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
@@ -1140,9 +1140,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public render(): React.ReactElement<ICareerMarketplaceProps> {
 
-    const customSpacingStackTokens: IStackTokens = {
-      childrenGap: '3%',
-    };
+    // const customSpacingStackTokens: IStackTokens = {
+    //   childrenGap: '3%',
+    // };
 
     const myTheme = createTheme({
       palette: {
@@ -1248,8 +1248,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Review',
         content: (
           <>
-          <Stack horizontal wrap tokens={customSpacingStackTokens}>
-            <StackItem grow={1} styles={{ root: { maxWidth: '45%' } }} >
+          {/* <Stack horizontal wrap tokens={customSpacingStackTokens}>
+            <StackItem grow={1} styles={{ root: { maxWidth: '45%' } }} > */}
               <PosterInfo 
                 items={this.state.departmentList} 
                 userInfo={this.props.userDisplayName} 
@@ -1281,8 +1281,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 prefLang={this.props.prefLang}
                 jobOppId = {this.props.jobOpportunityId}
               />
-            </StackItem>
-            <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} >
+            {/* </StackItem>
+            <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} > */}
               <Requirements
                 prefLang={this.props.prefLang}
                 language = {this.state.language}
@@ -1302,8 +1302,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 hasTouchedSkillCombo={this.state.hasTouchedSkillCombo}
                 
               />
-            </StackItem>
-          </Stack>
+            {/* </StackItem>
+          </Stack> */}
           </>
         ),
       },
