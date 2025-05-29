@@ -22,6 +22,7 @@ import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
 import { ICareerMarketplaceState } from './ICareerMarketplaceState';
 import ErrorPage from './ErrorPage';
+import ReviewPage from './ReviewPage';
  
  
 
@@ -1172,7 +1173,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }});
 
     const {currentPage} = this.state;
-
+   
     const steps = [
       {
         step: 1,
@@ -1248,10 +1249,38 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Review',
         content: (
           <>
+          <ReviewPage 
+          userInfo={this.props.userDisplayName} 
+          currentPage= {this.state.currentPage} 
+          prefLang={this.props.prefLang}
+          workEmail = {this.props.workEmail}
+          department={this.state.values.department}
+          jobTitleEn={this.state.values.jobTitleEn}
+          jobTitleFr={this.state.values.jobTitleFr}
+          jobDescriptionEn={this.state.values.jobDescriptionEn}
+          jobDescriptionFr={this.state.values.jobDescriptionFr}
+          jobType={this.state.values.jobType}
+          programArea={this.state.values.programArea}
+          classificationCode={this.state.values.classificationCode}
+          classificationLevel={this.state.values.classificationLevel}
+          numberOfOpportunities={this.state.values.numberOfOpportunities}
+          durationLength={this.state.values.durationLength}
+          duration={this.state.values.duration}
+          deadline={this.state.values.deadline}
+          skills={this.state.values.skills}
+          workSchedule={this.state.values.workSchedule}
+          province={this.state.values.province}
+          region={this.state.values.region}
+          city={this.state.values.city}
+          security={this.state.values.security}
+          languageRequirements={this.state.values.languageRequirements}
+          workArrangment={this.state.values.workArrangment}
+          approvedStaffing={this.state.values.approvedStaffing}
+          />
           {/* <Stack horizontal wrap tokens={customSpacingStackTokens}>
             <StackItem grow={1} styles={{ root: { maxWidth: '45%' } }} > */}
-              <PosterInfo 
-                items={this.state.departmentList} 
+              {/* <PosterInfo 
+                items={this.state.departmentList}   
                 userInfo={this.props.userDisplayName} 
                 workEmail = {this.props.workEmail}
                 currentPage= {this.state.currentPage}
@@ -1262,8 +1291,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 inlineFieldErrors={this.state.inlineFieldErrors}
                 prefLang={this.props.prefLang}
                 jobOpportunityId={this.props.jobOpportunityId}
-              />
-              <Details 
+              /> */}
+              {/* <Details 
                 programArea={this.state.programArea} 
                 classificationCode={this.state.classificationCode} 
                 classificationLevel={this.state.classificationLevel} 
@@ -1280,10 +1309,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 fields={this.state.dropdownFields}
                 prefLang={this.props.prefLang}
                 jobOppId = {this.props.jobOpportunityId}
-              />
+              /> */}
             {/* </StackItem>
             <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} > */}
-              <Requirements
+              {/* <Requirements
                 prefLang={this.props.prefLang}
                 language = {this.state.language}
                 security = {this.state.security}
@@ -1301,7 +1330,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                 skills={this.state.skillsList}
                 hasTouchedSkillCombo={this.state.hasTouchedSkillCombo}
                 
-              />
+              /> */}
             {/* </StackItem>
           </Stack> */}
           </>

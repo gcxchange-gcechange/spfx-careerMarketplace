@@ -100,11 +100,7 @@ export default class Details extends React.Component<IDetailsProps> {
       childrenGap: "10%",
     };
     const dropdownStyles = {
-      dropdown: { width: 300,
-        '@media (max-width: 600px)': {
-          width: 'auto!important', // or a smaller width
-      },
-        },
+      dropdown: { width: 300},
       errorMessage: {
         margin: "0px",
         fontWeight: "700",
