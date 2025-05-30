@@ -63,6 +63,8 @@ define([], function() {
       //Page 4 - Review and Submit
       "reviewSubmit_title": "Revoir et soumettre",
       "reviewSubmit_para1":"Voici un aperçu de votre soumission. Elle n’a pas encore été envoyée!",
+      "duration_length":"Durée de la possibilité d’emploi",
+      "duration_time_period": "Période de la possibilité d’emploi",
 
       //complete
       "complete_title":"Terminer",

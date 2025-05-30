@@ -1250,89 +1250,33 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         content: (
           <>
           <ReviewPage 
-          userInfo={this.props.userDisplayName} 
-          currentPage= {this.state.currentPage} 
-          prefLang={this.props.prefLang}
-          workEmail = {this.props.workEmail}
-          department={this.state.values.department}
-          jobTitleEn={this.state.values.jobTitleEn}
-          jobTitleFr={this.state.values.jobTitleFr}
-          jobDescriptionEn={this.state.values.jobDescriptionEn}
-          jobDescriptionFr={this.state.values.jobDescriptionFr}
-          jobType={this.state.values.jobType}
-          programArea={this.state.values.programArea}
-          classificationCode={this.state.values.classificationCode}
-          classificationLevel={this.state.values.classificationLevel}
-          numberOfOpportunities={this.state.values.numberOfOpportunities}
-          durationLength={this.state.values.durationLength}
-          duration={this.state.values.duration}
-          deadline={this.state.values.deadline}
-          skills={this.state.values.skills}
-          workSchedule={this.state.values.workSchedule}
-          province={this.state.values.province}
-          region={this.state.values.region}
-          city={this.state.values.city}
-          security={this.state.values.security}
-          languageRequirements={this.state.values.languageRequirements}
-          workArrangment={this.state.values.workArrangment}
-          approvedStaffing={this.state.values.approvedStaffing}
+            userInfo={this.props.userDisplayName} 
+            currentPage= {this.state.currentPage} 
+            prefLang={this.props.prefLang}
+            workEmail = {this.props.workEmail}
+            department={this.state.values.department}
+            jobTitleEn={this.state.values.jobTitleEn}
+            jobTitleFr={this.state.values.jobTitleFr}
+            jobDescriptionEn={this.state.values.jobDescriptionEn}
+            jobDescriptionFr={this.state.values.jobDescriptionFr}
+            jobType={this.state.values.jobType}
+            programArea={this.state.values.programArea}
+            classificationCode={this.state.values.classificationCode}
+            classificationLevel={this.state.values.classificationLevel}
+            numberOfOpportunities={this.state.values.numberOfOpportunities}
+            durationLength={this.state.values.durationLength}
+            duration={this.state.values.duration}
+            deadline={this.state.values.deadline}
+            skills={this.state.values.skills}
+            workSchedule={this.state.values.workSchedule}
+            province={this.state.values.province}
+            region={this.state.values.region}
+            city={this.state.values.city}
+            security={this.state.values.security}
+            languageRequirements={this.state.values.languageRequirements}
+            workArrangment={this.state.values.workArrangment}
+            approvedStaffing={this.state.values.approvedStaffing}
           />
-          {/* <Stack horizontal wrap tokens={customSpacingStackTokens}>
-            <StackItem grow={1} styles={{ root: { maxWidth: '45%' } }} > */}
-              {/* <PosterInfo 
-                items={this.state.departmentList}   
-                userInfo={this.props.userDisplayName} 
-                workEmail = {this.props.workEmail}
-                currentPage= {this.state.currentPage}
-                handleDropDownItem={this.handleDropDownItem}
-                readOnly= {false}
-                values={this.state.values}
-                fields={this.state.dropdownFields}
-                inlineFieldErrors={this.state.inlineFieldErrors}
-                prefLang={this.props.prefLang}
-                jobOpportunityId={this.props.jobOpportunityId}
-              /> */}
-              {/* <Details 
-                programArea={this.state.programArea} 
-                classificationCode={this.state.classificationCode} 
-                classificationLevel={this.state.classificationLevel} 
-                jobType={this.state.jobType} 
-                duration={this.state.duration}
-                currentPage= {this.state.currentPage}
-                handleDropDownItem={this.handleDropDownItem}
-                handleOnChange={this.handleOnChangeTextField} 
-                handleOnDateChange={this.handleOnDateChange}
-                handleDurationLength={this.handleDurationLength}
-                handleNumberofOpp={this. handleNumberofOpp}
-                values={this.state.values}
-                hasError={this.state.hasError}
-                fields={this.state.dropdownFields}
-                prefLang={this.props.prefLang}
-                jobOppId = {this.props.jobOpportunityId}
-              /> */}
-            {/* </StackItem>
-            <StackItem grow={1} styles={{ root: { maxWidth: '50%' } }} > */}
-              {/* <Requirements
-                prefLang={this.props.prefLang}
-                language = {this.state.language}
-                security = {this.state.security}
-                workArrangment = {this.state.wrkArrangement}
-                city={this.state.city}
-                workSchedule = {this.state.wrkSchedule}
-                province = {this.state.province}
-                region = {this.state.region}
-                currentPage= {this.state.currentPage}
-                handleDropDownItem={this.handleDropDownItem}
-                handleOnChange={this.handleOnChangeTextField} 
-                checkedTerms={this.checkedTerms}
-                values={this.state.values}
-                inlineFieldErrors={this.state.inlineFieldErrors}
-                skills={this.state.skillsList}
-                hasTouchedSkillCombo={this.state.hasTouchedSkillCombo}
-                
-              /> */}
-            {/* </StackItem>
-          </Stack> */}
           </>
         ),
       },

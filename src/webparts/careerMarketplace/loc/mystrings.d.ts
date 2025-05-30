@@ -63,6 +63,8 @@ declare interface ICareerMarketplaceWebPartStrings {
   //Page 4 - Review and Submit
   "reviewSubmit_title": string;
   "reviewSubmit_para1": string;
+  "duration_length": string;
+  "duration_time_period": string;
 
   //complete
   "complete_title": string;

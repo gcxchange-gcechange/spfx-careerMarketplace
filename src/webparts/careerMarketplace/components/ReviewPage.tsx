@@ -39,7 +39,8 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
         console.log(this.props)
         
         const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
-        const skillsItems: string = this.props.skills.map(skill => skill.text).join(", ");
+        const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
+
 
         return(
             <>
@@ -117,7 +118,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     id={"jobType"}
                     name={"jobType"}
                     title={this.strings.job_Type}
-                    defaultValue={this.props.jobType.label}
+                    defaultValue={this.props.jobType.Label}
                     disabled={true}
                     ariaLabelRequired={'required'}
                     multiline={true}
@@ -161,9 +162,9 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 />
 
                 <ReusableTextField
-                    id={"durationLength"}
-                    name={"durationLength"}
-                    title={this.strings.durationLength}
+                    id={"duration"}
+                    name={"duration"}
+                    title={this.strings.duration_time_period}
                     defaultValue={this.props.duration.text}
                     disabled={true}
                     ariaLabelRequired={'required'}
@@ -172,7 +173,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 <ReusableTextField
                     id={"durationLength"}
                     name={"durationLength"}
-                    title={this.strings.time_period}
+                    title={this.strings.duration_length}
                     defaultValue={this.props.durationLength.value}
                     disabled={true}
                     ariaLabelRequired={'required'}
@@ -182,7 +183,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 <ReusableTextField
                     id={"deadline"}
                     name={"deadline"}
-                    title={this.strings.time_period}
+                    title={this.strings.application_deadline}
                     defaultValue={this.props.deadline?.toDateString()}
                     disabled={true}
                     ariaLabelRequired={'required'}
@@ -248,7 +249,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     id={"language"}
                     name={"language"}
                     title={this.strings.language_requirements}
-                    defaultValue={this.props.languageRequirements[0].text }
+                    defaultValue={this.props.languageRequirements[0].language.text }
                     disabled={true}
                     ariaLabelRequired={'required'}
                     multiline={true}
