@@ -5,14 +5,14 @@ define([], function() {
 
     //Page1 - Poster Information
     "posterInformation_title": "Poster Information",
-    "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information.",
+    "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "fullName":"Full name",
     "departmentField":"Department",
     "workEmail":"Work Email",
 
     //Page 2 - Opportunity Details
     "oppotunityDetails_Title":"Opportunity Details",
-    "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information.",
+    "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "job_Title":"Job Title ",
     "number_of_Opportunities":"Number of Opportunities",
     "job_Description":"Job Description",
@@ -35,7 +35,7 @@ define([], function() {
 
     //Page 3 - Opportunity Requirements
     "opportunityRequirements_title": "Opportunity Requirements",
-    "opportunityRequirements_para1":"Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information.",
+    "opportunityRequirements_para1":"Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "skillsField":"Skills",
     "skills_description":"Using the auto-suggest text box, identify the top skills you are seeking. Note: This information will be used by the matching system to generate the list of potentially qualified candidates for your opportunity.",
     "skills_description_link":" To view the complete Skills Inventory, click here.",
