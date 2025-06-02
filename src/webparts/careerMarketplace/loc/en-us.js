@@ -68,8 +68,12 @@ define([], function() {
     //complete
     "complete_title":"Complete",
     "complete_para1":"Congratulations! You have created a new opportunity.",
+    "complete_para2":"To keep the Career Marketplace fresh and relevant, ",
+    "complete_para2_bold":"opportunity posts are automatically removed six months after creation.",
+    "complete_para2_b":" We recommend saving a copy for your records.",
     "view":"View Opportunity",
-    "complete_para2":"You can edit or view your opportunity or go to Career Marketplace homepage.",
+    "complete_para3":"It may take up to 20 minutes for your new opportunity post to appear on the Career Marketplace homepage.",
+    "complete_para4":"You can now edit or view your opportunity, or head back to the Career Marketplace homepage.",
 
     //errorPage
 
