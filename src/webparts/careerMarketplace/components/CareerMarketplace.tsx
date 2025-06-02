@@ -1294,26 +1294,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       <ThemeProvider applyTo='body' theme={myTheme}>
         <section>
           <div>
-            {
-              this.state.validationStatus === 200 ? (
+              {this.state.validationStatus === 200 ? (
                 //Success
                 <>
                   <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId} />
 
-                  <div style={{ width: '100%', display: 'flex' }}>
-                    <div style={{ width: '40%' }}>
-                      <Stack horizontal horizontalAlign="space-between">
-                        <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)} />
-                      </Stack>
-                    </div>
-                    <div style={{ width: '60%' }}>
-                      <Stack horizontal horizontalAlign="end">
-                        <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
-                      </Stack>
-                    </div>
-                  </div>
+                  <Stack horizontal horizontalAlign="space-between" wrap>
+                    <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)} />
+                    <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
+                  </Stack>
                 </>
-              ) : (this.state.validationStatus === 400 || this.state.validationStatus === 500 || this.state.validationStatus === null || this.state.validationStatus === 401 || this.state.validationStatus === 404) ? (
+              ) : (this.state.validationStatus === 400 || this.state.validationStatus === 500 || this.state.validationStatus === null || this.state.validationStatus === 401 || this.state.validationStatus === 404 ) ? (
                 // Error 400
                 <ErrorPage prefLang={this.props.prefLang} values={this.state.postDetails} copyBtn={this.handleCopyBtn}/>
               ) : (
