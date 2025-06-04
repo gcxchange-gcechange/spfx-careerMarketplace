@@ -15,9 +15,39 @@ This project is a SharePoint web part featuring a multi-step form that allows us
 
 > Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
 
-## Prerequisites
+## ✅ Prerequisites
 
-> Any special pre-requisites?
+To successfully run this app, you **must update configuration values** in the following files:
+
+---
+
+## 1. `services.tsx` – API URL for Data Fetching
+
+Ensure that your `services.tsx` file includes a **valid API base URL** for the `departmentSets` and `sets` functions.
+
+
+const API_BASE_URL = "https://your-api-url.com"; // 🔁 Replace with your actual API URL
+
+export async function departmentSets() {
+  const response = await fetch(`${API_BASE_URL}/departments`);
+  return response.json();
+}
+
+export async function sets() {
+  const response = await fetch(`${API_BASE_URL}/sets`);
+  return response.json();
+}
+
+export const createOpportunityConfig = {
+  clientId: "your-client-id", // 🔁 Required
+  createJobApiUrl: "https://your-api-url.com/create-job", // 🔁 Required
+  editJobApiUrl: "https://your-api-url.com/edit-job",     // 🔁 Required
+  jobTypeTermId: "job-type-guid",                         // 🔁 Required
+  programAreaTermId: "program-area-guid",                 // 🔁 Required
+};
+
+const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?";
+
 
 ## Solution
 
