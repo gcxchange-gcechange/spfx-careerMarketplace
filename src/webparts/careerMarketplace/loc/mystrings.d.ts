@@ -69,8 +69,13 @@ declare interface ICareerMarketplaceWebPartStrings {
   //complete
   "complete_title": string;
   "complete_para1": string;
-  "view": string;
   "complete_para2": string;
+  "complete_para2_bold":string;
+  "complete_para2_b": string;
+  "view": string;
+  "complete_para3": string;
+  "complete_para4": string;
+
 
   //errorPage
 
