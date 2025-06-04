@@ -6,14 +6,14 @@ define([], function() {
 
       //Page1 - Poster Information
       "posterInformation_title":"Informations sur l’annonce",
-      "posterInformation_para1": "Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations.",
+      "posterInformation_para1": "Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps.",
       "fullName":"Nom complet",
       "departmentField":"Ministère",
       "workEmail":"Adresse courriel professionnelle",
 
       //Page 2 - Opportunity Details
       "oppotunityDetails_Title":"Détails de la possibilité d’emploi",
-      "oppotunityDetails_para1": "",
+      "oppotunityDetails_para1": "Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps.",
       "job_Title":"Titre du poste",
       "number_of_Opportunities":"Nombre de possibilités d’emploi",
       "job_Description":"Description du poste",
@@ -35,7 +35,7 @@ define([], function() {
 
       //Page 3 - Opportunity Requirements
       "opportunityRequirements_title": "Exigences de la possibilité d’emploi",
-      "opportunityRequirements_para1":"Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations.",
+      "opportunityRequirements_para1":"Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps.",
       "skillsField":"Qualifications",
       "skills_description":"En utilisant la zone de texte de suggestion automatique, identifiez les principales compétences que vous recherchez. Remarque : Ces informations seront utilisées par le système de mise en correspondance pour générer la liste des candidats potentiellement qualifiés pour votre occasion.  ",
       "skills_description_link":" Pour consulter la liste complète des compétences, cliquez ici.",

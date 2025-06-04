@@ -88,6 +88,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         programArea:{value: "" , pageNumber: 1},
         classificationCode: {value: "" , pageNumber: 1},
         classificationLevel: {value: "" , pageNumber: 1},
+        classificationLevelIds: "",
         numberOfOpportunities: {value: 0, pageNumber: 1},
         durationLength: {value: 0, pageNumber: 1},
         duration: {value: "" , pageNumber: 1},
@@ -782,7 +783,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const duration = await this._sp.web.lists.getByTitle('Duration').items();
 
       const classLevelResults = classificationLevel.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
-      const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
+      const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, classificationLevelIds: data.ClassificationLevelIds }));
       const durationData = duration.map((data: any) => ({key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
 
       GraphService._sets(parameters[0]).then(async (data: any) => {

@@ -21,6 +21,10 @@ import styles from "./CareerMarketplace.module.scss";
 import { SelectLanguage } from "./SelectLanguage";
 import { isInvalid, getLocalizedString } from "./Functions";
 
+export interface IClassificationLevelOption extends IComboBoxOption {
+  classificationLevelIds: string;
+}
+
 export interface IDetailsProps {
   prefLang: string;
   programArea: any[];
@@ -48,6 +52,7 @@ export interface IDetailsProps {
     programArea: any;
     classificationCode: any;
     classificationLevel: any;
+    classificationLevelIds: string;
     duration: any;
     durationLength: any;
   };
@@ -79,16 +84,14 @@ export default class Details extends React.Component<IDetailsProps> {
     }
   };
 
-  public onChangeComboItem = ( event: React.FormEvent<IComboBox>,item?: IComboBoxOption, index?: number, value?: string): void => {
-    const selectedValue = item ? item.key : "classificationCode-input";
-    const selectedText = item ? item.text : value;
+  public onChangeClassificationCode = (event: React.FormEvent<IComboBox>,  item?: IClassificationLevelOption, index?: number, value?: string): void => {
+      const selectedValue = item ? item.key : "classificationCode-input";
+      const selectedText = item ? item.text : value;
+      this.props.values.classificationLevelIds = item ? item.classificationLevelIds : "";
 
-    if (item) {
-      this.props.handleDropDownItem("classificationCode", {
-        key: selectedValue,
-        text: selectedText,
-      });
-    }
+      if (item) {
+        this.props.handleDropDownItem("classificationCode", { key: selectedValue, text: selectedText });
+      }
   };
 
   public render(): React.ReactElement<IDetailsProps> {
@@ -123,6 +126,8 @@ export default class Details extends React.Component<IDetailsProps> {
       numberOfOpportunities,
       deadline,
     } = this.props.values;
+
+    const filteredClassificationLevels = this.props.classificationLevel.filter ((item) => this.props.values.classificationLevelIds.includes(item.key));
 
     const reformatDate = (): string => {
       const formattedDate = moment(deadline).format("YYYY-MM-DD");
@@ -281,7 +286,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 aria-labelledby={"classificationCode-label"}
                 aria-errormessage="classificationCode-error"
                 options={[{ key: "0", text: `--${this.strings.select}--` },...classificationCodeItems,]}
-                onChange={this.onChangeComboItem}
+                onChange={this.onChangeClassificationCode}
                 disabled={this.props.currentPage === 3}
                 selectedKey={this.props.values.classificationCode.key}
                 autoComplete="on"
@@ -302,10 +307,7 @@ export default class Details extends React.Component<IDetailsProps> {
               id={"classificationLevel"}
               name={"classificationLevel"}
               title={this.strings.classification_Level}
-              options={[
-                { key: "0", text: `--${this.strings.select}--` },
-                ...this.props.classificationLevel,
-              ]}
+              options={[{ key: "0", text: `--${this.strings.select}--` }, ...filteredClassificationLevels]}
               onChange={this.onChangeDropDownItem}
               disabled={isReadOnly}
               selectedKey={this.props.values.classificationLevel.key}
