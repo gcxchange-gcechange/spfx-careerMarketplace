@@ -2,9 +2,7 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
-
-[picture of the solution in action, if possible]
+This project is a SharePoint web part featuring a multi-step form that allows users to create a job opportunity. The form supports bilingual functionality, enabling users to switch seamlessly between English and French.
 
 ## Used SharePoint Framework Version
 
