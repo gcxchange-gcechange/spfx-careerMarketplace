@@ -1,4 +1,4 @@
-# career marketplace
+# Career Marketplace
 
 ## Summary
 
@@ -7,6 +7,7 @@ This project is a SharePoint web part featuring a multi-step form that allows us
 ## Used SharePoint Framework Version
 
 ![version](https://img.shields.io/badge/version-1.20.0-green.svg)
+![Node.js](https://img.shields.io/badge/Node.js-v18.17.1--19.0-green.svg)
 
 ## Applies to
 
@@ -16,15 +17,16 @@ This project is a SharePoint web part featuring a multi-step form that allows us
 > Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
 
 ## ✅ Prerequisites
-
+This web part connects to this [this function app](https://github.com/gcxchange-gcechange/appsvc-function-dev-cm-listmgmt-dotnet001).
 To successfully run this app, you **must update configuration values** in the following files:
 
 ---
 
-## 1. `services.tsx` – API URL for Data Fetching
+## 1. `services.tsx` –  MsGraph API URL for data fetching
 
 Ensure that your `services.tsx` file includes a **valid API base URL** for the `departmentSets` and `sets` functions.
 
+```tsx
 
 const API_BASE_URL = "https://your-api-url.com"; // 🔁 Replace with your actual API URL
 
@@ -37,7 +39,9 @@ export async function sets() {
   const response = await fetch(`${API_BASE_URL}/sets`);
   return response.json();
 }
-
+```
+## 2. `servicesConfig.ts` 
+```ts
 export const createOpportunityConfig = {
   clientId: "your-client-id", // 🔁 Required
   createJobApiUrl: "https://your-api-url.com/create-job", // 🔁 Required
@@ -46,21 +50,15 @@ export const createOpportunityConfig = {
   programAreaTermId: "program-area-guid",                 // 🔁 Required
 };
 
-const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?";
-
-
-## Solution
-
-| Solution    | Author(s)                                               |
-| ----------- | ------------------------------------------------------- |
-| folder name | Author details (name, company, twitter alias with link) |
+const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/your-site.aspx?"; // 🔁 Required
+```
 
 ## Version history
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
-| 1.1     | March 10, 2021   | Update comment  |
-| 1.0     | January 29, 2021 | Initial release |
+| 1.0     | October 1, 2025  | Initial release |
+
 
 ## Disclaimer
 
@@ -79,26 +77,4 @@ const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/CM-test/SiteP
   - **npm install**
   - **gulp serve**
 
-> Include any additional steps as needed.
 
-## Features
-
-Description of the extension that expands upon high-level summary above.
-
-This extension illustrates the following concepts:
-
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
-
-## References
-
-- [Getting started with SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
-- [Building for Microsoft teams](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/build-for-teams-overview)
-- [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
-- [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
-- [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
