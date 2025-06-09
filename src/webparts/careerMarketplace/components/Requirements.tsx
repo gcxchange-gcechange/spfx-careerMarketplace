@@ -81,8 +81,16 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 3;
-    const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined)
- 
+    const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined);
+
+    const skillItems = this.props.skills.map((item: any) => ({
+      ...item,
+      styles: {
+        optionText: { overflow: 'visible', whiteSpace: 'normal' },
+      }
+    })); 
+
+
     const languageEvaluationOptions : IDropdownOption[] = [
       {key: 0, text: 'A'},
       {key: 1, text: 'B'},
@@ -128,7 +136,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             </Stack>
             <ComboBox
                 id={"skills"}
-                options={this.props.skills}
+                options={skillItems}
                 onChange={this.onChangeComboItem}
                 disabled={this.props.currentPage === 3}
                 selectedKey={selectedSkillItems}
