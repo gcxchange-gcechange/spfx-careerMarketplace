@@ -1320,11 +1320,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     ) : (
                       <>
                         <div>
-                          {this.state.isLoading ? (
+                          {!this.state.isLoading ? (
                             <Spinner
                               label={this.strings.submitting_your_information}
-                              labelPosition="right"
+                              ariaLive="assertive"
                               size={SpinnerSize.large}
+                              className={styles.responsiveSpinner}
                             />
                           ) : (
                             <>

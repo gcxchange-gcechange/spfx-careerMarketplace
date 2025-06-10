@@ -154,7 +154,7 @@ define([], function() {
 
     //loader
 
-    'submitting_your_information': 'Hang tight! We\'\re submitting your information, which may take up to 5 minutes. Please avoid refreshing or using the back button during this process—thank you for your patience! ',
+    'submitting_your_information': 'Hang tight! We\' re submitting your information, which may take up to 5 minutes. Please avoid refreshing or using the back button during this process—thank you for your patience!',
    
 
 
