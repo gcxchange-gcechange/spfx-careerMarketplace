@@ -76,6 +76,19 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
     const dropdownStyle: Partial<IDropdownStyles> = {
       dropdownOptionText: { overflow: 'visible', whiteSpace: 'normal' },
+      dropdownItem: {
+         selectors: {
+          ':hover': {
+            height: 'auto!important'
+          }
+        },
+        whiteSpace: 'normal',
+        wordBreak: 'break-word',
+      },
+      // dropdownItem: {
+      //   whiteSpace: 'normal',
+      //   wordBreak: 'break-word',
+      // },
       errorMessage: {
         fontWeight: 700,
         borderLeft: '2px solid rgb(164, 38, 44)',
@@ -84,18 +97,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
       },
       title: {
         color: 'black',
-          // whiteSpace: 'normal',      // Allows text to wrap
-          // overflow: 'visible',
-          // textOverflow: 'unset',
-      },
-      // dropdownItemSelected: {
-      //   whiteSpace: 'normal',
-      //   wordBreak: 'break-word',
-      // },
-      // dropdownItem: {
-      //   whiteSpace: 'normal',
-      //   wordBreak: 'break-word',
-      // },
+      }
 
     }
 

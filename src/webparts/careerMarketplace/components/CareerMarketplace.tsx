@@ -1008,6 +1008,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const checkUser = this.props.jobOppOwner === this.props.workEmail;
     console.log("checkUSer", checkUser)
+    console.log("workEmail", this.props.workEmail);
 
     await this._populateDropDowns();
     await this._getUser();
