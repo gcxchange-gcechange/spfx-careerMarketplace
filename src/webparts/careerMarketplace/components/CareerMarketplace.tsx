@@ -1320,7 +1320,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                     ) : (
                       <>
                         <div>
-                          {!this.state.isLoading ? (
+                          {this.state.isLoading ? (
                             <Spinner
                               label={this.strings.submitting_your_information}
                               ariaLive="assertive"
