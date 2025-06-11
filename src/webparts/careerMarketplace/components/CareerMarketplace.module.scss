@@ -223,9 +223,9 @@ input[type="text"][disabled] {
 }
 
 :global {
+
   .ms-Dropdown.is-disabled .ms-Dropdown-title {
     color: #a6a6a6; 
-    
   }
 
   .ms-TextField.is-disabled .ms-TextField-field {
