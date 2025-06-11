@@ -103,7 +103,7 @@ export default class Details extends React.Component<IDetailsProps> {
       childrenGap: "10%",
     };
     const dropdownStyles = {
-      dropdown: { width: 300},
+      dropdown: { width: 150},
       errorMessage: {
         margin: "0px",
         fontWeight: "700",
