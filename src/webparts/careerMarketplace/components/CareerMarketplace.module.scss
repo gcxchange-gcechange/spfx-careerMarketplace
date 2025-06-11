@@ -223,9 +223,6 @@ input[type="text"][disabled] {
 }
 
 :global {
-  .ms-Button {
-    height: auto!important
-  }
   .ms-Dropdown.is-disabled .ms-Dropdown-title {
     color: #a6a6a6; 
     
