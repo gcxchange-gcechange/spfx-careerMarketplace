@@ -26,7 +26,7 @@ define([], function() {
       "classification_Level":"Niveau de classification",
       "classification_Level_description":"À l’aide du menu déroulant, identifiez le groupe/niveau requis pour votre occasion. ",
       "durationField":"Durée de la possibilité d’emploi",
-      "durationDescription":"En utilisant le menu déroulant, sélectionnez la durée qui correspond le mieux à votre type d’occasion.",
+        "durationDescription":"En utilisant le menu déroulant, sélectionnez la durée qui correspond le mieux à votre type d’occasion. Les mutations sont des actions de dotation permanentes, donc vous ne pouvez pas sélectionner de période de temps pour elles.",
       "length":"Durée",
       "time_period":"Période",
       "application_deadline":"Date limite de candidature",
