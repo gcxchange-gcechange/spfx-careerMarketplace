@@ -385,7 +385,7 @@ export default class Details extends React.Component<IDetailsProps> {
           >
             {this.strings.time_period}
           </p>
-          <Stack horizontal tokens={customSpacingStackTokens}>
+          <Stack horizontal tokens={customSpacingStackTokens} wrap>
             <StackItem>
               <Dropdown
                 id={"duration"}
