@@ -25,7 +25,7 @@ define([], function() {
     "classification_Level":"Classification Level",
     "classification_Level_description":"Use the drop-down menu to identify the group/level required for your opportunity.",
     "durationField":"Duration for opportunity",
-    "durationDescription":"Using the drop-down menu, select the duration that most closely corresponds with your opportunity type.",
+      "durationDescription":"Using the drop-down menu, select the duration that most closely corresponds with your opportunity type. Deployments are considered permanent staffing actions, so you cannot select a time period for them.",
     "length":"Length",
     "time_period":"Time period",
     "application_deadline":"Application deadline",
