@@ -52,7 +52,8 @@ export const validateNumericField = (value: any, language:string, fieldName: str
     const min: number = 1;
     const max:number = 60;
 
-    if (value === "" || undefined || null || value === 0 || value === '0') {
+    if (value === undefined || value === "" || value === null || value === 0 || value === '0') {
+
         return ( 
             <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{ getLocalizedString(`${fieldName}`, language)}</p>
