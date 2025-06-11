@@ -654,7 +654,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-
+    console.log("item", item)
+ 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
@@ -695,7 +696,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const evaluateLanguage = (languageValue: string, value: { NameFr: string; NameEn: string }):string => {
       return languageValue === 'fr-fr' ? value.NameFr : value.NameEn
     }
-    
+ 
+
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
@@ -705,9 +707,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
         jobType: {...prevState.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
-        programArea : {...prevState.programArea, key: item.ProgramArea.TermGuid},
+        programArea : {...prevState.programArea, key: item.ProgramArea[0].TermGuid},
         classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},
+        classificationLevelIds: item.ClassificationLevel.ID.toString(),
         numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 1},
         duration:{...prevState.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
