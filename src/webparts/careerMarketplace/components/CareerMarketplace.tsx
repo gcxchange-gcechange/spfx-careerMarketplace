@@ -654,7 +654,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-    console.log("item", item)
+    //console.log("item", item)
  
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
@@ -662,6 +662,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
+    const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
+    //console.log(classificationCode);
+    const getClassificationCodeList = classificationCode.filter((levelItem:any) => levelItem.ID === item.ClassificationCode.ID);
+    //console.log("getClassificationCodeList", getClassificationCodeList);
+
    
     if (item.LanguageRequirement.ID === 3) {
 
@@ -710,7 +715,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         programArea : {...prevState.programArea, key: item.ProgramArea[0].TermGuid},
         classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},
-        classificationLevelIds: item.ClassificationLevel.ID.toString(),
+        classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
         numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 1},
         duration:{...prevState.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
