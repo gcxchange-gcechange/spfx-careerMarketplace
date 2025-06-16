@@ -679,10 +679,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             return {key: 0, text: letter}
           }
           else if (letter === "B") {
-            return {key:1, text: letter}
+            return {key: 1, text: letter}
           }
           else if (letter === "C") {
-            return {key:2, text: letter}
+            return {key: 2, text: letter}
           }
         }))
       }
@@ -738,9 +738,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             readingEN: getIndex.length !== 0 ? getIndex[0][0] : { ...prevState.values.languageRequirements[0].readingEN },
             writtenEN: getIndex.length !== 0 ? getIndex[0][1] : { ...prevState.values.languageRequirements[0].writtenEN },
             oralEN: getIndex.length !== 0 ? getIndex[0][2] : { ...prevState.values.languageRequirements[0].oralEN },
-            readingFR: getIndex.length !== 0 ? getIndex[0][3] : { ...prevState.values.languageRequirements[0].readingFR },
-            writtenFR: getIndex.length !== 0 ? getIndex[0][4] : { ...prevState.values.languageRequirements[0].writtenFR },
-            oralFR: getIndex.length !== 0 ? getIndex[0][5] : { ...prevState.values.languageRequirements[0].oralFR },
+            readingFR: getIndex.length !== 0 ? getIndex[0][4] : { ...prevState.values.languageRequirements[0].readingFR },
+            writtenFR: getIndex.length !== 0 ? getIndex[0][5] : { ...prevState.values.languageRequirements[0].writtenFR },
+            oralFR: getIndex.length !== 0 ? getIndex[0][6] : { ...prevState.values.languageRequirements[0].oralFR },
           },
         ],
         // languageRequirements:[
