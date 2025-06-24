@@ -65,9 +65,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
   protected async onInit(): Promise<void> {
 
-    await super.onInit();
-
     const sp = getSP(this.context);
+
     GraphService.setup(this.context);
     this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
     try {
@@ -78,7 +77,10 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     } catch (error){
       console.error("Error fetching list", error);
     }
-    console.log(this.jobOpportunityOwner)
+
+    await super.onInit();
+
+    
     
   }
 
