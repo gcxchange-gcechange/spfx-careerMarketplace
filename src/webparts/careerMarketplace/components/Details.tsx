@@ -177,6 +177,8 @@ export default class Details extends React.Component<IDetailsProps> {
               onGetErrorMessage={() => validateEmpty(jobTitleEn, "jobTitleEn", this.props.prefLang)}
               ariaLabelRequired={this.strings.required}
               ariaInvalid={isInvalid("jobTitleEn", this.props.inlineFieldErrors)}
+              maxLength={255}
+              instruction={this.strings.jobTitle_Instructions}
             />
 
             <ReusableTextField
@@ -188,6 +190,8 @@ export default class Details extends React.Component<IDetailsProps> {
               disabled={isReadOnly}
               onGetErrorMessage={() => validateEmpty(jobTitleFr, "jobTitleFr", this.props.prefLang)}
               ariaLabelRequired={this.strings.required}
+              maxLength={255}
+              instruction={this.strings.jobTitle_Instructions}
             />
 
             <ReusableTextField
@@ -200,6 +204,8 @@ export default class Details extends React.Component<IDetailsProps> {
               disabled={isReadOnly}
               onGetErrorMessage={() => validateEmpty( jobDescriptionEn, "jobDescriptionEn", this.props.prefLang )}
               ariaLabelRequired={this.strings.required}
+              maxLength={10000}
+              instruction={this.strings.jobDescription_Instructions}
             />
             <ReusableTextField
               id={"jobDescriptionFr"}
@@ -216,6 +222,8 @@ export default class Details extends React.Component<IDetailsProps> {
                 )
               }
               ariaLabelRequired={this.strings.required}
+              maxLength={10000}
+              instruction={this.strings.jobDescription_Instructions}
             />
 
             <ReusableDropdownField
