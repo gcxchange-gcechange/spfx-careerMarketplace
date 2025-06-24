@@ -39,7 +39,7 @@ define([], function() {
       "skillsField":"Qualifications",
       "skills_description":"En utilisant la zone de texte de suggestion automatique, identifiez les principales compétences que vous recherchez. Remarque : Ces informations seront utilisées par le système de mise en correspondance pour générer la liste des candidats potentiellement qualifiés pour votre occasion.  ",
       "skills_description_link":" Pour consulter la liste complète des compétences, cliquez ici.",
-      "time_in_hours":"Durée en heures",
+      "time_in_hours":"Heures de travail",
       "provinceField":"Province",
       "provinceField_description":"À l’aide du menu déroulant, indiquez votre emplacement.",
       "regionField":"Région",

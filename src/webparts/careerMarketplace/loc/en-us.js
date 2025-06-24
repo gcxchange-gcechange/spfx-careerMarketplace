@@ -39,7 +39,7 @@ define([], function() {
     "skillsField":"Skills",
     "skills_description":"Using the auto-suggest text box, identify the top skills you are seeking. Note: This information will be used by the matching system to generate the list of potentially qualified candidates for your opportunity.",
     "skills_description_link":" To view the complete Skills Inventory, click here.",
-    "time_in_hours":"Time in hours",
+    "time_in_hours":"Work Hours",
     "provinceField":"Province",
     "provinceField_description":"Using the drop-down menu, indicate your location.",
     "regionField":"Region",
