@@ -110,6 +110,7 @@ define([], function() {
       "french": "(français)",
       "select": "sélectionner",
       "submit_btn": "Allons-y",
+      "save_chng_btn": "Enregistrer les modifications",
       "complete_button": "Page d’accueil de Carrefour de carrière",
 
       //Errors

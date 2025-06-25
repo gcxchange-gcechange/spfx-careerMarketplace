@@ -111,6 +111,7 @@ declare interface ICareerMarketplaceWebPartStrings {
   "french":string;
   "select":string;
   "submit_btn": string;
+  "save_chng_btn": string;
   "complete_button": string;
 
 

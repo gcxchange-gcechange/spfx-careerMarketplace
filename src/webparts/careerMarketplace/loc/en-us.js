@@ -110,6 +110,7 @@ define([], function() {
     "french": "(french)",
     "select": "Select",
     "submit_btn": "Submit",
+    "save_chng_btn": "Save Changes",
     "complete_button": "Career Marketplace Homepage",
 
     //Errors
