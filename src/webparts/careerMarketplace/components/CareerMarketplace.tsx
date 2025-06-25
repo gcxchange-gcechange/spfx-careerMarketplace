@@ -1385,7 +1385,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                                     <CustomButton id="prev" name={this.strings.prev_btn} buttonType="secondary" onClick={() => this.prev()} />
                                   )}
                                   {currentPage === 3 ? (
-                                    <CustomButton id="submit" name={this.strings.submit_btn} buttonType="primary" onClick={() => this.submit()} />
+                                    <CustomButton id="submit" name={this.state.jobOpportunityOwner ? this.strings.save_chng_btn : this.strings.submit_btn} buttonType="primary" onClick={() => this.submit()} />
                                   ) : (
                                     <CustomButton id="next" name={this.strings.next_btn} buttonType="primary" onClick={() => this.next()} />
                                   )}
