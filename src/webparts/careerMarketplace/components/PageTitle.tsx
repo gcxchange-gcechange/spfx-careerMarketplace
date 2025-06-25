@@ -24,7 +24,7 @@ export default class PageTitle extends React.Component<IPageTitleProps> {
               <h2>{this.strings.posterInformation_title}</h2>
             )}
             {this.props.currentPage === 1 && (
-              <h2>{this.strings.opportunityRequirements_title}</h2>
+              <h2>{this.strings.oppotunityDetails_Title}</h2>
             )}
             {this.props.currentPage === 2 && (
               <h2>{this.strings.opportunityRequirements_title}</h2>
