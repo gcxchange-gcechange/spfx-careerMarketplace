@@ -127,9 +127,9 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                   </p>
                   <p className={styles.instruction}>{this.strings.skills_description} 
                     {
-                    this.props.prefLang === "en-en" 
-                    ? <Link href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</Link>
-                    : <Link href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.strings.skills_description_link}</Link>
+                    <Link href="https://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_-_Liste_des_comp%C3%A9tences_se_trouvant_sur_GCconnex" target="_blank" rel="noreferrer">
+                      {this.strings.skills_description_link}
+                    </Link>
                     }</p>
                 </Label>
               </StackItem>
