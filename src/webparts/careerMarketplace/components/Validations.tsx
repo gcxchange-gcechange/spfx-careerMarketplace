@@ -7,7 +7,6 @@ import { getLocalizedString } from './Functions';
 
 
 export const validateEmpty = (value: string, fieldName: string, language:string): JSX.Element  | undefined  | string=> {
-    console.log(value, value.length)
     const strings = SelectLanguage(language);
     const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
     const minCharKey = `${fieldName}-minChar` as keyof ICareerMarketplaceWebPartStrings;
