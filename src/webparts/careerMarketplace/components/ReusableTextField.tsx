@@ -18,6 +18,8 @@ export interface IReusableTextFieldProps {
   onBlur?: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => void;
   ariaLabelRequired: string;
   ariaInvalid?: boolean;
+  maxLength?: number;
+  instruction?: string;
 }
 
 
@@ -37,6 +39,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
              <span className={styles.visuallyHidden}>{this.props.ariaLabelRequired}</span>
             {this.props.title}
           </p>
+          <p className={styles.instruction}>{this.props.instruction}</p>
         </Label>
       </StackItem>
     </Stack>

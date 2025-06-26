@@ -12,8 +12,10 @@ declare interface ICareerMarketplaceWebPartStrings {
   "oppotunityDetails_Title": string;
   "oppotunityDetails_para1": string;
   "job_Title": string;
+  "jobTitle_Instructions":string;
   "number_of_Opportunities": string;
   "job_Description": string;
+  "jobDescription_Instructions": string;
   "job_Type":string;
   "job_Type_description": string;
   "program_Area": string;

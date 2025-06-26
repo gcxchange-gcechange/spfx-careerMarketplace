@@ -47,6 +47,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     threeMonthsLater.setMonth(today.getMonth() + 3);
     
     super(props);
+
  
     this.state = {
       currentPage: 0,
@@ -743,17 +744,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             oralFR: getIndex.length !== 0 ? getIndex[0][6] : { ...prevState.values.languageRequirements[0].oralFR },
           },
         ],
-        // languageRequirements:[
-        //   {...prevState.values.languageRequirements[0], 
-        //     language: { key: item.LanguageRequirement.ID, text:item.LanguageRequirement.NameEn},
-        //     readingEN: getIndex.length !== 0 ? getIndex[0][0] : {...prevState.values.languageRequirements[0].readingEN},
-        //     writtenEN: getIndex.length !== 0 ? getIndex[0][1] : {...prevState.values.languageRequirements[0].writtenEN},
-        //     oralEN:  getIndex.length !== 0 ? getIndex[0][2] : {...prevState.values.languageRequirements[0].oralEN},
-        //     readingFR:  getIndex.length !== 0 ? getIndex[0][4] : {...prevState.values.languageRequirements[0].readingFR},
-        //     writtenFR: getIndex.length !== 0 ?  getIndex[0][5]: {...prevState.values.languageRequirements[0].writtenFR },
-        //     oralFR:  getIndex.length !== 0 ? getIndex[0][6] : {...prevState.values.languageRequirements[0].oralFR},
-
-        // }],
         approvedStaffing: {...prevState.values.approvedStaffing, value: true}
         
        
@@ -1014,19 +1004,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidMount(): Promise<void> {
 
-    const checkUser = this.props.jobOppOwner === this.props.workEmail;
-    console.log("checkUSer", checkUser)
-    console.log("workEmail", this.props.workEmail);
-
+    
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
+    
+    const checkUser =  this.props.jobOppOwner === this.props.workEmail;
+    console.log("checkUSer", checkUser)
+    console.log("jobOppOwenr",this.props.jobOppOwner)
+    console.log("workEmail", this.props.workEmail);
+
 
     if (this.context.application?.navigatedEvent !== undefined) {
       this.context.application?.navigatedEvent.add(this, this.getDropdownElements());
     }
 
-    if (this.props.jobOpportunityId !== "" && checkUser === true) {
+    if (this.props.jobOpportunityId && checkUser === true) {
       await this._populateEditableFields();
 
     } else {
@@ -1039,18 +1032,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
 
-
     if (this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
       // Focus the dialog when errors exist
       if (this.alertRef.current) {
         this.alertRef.current.focus();
       }
-      // else if ( this.navigationDirection === 'next') {
-      //     this.titleRef.current?.focus() 
-      //    } 
-      //    else { 
-      //     this.prevtitleRef.current?.focus()
-      //   }
     }
 
     if(this.state.currentPage !== prevState.currentPage && this.state.hasError.length === 0 ) {
@@ -1107,7 +1093,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public changeFieldNameFormat = (): JSX.Element => {
-    console.log("error", this.state.hasError)
     const properCaseValues: any[] = [];
   
     const convertString = this.state.hasError.map((item: any) => {
@@ -1129,7 +1114,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     });
   
     properCaseValues.push(...convertString);
-    console.log("PV",properCaseValues);
   
     return (
       <>
@@ -1296,6 +1280,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const items = steps.map((item) => ({ key: item.step, title: "" }));
     //complete page view opportunity url
     const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`;
+
 
 
     return (

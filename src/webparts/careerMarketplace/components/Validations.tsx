@@ -10,9 +10,12 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     const strings = SelectLanguage(language);
     const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
     const minCharKey = `${fieldName}-minChar` as keyof ICareerMarketplaceWebPartStrings;
+    const maxCharKey = `${fieldName}-maxChar` as keyof ICareerMarketplaceWebPartStrings;
     const localizedKey = strings[key] || fieldName;
     const localizedMinChar = strings[minCharKey] || `Minimum 5 characters for ${localizedKey}`;
-  
+    const localizedMaxChar = strings[maxCharKey] || `MAX`;
+    const titleMaxCharFields = ["jobTitleEn", "jobTitleFr"];
+    const descriptionMaxCharFields = ['jobDescriptionEn', 'jobDescriptionFr'];
 
     if ( value.length === 0 || value === undefined  ) {
 
@@ -28,7 +31,21 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
                 <p style={{margin: '0px', fontWeight: '700'}}>{localizedMinChar}</p>
             </div>
         )
+    } else if (value.length > 255 && titleMaxCharFields.includes(fieldName)) {
+        return (
+             <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+                <p style={{margin: '0px', fontWeight: '700'}}>{localizedMaxChar}</p>
+            </div>
+        )
     }
+    else if (value.length > 10000 && descriptionMaxCharFields.includes(fieldName)) {
+        return (
+             <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+                <p style={{margin: '0px', fontWeight: '700'}}>{localizedMaxChar}</p>
+            </div>
+        )
+    }
+    
     
 
 }
