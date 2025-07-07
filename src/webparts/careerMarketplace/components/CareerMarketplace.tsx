@@ -1010,10 +1010,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     await this.getDropdownElements();
     
     const checkUser =  this.props.jobOppOwner === this.props.workEmail;
-    console.log("checkUSer", checkUser)
-    console.log("jobOppOwenr",this.props.jobOppOwner)
-    console.log("workEmail", this.props.workEmail);
-
 
     if (this.context.application?.navigatedEvent !== undefined) {
       this.context.application?.navigatedEvent.add(this, this.getDropdownElements());
@@ -1346,7 +1342,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                                 aria-valuemax={4}
                                 aria-valuemin={1}
                                 aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}
-                                aria-valuetext={`Step ${this.state.currentPage + 1} out of 4`}
+                                aria-valuetext={this.props.prefLang === 'fr-fr' ? `Étape ${this.state.currentPage + 1} sur 4` : `Step ${this.state.currentPage + 1} out of 4`}
                               >
                                 <Steps current={currentPage} labelPlacement="vertical" items={items} />
                               </div>
@@ -1370,7 +1366,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                                     <CustomButton id="prev" name={this.strings.prev_btn} buttonType="secondary" onClick={() => this.prev()} />
                                   )}
                                   {currentPage === 3 ? (
-                                    <CustomButton id="submit" name={this.state.jobOpportunityOwner ? this.strings.save_chng_btn : this.strings.submit_btn} buttonType="primary" onClick={() => this.submit()} />
+                                    <CustomButton id="submit" name={this.strings.submit_btn} buttonType="primary" onClick={() => this.submit()} />
                                   ) : (
                                     <CustomButton id="next" name={this.strings.next_btn} buttonType="primary" onClick={() => this.next()} />
                                   )}
