@@ -155,7 +155,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
+          || (currentPgFields.includes(key) && value.value === 0) 
           || (currentPgFields.includes(key) && value === undefined) 
+          || (currentPgFields.includes(key) && value.Guid === '') 
           || (currentPgFields.includes(key) && value.Guid === '0') 
           || (currentPgFields.includes(key) && value.length === 1) 
           || (stringValues.includes(key) && value === "")
