@@ -106,8 +106,8 @@ define([], function() {
     'asteriks':'Fields marked with an asterisk (*) are required.',
 
     //languages
-    'english': "(english)",
-    "french": "(french)",
+    'english': "(English)",
+    "french": "(French)",
     "select": "Select",
     "submit_btn": "Submit",
     "save_chng_btn": "Save Changes",
