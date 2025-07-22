@@ -30,7 +30,6 @@ export interface IReusableDropdownFieldProps {
 
 export default class ReusableDropdownField extends React.Component<IReusableDropdownFieldProps> {
 
- 
 
   public customLabel = (): JSX.Element => {
 
@@ -38,8 +37,8 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
     return (
     <Stack  horizontal verticalAlign="center" >
-      <StackItem >
-        <Label  id={`${this.props.id}-label`} htmlFor={this.props.id} >
+      <StackItem>
+        <Label  id={`${this.props.id}-label`} >
           <p className={styles.mrg0}>
           { this.props.id === 'duration' 
           ? 
@@ -55,24 +54,19 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
             {this.props.title}
           </p>
           {this.props.id === 'jobType' ? (<p className={styles.instruction}><Link href="http://www.gcpedia.gc.ca/wiki/Jobs_Marketplace" target="_blank" rel="noreferrer">{this.props.instruction}</Link></p>) 
-        // : this.props.id === 'skills' ?
-        //  (<p className={styles.instruction}>{this.props.instruction} 
-        // {
-        // this.props.prefLang === "en-en" 
-        // ? <Link styles={linkStyle} href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=en&uselang=en" target="_blank" rel="noreferrer">{this.props.instructionLink}</Link>
-        // : <Link href="http://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_des_compténces_se_trouvant_sur_GCconnex?setlang=fr&uselang=fr" target="_blank" rel="noreferrer">{this.props.instructionLink}</Link>
-        // }</p>) 
         : (<p className={styles.instruction}>{this.props.instruction}</p>)}
         </Label>
-       
-        
       </StackItem>
     </Stack>
     )
   }
 
 
+
   public render(): React.ReactElement<IReusableDropdownFieldProps> {
+    
+
+
 
     const dropdownStyle: Partial<IDropdownStyles> = {
       dropdownOptionText: { overflow: 'visible', whiteSpace: 'normal' },
@@ -119,7 +113,6 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
     return (
       <>      
-      <div>
         <Dropdown
           aria-labelledby={`${this.props.id}-label`}
           aria-invalid={this.props.ariaInvalid}
@@ -130,9 +123,6 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           styles={!excludedIds.includes(this.props.id) ? dropdownStyle : langDropdownStyle} 
           {...this.props}
         />       
-
-      </div>
-
       </>
 
     )
