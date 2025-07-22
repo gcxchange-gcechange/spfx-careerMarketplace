@@ -226,11 +226,13 @@ input[type="text"][disabled] {
 
 
   .ms-Dropdown.is-disabled .ms-Dropdown-title {
-    color: #a6a6a6; 
+    color: #4F4F4F; 
   }
 
   .ms-TextField.is-disabled .ms-TextField-field {
-    color: #a6a6a6;   
+    color: #4F4F4F;   
+    border-radius: 2px;
+    border: 1px solid #4F4F4F;
   }
 }
 
