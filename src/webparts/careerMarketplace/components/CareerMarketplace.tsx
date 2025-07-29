@@ -1291,7 +1291,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId} />
 
                   <Stack horizontal horizontalAlign="space-between" wrap>
-                    <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)} />
+                     {this.state.jobOpportunityId !== '' && (
+                      <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)} />
+                    )}
                     <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
                   </Stack>
                 </>
