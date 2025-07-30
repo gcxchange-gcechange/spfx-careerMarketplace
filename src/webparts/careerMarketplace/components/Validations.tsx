@@ -20,27 +20,27 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     if ( value.length === 0 || value === undefined  ) {
 
         return (
-            <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700'}}>{localizedKey}</p>
             </div>
         )
     } 
     else if (value.length < 5 && fieldName !== 'numberOfOpportunities' ) {
         return (
-            <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700'}}>{localizedMinChar}</p>
             </div>
         )
     } else if (value.length > 255 && titleMaxCharFields.includes(fieldName)) {
         return (
-             <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+             <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700'}}>{localizedMaxChar}</p>
             </div>
         )
     }
     else if (value.length > 10000 && descriptionMaxCharFields.includes(fieldName)) {
         return (
-             <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+             <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700'}}>{localizedMaxChar}</p>
             </div>
         )
@@ -56,7 +56,7 @@ export const validate = (value: any, language:any, fieldName?: string ) : string
     if (value === undefined || value.key === undefined ||value === "" ||value.length === 0 || value.key === "false" || value === "0"|| value.key === "" || value === 0) {
 
         return ( 
-            <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px', marginTop:'5px'}}> {getLocalizedString(`${fieldName}`, language)}</p>
             </div>
         )
@@ -72,7 +72,7 @@ export const validateNumericField = (value: any, language:string, fieldName: str
     if (value === undefined || value === "" || value === null || value === 0 || value === '0') {
 
         return ( 
-            <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{ getLocalizedString(`${fieldName}`, language)}</p>
             </div>
         )
@@ -80,7 +80,7 @@ export const validateNumericField = (value: any, language:string, fieldName: str
 
     if (value < min) {
         return( 
-            <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{getLocalizedString(`${fieldName}`, language)}</p>
             </div>
         )
@@ -89,7 +89,7 @@ export const validateNumericField = (value: any, language:string, fieldName: str
     
     if (value > max) {
         return ( 
-            <div role="alert" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{ getLocalizedString(`${fieldName}`, language)}</p>
             </div>
         )

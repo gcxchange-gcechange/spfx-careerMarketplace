@@ -1046,7 +1046,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     if (this.state.currentPage !== prevState.currentPage) {
 
         this.setState({
-          inlineFieldErrors: []
+          inlineFieldErrors: [],
+          hasError: []
         });
 
         await this._populateDropDowns();
