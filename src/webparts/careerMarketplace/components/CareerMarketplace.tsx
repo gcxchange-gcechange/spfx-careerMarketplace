@@ -1280,7 +1280,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`;
 
 
-
+    console.log("jobOppState:", this.state.jobOpportunityId)
     return (
 
       <>
@@ -1293,7 +1293,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId} />
 
                   <Stack horizontal horizontalAlign="space-between" wrap>
-                     {this.state.jobOpportunityId !== '' && (
+                     {this.state.jobOpportunityId !== ''  && (
                       <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)} />
                     )}
                     <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
