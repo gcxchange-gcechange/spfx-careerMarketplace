@@ -127,7 +127,7 @@ export default class Details extends React.Component<IDetailsProps> {
       deadline,
     } = this.props.values;
 
-    const filteredClassificationLevels = this.props.classificationLevel.filter ((item) => this.props.values.classificationLevelIds.includes(item.key));
+    const filteredClassificationLevels = this.props.classificationLevel?.filter ((item) => this.props.values.classificationLevelIds?.includes(item.key));
 
     const reformatDate = (): string => {
       const formattedDate = moment(deadline).format("YYYY-MM-DD");
