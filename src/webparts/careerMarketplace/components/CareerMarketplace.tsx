@@ -1083,6 +1083,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }
       }))
     }
+
+    if (this.state.jobOpportunityId !== prevState.jobOpportunityId) {
+      console.log("Ihave updated")
+    }
   }
 
   public componentWillUnmount():void {
@@ -1276,8 +1280,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
-    //complete page view opportunity url
-    const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`;
+
+   // const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`;
 
 
     console.log("jobOppState:", this.state.jobOpportunityId)
@@ -1294,7 +1298,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
                   <Stack horizontal horizontalAlign="space-between" wrap>
                      {this.state.jobOpportunityId !== ''  && (
-                      <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)} />
+                      <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={ `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`} onClick={() => ( `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`)} />
                     )}
                     <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
                   </Stack>
