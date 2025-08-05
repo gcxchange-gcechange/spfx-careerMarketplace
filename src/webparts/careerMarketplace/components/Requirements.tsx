@@ -117,7 +117,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
           <div>
             <Stack  horizontal verticalAlign="center" >
               <StackItem style={{padding:'5px 0px'}}>
-                <Label htmlFor={'skills'} style={{fontWeight: '700'}}>
+                <Label htmlFor={'skills'} id={"skills-label"} style={{fontWeight: '700'}}>
                   <p className={styles.mrg0}>
                     <span style={{color: 'rgb(164, 38, 44)'}} aria-hidden='true'>
                       *
@@ -136,6 +136,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             </Stack>
             <ComboBox
                 id={"skills"}
+                aria-labelledby={"skills-label"}
                 options={skillItems}
                 onChange={this.onChangeComboItem}
                 disabled={this.props.currentPage === 3}

@@ -165,7 +165,7 @@ export default class Details extends React.Component<IDetailsProps> {
           </>
         )}
 
-        <form>
+        <div>
           <Stack>
             <ReusableTextField
               id={"jobTitleEn"}
@@ -226,23 +226,24 @@ export default class Details extends React.Component<IDetailsProps> {
               instruction={this.strings.jobDescription_Instructions}
             />
 
-            <ReusableDropdownField
-              id={"jobType"}
-              name={"jobType"}
-              title={this.strings.job_Type}
-              options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.jobType, ]}
-              onChange={this.onChangeDropDownItem}
-              disabled={isReadOnly}
-              selectedKey={this.props.values.jobType.Guid}
-              ariaLabelRequired={this.strings.required}
-              instruction={this.strings.job_Type_description}
-              prefLang={this.props.prefLang}
-              errorMessage={
-                this.props.values.jobType.Guid === "0"
-                  ? getLocalizedString("jobType", this.props.prefLang)
-                  : undefined
-              }
-            />
+
+              <ReusableDropdownField
+                id={"jobType"}
+                name={"jobType"}
+                title={this.strings.job_Type}
+                options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.jobType, ]}
+                onChange={this.onChangeDropDownItem}
+                disabled={isReadOnly}
+                selectedKey={this.props.values.jobType.Guid}
+                ariaLabelRequired={this.strings.required}
+                instruction={this.strings.job_Type_description}
+                prefLang={this.props.prefLang}
+                errorMessage={
+                  this.props.values.jobType.Guid === "0"
+                    ? getLocalizedString("jobType", this.props.prefLang)
+                    : undefined
+                }
+              />
 
             <ReusableDropdownField
               id={"programArea"}
@@ -292,7 +293,7 @@ export default class Details extends React.Component<IDetailsProps> {
               <ComboBox
                 id={"classificationCode"}
                 aria-labelledby={"classificationCode-label"}
-                aria-errormessage="classificationCode-error"
+                aria-describedby="classificationCode-error"
                 options={[{ key: "0", text: `--${this.strings.select}--` },...classificationCodeItems,]}
                 onChange={this.onChangeClassificationCode}
                 disabled={this.props.currentPage === 3}
@@ -346,6 +347,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   min={1}
                   max={60}
                   value={numberOfOpportunities.value}
+                  aria-describedby="numberOfOpportunities-error"
                   onChange={(e) =>
                     this.props.handleNumberofOpp(
                       e.target.value.trim()
@@ -367,6 +369,8 @@ export default class Details extends React.Component<IDetailsProps> {
                 )}
             </div>
           </Stack>
+
+        <div>
           <Label
             id={"duration-label"}
             htmlFor={"duration"}
@@ -415,7 +419,7 @@ export default class Details extends React.Component<IDetailsProps> {
             <StackItem>
               <Stack style={{ marginTop: "-28px" }}>
                 <label
-                  htmlFor={"durationLength"}
+                  aria-labelledby="durationLength"
                   style={{ padding: "5px 0px", fontWeight: "700" }}
                 >
                   {this.strings.length}
@@ -431,6 +435,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   required
                   className={styles.durationLengthInput}
                   disabled={durationDisabled}
+                  aria-describedby="durationLength-error"
                 />
               </Stack>
               {this.props.inlineFieldErrors?.includes("durationLength") &&
@@ -441,10 +446,11 @@ export default class Details extends React.Component<IDetailsProps> {
                 )}
             </StackItem>
           </Stack>
+          </div>
 
           <Stack horizontal verticalAlign="center">
             <StackItem>
-              <Label htmlFor={"deadline"}>
+              <Label id={"deadline"}>
                 <p className={styles.mrg0}>
                   <span
                     style={{ color: "rgb(164, 38, 44)" }}
@@ -464,17 +470,19 @@ export default class Details extends React.Component<IDetailsProps> {
             </StackItem>
           </Stack>
 
+
           <DatePicker
             id={"deadline"}
+            aria-labelledby={"deadline"}
             className={styles.labelStyle}
-            ariaLabel="Select a date"
+            ariaLabel={this.strings.application_deadline}
             onSelectDate={this.onSelectedDate}
             disabled={isReadOnly}
             formatDate={reformatDate}
             value={this.props.values.deadline}
             minDate={this.props.jobOppId ? undefined : oneMonthLater}
           />
-        </form>
+        </div>
       </>
     );
   }
