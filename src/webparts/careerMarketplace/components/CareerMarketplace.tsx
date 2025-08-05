@@ -1280,11 +1280,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
-
-   // const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`;
-
-
-    console.log("jobOppState:", this.state.jobOpportunityId)
+    
     return (
 
       <>
