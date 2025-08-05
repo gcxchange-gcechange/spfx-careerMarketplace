@@ -34,7 +34,7 @@ export default class Complete extends React.Component<ICompleteProps> {
         <div>
           <p><strong>{this.props.jobOppId ? this.strings.update_para1 :this.strings.complete_para1}</strong></p>
           <p>{this.strings.complete_para2 }<strong>{this.strings.complete_para2_bold}</strong>{this.strings.complete_para2_b}</p>
-          <p>{this.strings.complete_para3}</p>
+          <p>{this.props.jobOppId !== '' ? this.strings.complete_para3 : null}</p>
           <p>{this.strings.complete_para4}</p>
         </div>
       </>

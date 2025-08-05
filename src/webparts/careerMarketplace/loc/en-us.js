@@ -59,7 +59,7 @@ define([], function() {
     "work_arrangment":"Work arrangement",
     "work_arrangment_description": "Using the drop-down menu, select the type of work arrangement that corresponds with your opportunity.",
     "approved_staffing":"Approved staffing",
-    "approved_staffing_description":"Using check boxes, please confirm if this opportunity aligns with the staffing mandates provided by your HR department.",
+    "approved_staffing_description":"Using the check box, please confirm if this opportunity aligns with the staffing mandates provided by your human resources department.",
     "approved_staffing_checkbox":"Yes",
 
 
