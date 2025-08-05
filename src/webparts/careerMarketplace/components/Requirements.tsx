@@ -127,7 +127,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                   </p>
                   <p className={styles.instruction}>{this.strings.skills_description} 
                     {
-                    <Link href="https://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_-_Liste_des_comp%C3%A9tences_se_trouvant_sur_GCconnex" target="_blank" rel="noreferrer">
+                    <Link underline={true} href="https://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_-_Liste_des_comp%C3%A9tences_se_trouvant_sur_GCconnex" target="_blank" rel="noreferrer">
                       {this.strings.skills_description_link}
                     </Link>
                     }</p>

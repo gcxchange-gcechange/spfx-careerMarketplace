@@ -18,7 +18,7 @@ export default class CustomButton extends React.Component<ICustomButtonProps> {
 
 
   private handleOnClick = (ev?: any): void => {
-    console.log(ev)
+
  
     if(this.props.url) {
       window.open(this.props.url, "_blank");

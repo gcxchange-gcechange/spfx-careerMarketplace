@@ -224,6 +224,7 @@ input[type="text"][disabled] {
 
 :global {
 
+
   .ms-Dropdown.is-disabled .ms-Dropdown-title {
     color: #4F4F4F; 
   }
@@ -233,6 +234,13 @@ input[type="text"][disabled] {
     border-radius: 2px;
     border: 1px solid #4F4F4F;
   }
+}
+
+:global {
+  .ms-Dropdown:focus::after , .css-75:focus {
+    border: 3px solid #03787c;   
+  }
+
 }
 
  

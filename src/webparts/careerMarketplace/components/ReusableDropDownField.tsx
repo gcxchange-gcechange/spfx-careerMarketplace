@@ -53,7 +53,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
           }
             {this.props.title}
           </p>
-          {this.props.id === 'jobType' ? (<p className={styles.instruction}><Link href="http://www.gcpedia.gc.ca/wiki/Jobs_Marketplace" target="_blank" rel="noreferrer">{this.props.instruction}</Link></p>) 
+          {this.props.id === 'jobType' ? (<p className={styles.instruction}><Link underline={true} href="http://www.gcpedia.gc.ca/wiki/Jobs_Marketplace" target="_blank" rel="noreferrer">{this.props.instruction}</Link></p>) 
         : (<p className={styles.instruction}>{this.props.instruction}</p>)}
         </Label>
       </StackItem>

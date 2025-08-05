@@ -155,7 +155,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
+          || (currentPgFields.includes(key) && value.value === 0) 
           || (currentPgFields.includes(key) && value === undefined) 
+          || (currentPgFields.includes(key) && value.Guid === '') 
           || (currentPgFields.includes(key) && value.Guid === '0') 
           || (currentPgFields.includes(key) && value.length === 1) 
           || (stringValues.includes(key) && value === "")
@@ -1082,6 +1084,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }
       }))
     }
+
+    if (this.state.jobOpportunityId !== prevState.jobOpportunityId) {
+      console.log("Ihave updated")
+    }
   }
 
   public componentWillUnmount():void {
@@ -1275,11 +1281,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
-    //complete page view opportunity url
-    const jobOpportunityUrl = `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`;
-
-
-
+    
     return (
 
       <>
@@ -1292,7 +1294,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   <Complete prefLang={this.props.prefLang} jobOppId={this.props.jobOpportunityId} />
 
                   <Stack horizontal horizontalAlign="space-between" wrap>
-                    <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={jobOpportunityUrl} onClick={() => (jobOpportunityUrl)} />
+                     {this.state.jobOpportunityId !== ''  && (
+                      <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={ `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`} onClick={() => ( `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`)} />
+                    )}
                     <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
                   </Stack>
                 </>
