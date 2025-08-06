@@ -114,6 +114,7 @@ export default class Details extends React.Component<IDetailsProps> {
     };
     const comboBoxStyles: Partial<IComboBoxStyles> = {
       errorMessage: { margin: "0px", fontWeight: "700" },
+      callout:{maxHeight: '478px'}
     };
 
     const isReadOnly = this.props.currentPage === 3;
@@ -309,6 +310,7 @@ export default class Details extends React.Component<IDetailsProps> {
                       )
                     : undefined
                 }
+                useComboBoxAsMenuWidth={true}
               />
             </div>
 
