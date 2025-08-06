@@ -1343,11 +1343,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
                               {/* Stepper */}
                               <div className={styles.stepper}
+                                tabIndex={0}
                                 role="progressbar"
                                 aria-valuemax={4}
                                 aria-valuemin={1}
                                 aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}
-                                aria-valuetext={this.props.prefLang === 'fr-fr' ? `Étape ${this.state.currentPage + 1} sur 4` : `Step ${this.state.currentPage + 1} out of 4`}
+                                //aria-valuetext={this.props.prefLang === 'fr-fr' ? `Étape ${this.state.currentPage + 1} sur 4` : `Step ${this.state.currentPage + 1} out of 4`}
+                                aria-label={this.props.prefLang === 'fr-fr' ? `Étape ${this.state.currentPage + 1} sur 4` : `Step ${this.state.currentPage + 1} out of 4`}
                               >
                                 <Steps current={currentPage} labelPlacement="vertical" items={items} />
                               </div>
