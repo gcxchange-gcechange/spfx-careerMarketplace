@@ -24,6 +24,7 @@ export interface IReusableDropdownFieldProps {
   ariaInvalid?: boolean;
   inlineFieldErrors?: string[];
   errorMessage?: any;
+  placeholder: string;
  
 }
 
@@ -69,7 +70,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
 
     const dropdownStyle: Partial<IDropdownStyles> = {
-      dropdownOptionText: { overflow: 'visible', whiteSpace: 'normal' },
+      dropdownOptionText: { overflow: 'visible', whiteSpace: 'normal', color: 'black' },
       dropdownItem: {
          selectors: {
           ':hover': {
@@ -90,8 +91,9 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         marginTop: '2px'
       },
       title: {
-        color: 'black',
-      }
+        color: 'rgb(96,94,92)',
+      },
+
 
     }
 

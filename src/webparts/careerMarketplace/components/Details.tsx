@@ -179,6 +179,7 @@ export default class Details extends React.Component<IDetailsProps> {
               ariaInvalid={isInvalid("jobTitleEn", this.props.inlineFieldErrors)}
               maxLength={255}
               instruction={this.strings.jobTitle_Instructions}
+              placeholder={this.strings.enter_jobTitleEn}
             />
 
             <ReusableTextField
@@ -192,6 +193,7 @@ export default class Details extends React.Component<IDetailsProps> {
               ariaLabelRequired={this.strings.required}
               maxLength={255}
               instruction={this.strings.jobTitle_Instructions}
+              placeholder={this.strings.enter_jobTitleFr}
             />
 
             <ReusableTextField
@@ -206,6 +208,7 @@ export default class Details extends React.Component<IDetailsProps> {
               ariaLabelRequired={this.strings.required}
               maxLength={10000}
               instruction={this.strings.jobDescription_Instructions}
+              placeholder={this.strings.enter_jobDescEn}
             />
             <ReusableTextField
               id={"jobDescriptionFr"}
@@ -224,6 +227,7 @@ export default class Details extends React.Component<IDetailsProps> {
               ariaLabelRequired={this.strings.required}
               maxLength={10000}
               instruction={this.strings.jobDescription_Instructions}
+              placeholder={this.strings.enter_jobDescFr}
             />
 
 
@@ -243,6 +247,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     ? getLocalizedString("jobType", this.props.prefLang)
                     : undefined
                 }
+                placeholder={this.strings.selectOption}
               />
 
             <ReusableDropdownField
@@ -257,6 +262,7 @@ export default class Details extends React.Component<IDetailsProps> {
               instruction={this.strings.programArea_description}
               inlineFieldErrors={this.props.inlineFieldErrors}
               prefLang={this.props.prefLang}
+              placeholder={this.strings.selectOption}
               errorMessage={
                 this.props.values.programArea.key === "0"
                   ? getLocalizedString("programArea", this.props.prefLang)
@@ -309,6 +315,7 @@ export default class Details extends React.Component<IDetailsProps> {
                       )
                     : undefined
                 }
+                placeholder={this.strings.selectOrType}
               />
             </div>
 
@@ -322,6 +329,7 @@ export default class Details extends React.Component<IDetailsProps> {
               selectedKey={this.props.values.classificationLevel.key}
               ariaLabelRequired={this.strings.required}
               instruction={this.strings.classification_Level_description}
+              placeholder={this.strings.selectOption}
               errorMessage={
                 this.props.values.classificationLevel.key === "0"
                   ? getLocalizedString(
@@ -413,6 +421,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     ? getLocalizedString("duration", this.props.prefLang)
                     : undefined
                 }
+                placeholder={this.strings.selectOption}
               />
             </StackItem>
 
