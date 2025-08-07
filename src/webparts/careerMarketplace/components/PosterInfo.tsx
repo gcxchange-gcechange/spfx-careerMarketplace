@@ -123,6 +123,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
               errorMessage={this.props.values.department.key === "0"  ? getLocalizedString("department", this.props.prefLang): undefined}
               styles={comboBoxStyles}
               aria-invalid = {isInvalid("department", this.props.inlineFieldErrors)}
+              placeholder={this.strings.selectOrType}
               useComboBoxAsMenuWidth={true}
           />
       

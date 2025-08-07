@@ -100,6 +100,9 @@ define([], function() {
       //buttons
       "prev_btn":"Précédent",
       "next_btn": "Suivant",
+      "submit_btn": "Allons-y",
+      "save_chng_btn": "Enregistrer les modifications",
+      "complete_button": "Page d’accueil de Carrefour de carrière",
 
       //accessibility
       'required': 'champ obligatoire',
@@ -108,16 +111,21 @@ define([], function() {
       //languages
       'english': "(anglais)",
       "french": "(français)",
-      "select": "sélectionner",
-      "submit_btn": "Allons-y",
-      "save_chng_btn": "Enregistrer les modifications",
-      "complete_button": "Page d’accueil de Carrefour de carrière",
+
+      //dropwdown and combobox
+    "selectOrType":"Tapez pour rechercher ou choisir",
+    "enter_jobTitleEn":"Entrez le titre du poste (anglais)",
+    "enter_jobTitleFr":"Entrez le titre du poste (français)",
+    "enter_jobDescEn":"Entrez la description du poste (anglais)",
+    "enter_jobDescFr":"Entrez la description du poste (français)",
+
+     
 
       //Errors
       "fixErrors":"Veuillez corriger les erreurs suivantes avant de continuer :",
       "requiredField":"Le champ est obligatoire.",
       "numberValue":"La valeur entrée doit être un nombre.",
-      "selectOption":"Veuillez sélectionner une option.",
+      "selectOption":"Sélectionner une option.",
       "minChar":"Un minimum de 5 caractères est obligatoire.",
       "cannotBeBlank":"Le champ ne peut pas être vide.",
       "lessThanOne":"La valeur entrée ne peut pas être inférieure à un.",
@@ -166,6 +174,16 @@ define([], function() {
       //loader
       'submitting_your_information': 'Un instant! Nous soumettons votre information, ce qui pourrait prendre jusqu’à cinq minutes. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps — merci de votre patience. ',
      
-      
+  //placeholders
+    "":"",
+    "":"",
+    "":"",
+    "":"",
+    "":"",
+    "":"",
+    "":"",
+    "":"",
+
+
     }
   });
