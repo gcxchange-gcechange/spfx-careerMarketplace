@@ -39,7 +39,7 @@ define([], function() {
     "opportunityRequirements_title": "Opportunity Requirements",
     "opportunityRequirements_para1":"Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "skillsField":"Skills",
-    "skills_description":"Using the auto-suggest text box, identify the top skills you are seeking. Note: This information will be used by the matching system to generate the list of potentially qualified candidates for your opportunity.",
+    "skills_description":"Using the auto-suggest text box, identify the top skills you are seeking.",
     "skills_description_link":" View the complete Skills Inventory.",
     "time_in_hours":"Work Hours",
     "provinceField":"Province",
