@@ -100,6 +100,9 @@ define([], function() {
     //buttons
     "prev_btn":"Previous",
     "next_btn": "Next",
+    "submit_btn": "Submit",
+    "save_chng_btn": "Save Changes",
+    "complete_button": "Career Marketplace Homepage",
 
     //accessibility
     'required': 'required field',
@@ -108,16 +111,22 @@ define([], function() {
     //languages
     'english': "(English)",
     "french": "(French)",
-    "select": "Select",
-    "submit_btn": "Submit",
-    "save_chng_btn": "Save Changes",
-    "complete_button": "Career Marketplace Homepage",
+
+    //dropwdown and combobox
+    "select":"Select an option ",
+    "type":"Type to search or select",
+    "enter_jobTitleEn":"Enter job title (English)",
+    "enter_jobTitleFr":"Enter job title (French)",
+    "enter_jobDescEn":"Enter job description (English)",
+    "enter_jobDescFr":"Enter job description (French)",
+
+   
 
     //Errors
     "fixErrors":"Please fix the following errors before proceeding.",
     "requiredField":"Field is required",
     "numberValue":"Value must be a number",
-    "selectOption":"Please select an option",
+    "selectOption":"Select an option",
     "cannotBeBlank":"Field cannot be blank",
     "lessThanOne":"Value cannot be less than one",
     "shouldBeYes":"field should be set to &quot;Yes&quot",
@@ -167,6 +176,12 @@ define([], function() {
     'submitting_your_information': 'Hang tight! We\' re submitting your information, which may take up to 5 minutes. Please avoid refreshing or using the back button during this process—thank you for your patience!',
    
 
+    //placeholders
+    "selectOrType":"Type to search or select",
+    "enter_jobTitleEn":"Enter job title (English)",
+    "enter_jobTitleFr":"Enter job title (French)",
+    "enter_jobDescEn":"Enter job description (English)",
+    "enter_jobDescFr":"Enter job description (French)",
 
    
    

@@ -160,6 +160,14 @@ declare interface ICareerMarketplaceWebPartStrings {
   //loader
   "submitting_your_information": string; 
 
+  //dropdown placeholders
+  "selectOrType": string;
+  "enter_jobTitleEn": string;
+  "enter_jobTitleFr": string;
+  "enter_jobDescEn": string;
+  "enter_jobDescFr": string;
+
+
 }
 
 declare module 'CareerMarketplaceWebPartStrings' {

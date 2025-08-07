@@ -20,6 +20,7 @@ export interface IReusableTextFieldProps {
   ariaInvalid?: boolean;
   maxLength?: number;
   instruction?: string;
+  placeholder?: string;
 }
 
 
