@@ -114,7 +114,7 @@ export default class Details extends React.Component<IDetailsProps> {
     };
     const comboBoxStyles: Partial<IComboBoxStyles> = {
       errorMessage: { margin: "0px", fontWeight: "700" },
-      callout:{maxHeight: '478px'}
+        callout: {vhmax: "50%"}
     };
 
     const isReadOnly = this.props.currentPage === 3;

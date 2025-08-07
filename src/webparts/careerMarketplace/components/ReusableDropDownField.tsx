@@ -93,7 +93,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         color: 'black',
       },
       callout: {
-        maxHeight: '478px'
+        vhmax: '50%'
       }
 
     }
