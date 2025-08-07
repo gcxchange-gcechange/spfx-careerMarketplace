@@ -91,6 +91,9 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
       },
       title: {
         color: 'black',
+      },
+      callout: {
+        maxHeight: '478px'
       }
 
     }

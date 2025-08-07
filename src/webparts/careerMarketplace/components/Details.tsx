@@ -421,7 +421,7 @@ export default class Details extends React.Component<IDetailsProps> {
             <StackItem>
               <Stack style={{ marginTop: "-28px" }}>
                 <label
-                  aria-labelledby="durationLength"
+                  id={"durationLength"}
                   style={{ padding: "5px 0px", fontWeight: "700" }}
                 >
                   {this.strings.length}
@@ -438,6 +438,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   className={styles.durationLengthInput}
                   disabled={durationDisabled}
                   aria-describedby="durationLength-error"
+                   aria-labelledby={ "durationLength"}
                 />
               </Stack>
               {this.props.inlineFieldErrors?.includes("durationLength") &&
