@@ -114,7 +114,7 @@ define([], function() {
 
     //dropwdown and combobox
     "select":"Select an option ",
-    "type":"Type to search or select",
+    "selectOrType":"Type to search or select",
     "enter_jobTitleEn":"Enter job title (English)",
     "enter_jobTitleFr":"Enter job title (French)",
     "enter_jobDescEn":"Enter job description (English)",

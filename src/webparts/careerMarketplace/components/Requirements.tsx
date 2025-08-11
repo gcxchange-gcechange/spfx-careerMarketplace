@@ -79,8 +79,13 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const comboBoxStyles: Partial<IComboBoxStyles> = { 
       errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' }, 
-      callout: {vhmax: "50%"}
+       callout: {
+        '@media only screen and (min-width: 480px)': {
+            maxHeight: 'calc(100vh - 500px) !important'
+        }
+      }
     };
+
     
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
@@ -152,6 +157,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 styles={comboBoxStyles}
                 placeholder={this.strings.selectOrType}
                 useComboBoxAsMenuWidth={true}
+
             />
                {
                 this.props.inlineFieldErrors?.includes('skills') && (
