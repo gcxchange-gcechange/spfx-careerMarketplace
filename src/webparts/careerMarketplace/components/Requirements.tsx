@@ -79,7 +79,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const comboBoxStyles: Partial<IComboBoxStyles> = { 
       errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' }, 
-      callout:{maxHeight: '478px'} 
+      callout: {vhmax: "50%"}
     };
     
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
