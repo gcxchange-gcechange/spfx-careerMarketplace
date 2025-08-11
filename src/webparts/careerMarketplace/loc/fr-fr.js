@@ -39,7 +39,7 @@ define([], function() {
       "opportunityRequirements_title": "Exigences de la possibilité d’emploi",
       "opportunityRequirements_para1":"Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps.",
       "skillsField":"Qualifications",
-      "skills_description":"En utilisant la zone de texte de suggestion automatique, identifiez les principales compétences que vous recherchez. Remarque : Ces informations seront utilisées par le système de mise en correspondance pour générer la liste des candidats potentiellement qualifiés pour votre occasion.  ",
+      "skills_description":"En utilisant la zone de texte de suggestion automatique, identifiez les principales compétences que vous recherchez.  ",
       "skills_description_link":" Consulter la liste complète des compétences.",
       "time_in_hours":"Heures de travail",
       "provinceField":"Province",
