@@ -113,6 +113,7 @@ define([], function() {
       "french": "(français)",
 
       //dropwdown and combobox
+    "select": "Sélectionner une option",
     "selectOrType":"Tapez pour rechercher ou choisir",
     "enter_jobTitleEn":"Entrez le titre du poste (anglais)",
     "enter_jobTitleFr":"Entrez le titre du poste (français)",

@@ -93,6 +93,9 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
       title: {
         color: 'rgb(96,94,92)',
       },
+      callout: {
+        vhmax: '50%'
+      },
 
 
     }

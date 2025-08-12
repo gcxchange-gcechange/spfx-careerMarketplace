@@ -57,6 +57,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
     const comboBoxStyles: Partial<IComboBoxStyles> = { 
       errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' },
+      callout: {vh: "50%"}
     }
 
     const isReadOnly = this.props.currentPage === 0;
@@ -123,6 +124,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
               styles={comboBoxStyles}
               aria-invalid = {isInvalid("department", this.props.inlineFieldErrors)}
               placeholder={this.strings.selectOrType}
+              useComboBoxAsMenuWidth={true}
           />
       
           <ReusableTextField
