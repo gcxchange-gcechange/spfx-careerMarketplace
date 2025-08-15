@@ -12,7 +12,7 @@ define([], function() {
 
     //Page 2 - Opportunity Details
     "oppotunityDetails_Title":"Opportunity Details",
-    "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of  may result in lost information. Please avoid refreshing or using the back button during this process.",
+    "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "job_Title":"Job title ",
     "jobTitle_Instructions":"The job title must be between 5 and 255 characters in length.",
     "number_of_Opportunities":"Number of opportunities",
