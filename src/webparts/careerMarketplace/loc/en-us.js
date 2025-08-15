@@ -29,7 +29,7 @@ define([], function() {
     "durationField":"Duration for opportunity",
       "durationDescription":"Using the drop-down menu, select the duration that most closely corresponds with your opportunity type. Deployments are considered permanent staffing actions, so you cannot select a time period for them.",
     "length":"Length",
-    "_period":"Time period",
+    "time_period":"Time period",
     "application_deadline":"Application deadline",
     "application_deadline_description": "Click on the field and, using the pop-up calendar, select a date for the application deadline.",
 
@@ -153,7 +153,7 @@ define([], function() {
     "classificationLevel":"Classification level field is required",
     "numberOfOpportunities": "Number of opportunities field is required",
     "durationLength":"Length field is required",
-    "duration":" period field is required",
+    "duration":"Time period field is required",
     "skills":"Skills field is required",
     "workSchedule":"Work hours field is required",
     "province":"Province field is required",
