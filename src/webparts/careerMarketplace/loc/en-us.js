@@ -5,7 +5,7 @@ define([], function() {
 
     //Page1 - Poster Information
     "posterInformation_title": "Poster Information",
-    "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of  may result in lost information. Please avoid refreshing or using the back button during this process.",
+    "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "fullName":"Full name",
     "departmentField":"Department",
     "workEmail":"Work email",
