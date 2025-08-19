@@ -1326,7 +1326,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                             <>
                               {/* Page title logic */}
                               <div
-                                tabIndex={-1}
+                                tabIndex={0}
                                 ref={this.titleRef}
                                 style={{ display: this.navigationDirection === 'next' ? 'block' : 'none' }}
                               >
@@ -1334,7 +1334,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                               </div>
 
                               <div
-                                tabIndex={-1}
+                                tabIndex={0}
                                 ref={this.prevtitleRef}
                                 style={{ display: this.navigationDirection === 'prev' ? 'block' : 'none' }}
                               >
