@@ -4,14 +4,14 @@ define([], function() {
     "BasicGroupName": "Group Name",
 
     //Page1 - Poster Information
-    "posterInformation_title": "Poster Information",
+    "posterInformation_title": "Poster information",
     "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "fullName":"Full name",
     "departmentField":"Department",
     "workEmail":"Work email",
 
     //Page 2 - Opportunity Details
-    "oppotunityDetails_Title":"Opportunity Details",
+    "oppotunityDetails_Title":"Opportunity details",
     "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "job_Title":"Job title ",
     "jobTitle_Instructions":"The job title must be between 5 and 255 characters in length.",
@@ -27,7 +27,7 @@ define([], function() {
     "classification_Level":"Classification level",
     "classification_Level_description":"Use the drop-down menu to identify the group/level required for your opportunity.",
     "durationField":"Duration for opportunity",
-      "durationDescription":"Using the drop-down menu, select the duration that most closely corresponds with your opportunity type. Deployments are considered permanent staffing actions, so you cannot select a time period for them.",
+    "durationDescription":"Using the drop-down menu, select the duration that most closely corresponds with your opportunity type.",
     "length":"Length",
     "time_period":"Time period",
     "application_deadline":"Application deadline",
@@ -36,7 +36,7 @@ define([], function() {
     
 
     //Page 3 - Opportunity Requirements
-    "opportunityRequirements_title": "Opportunity Requirements",
+    "opportunityRequirements_title": "Opportunity requirements",
     "opportunityRequirements_para1":"Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "skillsField":"Skills",
     "skills_description":"Using the auto-suggest text box, identify the top skills you are seeking.",
@@ -85,12 +85,12 @@ define([], function() {
     "error_p1": "We’re sorry, but a server error has occurred, and your job opportunity couldn’t be posted at this time.",
     "error_p2":"To help us resolve this issue, please follow these steps:",
     "error_list_1": "Copy all the details of your opportunity post provided below.",
-    "error_list_2": "Select the “Contact Us” button below and paste the copied details into the email.",
+    "error_list_2": "Select the “Contact us” button below and paste the copied details into the email.",
     "error_list_3": "Send the email to our support team at",
     "error_list_3b": "Our team will post your opportunity as soon as possible, typically within one business day.",
     "error_p3": "We apologize for the inconvenience and appreciate your patience as we address this issue. Thank you for helping us ensure your opportunity is posted!",
     "postDetails_btn": "Copy Post Details",
-    "contact_btn":"Contact Us",
+    "contact_btn":"Contact us",
     "email_subject": "Career Marketplace - Opportunity Post Server Error",
     "email_body":"[Paste the details of your opportunity post here.]",
 
@@ -101,8 +101,8 @@ define([], function() {
     "prev_btn":"Previous",
     "next_btn": "Next",
     "submit_btn": "Submit",
-    "save_chng_btn": "Save Changes",
-    "complete_button": "Career Marketplace Homepage",
+    "save_chng_btn": "Save changes",
+    "complete_button": "Career Marketplace homepage",
 
     //accessibility
     'required': 'required field',
@@ -169,7 +169,7 @@ define([], function() {
     "readingFR": "French reading comprehension required",
     "oralFR": "French oral expression required",
     "workArrangment":"Work arrangement field is required",
-    "approvedStaffing": "Approved Staffing field should be set to \"Yes\"",
+    "approvedStaffing": "Approved staffing field should be set to \"Yes\"",
 
     //loader
 
