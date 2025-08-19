@@ -95,9 +95,12 @@ export default class Details extends React.Component<IDetailsProps> {
   };
 
   public render(): React.ReactElement<IDetailsProps> {
+
+    const permDeploy = this.props.values.jobType.Label === "Deployment - permanent" ;
+    const frPermDeploy = this.props.values.jobType.Label === "Mutation - permanente" ;
+    
     const disableDuration =
-      this.props.values.jobType.Label === "Deployments" ||
-      this.props.values.jobType.Label === "Mutations";
+      permDeploy || frPermDeploy;
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: "10%",
