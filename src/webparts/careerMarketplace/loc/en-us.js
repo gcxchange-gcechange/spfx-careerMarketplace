@@ -4,14 +4,14 @@ define([], function() {
     "BasicGroupName": "Group Name",
 
     //Page1 - Poster Information
-    "posterInformation_title": "Poster Information",
+    "posterInformation_title": "Poster information",
     "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "fullName":"Full name",
     "departmentField":"Department",
     "workEmail":"Work email",
 
     //Page 2 - Opportunity Details
-    "oppotunityDetails_Title":"Opportunity Details",
+    "oppotunityDetails_Title":"Opportunity details",
     "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "job_Title":"Job title ",
     "jobTitle_Instructions":"The job title must be between 5 and 255 characters in length.",
@@ -27,7 +27,7 @@ define([], function() {
     "classification_Level":"Classification level",
     "classification_Level_description":"Use the drop-down menu to identify the group/level required for your opportunity.",
     "durationField":"Duration for opportunity",
-      "durationDescription":"Using the drop-down menu, select the duration that most closely corresponds with your opportunity type.",
+    "durationDescription":"Using the drop-down menu, select the duration that most closely corresponds with your opportunity type.",
     "length":"Length",
     "time_period":"Time period",
     "application_deadline":"Application deadline",
@@ -36,7 +36,7 @@ define([], function() {
     
 
     //Page 3 - Opportunity Requirements
-    "opportunityRequirements_title": "Opportunity Requirements",
+    "opportunityRequirements_title": "Opportunity requirements",
     "opportunityRequirements_para1":"Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "skillsField":"Skills",
     "skills_description":"Using the auto-suggest text box, identify the top skills you are seeking.",
@@ -101,7 +101,7 @@ define([], function() {
     "prev_btn":"Previous",
     "next_btn": "Next",
     "submit_btn": "Submit",
-    "save_chng_btn": "Save Changes",
+    "save_chng_btn": "Save changes",
     "complete_button": "Career Marketplace homepage",
 
     //accessibility
@@ -169,7 +169,7 @@ define([], function() {
     "readingFR": "French reading comprehension required",
     "oralFR": "French oral expression required",
     "workArrangment":"Work arrangement field is required",
-    "approvedStaffing": "Approved Staffing field should be set to \"Yes\"",
+    "approvedStaffing": "Approved staffing field should be set to \"Yes\"",
 
     //loader
 
