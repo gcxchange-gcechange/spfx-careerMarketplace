@@ -27,7 +27,7 @@
     },
     "webApiPermissionRequests": [
       {
-        "resource": "dgcx_dev_appreg_cm_listmgmt",
+        "resource": "dgcx_dev_appreg_cm_listmgmt_auth",
         "scope": "user_impersonation"
       },
       {
