@@ -2,7 +2,7 @@
 
 
 export const createOpportunityConfig = {
-  clientId: "ce84ae3b-5f99-4316-8c7e-135aa35f67ab",
+  clientId: "c121f403-ff41-4db3-8426-f3b9c5016cd4",
   createJobApiUrl: " api/CreateJobOpportunity",
   editJobApiUrl:" api/UpdateJobOpportunity",
   jobTypeTermId: "45f37f08-3ff4-4d84-bf21-4a77ddffcf3e",
