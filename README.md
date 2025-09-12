@@ -6,8 +6,8 @@ This project is a SharePoint web part featuring a multi-step form that allows us
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.20.0-green.svg)
-![Node.js](https://img.shields.io/badge/Node.js-v18.17.1--19.0-green.svg)
+![version](https://img.shields.io/badge/version-1.21.1-green.svg)
+![Node.js](https://img.shields.io/badge/Node.js-v122+-green.svg)
 
 ## Applies to
 
