@@ -142,8 +142,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
+      console.log("jobTypeValue", values.jobType)
 
-      const jobTypeIncludesDeployment = values.jobType.Label === 'Deployment - permanent' || values.jobType.Label === 'Mutation - permanente';
+      const jobTypeIncludesDeployment = values.jobType.Label === 'Deployment - permanent' || values.jobType.Label === 'Mutation – permanente ';
 
       //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
 
@@ -456,6 +457,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
+
+    console.log("props JobType", this.props.jobTypeDeploymentTerms[0])
   
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
@@ -558,6 +561,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     
       }  
     else  if (valueName === "jobType") {
+      
 
       if(value.text === "Deployment - permanent" || value.text === "Mutation – permanente") {
         this.setState((prevState) => ({

@@ -15,8 +15,9 @@ import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
 import GraphService from '../../services/GraphService';
 import { createOpportunityConfig, getJobOpportunityUrl } from '../../servicesConfig';
+import { ITerm} from '@pnp/graph/taxonomy';
+import { graphfi, SPFx } from '@pnp/graph';
 
- 
  
 
 export interface ICareerMarketplaceWebPartProps {
@@ -28,12 +29,14 @@ export interface ICareerMarketplaceWebPartProps {
   edit: boolean;
   jobOppOwner: string | undefined;
   clientId: string,
+  jobTypeDeploymentTerms: any[],
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
 
   private jobOpportunityId: string | null = null;
   private jobOpportunityOwner: string | undefined = undefined ; 
+  private jobTypeDeploymentTerms: any[] = [];
 
   public render(): void {
 
@@ -54,7 +57,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         editJobApiUrl: createOpportunityConfig.editJobApiUrl,
         jobTypeTermId: createOpportunityConfig.jobTypeTermId,
         programAreaTermId: createOpportunityConfig.programAreaTermId,
-        jobOpportunityListUrl: `${getJobOpportunityUrl(this.jobOpportunityId)}`
+        jobOpportunityListUrl: `${getJobOpportunityUrl(this.jobOpportunityId)}`,
+        jobTypeDeploymentTerms: this.jobTypeDeploymentTerms,
     
       }
     );
@@ -64,11 +68,15 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
 
   protected async onInit(): Promise<void> {
+    await super.onInit();
 
     const sp = getSP(this.context);
 
     GraphService.setup(this.context);
+    this._getJobTypeTerms();
+ 
     this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
+   
     try {
       if (this.jobOpportunityId !== null ) {
         const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
@@ -77,19 +85,39 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     } catch (error){
       console.error("Error fetching list", error);
     }
-
-    await super.onInit();
-
-    
-    
+  
   }
+
+  private  async _getJobTypeTerms(): Promise<void> {
+    const graph = graphfi().using(SPFx(this.context));
+    const jobTypeItems:any[]=[];
+
+    try { 
+        const jobTypeTerms: ITerm[] = await graph.termStore.sets.getById("45f37f08-3ff4-4d84-bf21-4a77ddffcf3e").terms();
+       
+        console.log("TERM GROUP", jobTypeTerms); 
+
+        jobTypeTerms.map((term:any) => {
+          jobTypeItems.push({id: term.id, labels: term.labels})
+        });
+
+        jobTypeItems.filter(item => item.id === "2d309c8b-7b87-49ed-9e35-9b7fc3aa95ba").map(filteredItem => {
+          console.log("FILTERED ITEM", filteredItem);
+          this.jobTypeDeploymentTerms = filteredItem.labels;
+        });
+
+        
+      } catch (error) {
+        console.error("ERROR-" + error);
+      }
+      
+    }
+  
+
 
   private getQueryParam(param: string): string | null {
     const params = new URLSearchParams(window.location.search);
-    return params.get(param);
-
-    
-    
+    return params.get(param);  
   }
   
 
