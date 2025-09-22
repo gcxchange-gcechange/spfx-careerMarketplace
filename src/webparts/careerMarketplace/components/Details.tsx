@@ -190,7 +190,7 @@ export default class Details extends React.Component<IDetailsProps> {
               name={"jobTitleFr"}
               title={`${this.strings.job_Title} ${this.strings.french}`}
               onChange={this.onChangeTextValue}
-              defaultValue={this.props.values.jobDescriptionFr}
+              defaultValue={this.props.values.jobTitleFr}
               disabled={isReadOnly}
               onGetErrorMessage={() => validateEmpty(jobTitleFr, "jobTitleFr", this.props.prefLang)}
               ariaLabelRequired={this.strings.required}
@@ -449,7 +449,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   className={styles.durationLengthInput}
                   disabled={durationDisabled}
                   aria-describedby="durationLength-error"
-                   aria-labelledby={ "durationLength"}
+                  aria-labelledby={ "durationLength"}
                 />
               </Stack>
               {this.props.inlineFieldErrors?.includes("durationLength") &&

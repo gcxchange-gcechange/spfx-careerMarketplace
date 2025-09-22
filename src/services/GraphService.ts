@@ -14,7 +14,7 @@ export class GraphService {
         this.context = context;
     }
 
-    
+    //This is not used currently
     public static _departmentSets(termSetId: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
           try {
@@ -39,6 +39,7 @@ export class GraphService {
         });
       }
 
+      // Fetch CM group term sets by their IDs
       public static _sets(termSetId: any): Promise<any[]> {
         return Promise.all(
           termSetId.map((id: any) => {

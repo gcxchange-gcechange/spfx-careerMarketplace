@@ -68,12 +68,13 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
 
   protected async onInit(): Promise<void> {
-    await super.onInit();
+   
 
     const sp = getSP(this.context);
 
     GraphService.setup(this.context);
     this._getJobTypeTerms();
+
  
     this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
    
@@ -85,6 +86,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     } catch (error){
       console.error("Error fetching list", error);
     }
+
+     await super.onInit();
   
   }
 
@@ -93,17 +96,17 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     const jobTypeItems:any[]=[];
 
     try { 
-        const jobTypeTerms: ITerm[] = await graph.termStore.sets.getById("45f37f08-3ff4-4d84-bf21-4a77ddffcf3e").terms();
-       
-        console.log("TERM GROUP", jobTypeTerms); 
 
-        jobTypeTerms.map((term:any) => {
+      //Id of term set "Job Type"
+        const jobTypeTermSet: ITerm[] = await graph.termStore.sets.getById(createOpportunityConfig.jobTypeTermId).terms();
+
+        jobTypeTermSet.map((term:any) => {
           jobTypeItems.push({id: term.id, labels: term.labels})
         });
 
-        jobTypeItems.filter(item => item.id === "2d309c8b-7b87-49ed-9e35-9b7fc3aa95ba").map(filteredItem => {
-          console.log("FILTERED ITEM", filteredItem);
-          this.jobTypeDeploymentTerms = filteredItem.labels;
+        //Filtered Id of term "Deployment - permanent" and "Mutation – permanente"
+        jobTypeItems.filter(item => item.id === createOpportunityConfig.jobTypeDeploymentId).map(filteredItem => {
+          this.jobTypeDeploymentTerms.push(filteredItem);
         });
 
         
@@ -111,7 +114,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         console.error("ERROR-" + error);
       }
       
-    }
+  }
   
 
 

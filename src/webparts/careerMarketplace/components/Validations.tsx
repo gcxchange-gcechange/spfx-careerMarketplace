@@ -66,6 +66,7 @@ export const validate = (value: any, language:any, fieldName?: string ) : string
 }
 
 export const validateNumericField = (value: any, language:string, fieldName: string) : string| JSX.Element | undefined => {
+    console.log("VALUE", value)
     const min: number = 1;
     const max:number = 60;
 
