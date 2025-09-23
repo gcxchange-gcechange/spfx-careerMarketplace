@@ -443,13 +443,27 @@ export default class Details extends React.Component<IDetailsProps> {
                   name={"durationLength"}
                   min={1}
                   max={60}
-                  onChange={(e) => this.props.handleDurationLength(e.target.value)}
+                    onChange={(e) => {
+                      let val = Number(e.target.value);
+
+                      // if empty string 
+                      if (e.target.value === '') {
+                        this.props.handleDurationLength('');
+                        return;
+                      }
+                      //if values are not within the 1-60
+                      if (val < 1) val = 1;
+                      if (val > 60) val = 60;
+
+                      this.props.handleDurationLength(val.toString());
+                    }}
+
                   value={this.props.values.durationLength.value}
                   required
                   className={styles.durationLengthInput}
                   disabled={durationDisabled}
                   aria-describedby="durationLength-error"
-                   aria-labelledby={ "durationLength"}
+                  aria-labelledby={ "durationLength"}
                 />
               </Stack>
               {this.props.inlineFieldErrors?.includes("durationLength") &&

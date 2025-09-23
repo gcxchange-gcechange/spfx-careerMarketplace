@@ -143,9 +143,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     for (const [key,value] of Object.entries(values)) {
 
-      const jobTypeIncludesDeployment = values.jobType.Label === 'Deployment - permanent' || values.jobType.Label === 'Mutation - permanente';
+      const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
 
-      //const jobTypeIncludesDeployment = values.jobType?.some((item: any) => item.label === 'Deployment');
 
       if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
           continue;
@@ -434,7 +433,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDurationLength = (value: string) :void => {
-     
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
@@ -456,6 +454,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
+
   
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
@@ -558,8 +557,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     
       }  
     else  if (valueName === "jobType") {
+      
+      const deployment = value.key === this.props.jobTypeDeploymentTerms[0].id
 
-      if(value.text === "Deployment - permanent" || value.text === "Mutation – permanente") {
+      if(deployment) {
         this.setState((prevState) => ({
           values: {
             ...prevState.values,
@@ -686,6 +687,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           }
           else if (letter === "C") {
             return {key: 2, text: letter}
+          }
+          else if (letter === "E") {
+            return {key: 3, text: letter}
           }
         }))
       }
@@ -1065,7 +1069,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (this.state.values.jobType.Label === "Deployment - permanent" && prevState.values.jobType.Label !== "Deployment - permanent") {
+    if (this.state.values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -1075,19 +1079,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }))
 
     }
-    if (this.state.values.jobType.Label === "Mutation – permanente" && prevState.values.jobType.Label !== "Mutation – permanente") {
-      this.setState((prevState) => ({
-        values: {
-          ...prevState.values,
-          durationLength:{...prevState.values.durationLength, value: 0},
-          duration: {...prevState.values.duration, key:"", text: ""},
-        }
-      }))
-    }
-
-    // if (this.state.jobOpportunityId !== prevState.jobOpportunityId) {
-    //   console.log("Ihave updated")
-    // }
   }
 
   public componentWillUnmount():void {

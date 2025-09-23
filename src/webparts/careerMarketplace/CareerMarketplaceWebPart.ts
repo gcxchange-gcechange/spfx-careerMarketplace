@@ -15,8 +15,9 @@ import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
 import GraphService from '../../services/GraphService';
 import { createOpportunityConfig, getJobOpportunityUrl } from '../../servicesConfig';
+import { ITerm} from '@pnp/graph/taxonomy';
+import { graphfi, SPFx } from '@pnp/graph';
 
- 
  
 
 export interface ICareerMarketplaceWebPartProps {
@@ -28,12 +29,14 @@ export interface ICareerMarketplaceWebPartProps {
   edit: boolean;
   jobOppOwner: string | undefined;
   clientId: string,
+  jobTypeDeploymentTerms: any[],
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
 
   private jobOpportunityId: string | null = null;
   private jobOpportunityOwner: string | undefined = undefined ; 
+  private jobTypeDeploymentTerms: any[] = [];
 
   public render(): void {
 
@@ -54,7 +57,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         editJobApiUrl: createOpportunityConfig.editJobApiUrl,
         jobTypeTermId: createOpportunityConfig.jobTypeTermId,
         programAreaTermId: createOpportunityConfig.programAreaTermId,
-        jobOpportunityListUrl: `${getJobOpportunityUrl(this.jobOpportunityId)}`
+        jobOpportunityListUrl: `${getJobOpportunityUrl(this.jobOpportunityId)}`,
+        jobTypeDeploymentTerms: this.jobTypeDeploymentTerms,
     
       }
     );
@@ -64,11 +68,16 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
 
   protected async onInit(): Promise<void> {
+   
 
     const sp = getSP(this.context);
 
     GraphService.setup(this.context);
+    this._getJobTypeTerms();
+
+ 
     this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
+   
     try {
       if (this.jobOpportunityId !== null ) {
         const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
@@ -78,18 +87,40 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
       console.error("Error fetching list", error);
     }
 
-    await super.onInit();
-
-    
-    
+     await super.onInit();
+  
   }
+
+  private  async _getJobTypeTerms(): Promise<void> {
+    const graph = graphfi().using(SPFx(this.context));
+    const jobTypeItems:any[]=[];
+
+    try { 
+
+      //Id of term set "Job Type"
+        const jobTypeTermSet: ITerm[] = await graph.termStore.sets.getById(createOpportunityConfig.jobTypeTermId).terms();
+
+        jobTypeTermSet.map((term:any) => {
+          jobTypeItems.push({id: term.id, labels: term.labels})
+        });
+
+        //Filtered Id of term "Deployment - permanent" and "Mutation – permanente"
+        jobTypeItems.filter(item => item.id === createOpportunityConfig.jobTypeDeploymentId).map(filteredItem => {
+          this.jobTypeDeploymentTerms.push(filteredItem);
+        });
+
+        
+      } catch (error) {
+        console.error("ERROR-" + error);
+      }
+      
+  }
+  
+
 
   private getQueryParam(param: string): string | null {
     const params = new URLSearchParams(window.location.search);
-    return params.get(param);
-
-    
-    
+    return params.get(param);  
   }
   
 

@@ -43,10 +43,11 @@ export async function sets() {
 ## 2. `servicesConfig.ts` 
 ```ts
 export const createOpportunityConfig = {
-  clientId: "your-client-id", // 🔁 Required
+  clientId: "your-client-id",                             // 🔁 Required
   createJobApiUrl: "https://your-api-url.com/create-job", // 🔁 Required
   editJobApiUrl: "https://your-api-url.com/edit-job",     // 🔁 Required
   jobTypeTermId: "job-type-guid",                         // 🔁 Required
+  jobTypeDeploymentId: "jobTypeTerms-Guid",               // 🔁 Required
   programAreaTermId: "program-area-guid",                 // 🔁 Required
 };
 
