@@ -360,12 +360,21 @@ export default class Details extends React.Component<IDetailsProps> {
                   max={60}
                   value={numberOfOpportunities.value}
                   aria-describedby="numberOfOpportunities-error"
-                  onChange={(e) =>
-                    this.props.handleNumberofOpp(
-                      e.target.value.trim()
-                     // e.target.value.replace(/^0+(?=\d)/, "")
-                    )
-                  }
+                  onChange={(e) => {
+                      let val = Number(e.target.value);
+
+                      // if empty string 
+                      if (e.target.value === '') {
+                        this.props.handleNumberofOpp('');
+                        return;
+                      }
+                      //if values are not within the 1-60
+                      if (val < 1) val = 1;
+                      if (val > 60) val = 60;
+
+                      this.props.handleNumberofOpp(val.toString());
+                    }}
+               
                   required
                   className={styles.durationLengthInput}
                   disabled={isReadOnly}
