@@ -71,12 +71,12 @@ define([], function() {
       //complete
       "complete_title":"Terminer",
       "complete_para1":"Félicitations! Vous avez créé une nouvelle possibilité d’emploi",
-      "complete_para2":"Pour que le Carrefour de carrière soit toujours à jour et pertinent, ",
+      "complete_para2":"Pour que le Marché de carrière soit toujours à jour et pertinent, ",
       "complete_para2_bold":" les possibilités d’emploi sont automatiquement supprimés six mois après la date limite de candidature.",
       "complete_para2_b":"Nous vous recommandons donc d’en sauvegarder une copie pour vos dossiers.",
       "view":"Afficher la possibilité d’emploi",
-      "complete_para3":"Il peut falloir jusqu’à 20 minutes pour que votre nouveau message de possibilité d’emploi apparaisse dans le Carrefour de carrière.",
-      "complete_para4":"Vous pouvez maintenant consulter et modifier votre offre d’emploi, ou retourner à la page d’accueil du Carrefour de carrière.",
+      "complete_para3":"Il peut falloir jusqu’à 20 minutes pour que votre nouveau message de possibilité d’emploi apparaisse dans le Marché de carrière.",
+      "complete_para4":"Vous pouvez maintenant consulter et modifier votre offre d’emploi, ou retourner à la page d’accueil du Marché de carrière.",
 
       //errorPage
 
@@ -90,7 +90,7 @@ define([], function() {
       "error_p3": "Nous vous prions de nous excuser pour cet inconvénient. Merci de votre patience et de votre collaboration pendant que nous y remédions.",
       "postDetails_btn": "Copier les détails de l'opportunité",
       "contact_btn":"Contactez nous",
-      "email_subject": "Carrefour de carrière - Erreur de serveur touchant la publication d’une offre d’emploi ",
+      "email_subject": "Marché de carrière - Erreur de serveur touchant la publication d’une offre d’emploi ",
       "email_body":"[Collez les détails de votre publication d’une offre d’emploi ici.]",
       
 
@@ -102,7 +102,7 @@ define([], function() {
       "next_btn": "Suivant",
       "submit_btn": "Allons-y",
       "save_chng_btn": "Enregistrer les modifications",
-      "complete_button": "Page d’accueil de Carrefour de carrière",
+      "complete_button": "Page d’accueil de Marché de carrière",
 
       //accessibility
       'required': 'champ obligatoire',
