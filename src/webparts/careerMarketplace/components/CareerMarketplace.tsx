@@ -1088,12 +1088,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           languageRequirements: [
             {
               ...prevState.values.languageRequirements[0],
-              readingEN:{ key: "", text: "" },
-              readingFR: { key: "", text: "" },
-              writtenEN: { key: "", text: "" },
-              writtenFR: {value: ""},
-              oralEN: {value: ""},
-              oralFR: {value: ""},
+              readingEN:{ key: "0", text: "" },
+              readingFR: { key: "0", text: "" },
+              writtenEN: { key: "0", text: "" },
+              writtenFR:  { key: "0", text: "" },
+              oralEN: { key: "0", text: "" },
+              oralFR: { key: "0", text: "" },
 
             }
           ]
