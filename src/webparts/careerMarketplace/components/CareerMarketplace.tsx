@@ -1079,6 +1079,29 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }))
 
     }
+
+    if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
+      console.log("Ichanged", this.state.values.languageRequirements[0].language)
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          languageRequirements: [
+            {
+              ...prevState.values.languageRequirements[0],
+              readingEN:{ key: "0", text: "" },
+              readingFR: { key: "0", text: "" },
+              writtenEN: { key: "0", text: "" },
+              writtenFR:  { key: "0", text: "" },
+              oralEN: { key: "0", text: "" },
+              oralFR: { key: "0", text: "" },
+
+            }
+          ]
+        
+        }
+      }))
+    }
+
   }
 
   public componentWillUnmount():void {
