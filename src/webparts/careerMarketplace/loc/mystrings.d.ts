@@ -1,6 +1,16 @@
 declare interface ICareerMarketplaceWebPartStrings {
   "PropertyPaneDescription": string;
   "BasicGroupName": string;
+
+  //Initial Page
+  "InitialPage_title1":string;
+  "InitialPage_para1":string;
+  "InitialPage_para1_a":string;
+  "InitialPage_para1_b":string;
+  "InitialPage_para2":string;
+  "InitalPage_checkbox_txt":string;  
+  "InitialPage_next_btn":string;
+  
   //Page1 - Poster Information
   "posterInformation_title": string;
   "posterInformation_para1": string;

@@ -3,6 +3,16 @@ define([], function() {
     "PropertyPaneDescription": "Description",
     "BasicGroupName": "Group Name",
 
+    //Initial Page
+    "InitialPage_title1":"Before you create a post",
+    "InitialPage_para1":"In GCXchange Career Marketplace ",
+    "InitialPage_para1_a":"only job opportunities can be created ",
+    "InitialPage_para1_b": "to comply with our privacy requirements.",  
+    "InitialPage_para2":"Confirm this is a job opportunity and not a job-seeking post. Posts that don’t follow this rule will be removed.",   
+    "InitalPage_checkbox_txt":"I confirm this is a job opportunity and not a job-seeking post.",   
+    "InitialPage_next_btn":"Continue to create post",
+
+
     //Page1 - Poster Information
     "posterInformation_title": "Poster information",
     "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
