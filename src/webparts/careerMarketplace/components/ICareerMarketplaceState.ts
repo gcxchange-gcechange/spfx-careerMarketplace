@@ -27,7 +27,7 @@ export interface ICareerMarketplaceState {
     isLoading: boolean;
     hasTouchedSkillCombo: boolean, 
     postDetails: any;
-    isChecked: boolean;
+    isNonJobSeekingButtonDisabled: boolean;
       
     values: {
       jobTitleEn: string;

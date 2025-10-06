@@ -123,7 +123,7 @@ define([], function() {
     "french": "(French)",
 
     //dropwdown and combobox
-    "select":"Select an option ",
+    "select":"Select an option",
     "selectOrType":"Type to search or select",
     "enter_jobTitleEn":"Enter job title (English)",
     "enter_jobTitleFr":"Enter job title (French)",

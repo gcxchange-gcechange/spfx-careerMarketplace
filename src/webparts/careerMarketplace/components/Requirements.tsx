@@ -242,7 +242,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             title={this.strings.language_requirements}
             options={this.props.language}
             onChange={this.onChangeDropDownItem}
-            disabled={this.props.currentPage === 3}
+            disabled={this.props.currentPage === 4}
             selectedKey={this.props.values.languageRequirements[0].language.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.language_requirements_description}

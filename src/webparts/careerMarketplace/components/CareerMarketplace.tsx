@@ -78,33 +78,33 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       isLoading: false,
       hasTouchedSkillCombo: false,
       postDetails: "",
-      isChecked: true,
+      isNonJobSeekingButtonDisabled: true,
 
 
       values: {
-        department: {value: "" , pageNumber: 0},
+        department: {value: "" , pageNumber: 1},
         jobTitleEn: "",
         jobTitleFr: "",
         jobDescriptionEn: "",
         jobDescriptionFr: "",
-        jobType: {pageNumber: 1, Label:"", Guid:""},
-        programArea:{value: "" , pageNumber: 1},
-        classificationCode: {value: "" , pageNumber: 1},
-        classificationLevel: {value: "" , pageNumber: 1},
+        jobType: {pageNumber: 2, Label:"", Guid:""},
+        programArea:{value: "" , pageNumber: 2},
+        classificationCode: {value: "" , pageNumber: 2},
+        classificationLevel: {value: "" , pageNumber: 2},
         classificationLevelIds: "",
-        numberOfOpportunities: {value: 0, pageNumber: 1},
-        durationLength: {value: 0, pageNumber: 1},
-        duration: {value: "" , pageNumber: 1},
+        numberOfOpportunities: {value: 0, pageNumber: 2},
+        durationLength: {value: 0, pageNumber: 2},
+        duration: {value: "" , pageNumber: 2},
         deadline: threeMonthsLater,
-        skills:[{pageNumber: 2}],
-        workSchedule: {value: "" , pageNumber: 2},
-        province: {value: "" , pageNumber: 2},
-        region: {value: "" , pageNumber: 2},
-        city: {value: "" , pageNumber: 2},
-        security: {value: "" , pageNumber: 2},
+        skills:[{pageNumber: 3}],
+        workSchedule: {value: "" , pageNumber: 3},
+        province: {value: "" , pageNumber: 3},
+        region: {value: "" , pageNumber: 3},
+        city: {value: "" , pageNumber: 3},
+        security: {value: "" , pageNumber: 3},
         languageRequirements: [
           {
-            pageNumber: 2,
+            pageNumber: 3,
             language: {value: ""},
             readingEN: {value: ""},
             writtenEN: {value: ""},
@@ -114,8 +114,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             oralFR: {value: ""},
           },
         ],
-        workArrangment: {value: "" , pageNumber: 2}, 
-        approvedStaffing:{value:"", pageNumber: 2},
+        workArrangment: {value: "" , pageNumber: 3}, 
+        approvedStaffing:{value:"", pageNumber: 3},
 
       },
 
@@ -129,8 +129,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
  
   private next = async (): Promise<void > => {
+    const { values, currentPage, isNonJobSeekingButtonDisabled } = this.state;
+    const nextPage = this.state.currentPage + 1;
 
-    const { values, currentPage, isChecked } = this.state;
+     if (currentPage === 0 && isNonJobSeekingButtonDisabled === false) {
+      this.setState({
+          currentPage: nextPage
+         })
+    }
+
 
 
     const checkValues: {key: string, value: any}[] = [];
@@ -185,22 +192,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         checkValues.push({key:"language", value:""})
       }
       else if (langReq.language.key === 3) {
-        if (langReq.readingEN.value === "" || langReq.readingEN.key === "" ) {
+        if (langReq.readingEN.text === "" || langReq.readingEN.key === "" ) {
           checkValues.push({ key: "readingEN", value: "" });
         }
-        if (langReq.readingFR.value === "" || langReq.readingFR.key === "") {
+        if (langReq.readingFR.text === "" || langReq.readingFR.key === "") {
           checkValues.push({ key: "readingFR", value: "" });
         }
-        if (langReq.writtenEN.value === "") {
+        if (langReq.writtenEN.text === "" || langReq.writtenEN.key === "") {
           checkValues.push({ key: "writtenEN", value: "" });
         }
-        if (langReq.writtenFR.value === "") {
+        if (langReq.writtenFR.text === "" || langReq.writtenFR.key === "") {
           checkValues.push({ key: "writtenFR", value: "" });
         }
-        if (langReq.oralEN.value === "") {
+        if (langReq.oralEN.text === "" || langReq.oralEN.key === "") {
           checkValues.push({ key: "oralEN", value: "" });
         }
-        if (langReq.oralFR.value === "") {
+        if (langReq.oralFR.text === "" || langReq.oralFR.key === "") {
           checkValues.push({ key: "oralFR", value: "" });
         }
       }
@@ -208,16 +215,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     
     const newArray = toTitleCase(checkValues)
     const reorderArray = this.reorderLanguage(checkValues)
-    const nextPage = this.state.currentPage + 1;
     this.navigationDirection = 'next';
 
-    if (currentPage === 0 && isChecked === true) {
-      this.setState({
-          currentPage: nextPage,
-          hasError: []
-         })
-    }
-    else  if ( currentPage > 0 && currentPage < 4  ) {
+   
+    if ( currentPage > 0 && currentPage < 4  ) {
 
       if (checkValues.length !== 0 ) {
         await this.setState({
@@ -627,14 +628,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
-  public checkedField = (event:string, isChecked?: boolean):void => {
+  public checkedField = (event:string, isNonJobSeekingButtonDisabled?: boolean):void => {
 
     console.log(event)
 
     if(event === "nonJobSeeking") {
 
       this.setState((prevState) => ({
-        isChecked: !prevState.isChecked
+        isNonJobSeekingButtonDisabled: !prevState.isNonJobSeekingButtonDisabled
       }))
 
     } else {
@@ -642,7 +643,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
-          approvedStaffing:  { ...prevState.values.approvedStaffing, value: isChecked}
+          approvedStaffing:  { ...prevState.values.approvedStaffing, value: isNonJobSeekingButtonDisabled}
         }
       }))
     }
@@ -819,7 +820,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               key: items.id,
               text: item.name,
               language: item.languageTag,
-              pageNumber: 1
+              pageNumber: 3
             }))
           );
         }
@@ -873,7 +874,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     
 
       if (languageReq) {
-        const dataResult = languageReq.map((data:any) => ({ key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 2}));
+        const dataResult = languageReq.map((data:any) => ({ key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 3}));
           this.setState({
             language: dataResult
           }) 
@@ -884,7 +885,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             
             
       if (securityClearance) {
-        const dataResult = securityClearance.map((data:any) => ({key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 2}))
+        const dataResult = securityClearance.map((data:any) => ({key: data.Id,  text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 3}))
           this.setState({
             security: dataResult
           })
@@ -1055,6 +1056,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
 
+    if(this.state.isNonJobSeekingButtonDisabled && !prevState.isNonJobSeekingButtonDisabled ) {
+      console.log("I changed")
+    }
+
     if (this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
       // Focus the dialog when errors exist
       if (this.alertRef.current) {
@@ -1206,6 +1211,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const {currentPage} = this.state;
    
     const steps = [
+
       {
         step: 1,
         title: 'Information',
@@ -1315,8 +1321,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
-    console.log("Checked", this.state.isChecked)
-    
+
+
     return (
 
       <>
@@ -1324,8 +1330,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
           <section>
             <div>
-              <h2>{currentPage.toString()}</h2>
-              <h2>{this.state.isChecked}</h2>
                 { this.state.validationStatus === 200 ? (
                   //Success
                   <>
@@ -1359,7 +1363,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                             <>
                               <InitialPage prefLang={ this.props.prefLang } currentPage={currentPage} checkedField={this.checkedField}/>
                               <Stack horizontalAlign='end'>
-                                <CustomButton id="next" name={ this.strings.InitialPage_next_btn } buttonType="primary" onClick={() => this.next()} disabled={this.state.isChecked} />
+                                <CustomButton id="next" name={ this.strings.InitialPage_next_btn } buttonType="primary" onClick={() => this.next()} disabled={this.state.isNonJobSeekingButtonDisabled} />
                               </Stack>
                             </>
                           )}
@@ -1390,24 +1394,25 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                                   ref={this.prevtitleRef}
                                   style={{ display: this.navigationDirection === 'prev' ? 'block' : 'none' }}
                                 >
-                                  <PageTitle currentPage={this.state.currentPage} prefLang={this.props.prefLang} />
+                                  <PageTitle currentPage={currentPage} prefLang={this.props.prefLang} />
                                 </div>
 
-                                {/* Stepper */}
+                                {/* Stepper */}            
                                 <div className={styles.stepper}
                                   tabIndex={0}
                                   role="progressbar"
                                   aria-valuemax={4}
                                   aria-valuemin={1}
-                                  aria-valuenow={Math.floor(parseFloat(steps[this.state.currentPage].step.toString()))}
+                                  aria-valuenow={Math.floor(parseFloat(steps[currentPage -1].step.toString()))}
                                   //aria-valuetext={this.props.prefLang === 'fr-fr' ? `Étape ${this.state.currentPage + 1} sur 4` : `Step ${this.state.currentPage + 1} out of 4`}
-                                  aria-label={this.props.prefLang === 'fr-fr' ? `Étape ${this.state.currentPage + 1} sur 4` : `Step ${this.state.currentPage + 1} out of 4`}
+                                  aria-label={this.props.prefLang === 'fr-fr' ? `Étape ${currentPage + 1} sur 4` : `Step ${currentPage + 1} out of 4`}
                                 >
-                                  <Steps current={currentPage} labelPlacement="vertical" items={items} />
+                                 <Steps current={currentPage - 1} labelPlacement="vertical" items={items} />
+                                  
                                 </div>
 
                                 {/* Error alert */}
-                                {this.state.hasError.length !== 0 && (
+                                {currentPage !== 0 && this.state.hasError.length !== 0 && (
                                   <div role="alertdialog" tabIndex={-1} ref={this.alertRef} id="alertErrors" aria-modal="true"
                                     aria-labelledby="alertHeading" aria-describedby="alertText" className={styles.errorDialog}>
                                     <h3 id="alertHeading" style={{ textWrap: 'wrap' }}>{this.strings.fixErrors}</h3>
@@ -1416,19 +1421,21 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                                 )}
 
                                 {/* Page content */}
-                                <div>{steps[currentPage].content}</div>
+                                {currentPage > 0 && (
+                                  <div>{steps[currentPage - 1].content}</div>
+                                )}
 
                                 {/* Navigation buttons */}
                                 <div style={{ marginTop: '20px' }}>
                                   <Stack horizontal horizontalAlign={currentPage !== 0 ? 'space-between' : 'end'}>
                                     
-                                    {currentPage <= 1 && (
+                                    {currentPage >= 1 && (
                                       <CustomButton id="prev" name={this.strings.prev_btn} buttonType="secondary" onClick={() => this.prev()} />
                                     )}
                                     {currentPage === 4 ? (
                                       <CustomButton id="submit" name={this.strings.submit_btn} buttonType="primary" onClick={() => this.submit()} />
                                     ) : (
-                                      <CustomButton id="next" name={currentPage === 0 ?  this.strings.InitialPage_next_btn :this.strings.next_btn} buttonType="primary" onClick={() => this.next()} />
+                                      <CustomButton id="next" name={this.strings.next_btn} buttonType="primary" onClick={() => this.next()} />
                                     )}
                                   </Stack>
                                 </div>
