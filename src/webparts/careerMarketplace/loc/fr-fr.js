@@ -3,6 +3,15 @@ define([], function() {
     return {
       "PropertyPaneDescription": "Description",
 
+       //Initial Page
+      "InitialPage_title1":"Avant de créer une opportunité",
+      "InitialPage_para1":"Sur GCXchange Marché de Carrières, ",  
+      "InitialPage_para1_a":"seules les offres d'emploi peuvent être créées ",
+      "InitialPage_para1_b": "afin de respecter nos exigences en matière de confidentialité.",  
+      "InitialPage_para2":"Veuillez confirmer qu'il s'agit bien d'une opportunité d'emploi et non d'une poste de recherche d'emploi. Les publications qui ne respectent pas cette règle seront supprimées.",   
+      "InitalPage_checkbox_txt":"Je confirme qu'il s'agit bien d'une offre d'emploi et non d'une poste de recherche d'emploi",
+      "InitialPage_next_btn":"Continuer à créer une opportunité",
+
 
       //Page1 - Poster Information
       "posterInformation_title":"Informations sur l’annonce",
