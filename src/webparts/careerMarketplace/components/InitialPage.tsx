@@ -14,11 +14,9 @@ export default class InitialPage extends React.Component<IInitialPageProps> {
     public strings = SelectLanguage(this.props.prefLang)
 
     public _onChange = ( event: any, isChecked:boolean ): void => {
-      const eventName = event.target.id;
+        const eventName = event.target.id;
       
-      if(isChecked === true) {
         this.props.checkedField( eventName, isChecked) 
-      }
     }
 
 
