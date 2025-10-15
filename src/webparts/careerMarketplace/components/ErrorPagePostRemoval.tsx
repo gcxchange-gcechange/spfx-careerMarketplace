@@ -5,14 +5,16 @@ import { Link, Stack } from "@fluentui/react";
 import CustomButton from "./CustomButton";
 
 
-export interface IErrorPageProps {
+export interface IErrorPagePostRemovalProps {
   prefLang: string;
   values: any;
-  copyBtn: (value: any) => void;
+  copyBtn: (value: any) => void; 
+  startOpp:(pageNumber: number) => void;
+  currentPage: number;
 }
 
 
-export default class ErrorPage extends React.Component<IErrorPageProps> {
+export default class ErrorPagePostRemoval extends React.Component<IErrorPagePostRemovalProps> {
     
     public strings = SelectLanguage(this.props.prefLang);
 
@@ -35,28 +37,29 @@ export default class ErrorPage extends React.Component<IErrorPageProps> {
     public contactBtn = ():void => {
         window.location.href = `mailto:support-soutien@gcx-gce.gc.ca?subject=${this.strings.email_subject}&body=${this.strings.email_body}` ;
     };
+
+    public handleClickStartOpp = ():void => {
+        const newPage = 0
+        this. props.startOpp(newPage)
+    }
       
 
 
-    public render(): React.ReactElement<IErrorPageProps> {
+    public render(): React.ReactElement<IErrorPagePostRemovalProps> {
 
         
 
         return (
             <>
-                <h2>{this.strings.server_error_title}</h2>
-
-
-                <p>{this.strings.error_p1}</p>
-                <p>{this.strings.error_p2}</p>
+                <h2>{this.strings.postNotCreated_title}</h2>
+                <p>{this.strings.p1}<br></br>{this.strings.p2}</p>
+                <h3>{this.strings.fix_this}</h3>
                 <ol>
-                    <li>{this.strings.error_list_1}</li>
-                    <li>{this.strings.error_list_2}</li>
-                    <li>
-                        {this.strings.error_list_3} <Link href="support-soutien@gcx-gce.gc.ca">support-soutien@gcx-gce.gc.ca</Link> {this.strings.error_list_3b}
-                    </li>
+                    <li>{this.strings.list_item1}</li>
+                    <li>{this.strings.list_item2}</li>
+                    <li>{this.strings.list_item3}</li>
                 </ol> 
-                <p>{this.strings.error_p3}</p>
+                <p>{this.strings.contact}<Link href="support-soutien@gcx-gce.gc.ca">support-soutien@gcx-gce.gc.ca</Link>{this.strings.contact_b}</p>
 
                 <div style={{background: "rgb(211, 211, 211)", padding: "10px"}}>
                     <pre>
@@ -65,8 +68,8 @@ export default class ErrorPage extends React.Component<IErrorPageProps> {
                 </div>
 
                 <Stack horizontal horizontalAlign={'space-between'} style={{padding: '20px'}}>
-                    <CustomButton id={'1'} name={this.strings.postDetails_btn} buttonType={'primary'} onClick={this.copyTxtBtn}/>
-                    <CustomButton id={'2'} name={this.strings.contact_btn} buttonType={'secondary'} onClick={this.contactBtn}/>
+                    <CustomButton id={'1'} name={this.strings.postDetails_btn} buttonType={'secondary'} onClick={this.copyTxtBtn}/>
+                    <CustomButton id={'2'} name={this.strings.createOpp_btn} buttonType={'primary'} onClick={this.handleClickStartOpp}/>
                 </Stack>
 
             </>

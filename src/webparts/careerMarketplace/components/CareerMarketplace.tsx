@@ -24,6 +24,7 @@ import { ICareerMarketplaceState } from './ICareerMarketplaceState';
 import ErrorPage from './ErrorPage';
 import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
+import ErrorPagePostRemoval from './ErrorPagePostRemoval';
  
  
 
@@ -125,6 +126,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.prevtitleRef = React.createRef();
     this._sp = getSP(this.props.context);
  
+  }
+
+  private goToInitialPage = (value: number):void => {
+    this.setState({ currentPage: value, validationStatus: 0 });
   }
 
  
@@ -1325,6 +1330,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         <ThemeProvider applyTo='body' theme={myTheme}>
 
           <section>
+            <h2>{currentPage.toString()}</h2>
             <div>
                 { this.state.validationStatus === 200 ? (
                   //Success
@@ -1340,7 +1346,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   </>
                   ) : (this.state.validationStatus === 400 || this.state.validationStatus === 500 || this.state.validationStatus === null || this.state.validationStatus === 401 || this.state.validationStatus === 404 ) ? (
                     // Error 400
+                    <>
+                     <ErrorPagePostRemoval
+                            prefLang={this.props.prefLang}
+                            values={this.state.postDetails}
+                            copyBtn={this.handleCopyBtn}
+                            startOpp={this.goToInitialPage}
+                            currentPage = {currentPage}
+                          />
                     <ErrorPage prefLang={this.props.prefLang} values={this.state.postDetails} copyBtn={this.handleCopyBtn}/>
+                    </>
                   ) : (
                   //  Default fallback
                   <>
@@ -1354,7 +1369,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       ) : (
                         <>
                          {/*Always render Initial page first */}
-
                           {currentPage === 0 && (
                             <>
                               <InitialPage prefLang={ this.props.prefLang } currentPage={currentPage} checkedField={this.checkedField}/>
