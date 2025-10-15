@@ -1344,16 +1344,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
                     </Stack>
                   </>
-                  ) : (this.state.validationStatus === 400 || this.state.validationStatus === 500 || this.state.validationStatus === null || this.state.validationStatus === 401 || this.state.validationStatus === 404 ) ? (
-                    // Error 400
-                    <>
-                     <ErrorPagePostRemoval
+                  ) : this.state.validationStatus === 422 ? (
+                    //Seeker Error Opp
+                      <ErrorPagePostRemoval
                             prefLang={this.props.prefLang}
                             values={this.state.postDetails}
                             copyBtn={this.handleCopyBtn}
                             startOpp={this.goToInitialPage}
                             currentPage = {currentPage}
                           />
+                  ) : (this.state.validationStatus === 400 || this.state.validationStatus === 500 || this.state.validationStatus === null || this.state.validationStatus === 401 || this.state.validationStatus === 404 ) ? (
+                    // Error 400
+                    <>
+                   
                     <ErrorPage prefLang={this.props.prefLang} values={this.state.postDetails} copyBtn={this.handleCopyBtn}/>
                     </>
                   ) : (
