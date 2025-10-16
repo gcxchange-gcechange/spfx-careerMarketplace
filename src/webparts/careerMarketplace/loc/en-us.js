@@ -104,6 +104,18 @@ define([], function() {
     "email_subject": "Career Marketplace - Opportunity Post Server Error",
     "email_body":"[Paste the details of your opportunity post here.]",
 
+    //errorPagePostRemoval
+    "postNotCreated_title":"Opportunity post not created ",
+    "p1":"We have removed your post because it seems to be a job-seeking post rather than a job opportunity.",
+    "p2":"Because of privacy requirements, posts about seeking jobs are not allowed on the new Career Marketplace. ",
+    "fix_this":"How to fix this ",
+    "list_item1":"Make sure your post describes a position you or your team is hiring for.",
+    "list_item2":"Remove any language that suggests you are looking for a job. ",
+    "list_item3":"Resubmit your post once you’ve made these changes. ",
+    "contact":"Contact us at ",
+    "contact_b":"if you have any questions. ",
+    "createOpp_btn":"Create an opportunity",
+
     //update
     "update_para1":"Congratulations! You have updated your opportunity.",
 

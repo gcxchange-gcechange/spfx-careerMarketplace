@@ -104,6 +104,18 @@ declare interface ICareerMarketplaceWebPartStrings {
   "email_subject": string;
   "email_body": string;
 
+  //errorPagePostRemoval
+  "postNotCreated_title":string;
+  "p1":string;
+  "p2":string;
+  "fix_this": string;
+  "list_item1": string;
+  "list_item2": string;
+  "list_item3": string;
+  "contact": string;
+  "contact_b": string;
+  "createOpp_btn":string;
+
   //update
   "update_para1":string;
 

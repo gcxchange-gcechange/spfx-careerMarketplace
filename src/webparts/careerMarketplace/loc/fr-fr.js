@@ -101,6 +101,17 @@ define([], function() {
       "contact_btn":"Contactez nous",
       "email_subject": "Marché de carrière - Erreur de serveur touchant la publication d’une offre d’emploi ",
       "email_body":"[Collez les détails de votre publication d’une offre d’emploi ici.]",
+
+      //errorPagePostRemoval
+      "postNotCreated_title":"Publication refusée ",
+      "p1":"Votre publication a été retirée parce qu’elle ressemble à un avis de recherche d’emploi plutôt qu’à une offre d’emploi.",
+      "p2":"Des obligations liées à la protection des renseignements personnels empêchent la publication d’avis de recherche d’emploi dans le nouvel outil Marché de carrière. ",
+      "fix_this":"Solution par étapes",
+      "list_item1":"Décrivez dans la publication le poste que vous ou votre équipe cherchez à pourvoir. ",
+      "list_item2":"Retirez les formulations qui font penser à une recherche d’emploi. ",
+      "list_item3":"Soumettez de nouveau la publication après l’avoir modifiée. ",
+      "contact":"Pour toute question, écrivez‑nous à l’adresse ",
+      "createOpp_btn":"Créer une possibilité d’emploi",
       
 
       //update
