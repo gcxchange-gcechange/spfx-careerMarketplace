@@ -404,7 +404,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           client
           .post(this.props.jobOpportunityId ? this.props. editJobApiUrl : this.props.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
-            console.log("response", response)
+            console.log("RESPONSE", response)
             if (response.status) {
               this.setState({
                 validationStatus: response.status,
@@ -1324,13 +1324,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const items = steps.map((item) => ({ key: item.step, title: "" }));
 
 
+    console.log("VALIDATIONSTATUS", this.state.validationStatus)
     return (
 
       <>
         <ThemeProvider applyTo='body' theme={myTheme}>
 
           <section>
-            <h2>{currentPage.toString()}</h2>
             <div>
                 { this.state.validationStatus === 200 ? (
                   //Success
@@ -1469,3 +1469,5 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
   }
 }
+
+
