@@ -24,6 +24,7 @@ import { ICareerMarketplaceState } from './ICareerMarketplaceState';
 import ErrorPage from './ErrorPage';
 import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
+import ErrorPagePostRemoval from './ErrorPagePostRemoval';
  
  
 
@@ -125,6 +126,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.prevtitleRef = React.createRef();
     this._sp = getSP(this.props.context);
  
+  }
+
+  private goToInitialPage = (value: number):void => {
+    this.setState({ currentPage: value, validationStatus: 0 });
   }
 
  
@@ -399,7 +404,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           client
           .post(this.props.jobOpportunityId ? this.props. editJobApiUrl : this.props.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
-            console.log("response", response)
+            console.log("RESPONSE", response)
             if (response.status) {
               this.setState({
                 validationStatus: response.status,
@@ -1319,6 +1324,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const items = steps.map((item) => ({ key: item.step, title: "" }));
 
 
+    console.log("VALIDATIONSTATUS", this.state.validationStatus)
     return (
 
       <>
@@ -1338,9 +1344,21 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
                     </Stack>
                   </>
+                  ) : this.state.validationStatus === 422 ? (
+                    //Seeker Error Opp
+                      <ErrorPagePostRemoval
+                            prefLang={this.props.prefLang}
+                            values={this.state.postDetails}
+                            copyBtn={this.handleCopyBtn}
+                            startOpp={this.goToInitialPage}
+                            currentPage = {currentPage}
+                          />
                   ) : (this.state.validationStatus === 400 || this.state.validationStatus === 500 || this.state.validationStatus === null || this.state.validationStatus === 401 || this.state.validationStatus === 404 ) ? (
                     // Error 400
+                    <>
+                   
                     <ErrorPage prefLang={this.props.prefLang} values={this.state.postDetails} copyBtn={this.handleCopyBtn}/>
+                    </>
                   ) : (
                   //  Default fallback
                   <>
@@ -1354,7 +1372,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                       ) : (
                         <>
                          {/*Always render Initial page first */}
-
                           {currentPage === 0 && (
                             <>
                               <InitialPage prefLang={ this.props.prefLang } currentPage={currentPage} checkedField={this.checkedField}/>
@@ -1452,3 +1469,5 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
   }
 }
+
+
