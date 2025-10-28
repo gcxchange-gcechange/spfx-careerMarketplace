@@ -17,6 +17,7 @@ import GraphService from '../../services/GraphService';
 import { createOpportunityConfig, getJobOpportunityUrl } from '../../servicesConfig';
 import { ITerm} from '@pnp/graph/taxonomy';
 import { graphfi, SPFx } from '@pnp/graph';
+import { IColumnReturnProperty, IPropertyFieldRenderOption, PropertyFieldColumnPicker, PropertyFieldColumnPickerOrderBy, PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls';
 
  
 
@@ -30,6 +31,12 @@ export interface ICareerMarketplaceWebPartProps {
   jobOppOwner: string | undefined;
   clientId: string,
   jobTypeDeploymentTerms: any[],
+   list: string;
+   multiColumn: string;
+}
+
+export interface IPropertyControlsTestWebPartProps {
+  lists: string | string[]; // Stores the list ID(s)
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
@@ -59,6 +66,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         programAreaTermId: createOpportunityConfig.programAreaTermId,
         jobOpportunityListUrl: `${getJobOpportunityUrl(this.jobOpportunityId)}`,
         jobTypeDeploymentTerms: this.jobTypeDeploymentTerms,
+        list: this.properties.list,
+        multiColumn: this.properties.multiColumn,
     
       }
     );
@@ -176,7 +185,55 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                   label: 'Edit Opportunity',
                   onText: 'Yes',
                   offText: 'No'
-                })
+                }),
+                PropertyFieldListPicker('list', {
+                  label: 'Select list for Editing Job Opportunities',
+                  selectedList: this.properties.list,
+                  includeHidden: false,
+                  orderBy: PropertyFieldListPickerOrderBy.Title,
+                  disabled: false,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  context: this.context as any,
+                  onGetErrorMessage: undefined,
+                  deferredValidationTime: 0,
+                  key: 'listPickerFieldId',
+                  filter: "Hidden eq false and BaseType eq 0"
+                }),
+
+                PropertyFieldColumnPicker('multiColumn1', {
+                  label: 'Select columns',
+                  context: this.context as any,
+                  selectedColumn: this.properties.multiColumn,
+                  listId: this.properties.list,
+                  disabled: false,
+                  orderBy: PropertyFieldColumnPickerOrderBy.Title,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  onGetErrorMessage: undefined,
+                  deferredValidationTime: 0,
+                  key: 'multiColumnPickerFieldId',
+                  displayHiddenColumns: false,
+                  columnReturnProperty: IColumnReturnProperty.Title,
+                  multiSelect: true
+                }),
+                  PropertyFieldColumnPicker('multiColumn', {
+                    label: 'Select columns',
+                    context: this.context as any,
+                    selectedColumn: this.properties.multiColumn,
+                    listId: this.properties.list,
+                    disabled: false,
+                    orderBy: PropertyFieldColumnPickerOrderBy.Title,
+                    onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                    properties: this.properties,
+                    onGetErrorMessage: undefined,
+                    deferredValidationTime: 0,
+                    key: 'multiColumnPickerFieldId',
+                    displayHiddenColumns: false,
+                    columnReturnProperty: IColumnReturnProperty.Title,
+                    multiSelect: true,
+                    renderFieldAs: IPropertyFieldRenderOption["Multiselect Dropdown"]
+                }),
               ]
             }
           ]

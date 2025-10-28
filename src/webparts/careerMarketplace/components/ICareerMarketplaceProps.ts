@@ -17,5 +17,7 @@ export interface ICareerMarketplaceProps {
   programAreaTermId: string,
   jobOpportunityListUrl: string;
   jobTypeDeploymentTerms: any[],
+  list: string;
+  multiColumn: string;
 
 }

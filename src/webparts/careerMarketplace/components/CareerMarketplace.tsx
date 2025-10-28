@@ -1325,6 +1325,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
     console.log("VALIDATIONSTATUS", this.state.validationStatus)
+    console.log("list", this.props.list)
     return (
 
       <>
