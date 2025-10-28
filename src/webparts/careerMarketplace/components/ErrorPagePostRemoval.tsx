@@ -34,10 +34,6 @@ export default class ErrorPagePostRemoval extends React.Component<IErrorPagePost
         }
     }
 
-    public contactBtn = ():void => {
-        window.location.href = `mailto:support-soutien@gcx-gce.gc.ca` ;
-    };
-
     public handleClickStartOpp = ():void => {
         const newPage = 0
         this. props.startOpp(newPage)
@@ -59,7 +55,7 @@ export default class ErrorPagePostRemoval extends React.Component<IErrorPagePost
                     <li>{this.strings.list_item2}</li>
                     <li>{this.strings.list_item3}</li>
                 </ol> 
-                <p>{this.strings.contact}<Link href="support-soutien@gcx-gce.gc.ca">support-soutien@gcx-gce.gc.ca </Link>{this.strings.contact_b}</p>
+                <p>{this.strings.contact}<Link href="mailto:support-soutien@gcx-gce.gc.ca">support-soutien@gcx-gce.gc.ca </Link>{this.strings.contact_b}</p>
 
                 <div style={{background: "rgb(211, 211, 211)", padding: "10px"}}>
                     <pre>
