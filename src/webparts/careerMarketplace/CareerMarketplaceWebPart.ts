@@ -200,23 +200,6 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                   key: 'listPickerFieldId',
                   filter: "Hidden eq false and BaseType eq 0"
                 }),
-
-                PropertyFieldColumnPicker('multiColumn1', {
-                  label: 'Select columns',
-                  context: this.context as any,
-                  selectedColumn: this.properties.multiColumn,
-                  listId: this.properties.list,
-                  disabled: false,
-                  orderBy: PropertyFieldColumnPickerOrderBy.Title,
-                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                  properties: this.properties,
-                  onGetErrorMessage: undefined,
-                  deferredValidationTime: 0,
-                  key: 'multiColumnPickerFieldId',
-                  displayHiddenColumns: false,
-                  columnReturnProperty: IColumnReturnProperty.Title,
-                  multiSelect: true
-                }),
                   PropertyFieldColumnPicker('multiColumn', {
                     label: 'Select columns',
                     context: this.context as any,
