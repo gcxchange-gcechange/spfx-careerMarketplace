@@ -213,7 +213,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                     deferredValidationTime: 0,
                     key: 'multiColumnPickerFieldId',
                     displayHiddenColumns: false,
-                    columnReturnProperty: IColumnReturnProperty.Title,
+                    columnReturnProperty: IColumnReturnProperty['Internal Name'],
                     multiSelect: true,
                     renderFieldAs: IPropertyFieldRenderOption["Multiselect Dropdown"]
                 }),

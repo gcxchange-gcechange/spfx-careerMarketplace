@@ -655,6 +655,35 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    console.log("txt", value)
 
   }
+  public async populateEditableFields(): Promise<void> {
+    console.log(this.props.multiColumn)
+    let selectedColumns: string[] = [];
+
+    //convert the string into an Array
+    if (typeof this.props.multiColumn === 'string') {
+      selectedColumns = this.props.multiColumn.split(',').map(col => col.trim());
+    } else if (Array.isArray(this.props.multiColumn)) {
+      selectedColumns = this.props.multiColumn;
+    }
+    //remove the decode of : and space from the lookup fields and replace with '/'
+    const cleanedColumns = selectedColumns.map(col =>
+      col.replace(/(_x003a_|_x0020_)/g, match => match === '_x003a_' ? '/' : ' ')
+     .replace(/\s+/g, '')
+    );
+
+    //Filter out the expanded lookup fields
+    const expandFields = Array.from(
+      new Set(
+        cleanedColumns
+          .filter(col => col.includes('/'))
+          .map(col => col.split('/')[0])
+      ));
+
+      console.log('expand', expandFields);
+      console.log("jobOpp", this.props.jobOpportunityId)
+    const columns = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select(...cleanedColumns).expand(...expandFields)(); 
+    console.log("col", columns)
+  }
 
   public async _populateEditableFields(): Promise<void> {
     const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
@@ -1033,7 +1062,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidMount(): Promise<void> {
 
-    
+     await this.populateEditableFields();
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
