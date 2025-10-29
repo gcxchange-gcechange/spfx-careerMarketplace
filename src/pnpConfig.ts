@@ -11,6 +11,7 @@ import "@pnp/sp/batching";
 import "@pnp/sp/site-users/web";
 import "@pnp/sp/sites";
 import "@pnp/graph/taxonomy";
+import "@pnp/sp/fields";
 
 
 let _sp: SPFI | null = null;

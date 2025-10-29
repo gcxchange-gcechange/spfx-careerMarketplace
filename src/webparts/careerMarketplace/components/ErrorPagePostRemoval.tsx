@@ -52,7 +52,7 @@ export default class ErrorPagePostRemoval extends React.Component<IErrorPagePost
         return (
             <>
                 <h2>{this.strings.postNotCreated_title}</h2>
-                <p>{this.strings.p1}<br></br>{this.strings.p2}</p>
+                <p>{this.strings.p1}<br/>{this.strings.p2}</p>
                 <h3>{this.strings.fix_this}</h3>
                 <ol>
                     <li>{this.strings.list_item1}</li>
