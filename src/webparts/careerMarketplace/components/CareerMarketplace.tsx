@@ -26,7 +26,6 @@ import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
 import ErrorPagePostRemoval from './ErrorPagePostRemoval';
  
- 
 
 
 
@@ -672,6 +671,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
      .replace(/\s+/g, '')
     );
     console.log("cleanedColumns", cleanedColumns)
+
     //Filter out the expanded lookup fields
     const expandFields = Array.from(
       new Set(
@@ -680,13 +680,51 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           .map(col => col.split('/')[0])
       ));
 
-    const nameEN_fields = Array.from( new Set(cleanedColumns.filter(col => col.includes('NameFr')).map(col => col.split('/NameFr').join('/NameEn'))));
-    console.log(nameEN_fields)
-
+      //Add in NameEN if they are not in the selection and FR exists
+    const nameEN_fields = Array.from( new Set(cleanedColumns.filter(col => col.includes('NameFr') && !cleanedColumns.includes("NameEn")).map(col => col.split('/NameFr').join('/NameEn'))));
+      console.log(nameEN_fields)
       console.log('expand', expandFields);
       console.log("jobOpp", this.props.jobOpportunityId)
-    const columns = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select(...cleanedColumns, ...nameEN_fields, "skills/ID").expand(...expandFields,'Skills')(); 
-    console.log("col", columns)
+    const listFields = await this._sp.web.lists.getById(this.props.list).fields();
+      console.log("fields", listFields)
+    const columnFields = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select(...cleanedColumns, ...nameEN_fields, "skills/ID").expand(...expandFields,'Skills')(); 
+      console.log("col", columnFields);
+
+    const addTheState: any = {};
+    const lowerColumnFields: any = {};
+    for (const colKey of Object.keys(columnFields)) {
+      lowerColumnFields[colKey.toLowerCase()] = columnFields[colKey];
+    }
+    console.log("Lower",lowerColumnFields)
+    for (const key of Object.keys(this.state.values)) {
+       const lowerKey = key.toLowerCase();
+      
+      if (lowerKey in lowerColumnFields) {
+        const value = lowerColumnFields[lowerKey]
+      
+
+        if(value && typeof value === 'object') {
+          addTheState[key] = {
+            id: value.ID,
+            NameEN: value.NameEn,
+            NameFR: value.NameFr
+          }
+        } else {
+          addTheState[key] = value
+        }
+      }
+    }
+
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        ...addTheState,
+      },
+    }));
+
+    console.log('add',addTheState)
+
+  
   }
 
   public async _populateEditableFields(): Promise<void> {
@@ -1067,7 +1105,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public async componentDidMount(): Promise<void> {
 
      await this.populateEditableFields();
-    await this._populateDropDowns();
+   // await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
     
@@ -1078,7 +1116,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     if (this.props.jobOpportunityId && checkUser === true) {
-      await this._populateEditableFields();
+      await this.populateEditableFields();
+     // await this._populateEditableFields();
 
     } else {
       this.setState({
