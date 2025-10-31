@@ -670,7 +670,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       col.replace(/(_x003a_|_x0020_)/g, match => match === '_x003a_' ? '/' : ' ')
      .replace(/\s+/g, '')
     );
-    console.log("cleanedColumns", cleanedColumns)
 
     //Filter out the expanded lookup fields
     const expandFields = Array.from(
@@ -682,11 +681,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       //Add in NameEN if they are not in the selection and FR exists
     const nameEN_fields = Array.from( new Set(cleanedColumns.filter(col => col.includes('NameFr') && !cleanedColumns.includes("NameEn")).map(col => col.split('/NameFr').join('/NameEn'))));
-      console.log(nameEN_fields)
-      console.log('expand', expandFields);
-      console.log("jobOpp", this.props.jobOpportunityId)
+    //Get all the fields and then iterate to match and then we can use for select??
     const listFields = await this._sp.web.lists.getById(this.props.list).fields();
       console.log("fields", listFields)
+      listFields.forEach(f => console.log("InternalName", f.InternalName, "title", f.Title));
+
     const columnFields = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select(...cleanedColumns, ...nameEN_fields, "skills/ID").expand(...expandFields,'Skills')(); 
       console.log("col", columnFields);
 
@@ -702,14 +701,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if (lowerKey in lowerColumnFields) {
         const value = lowerColumnFields[lowerKey]
       
-
-        if(value && typeof value === 'object') {
-          addTheState[key] = {
-            id: value.ID,
-            NameEN: value.NameEn,
-            NameFR: value.NameFr
-          }
-        } else {
+      if ( Array.isArray(value)) {
+          console.log("isArray")
+          addTheState[key] = value[0] ? {Label: value[0].Label, Guid: value[0].TermGuid} : {value: value.map((v) => ({value: v.ID}))}
+      } 
+        else  if (value && typeof value === 'object') {
+          addTheState[key] = { key: value.ID, text: this.props.prefLang === 'fr-fr' ? value.NameFr : value.NameEn }
+        } 
+         else {
           addTheState[key] = value
         }
       }

@@ -31,8 +31,8 @@ export interface ICareerMarketplaceWebPartProps {
   jobOppOwner: string | undefined;
   clientId: string,
   jobTypeDeploymentTerms: any[],
-   list: string;
-   multiColumn: string;
+  list: string;
+  multiColumn: string;
 }
 
 export interface IPropertyControlsTestWebPartProps {
@@ -44,6 +44,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
   private jobOpportunityId: string | null = null;
   private jobOpportunityOwner: string | undefined = undefined ; 
   private jobTypeDeploymentTerms: any[] = [];
+
 
   public render(): void {
 
