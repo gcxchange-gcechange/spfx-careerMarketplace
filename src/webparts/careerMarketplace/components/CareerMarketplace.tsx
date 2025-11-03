@@ -25,6 +25,7 @@ import ErrorPage from './ErrorPage';
 import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
 import ErrorPagePostRemoval from './ErrorPagePostRemoval';
+import { fieldNames } from '../../../fieldNames';
  
 
 
@@ -328,10 +329,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       [this.strings.fullName]: this.props.userDisplayName,
       [this.strings.departmentField]: this.state.values.department.text,
       [this.strings.workEmail]: this.props.workEmail,
-      [this.strings.job_Title]: this.state.values.jobTitleEn,
-      [this.strings.job_Title]: this.state.values.jobTitleFr,
-      [this.strings.job_Description]: this.state.values.jobDescriptionEn,
-      [this.strings.job_Description]: this.state.values.jobDescriptionFr,
+      [`${this.strings.job_Title} ${this.strings.english}`]: this.state.values.jobTitleEn,
+      [`${this.strings.job_Title} ${this.strings.french}`]: this.state.values.jobTitleFr,
+      [`${this.strings.job_Description} ${this.strings.english}`]: this.state.values.jobDescriptionEn,
+      [`${this.strings.job_Description} ${this.strings.french}`]: this.state.values.jobDescriptionFr,
       [this.strings.job_Type]: this.state.values.jobType.Label,
       [this.strings.program_Area]: programArea.text,
       [this.strings.classification_Code]: this.state.values.classificationCode.text,
@@ -654,102 +655,91 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    console.log("txt", value)
 
   }
-  public async populateEditableFields(): Promise<void> {
 
-    console.log("original column",this.props.multiColumn)
-    let selectedColumns: string[] = [];
+  private async _getFieldNames(): Promise<Record<string, string>> {
 
-    //convert the string into an Array
-    if (typeof this.props.multiColumn === 'string') {
-      selectedColumns = this.props.multiColumn.split(',').map(col => col.trim());
-    } else if (Array.isArray(this.props.multiColumn)) {
-      selectedColumns = this.props.multiColumn;
+    //get selected fields by Internal names instead of Title
+  const fields = await this._sp.web.lists
+    .getById(this.props.list)
+    .fields.select("InternalName")();
+
+  const available = fields.map(f => f.InternalName.toLowerCase());
+  const fieldResults: Record<string, string> = {};
+
+  for (const [logicalName] of Object.entries(fieldNames)) {
+    console.log("logicalName", logicalName)
+    const pattern = logicalName.toLowerCase();
+    const match = available.find(f => f.includes(pattern));
+    if (match) {
+      fieldResults[logicalName] = fields.find(f => f.InternalName.toLowerCase() === match)!.InternalName;
+    } else {
+      console.warn(`⚠️ Missing field: ${logicalName}`);
     }
-    //remove the decode of : and space from the lookup fields and replace with '/'
-    const cleanedColumns = selectedColumns.map(col =>
-      col.replace(/(_x003a_|_x0020_)/g, match => match === '_x003a_' ? '/' : ' ')
-     .replace(/\s+/g, '')
-    );
+  }
 
-    //Filter out the expanded lookup fields
-    const expandFields = Array.from(
-      new Set(
-        cleanedColumns
-          .filter(col => col.includes('/'))
-          .map(col => col.split('/')[0])
-      ));
+  return fieldResults;
+}
 
-      //Add in NameEN if they are not in the selection and FR exists
-    const nameEN_fields = Array.from( new Set(cleanedColumns.filter(col => col.includes('NameFr') && !cleanedColumns.includes("NameEn")).map(col => col.split('/NameFr').join('/NameEn'))));
-    //Get all the fields and then iterate to match and then we can use for select??
-    const listFields = await this._sp.web.lists.getById(this.props.list).fields();
-      console.log("fields", listFields)
-      listFields.forEach(f => console.log("InternalName", f.InternalName, "title", f.Title));
 
-    const columnFields = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select(...cleanedColumns, ...nameEN_fields, "skills/ID").expand(...expandFields,'Skills')(); 
-      console.log("col", columnFields);
+  public async _populateEditableFields(): Promise<void> {
+    // const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
+    // .select(
+    //   "Department",  "Department/NameEn",  "Department/NameFr", "Department/ID", 
+    //   "JobTitleFr", 
+    //   "JobTitleEn", 
+    //   "JobDescriptionEn", 
+    //   "JobDescriptionFr", 
+    //   "JobType", 
+    //   "ProgramArea",
+    //   "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr",
+    //   "ClassificationLevel/ID","ClassificationLevel/NameFr",
+    //   "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
+    //   "NumberOfOpportunities",
+    //   "ApplicationDeadlineDate",
+    //   "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
+    //   "City/ID", "City/NameEn", "City/NameFr", 
+    //   "SecurityClearance/ID", 
+    //   "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
+    //   "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
+    //   "Skills/ID"
+   
+    // )
+    // .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
 
-    const addTheState: any = {};
-    const lowerColumnFields: any = {};
-    for (const colKey of Object.keys(columnFields)) {
-      lowerColumnFields[colKey.toLowerCase()] = columnFields[colKey];
-    }
-    console.log("Lower",lowerColumnFields)
-    for (const key of Object.keys(this.state.values)) {
-       const lowerKey = key.toLowerCase();
-      
-      if (lowerKey in lowerColumnFields) {
-        const value = lowerColumnFields[lowerKey]
-      
-      if ( Array.isArray(value)) {
-          console.log("isArray")
-          addTheState[key] = value[0] ? {Label: value[0].Label, Guid: value[0].TermGuid} : {value: value.map((v) => ({value: v.ID}))}
-      } 
-        else  if (value && typeof value === 'object') {
-          addTheState[key] = { key: value.ID, text: this.props.prefLang === 'fr-fr' ? value.NameFr : value.NameEn }
-        } 
-         else {
-          addTheState[key] = value
+
+    
+    const resolved = await this._getFieldNames();
+    console.log("resolved", resolved)
+
+
+    const selectFields: string[] = [];
+    const expandFields: string[] = [];
+
+    for (const [logicalName, config] of Object.entries(fieldNames)) {
+      const internalName = resolved[logicalName];
+      if (!internalName) continue; // skip missing ones
+
+      if (config.type === "lookup") {
+        // Add lookup to expand
+        expandFields.push(internalName);
+        // Add each subfield to select
+        for (const sub of config.subFields) {
+          selectFields.push(`${internalName}/${sub}`);
         }
+        // Also include parent field reference if needed
+        selectFields.push(internalName);
+      } else {
+        selectFields.push(internalName);
       }
     }
 
-    this.setState((prevState) => ({
-      values: {
-        ...prevState.values,
-        ...addTheState,
-      },
-    }));
+  const item = await this._sp.web.lists
+    .getByTitle("JobOpportunity")
+    .items.getById(Number(this.props.jobOpportunityId))
+    .select(...selectFields)
+    .expand(...expandFields)();
 
-    console.log('add',addTheState)
-
-  
-  }
-
-  public async _populateEditableFields(): Promise<void> {
-    const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
-    .select(
-      "Department",  "Department/NameEn",  "Department/NameFr", "Department/ID", 
-      "JobTitleFr", 
-      "JobTitleEn", 
-      "JobDescriptionEn", 
-      "JobDescriptionFr", 
-      "JobType", 
-      "ProgramArea",
-      "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr",
-      "ClassificationLevel/ID","ClassificationLevel/NameFr",
-      "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
-      "NumberOfOpportunities",
-      "ApplicationDeadlineDate",
-      "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
-      "City/ID", "City/NameEn", "City/NameFr", 
-      "SecurityClearance/ID", 
-      "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
-      "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
-      "Skills/ID"
-   
-    )
-    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
+  console.log("Fetched item:", item);
     const cityId = item.City.ID;
     //console.log("item", item)
  
@@ -764,12 +754,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const getClassificationCodeList = classificationCode.filter((levelItem:any) => levelItem.ID === item.ClassificationCode.ID);
     //console.log("getClassificationCodeList", getClassificationCodeList);
 
-   
+ 
     if (item.LanguageRequirement.ID === 3) {
-
       const languageComprehensionArray= item.LanguageComprehension?.split("") 
  
-      if(languageComprehensionArray.length !== 0) {
+      if (languageComprehensionArray.length !== 0) {
        
          getIndex.push ( languageComprehensionArray.map((letter:string) => {
           if (letter === 'A') {
@@ -787,6 +776,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }))
       }
     }
+    console.log("getIndex",getIndex)
+    const readingEN = getIndex[0][0];
 
     const skills = item.Skills.map((item:any) => ({ value: item.ID}));
 
@@ -835,7 +826,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               key: item.LanguageRequirement.ID,
               text: item.LanguageRequirement.NameEn,
             },
-            readingEN: getIndex.length !== 0 ? getIndex[0][0] : { ...prevState.values.languageRequirements[0].readingEN },
+            readingEN: getIndex.length !== 0 ? readingEN : { ...prevState.values.languageRequirements[0].readingEN },
             writtenEN: getIndex.length !== 0 ? getIndex[0][1] : { ...prevState.values.languageRequirements[0].writtenEN },
             oralEN: getIndex.length !== 0 ? getIndex[0][2] : { ...prevState.values.languageRequirements[0].oralEN },
             readingFR: getIndex.length !== 0 ? getIndex[0][4] : { ...prevState.values.languageRequirements[0].readingFR },
@@ -1103,8 +1094,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidMount(): Promise<void> {
 
-     await this.populateEditableFields();
-   // await this._populateDropDowns();
+    //await this.populateEditableFields();
+    await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
     
@@ -1115,8 +1106,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     if (this.props.jobOpportunityId && checkUser === true) {
-      await this.populateEditableFields();
-     // await this._populateEditableFields();
+     await this._populateEditableFields();
 
     } else {
       this.setState({
@@ -1395,8 +1385,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const items = steps.map((item) => ({ key: item.step, title: "" }));
 
 
-    console.log("VALIDATIONSTATUS", this.state.validationStatus)
-    console.log("list", this.props.list)
+    console.log("EditableState",this.state.values)
     return (
 
       <>

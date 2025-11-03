@@ -13,11 +13,15 @@ export interface IErrorPageProps {
 
 
 export default class ErrorPage extends React.Component<IErrorPageProps> {
+
+
     
     public strings = SelectLanguage(this.props.prefLang);
 
 
     public copyTxtBtn = async (): Promise<void> => {
+
+            console.log("Values", this.props.values)
         try {
           const valueToCopy = typeof this.props.values === 'string'
             ? this.props.values
