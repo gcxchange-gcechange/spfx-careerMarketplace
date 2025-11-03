@@ -329,10 +329,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       [this.strings.fullName]: this.props.userDisplayName,
       [this.strings.departmentField]: this.state.values.department.text,
       [this.strings.workEmail]: this.props.workEmail,
-      [this.strings.job_Title]: this.state.values.jobTitleEn,
-      [this.strings.job_Title]: this.state.values.jobTitleFr,
-      [this.strings.job_Description]: this.state.values.jobDescriptionEn,
-      [this.strings.job_Description]: this.state.values.jobDescriptionFr,
+      [`${this.strings.job_Title} ${this.strings.english}`]: this.state.values.jobTitleEn,
+      [`${this.strings.job_Title} ${this.strings.french}`]: this.state.values.jobTitleFr,
+      [`${this.strings.job_Description} ${this.strings.english}`]: this.state.values.jobDescriptionEn,
+      [`${this.strings.job_Description} ${this.strings.french}`]: this.state.values.jobDescriptionFr,
       [this.strings.job_Type]: this.state.values.jobType.Label,
       [this.strings.program_Area]: programArea.text,
       [this.strings.classification_Code]: this.state.values.classificationCode.text,
@@ -573,7 +573,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }  
     else  if (valueName === "jobType") {
       
-      const deployment = value.key === this.props.jobTypeDeploymentTerms[0].id
+      const deployment = value.key === this.props.jobTypeDeploymentTerms[0]?.id
 
       if(deployment) {
         this.setState((prevState) => ({
