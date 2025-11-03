@@ -714,6 +714,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const selectFields: string[] = [];
     const expandFields: string[] = [];
+    const getIndex: any[] =  [];
 
     for (const [logicalName, config] of Object.entries(fieldNames)) {
       const internalName = resolved[logicalName];
@@ -748,7 +749,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
-    const getIndex: any[] =  [];
+   
     const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
     //console.log(classificationCode);
     const getClassificationCodeList = classificationCode.filter((levelItem:any) => levelItem.ID === item.ClassificationCode.ID);
@@ -776,6 +777,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }))
       }
     }
+
+    if (getIndex.length > 0) {
+    this.setState(prevState => ({
+      values: {
+        ...prevState.values,
+        languageRequirements: [
+          {
+            ...prevState.values.languageRequirements[0],
+            language: {
+              key: item.LanguageRequirement.ID,
+              text: item.LanguageRequirement.NameEn,
+            },
+            readingEN: getIndex[0],
+            writtenEN: getIndex[1] ?? prevState.values.languageRequirements[0].writtenEN,
+            oralEN: getIndex[2] ?? prevState.values.languageRequirements[0].oralEN,
+            readingFR: getIndex[3] ?? prevState.values.languageRequirements[0].readingFR,
+          },
+        ],
+      },
+    }));
+  }
     console.log("getIndex",getIndex)
     const readingEN = getIndex[0][0];
 
@@ -826,7 +848,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               key: item.LanguageRequirement.ID,
               text: item.LanguageRequirement.NameEn,
             },
-            readingEN: getIndex.length !== 0 ? readingEN : { ...prevState.values.languageRequirements[0].readingEN },
+            readingEN: readingEN ,
             writtenEN: getIndex.length !== 0 ? getIndex[0][1] : { ...prevState.values.languageRequirements[0].writtenEN },
             oralEN: getIndex.length !== 0 ? getIndex[0][2] : { ...prevState.values.languageRequirements[0].oralEN },
             readingFR: getIndex.length !== 0 ? getIndex[0][4] : { ...prevState.values.languageRequirements[0].readingFR },
@@ -1168,26 +1190,26 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
-      this.setState((prevState) => ({
-        values: {
-          ...prevState.values,
-          languageRequirements: [
-            {
-              ...prevState.values.languageRequirements[0],
-              readingEN:{ key: "0", text: "" },
-              readingFR: { key: "0", text: "" },
-              writtenEN: { key: "0", text: "" },
-              writtenFR:  { key: "0", text: "" },
-              oralEN: { key: "0", text: "" },
-              oralFR: { key: "0", text: "" },
+    // if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
+    //   this.setState((prevState) => ({
+    //     values: {
+    //       ...prevState.values,
+    //       languageRequirements: [
+    //         {
+    //           ...prevState.values.languageRequirements[0],
+    //           readingEN:{ key: "0", text: "" },
+    //           readingFR: { key: "0", text: "" },
+    //           writtenEN: { key: "0", text: "" },
+    //           writtenFR:  { key: "0", text: "" },
+    //           oralEN: { key: "0", text: "" },
+    //           oralFR: { key: "0", text: "" },
 
-            }
-          ]
+    //         }
+    //       ]
         
-        }
-      }))
-    }
+    //     }
+    //   }))
+    // }
 
   }
 
