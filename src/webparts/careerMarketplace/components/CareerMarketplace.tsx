@@ -573,7 +573,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }  
     else  if (valueName === "jobType") {
       
-      const deployment = value.key === this.props.jobTypeDeploymentTerms[0].id
+      const deployment = value.key === this.props.jobTypeDeploymentTerms[0]?.id
 
       if(deployment) {
         this.setState((prevState) => ({
