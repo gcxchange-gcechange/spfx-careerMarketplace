@@ -469,8 +469,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
+    console.log("name",valueName );
+    console.log("value", value);
 
-  
+  debugger
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
       if (valueName === "language") {
@@ -486,9 +488,26 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           },
         }));
 
+        if (value.key !== 3) {
+          langEvaluationdIds.forEach((field: any) => {
+
+            this.setState((prevState) => ({
+              values: {
+                ...prevState.values,
+                languageRequirements : [
+                  {
+                    ...prevState.values.languageRequirements[0],
+                    [field]:{key: "None"}
+                  }
+                ]
+              }
+            }))
+          })
+        }
+
       }
 
-      else if (langEvaluationdIds.includes(valueName)) {
+        if (value.key ===  3 && langEvaluationdIds.includes(valueName)) {
 
           if (valueName === 'readingEN' ) {
             this.setState((prevState) => ({
@@ -570,7 +589,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             }));
           }
     
-      }  
+    } 
     else  if (valueName === "jobType") {
       
       const deployment = value.key === this.props.jobTypeDeploymentTerms[0]?.id
@@ -657,25 +676,24 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   private async _getFieldNames(): Promise<Record<string, string>> {
+    
+    const fieldResults: Record<string, string> = {};
 
-    //get selected fields by Internal names instead of Title
-  const fields = await this._sp.web.lists
-    .getById(this.props.list)
-    .fields.select("InternalName")();
+    //get columns from list by Internal names instead of Title
+    const fields = await this._sp.web.lists.getByTitle("JobOpportunity").fields.select("InternalName")();
 
-  const available = fields.map(f => f.InternalName.toLowerCase());
-  const fieldResults: Record<string, string> = {};
+    const available = fields.map(f => f.InternalName.toLowerCase());
 
-  for (const [logicalName] of Object.entries(fieldNames)) {
-    console.log("logicalName", logicalName)
-    const pattern = logicalName.toLowerCase();
-    const match = available.find(f => f.includes(pattern));
-    if (match) {
-      fieldResults[logicalName] = fields.find(f => f.InternalName.toLowerCase() === match)!.InternalName;
-    } else {
-      console.warn(`⚠️ Missing field: ${logicalName}`);
+    //loop through fieldNames.ts to  get the matching field
+    for (const [logicalName] of Object.entries(fieldNames)) {
+      const lowercaseFieldName = logicalName.toLowerCase();
+      const match = available.find(f => f.includes(lowercaseFieldName));
+      if (match) {
+        fieldResults[logicalName] = fields.find(f => f.InternalName.toLowerCase() === match)!.InternalName;
+      } else {
+        console.warn(`⚠️ Missing field: ${logicalName}`);
+      }
     }
-  }
 
   return fieldResults;
 }
@@ -727,22 +745,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         for (const sub of config.subFields) {
           selectFields.push(`${internalName}/${sub}`);
         }
-        // Also include parent field reference if needed
         selectFields.push(internalName);
       } else {
         selectFields.push(internalName);
       }
     }
 
-  const item = await this._sp.web.lists
-    .getByTitle("JobOpportunity")
-    .items.getById(Number(this.props.jobOpportunityId))
-    .select(...selectFields)
-    .expand(...expandFields)();
+    const item = await this._sp.web.lists
+      .getByTitle("JobOpportunity")
+      .items.getById(Number(this.props.jobOpportunityId))
+      .select(...selectFields)
+      .expand(...expandFields)();
 
-  console.log("Fetched item:", item);
+      console.log("Fetched item:", item);
     const cityId = item.City.ID;
-    //console.log("item", item)
  
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
@@ -777,29 +793,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }))
       }
     }
-
-    if (getIndex.length > 0) {
-    this.setState(prevState => ({
-      values: {
-        ...prevState.values,
-        languageRequirements: [
-          {
-            ...prevState.values.languageRequirements[0],
-            language: {
-              key: item.LanguageRequirement.ID,
-              text: item.LanguageRequirement.NameEn,
-            },
-            readingEN: getIndex[0],
-            writtenEN: getIndex[1] ?? prevState.values.languageRequirements[0].writtenEN,
-            oralEN: getIndex[2] ?? prevState.values.languageRequirements[0].oralEN,
-            readingFR: getIndex[3] ?? prevState.values.languageRequirements[0].readingFR,
-          },
-        ],
-      },
-    }));
-  }
-    console.log("getIndex",getIndex)
-    const readingEN = getIndex[0][0];
 
     const skills = item.Skills.map((item:any) => ({ value: item.ID}));
 
@@ -840,7 +833,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         workSchedule: { key: item.WorkSchedule.ID},
         workArrangment: {key: item.WorkArrangement.ID},
         security:{key: item.SecurityClearance.ID},
-
         languageRequirements: [
           {
             ...prevState.values.languageRequirements[0],
@@ -848,12 +840,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               key: item.LanguageRequirement.ID,
               text: item.LanguageRequirement.NameEn,
             },
-            readingEN: readingEN ,
-            writtenEN: getIndex.length !== 0 ? getIndex[0][1] : { ...prevState.values.languageRequirements[0].writtenEN },
-            oralEN: getIndex.length !== 0 ? getIndex[0][2] : { ...prevState.values.languageRequirements[0].oralEN },
-            readingFR: getIndex.length !== 0 ? getIndex[0][4] : { ...prevState.values.languageRequirements[0].readingFR },
-            writtenFR: getIndex.length !== 0 ? getIndex[0][5] : { ...prevState.values.languageRequirements[0].writtenFR },
-            oralFR: getIndex.length !== 0 ? getIndex[0][6] : { ...prevState.values.languageRequirements[0].oralFR },
+            readingEN:  getIndex[0][0],
+            writtenEN: getIndex.length > 0 ? getIndex[0][1] : { ...prevState.values.languageRequirements[0].writtenEN },
+            oralEN: getIndex.length > 0 ? getIndex[0][2] : { ...prevState.values.languageRequirements[0].oralEN },
+            readingFR: getIndex.length > 0 ? getIndex[0][4] : { ...prevState.values.languageRequirements[0].readingFR },
+            writtenFR: getIndex.length > 0 ? getIndex[0][5] : { ...prevState.values.languageRequirements[0].writtenFR },
+            oralFR: getIndex.length > 0 ? getIndex[0][6] : { ...prevState.values.languageRequirements[0].oralFR },
           },
         ],
         approvedStaffing: {...prevState.values.approvedStaffing, value: true}
@@ -1116,7 +1108,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidMount(): Promise<void> {
 
-    //await this.populateEditableFields();
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
@@ -1139,10 +1130,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
-
-    if(this.state.isNonJobBtnDisabled !== prevState.isNonJobBtnDisabled ) {
-      console.log("I changed")
-    }
 
     if (this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
       // Focus the dialog when errors exist
@@ -1168,6 +1155,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
         await this._populateDropDowns();
         await this.getDropdownElements();   
+        
 
     }
 
@@ -1190,26 +1178,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    // if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
-    //   this.setState((prevState) => ({
-    //     values: {
-    //       ...prevState.values,
-    //       languageRequirements: [
-    //         {
-    //           ...prevState.values.languageRequirements[0],
-    //           readingEN:{ key: "0", text: "" },
-    //           readingFR: { key: "0", text: "" },
-    //           writtenEN: { key: "0", text: "" },
-    //           writtenFR:  { key: "0", text: "" },
-    //           oralEN: { key: "0", text: "" },
-    //           oralFR: { key: "0", text: "" },
-
-    //         }
-    //       ]
-        
-    //     }
-    //   }))
-    // }
 
   }
 

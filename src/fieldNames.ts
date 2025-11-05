@@ -1,11 +1,10 @@
-// fieldConfig.ts
 
 export type FieldName =
   | { type: "lookup"; subFields: string[] }
   | { type: "text" };
 
 export const fieldNames: Record<string, FieldName> = {
-  Department: { type: "lookup", subFields: ["NameEn", "NameFr", "ID"] },
+  Department: { type: "lookup", subFields: ["ID", "NameEn", "NameFr"] },
   JobTitleEn: { type: "text" },
   JobTitleFr: { type: "text" },
   JobDescriptionEn: { type: "text" },
