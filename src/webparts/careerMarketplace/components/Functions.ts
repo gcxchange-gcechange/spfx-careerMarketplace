@@ -20,7 +20,6 @@ export const isInvalid = (fieldName: string, inlineErrors:any): boolean | undefi
 export  const getLocalizedString = (fieldId: string, prefLang: string): string => {
   const strings = SelectLanguage(prefLang);
   const key = `${fieldId}` as keyof ICareerMarketplaceWebPartStrings;
-  console.log(key);
   return  strings[key] || "";
 }
 
