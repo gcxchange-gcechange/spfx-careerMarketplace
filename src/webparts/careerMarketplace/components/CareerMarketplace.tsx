@@ -1254,6 +1254,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             fields={this.state.dropdownFields}
             prefLang={this.props.prefLang}
             jobOppId = {this.props.jobOpportunityId}
+            jobTypeProps= {this.props.jobTypeDeploymentTerms}
           />
         ),
       },
@@ -1323,8 +1324,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
 
-
-    console.log("VALIDATIONSTATUS", this.state.validationStatus)
     return (
 
       <>
