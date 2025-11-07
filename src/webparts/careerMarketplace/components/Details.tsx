@@ -56,6 +56,7 @@ export interface IDetailsProps {
     duration: any;
     durationLength: any;
   };
+  jobTypeProps: any;
   inlineFieldErrors?: any[];
   jobOppId: string;
 }
@@ -96,11 +97,9 @@ export default class Details extends React.Component<IDetailsProps> {
 
   public render(): React.ReactElement<IDetailsProps> {
 
-    const permDeploy = this.props.values.jobType.Label === "Deployment - permanent" ;
-    const frPermDeploy = this.props.values.jobType.Label === "Mutation – permanente" ;
-    
-    const disableDuration =
-      permDeploy || frPermDeploy;
+
+    const permDeploy = this.props.values.jobType.Guid === this.props.jobTypeProps[0].id ;
+
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: "10%",
@@ -121,7 +120,7 @@ export default class Details extends React.Component<IDetailsProps> {
     };
 
     const isReadOnly = this.props.currentPage === 3;
-    const durationDisabled = this.props.currentPage === 3 || disableDuration;
+    const durationDisabled = this.props.currentPage === 3 || permDeploy;
     const {
       jobTitleEn,
       jobTitleFr,
@@ -159,6 +158,7 @@ export default class Details extends React.Component<IDetailsProps> {
     }
 
     const classificationCodeItems = this.props.classificationCode.sort();
+    
     return (
       <>
         {this.props.currentPage === 1 && (
@@ -429,8 +429,8 @@ export default class Details extends React.Component<IDetailsProps> {
                 disabled={durationDisabled}
                 styles={dropdownStyles}
                 errorMessage={
-                  this.props.values.duration.key === "" &&
-                  disableDuration !== true
+                  this.props.values.duration.key === "" && !permDeploy
+                 
                     ? getLocalizedString("duration", this.props.prefLang)
                     : undefined
                 }

@@ -681,6 +681,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     //get columns from list by Internal names instead of Title
     const fields = await this._sp.web.lists.getByTitle("JobOpportunity").fields.select("InternalName")();
+    console.log("FIELDS_LIST", fields)
 
     const available = fields.map(f => f.InternalName.toLowerCase());
 
@@ -694,6 +695,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         console.warn(`⚠️ Missing field: ${logicalName}`);
       }
     }
+    console.log("FieldResults",fieldResults)
 
   return fieldResults;
 }
@@ -840,7 +842,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               key: item.LanguageRequirement.ID,
               text: item.LanguageRequirement.NameEn,
             },
-            readingEN:  getIndex[0][0],
+            readingEN:  getIndex.length > 0 ? getIndex[0][0] : { ...prevState.values.languageRequirements[0].readingEN },
             writtenEN: getIndex.length > 0 ? getIndex[0][1] : { ...prevState.values.languageRequirements[0].writtenEN },
             oralEN: getIndex.length > 0 ? getIndex[0][2] : { ...prevState.values.languageRequirements[0].oralEN },
             readingFR: getIndex.length > 0 ? getIndex[0][4] : { ...prevState.values.languageRequirements[0].readingFR },
@@ -1167,7 +1169,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (this.state.values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
+    if (this.state.values.jobType.Guid === this.props.jobTypeDeploymentTerms[0]?.id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -1305,6 +1307,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             fields={this.state.dropdownFields}
             prefLang={this.props.prefLang}
             jobOppId = {this.props.jobOpportunityId}
+            jobTypeProps= {this.props.jobTypeDeploymentTerms}
           />
         ),
       },
