@@ -77,7 +77,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 <ReusableTextField
                     id={"jobTitleEn"}
                     name={"jobTitleEn"}
-                    title={this.strings.job_Title}
+                    title={`${this.strings.job_Title} ${this.strings.english}`}
                     defaultValue={this.props.jobTitleEn}
                     disabled={true}
                     ariaLabelRequired={'required'}
@@ -87,7 +87,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 <ReusableTextField
                     id={"jobTitleFr"}
                     name={"jobTitleFr"}
-                    title={this.strings.job_Title}
+                    title={`${this.strings.job_Title} ${this.strings.french}`}
                     defaultValue={this.props.jobTitleFr}
                     disabled={true}
                     ariaLabelRequired={'required'}
@@ -95,10 +95,10 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 />
 
                 <ReusableTextField
-                    id={"jobDescriptionFr"}
-                    name={"jobDescriptionFr"}
-                    title={this.strings.job_Description}
-                    defaultValue={this.props.jobDescriptionFr}
+                    id={"jobDescriptionEn"}
+                    name={"jobDescriptionEn"}
+                    title={`${this.strings.job_Description} ${this.strings.english}`}
+                    defaultValue={this.props.jobDescriptionEn}
                     disabled={true}
                     ariaLabelRequired={'required'}
                     multiline={true}
@@ -107,7 +107,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 <ReusableTextField
                     id={"jobDescriptionFr"}
                     name={"jobDescriptionFr"}
-                    title={this.strings.job_Description}
+                    title={`${this.strings.job_Description} ${this.strings.french}`}
                     defaultValue={this.props.jobDescriptionFr}
                     disabled={true}
                     ariaLabelRequired={'required'}
