@@ -20,16 +20,16 @@ export default class PageTitle extends React.Component<IPageTitleProps> {
       <>      
           <div>
 
-            {this.props.currentPage === 0 && (
+            {this.props.currentPage === 1 && (
               <h2>{this.strings.posterInformation_title}</h2>
             )}
-            {this.props.currentPage === 1 && (
+            {this.props.currentPage === 2 && (
               <h2>{this.strings.oppotunityDetails_Title}</h2>
             )}
-            {this.props.currentPage === 2 && (
+            {this.props.currentPage === 3 && (
               <h2>{this.strings.opportunityRequirements_title}</h2>
             )}
-            {this.props.currentPage === 3 && (
+            {this.props.currentPage === 4 && (
               <h2>{this.strings.reviewSubmit_title}</h2>
             )}
           </div>
