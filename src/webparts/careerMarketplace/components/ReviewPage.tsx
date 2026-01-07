@@ -127,7 +127,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     id={"programArea"}
                     name={"programArea"}
                     title={this.strings.program_Area}
-                    defaultValue={this.props.programArea}
+                    defaultValue={this.props.programArea.Label}
                     disabled={true}
                     ariaLabelRequired={'required'}
                     multiline={true}

@@ -89,7 +89,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobDescriptionEn: "",
         jobDescriptionFr: "",
         jobType: {pageNumber: 2, Label:"", Guid:""},
-        programArea:{value: "" , pageNumber: 2},
+        programArea: {pageNumber: 2, Label:"", Guid:""},
         classificationCode: {value: "" , pageNumber: 2},
         classificationLevel: {value: "" , pageNumber: 2},
         classificationLevelIds: "",
@@ -308,9 +308,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
     const newJoBTypeFormat = [{Label: this.state.values.jobType.Label, Guid: this.state.values.jobType.Guid}]
-    const programArea = this.state.values.programArea;
-    const programAreaFormat= {Label: programArea.text, Guid: programArea.key };
-    //const newJoBTypeFormat = this.state.values.jobType.map((item:any) => ({ Label: item.label, Guid: item.value }));
+    const programAreaFormat= {Label: this.state.values.programArea.Label, Guid: this.state.values.programArea.Guid };
 
     let langCompText = "";
 
@@ -319,7 +317,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state.values.languageRequirements[0].oralEN.text + '-' +
     this.state.values.languageRequirements[0].readingFR.text +
     this.state.values.languageRequirements[0].writtenFR.text +
-    this.state.values.languageRequirements[0].oralFR.text;
+   this.state.values.languageRequirements[0].oralFR.text;
  
  
     const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
@@ -334,7 +332,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       [`${this.strings.job_Description} ${this.strings.english}`]: this.state.values.jobDescriptionEn,
       [`${this.strings.job_Description} ${this.strings.french}`]: this.state.values.jobDescriptionFr,
       [this.strings.job_Type]: this.state.values.jobType.Label,
-      [this.strings.program_Area]: programArea.text,
+      [this.strings.program_Area]: this.state.values.programArea.Label,
       [this.strings.classification_Code]: this.state.values.classificationCode.text,
       [this.strings.classification_Level]: this.state.values.classificationLevel.text,
       [this.strings.number_of_Opportunities]: this.state.values.numberOfOpportunities.value,
@@ -362,11 +360,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       requestHeaders.append("Content-type", "application/json");
       requestHeaders.append("Cache-Control", "no-cache");
       let responseText: string = "";
+
+
+      console.log("newJoBTypeFormat:", newJoBTypeFormat);
+      console.log("programAreaFormat:", programAreaFormat);
+
+
+      //"ProgramArea": ${JSON.stringify(programAreaFormat, null, 2)},
       
       const postOptions: IHttpClientOptions= {
         headers: requestHeaders,
         body: `{
-
               "ContactObjectId": "${this.state.userId}",
               "ContactName": "${this.props.userDisplayName}",
               "DepartmentId": "${this.state.values.department.key}",
@@ -374,7 +378,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "JobTitleEn": "${this.state.values.jobTitleEn}",
               "JobTitleFr": "${this.state.values.jobTitleFr}",
               "JobType": ${JSON.stringify(newJoBTypeFormat)},
-              "ProgramArea": ${JSON.stringify(programAreaFormat, null, 2)},
+              
+              "ProgramArea": ${JSON.stringify(programAreaFormat)},
+
+
               "ClassificationCodeId": "${this.state.values.classificationCode.key}",
               "ClassificationLevelId": "${this.state.values.classificationLevel.key}",
               "NumberOfOpportunities": "${this.state.values.numberOfOpportunities.value}",
@@ -414,10 +421,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             response
                   .json()
                   .then((responseJSON: JSON) => {
+                    
+                    console.log("HERE 1", responseJSON);
                     responseText = JSON.stringify(responseJSON);
+                    console.log("HERE 2");
+
+
                     this.setState({
                       jobOpportunityId: responseText
                     })
+                    console.log("HERE 3");
                   })
                   .catch((response: any) => {
                     const errMsg: string = `WARNING - error when calling URL. Error = ${response.message}`;
@@ -571,8 +584,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           }
     
       }  
-    else  if (valueName === "jobType") {
-      
+    else if (valueName === "jobType") {
       const deployment = value.key === this.props.jobTypeDeploymentTerms[0]?.id
 
       if(deployment) {
@@ -582,8 +594,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
             durationLength: {...prevState.values.durationLength, value:'0'},
               
-          },    
-        }));
+          },}));
       }
 
      this.setState((prevState) => ({
@@ -591,9 +602,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         ...prevState.values,
         jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
           
-      },    
-    }));
-    
+      },}));
+    }
+
+    else if (valueName === "programArea") {
+     this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        programArea: {...prevState.values.programArea, Guid: value.key, Label: value.text} , 
+          
+      },}));
     }
 
     else if( valueName === "skills") {
@@ -665,7 +683,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       "JobDescriptionEn", 
       "JobDescriptionFr", 
       "JobType", 
-      "ProgramArea",
+      "Program_Area",
       "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr",
       "ClassificationLevel/ID","ClassificationLevel/NameFr",
       "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
@@ -742,7 +760,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
         jobType: {...prevState.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
-        programArea : {...prevState.programArea, key: item.ProgramArea[0].TermGuid},
+        programArea : {...prevState.programArea, key: item.Program_Area[0].TermGuid, Label: item.Program_Area[0].Label},
         classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},
         classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",

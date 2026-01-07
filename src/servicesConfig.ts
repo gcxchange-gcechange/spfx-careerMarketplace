@@ -3,8 +3,8 @@
 
 export const createOpportunityConfig = {
   clientId: "c121f403-ff41-4db3-8426-f3b9c5016cd4",
-  createJobApiUrl: " api/CreateJobOpportunity",
-  editJobApiUrl:" api/UpdateJobOpportunity",
+  createJobApiUrl: "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity",
+  editJobApiUrl:"https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/UpdateJobOpportunity",
   jobTypeTermId: "45f37f08-3ff4-4d84-bf21-4a77ddffcf3e",
   jobTypeDeploymentId: "2d309c8b-7b87-49ed-9e35-9b7fc3aa95ba",
   programAreaTermId:"bd807536-d8e7-456b-aab0-fae3eecedd8a",

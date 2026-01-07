@@ -260,14 +260,14 @@ export default class Details extends React.Component<IDetailsProps> {
               options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.programArea,]}
               onChange={this.onChangeDropDownItem}
               disabled={isReadOnly}
-              selectedKey={this.props.values.programArea.key}
+              selectedKey={this.props.values.programArea.Guid}
               ariaLabelRequired={this.strings.required}
               instruction={this.strings.programArea_description}
               inlineFieldErrors={this.props.inlineFieldErrors}
               prefLang={this.props.prefLang}
               placeholder={this.strings.selectOption}
               errorMessage={
-                this.props.values.programArea.key === "0"
+                this.props.values.programArea.Guid === "0"
                   ? getLocalizedString("programArea", this.props.prefLang)
                   : undefined
               }
