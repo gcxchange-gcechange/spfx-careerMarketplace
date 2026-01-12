@@ -16,20 +16,18 @@ import { SPFI } from '@pnp/sp';
 import PageTitle from './PageTitle';
 import * as moment from 'moment';
 import Complete from './Complete';
-import { toTitleCase } from './Functions';
+import { toTitleCase} from './Functions';
 import { RefObject } from 'react';
 import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
 import { ICareerMarketplaceState } from './ICareerMarketplaceState';
 import ErrorPage from './ErrorPage';
-import ReviewPage from './ReviewPage';
+//import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
 import ErrorPagePostRemoval from './ErrorPagePostRemoval';
+
+
  
- 
-
-
-
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
   private alertRef: RefObject<HTMLDivElement>;
@@ -132,8 +130,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.setState({ currentPage: value, validationStatus: 0 });
   }
 
+ private next = async (): Promise<void> => {
+   const nextPage = this.state.currentPage + 1;
+   const isValid = await this.validatePage();
+  
+   if(!isValid) {
+    return;
+   }
+
+   this.setState({
+    currentPage:nextPage})
+  
+};
  
-  private next = async (): Promise<void > => {
+  private validatePage = async (): Promise<boolean> => {
     const { values, currentPage, isNonJobBtnDisabled } = this.state;
     const nextPage = this.state.currentPage + 1;
 
@@ -142,8 +152,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           currentPage: nextPage
          })
     }
-
-
 
     const checkValues: {key: string, value: any}[] = [];
 
@@ -223,7 +231,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.navigationDirection = 'next';
 
    
-    if ( currentPage > 0 && currentPage < 4  ) {
+     if ( currentPage > 0  ) {
 
       if (checkValues.length !== 0 ) {
         await this.setState({
@@ -232,16 +240,18 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         })
       } else {
         this.setState({
-          currentPage: nextPage,
+          // currentPage: nextPage,
           hasError: []
          })
       }  
-    } 
+    }
 
     //focus on the title when selecting next but only if no errors
     if (this.titleRef.current && this.state.hasError.length === 0) {
       this.titleRef.current.focus();
     }
+
+    return checkValues.length === 0;
 
   }
 
@@ -304,6 +314,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   private submit = (): void => {
+    this.validatePage();
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
@@ -354,6 +365,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       [this.strings.work_arrangment]: this.state.values.workArrangment.text,
       [this.strings.approved_staffing]: this.state.values.approvedStaffing.value,
     };
+
+
   
     
    
@@ -1283,42 +1296,88 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           />
         ),
       },
-      {
-        step: 4,
+      { step: 4,
         title: 'Review',
         content: (
           <>
-          <ReviewPage 
-            userInfo={this.props.userDisplayName} 
-            currentPage= {this.state.currentPage} 
+          <Details 
+            programArea={this.state.programArea} 
+            classificationCode={this.state.classificationCode} 
+            classificationLevel={this.state.classificationLevel} 
+            jobType={this.state.jobType} 
+            duration={this.state.duration}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
+            handleOnDateChange={this.handleOnDateChange}
+            handleDurationLength={this.handleDurationLength}
+            handleNumberofOpp={this. handleNumberofOpp}
+            values={this.state.values}
+            hasError={this.state.hasError}
+            inlineFieldErrors ={this.state.inlineFieldErrors}
+            fields={this.state.dropdownFields}
             prefLang={this.props.prefLang}
-            workEmail = {this.props.workEmail}
-            department={this.state.values.department}
-            jobTitleEn={this.state.values.jobTitleEn}
-            jobTitleFr={this.state.values.jobTitleFr}
-            jobDescriptionEn={this.state.values.jobDescriptionEn}
-            jobDescriptionFr={this.state.values.jobDescriptionFr}
-            jobType={this.state.values.jobType}
-            programArea={this.state.values.programArea}
-            classificationCode={this.state.values.classificationCode}
-            classificationLevel={this.state.values.classificationLevel}
-            numberOfOpportunities={this.state.values.numberOfOpportunities}
-            durationLength={this.state.values.durationLength}
-            duration={this.state.values.duration}
-            deadline={this.state.values.deadline}
-            skills={this.state.values.skills}
-            workSchedule={this.state.values.workSchedule}
-            province={this.state.values.province}
-            region={this.state.values.region}
-            city={this.state.values.city}
-            security={this.state.values.security}
-            languageRequirements={this.state.values.languageRequirements}
-            workArrangment={this.state.values.workArrangment}
-            approvedStaffing={this.state.values.approvedStaffing}
+            jobOppId = {this.props.jobOpportunityId}
+            jobTypeProps= {this.props.jobTypeDeploymentTerms}
+          />
+           <Requirements
+            language = {this.state.language}
+            security = {this.state.security}
+            workArrangment = {this.state.wrkArrangement}
+            city={this.state.city}
+            workSchedule = {this.state.wrkSchedule}
+            province = {this.state.province}
+            region = {this.state.region}
+            currentPage= {this.state.currentPage}
+            handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField} 
+            checkedField={this.checkedField}
+            values={this.state.values}
+            inlineFieldErrors={this.state.inlineFieldErrors}
+            prefLang={this.props.prefLang}
+            skills={this.state.skillsList}
+            hasTouchedSkillCombo={this.state.hasTouchedSkillCombo}
+
           />
           </>
-        ),
-      },
+        )
+      }
+      // {
+      //   step: 4,
+      //   title: 'Review',
+      //   content: (
+      //     <>
+      //     <ReviewPage 
+      //       userInfo={this.props.userDisplayName} 
+      //       currentPage= {this.state.currentPage} 
+      //       prefLang={this.props.prefLang}
+      //       workEmail = {this.props.workEmail}
+      //       department={this.state.values.department}
+      //       jobTitleEn={this.state.values.jobTitleEn}
+      //       jobTitleFr={this.state.values.jobTitleFr}
+      //       jobDescriptionEn={this.state.values.jobDescriptionEn}
+      //       jobDescriptionFr={this.state.values.jobDescriptionFr}
+      //       jobType={this.state.values.jobType}
+      //       programArea={this.state.values.programArea}
+      //       classificationCode={this.state.values.classificationCode}
+      //       classificationLevel={this.state.values.classificationLevel}
+      //       numberOfOpportunities={this.state.values.numberOfOpportunities}
+      //       durationLength={this.state.values.durationLength}
+      //       duration={this.state.values.duration}
+      //       deadline={this.state.values.deadline}
+      //       skills={this.state.values.skills}
+      //       workSchedule={this.state.values.workSchedule}
+      //       province={this.state.values.province}
+      //       region={this.state.values.region}
+      //       city={this.state.values.city}
+      //       security={this.state.values.security}
+      //       languageRequirements={this.state.values.languageRequirements}
+      //       workArrangment={this.state.values.workArrangment}
+      //       approvedStaffing={this.state.values.approvedStaffing}
+      //     />
+      //     </>
+      //   ),
+      // },
       
     ];
    
