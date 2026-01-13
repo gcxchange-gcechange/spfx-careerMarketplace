@@ -133,6 +133,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
  private next = async (): Promise<void> => {
    const nextPage = this.state.currentPage + 1;
    const isValid = await this.validatePage();
+   console.log("isValid", isValid)
   
    if(!isValid) {
     return;
@@ -196,7 +197,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
 
-    if (currentPage === 3) {   
+    if (currentPage === 3 || currentPage === 4) {   
  
       const { values } = this.state;
       const langReq =  values.languageRequirements[0];
@@ -311,10 +312,21 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
+  private submit = async () : Promise<void> => {
+     const isValid = await this.validatePage();
+
+    if (!isValid) {
+    return;  
+    }
+
+      this.postToAPI();
+
+  }
 
 
-  private submit = (): void => {
-    this.validatePage();
+
+  private postToAPI = async (): Promise<void> => {
+   
     const dateStr = this.state.values.deadline;  
     const momentDate = moment(dateStr, "YYYY-MM-DD");  
     const isoString = momentDate.toISOString(); 
@@ -365,11 +377,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       [this.strings.work_arrangment]: this.state.values.workArrangment.text,
       [this.strings.approved_staffing]: this.state.values.approvedStaffing.value,
     };
-
-
-  
-    
-   
   
       const requestHeaders: Headers = new Headers();
       requestHeaders.append("Content-type", "application/json");
@@ -409,41 +416,41 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       };
 
       console.log("BODY", postOptions.body)
-      try {
-        this.setState({isLoading: true, postDetails: postDetailsObject}, () => {
-        this.props.context.aadHttpClientFactory
-        .getClient(this.props.clientId)
-        .then((client: AadHttpClient): void => {
-          client
-          .post(this.props.jobOpportunityId ? this.props. editJobApiUrl : this.props.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
-          .then((response: HttpClientResponse) => {
-            console.log("RESPONSE", response)
-            if (response.status) {
-              this.setState({
-                validationStatus: response.status,
-                isLoading: false
-              })
-            }
-            response
-                  .json()
-                  .then((responseJSON: JSON) => {
-                    responseText = JSON.stringify(responseJSON);
-                    this.setState({
-                      jobOpportunityId: responseText
-                    })
-                  })
-                  .catch((response: any) => {
-                    const errMsg: string = `WARNING - error when calling URL. Error = ${response.message}`;
-                    console.log("err is ", errMsg);
-                  });
-          }) 
-        })
-        }) 
-      }
-      catch(error){
-        console.log("ERROR",error)
-      }    
 
+        try {
+          this.setState({isLoading: true, postDetails: postDetailsObject}, () => {
+          this.props.context.aadHttpClientFactory
+          .getClient(this.props.clientId)
+          .then((client: AadHttpClient): void => {
+            client
+            .post(this.props.jobOpportunityId ? this.props. editJobApiUrl : this.props.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
+            .then((response: HttpClientResponse) => {
+              console.log("RESPONSE", response)
+              if (response.status) {
+                this.setState({
+                  validationStatus: response.status,
+                  isLoading: false
+                })
+              }
+              response
+                    .json()
+                    .then((responseJSON: JSON) => {
+                      responseText = JSON.stringify(responseJSON);
+                      this.setState({
+                        jobOpportunityId: responseText
+                      })
+                    })
+                    .catch((response: any) => {
+                      const errMsg: string = `WARNING - error when calling URL. Error = ${response.message}`;
+                      console.log("err is ", errMsg);
+                    });
+            }) 
+          })
+          }) 
+        }
+        catch(error){
+          console.log("ERROR",error)
+        }    
   };
 
 
