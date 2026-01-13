@@ -792,7 +792,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
   
     if (currentPage === 1  ) {
-      const departments = await this._sp.web.lists.getByTitle('Department').items();
+      const departments = await this._sp.web.lists.getByTitle('Department').items.top(200)();
+      console.log(departments)
       if ( departments) {
         const dataArray = departments.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, pageNumber: 0 })) .sort((a, b) => (a.text > b.text ? 1 : a.text < b.text ? -1 : 0));
           this.setState({
