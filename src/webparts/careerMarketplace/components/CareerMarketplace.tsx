@@ -153,6 +153,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           currentPage: nextPage
          })
     }
+    console.log("values", this.state.values)
 
     const checkValues: {key: string, value: any}[] = [];
 
@@ -162,6 +163,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
+    console.log("currentFields", currentPgFields)
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
@@ -181,7 +183,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           || (currentPgFields.includes(key) && value.value === 0) 
           || (currentPgFields.includes(key) && value === undefined) 
           || (currentPgFields.includes(key) && value.Guid === '') 
-          || (currentPgFields.includes(key) && value.Guid === '0') 
+          || (currentPgFields.includes(key) && value.Guid === '0')
           || (currentPgFields.includes(key) && value.length === 1) 
           || (stringValues.includes(key) && value === "")
           || (stringValues.includes(key) && value.length < 5)
@@ -196,11 +198,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
+    console.log("CheckedValues", checkValues)
 
     if (currentPage === 3 || currentPage === 4) {   
  
       const { values } = this.state;
+      console.log("VAL", values)
       const langReq =  values.languageRequirements[0];
+      if(values.jobType.Guid === '0') {
+        checkValues.push({key:"jobType", value: ""})
+      }
 
       if (langReq.language.value === "" || langReq.language.key === ""){
         checkValues.push({key:"language", value:""})
@@ -313,13 +320,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   private submit = async () : Promise<void> => {
-     const isValid = await this.validatePage();
+    const isValid = await this.validatePage();
 
     if (!isValid) {
     return;  
     }
 
-      this.postToAPI();
+    this.postToAPI();
 
   }
 
