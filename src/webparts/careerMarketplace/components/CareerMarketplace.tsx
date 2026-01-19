@@ -142,78 +142,107 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    this.setState({
     currentPage:nextPage})
   
-};
+  };
+
+  private getFieldsForValidation = (currentPage: number): string[] => {
+    const { values } = this.state;
+
+    if (currentPage === 4) {
+      return Object.keys(values)
+    }
+
+    return Object.entries(values).filter(([field, fieldData]) => {
+      if ( Array.isArray(fieldData) && field !== "languageRequirements") {
+        return fieldData.some(item => item.pageNumber === currentPage);
+      }
+        return fieldData?.pageNumber === currentPage;
+      }).map(([field]) => field)
+  };
  
   private validatePage = async (): Promise<boolean> => {
     const { values, currentPage, isNonJobBtnDisabled } = this.state;
     const nextPage = this.state.currentPage + 1;
 
-     if (currentPage === 0 && isNonJobBtnDisabled === false) {
+    if (currentPage === 0 && isNonJobBtnDisabled === false) {
       this.setState({
-          currentPage: nextPage
-         })
+        currentPage: nextPage
+      })
     }
-    console.log("values", this.state.values)
 
     const checkValues: {key: string, value: any}[] = [];
 
-    const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
-      if ( Array.isArray(fieldData) && field !== "languageRequirements") {
-        return fieldData.some(item => item.pageNumber === currentPage);
-      }
-      return fieldData.pageNumber === currentPage;
-    }).map(([field]) => field)
-    console.log("currentFields", currentPgFields)
+    const fieldsToValidate = this.getFieldsForValidation(currentPage);
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
-
+      
       const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
+
+      if (key === 'languageRequirements' && fieldsToValidate.includes('languageRequirements')) { 
+        continue;
+      }
 
 
       if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
           continue;
       }
+ 
 
+      if (
+        (fieldsToValidate.includes(key) && value.value === "" ) ||
+        (fieldsToValidate.includes(key) && value.value === '0') || 
+        (fieldsToValidate.includes(key) && value.value === 0)   || 
+        (fieldsToValidate.includes(key) && value === undefined) || 
+        (fieldsToValidate.includes(key) && value.Guid === '')   || 
+        (fieldsToValidate.includes(key) && value.Guid === '0')  || 
+        (fieldsToValidate.includes(key) && value.length === 1)  || 
+        (stringValues.includes(key) && value === "")            || 
+        (stringValues.includes(key) && value.length < 5)        || 
+        value.text === `--${this.strings.select}--`             || 
+        value.text === 'No' 
 
-
-      if ((currentPgFields.includes(key) && value.value === "" )
-          || (currentPgFields.includes(key) && value.value === '0') 
-          || (currentPgFields.includes(key) && value.value === 0) 
-          || (currentPgFields.includes(key) && value === undefined) 
-          || (currentPgFields.includes(key) && value.Guid === '') 
-          || (currentPgFields.includes(key) && value.Guid === '0')
-          || (currentPgFields.includes(key) && value.length === 1) 
-          || (stringValues.includes(key) && value === "")
-          || (stringValues.includes(key) && value.length < 5)
-          || value.text === `--${this.strings.select}--` 
-          || value.text === 'No' 
-  
-
-        ){
+      )
+      {
         
         checkValues.push({key, value })
       }
 
     }
 
-    console.log("CheckedValues", checkValues)
+    const langReq =  values.languageRequirements[0];
+          
+    
+    if (currentPage === 3) {    
 
-    if (currentPage === 3 || currentPage === 4) {   
- 
-      const { values } = this.state;
-      console.log("VAL", values)
-      const langReq =  values.languageRequirements[0];
-      if(values.jobType.Guid === '0') {
-        checkValues.push({key:"jobType", value: ""})
-      }
-
-      if (langReq.language.value === "" || langReq.language.key === ""){
+      if (langReq.language.value === ""){
         checkValues.push({key:"language", value:""})
       }
-      else if (langReq.language.key === 3) {
+    
+      if (langReq.language.key === 3 ) {
         if (langReq.readingEN.text === "" || langReq.readingEN.key === "" ) {
+          checkValues.push({ key: "readingEN", value: "" });
+        }
+        if (langReq.readingFR.text === "" || langReq.readingFR.key === "") {
+          checkValues.push({ key: "readingFR", value: "" });
+        }
+        if (langReq.writtenEN.text === "" || langReq.writtenEN.key === "") {
+          checkValues.push({ key: "writtenEN", value: "" });
+        }
+        if (langReq.writtenFR.text === "" || langReq.writtenFR.key === "") {
+          checkValues.push({ key: "writtenFR", value: "" });
+        }
+        if (langReq.oralEN.text === "" || langReq.oralEN.key === "") {
+          checkValues.push({ key: "oralEN", value: "" });
+        }
+        if (langReq.oralFR.text === "" || langReq.oralFR.key === "") {
+          checkValues.push({ key: "oralFR", value: "" });
+        }
+      }
+    } else if (currentPage === 4) {
+
+      if (langReq.language.key === 3 ) {
+         if (langReq.readingEN.text === "" || langReq.readingEN.key === "" ) {
           checkValues.push({ key: "readingEN", value: "" });
         }
         if (langReq.readingFR.text === "" || langReq.readingFR.key === "") {
@@ -299,6 +328,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   arr.splice(insertIndex, 0, ...langReqItems);
 
   return arr;
+  
   }
   
 
