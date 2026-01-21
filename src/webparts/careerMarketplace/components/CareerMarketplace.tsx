@@ -114,7 +114,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           },
         ],
         workArrangment: {value: "" , pageNumber: 3}, 
-        approvedStaffing:{value:"", pageNumber: 3},
+        approvedStaffing:{value: false, pageNumber: 3},
 
       },
 
@@ -172,10 +172,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const checkValues: {key: string, value: any}[] = [];
 
     const fieldsToValidate = this.getFieldsForValidation(currentPage);
+    console.log("fieldsToValidate", fieldsToValidate)
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
+      console.log("key:", key, "value:", value)
       
       const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
 
@@ -187,28 +189,32 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
           continue;
       }
- 
 
-      if (
-        (fieldsToValidate.includes(key) && value.value === "" ) ||
-        (fieldsToValidate.includes(key) && value.value === '0') || 
-        (fieldsToValidate.includes(key) && value.value === 0)   || 
-        (fieldsToValidate.includes(key) && value === undefined) || 
-        (fieldsToValidate.includes(key) && value.Guid === '')   || 
-        (fieldsToValidate.includes(key) && value.Guid === '0')  || 
-        (fieldsToValidate.includes(key) && value.length === 1)  || 
-        (stringValues.includes(key) && value === "")            || 
-        (stringValues.includes(key) && value.length < 5)        || 
-        value.text === `--${this.strings.select}--`             || 
-        value.text === 'No' 
-
-      )
-      {
-        
-        checkValues.push({key, value })
+      if  (value.text === `--${this.strings.select}--` || value.text === "No") {
+      checkValues.push({key, value })
       }
 
-    }
+      if (key === "approvedStaffing" && fieldsToValidate.includes("approvedStaffing")) {
+        if (value.value === false) {
+          checkValues.push({key, value })     
+        }
+      }
+
+      if ( key === "skills" && fieldsToValidate.includes("skills"))  {
+        if (value.length === 0) {
+          checkValues.push({key, value })
+        }
+      }
+
+    if ( (fieldsToValidate.includes(key) && value.value === "" ) 
+      || (fieldsToValidate.includes(key) && value.value === '0') 
+      || (fieldsToValidate.includes(key) && value.value === 0) 
+      || (fieldsToValidate.includes(key) && value === undefined) 
+      || (fieldsToValidate.includes(key) && value.Guid === '') 
+      || (fieldsToValidate.includes(key) && value.Guid === '0') 
+      || (stringValues.includes(key) && value === "") 
+      || (stringValues.includes(key) && value.length < 5) 
+    ) { checkValues.push({key, value }) }}
 
     const langReq =  values.languageRequirements[0];
           
@@ -654,7 +660,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     else if( valueName === "skills") {
-      console.log("skills", value)
       const findSkillItem = [...this.state.values.skills];
       const skillExists = findSkillItem.some((item: any) => item.value === value.key);
       this.setState((prevState) => ({
@@ -693,24 +698,23 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public checkedField = (event:string, checked?: boolean):void => {
 
 
-    if(event === "nonJobSeeking") {
+    if (event === "nonJobSeeking") {
       this.setState({isNonJobBtnDisabled: !checked})
 
-    } else {
-
-      this.setState((prevState) => ({
+    } else if (event === 'approvedStaffing') {
+    this.setState((prevState) => ({
         values: {
           ...prevState.values,
           approvedStaffing:  { ...prevState.values.approvedStaffing, value: checked}
         }
       }))
+    
     }
 
   }
 
   public handleCopyBtn = (value: any):void  => {
    console.log("txt", value)
-
   }
 
   public async _populateEditableFields(): Promise<void> {
