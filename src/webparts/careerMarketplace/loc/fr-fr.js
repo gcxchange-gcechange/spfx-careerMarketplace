@@ -195,16 +195,19 @@ define([], function() {
       //loader
       'submitting_your_information': 'Un instant! Nous soumettons votre information, ce qui pourrait prendre jusqu’à cinq minutes. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps — merci de votre patience. ',
      
-  //placeholders
-    "":"",
-    "":"",
-    "":"",
-    "":"",
-    "":"",
-    "":"",
-    "":"",
-    "":"",
+      //placeholders
+      "":"",
+      "":"",
+      "":"",
+      "":"",
+      "":"",
+      "":"",
+      "":"",
+      "":"",
 
-
+      //shared
+      "careerOpportunitiesOnly_1": "Publiez seulement des occasions de carrière disponibles. ",
+      "careerOpportunitiesOnly_2": "Les publications de recherche d’emploi seront supprimées. ",
+      "careerOpportunitiesOnly_3": "GCXchange est autorisé à gérer uniquement des renseignements non classifiés, ce qui nous empêche de conserver des données personnelles pour des raisons de confidentialité.",
     }
   });

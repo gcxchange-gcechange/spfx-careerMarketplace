@@ -161,8 +161,9 @@ export default class Details extends React.Component<IDetailsProps> {
     
     return (
       <>
-        {this.props.currentPage === 1 && (
+        {this.props.currentPage === 2 && (
           <>
+            <p>{this.strings.careerOpportunitiesOnly_1}<strong>{this.strings.careerOpportunitiesOnly_2}</strong>{this.strings.careerOpportunitiesOnly_3}</p>
             <p>{this.strings.oppotunityDetails_para1}</p>
             <p>{this.strings.asteriks}</p>
           </>

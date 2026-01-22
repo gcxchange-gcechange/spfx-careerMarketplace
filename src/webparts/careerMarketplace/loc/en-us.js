@@ -205,11 +205,9 @@ define([], function() {
     "enter_jobDescEn":"Enter job description (English)",
     "enter_jobDescFr":"Enter job description (French)",
 
-   
-   
-
-
-
-
+    //shared
+    "careerOpportunitiesOnly_1": "Only post available career opportunities. ",
+    "careerOpportunitiesOnly_2": "Job-seeking posts will be removed. ",
+    "careerOpportunitiesOnly_3": "This is because GCXchange is approved to handle only unclassified information, which restricts us from storing user data due to privacy concerns.",
   }
 });

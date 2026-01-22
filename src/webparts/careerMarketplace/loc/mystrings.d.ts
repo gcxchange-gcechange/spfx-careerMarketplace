@@ -189,7 +189,10 @@ declare interface ICareerMarketplaceWebPartStrings {
   "enter_jobDescEn": string;
   "enter_jobDescFr": string;
 
-
+  //shared text
+  "careerOpportunitiesOnly_1": string;
+  "careerOpportunitiesOnly_2": string;
+  "careerOpportunitiesOnly_3": string;
 }
 
 declare module 'CareerMarketplaceWebPartStrings' {
