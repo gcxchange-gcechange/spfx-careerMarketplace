@@ -110,8 +110,11 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     return (
       <>
         <div>
-          {this.props.currentPage === 4 && (
+          {this.props.currentPage === 3 && (
             <>
+            <p>
+              {this.strings.careerOpportunitiesOnly_1}<strong>{this.strings.careerOpportunitiesOnly_2}</strong>{this.strings.careerOpportunitiesOnly_3}
+            </p>
             <p>
               {this.strings.opportunityRequirements_para1}
             </p>
