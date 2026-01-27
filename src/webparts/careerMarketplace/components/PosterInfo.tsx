@@ -77,7 +77,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
     return (
       <>
         
-          {this.props.currentPage === 0 && (
+          {this.props.currentPage === 1 && (
             <>
             <p>
               {this.strings.posterInformation_para1}

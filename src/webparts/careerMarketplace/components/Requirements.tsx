@@ -58,9 +58,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     console.log("isChecked:", isChecked, "event:", event.target.id)
     const eventName = event.target.id;
     
-    // if(isChecked === true) {
       this.props.checkedField( eventName, isChecked) 
-    // }
+    
   }
 
   public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
@@ -367,8 +366,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
               name={"approvedStaffing"} 
               label={this.strings.approved_staffing_checkbox} 
               onChange={ this.onChange } 
-              defaultChecked={this.props.values.approvedStaffing.value} 
-              
+              defaultChecked={this.props.values.approvedStaffing.value}    
               ariaLabelledBy={"approvedStaffing_label"}
             />
 

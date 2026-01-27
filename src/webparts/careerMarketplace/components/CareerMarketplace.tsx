@@ -95,7 +95,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         durationLength: {value: 0, pageNumber: 2},
         duration: {value: "" , pageNumber: 2},
         deadline: threeMonthsLater,
-        skills:[{pageNumber: 3}],
+        skills:[{pageNumber: 3, value:""}],
         workSchedule: {value: "" , pageNumber: 3},
         province: {value: "" , pageNumber: 3},
         region: {value: "" , pageNumber: 3},
@@ -160,6 +160,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   };
  
   private validatePage = async (): Promise<boolean> => {
+
     const { values, currentPage, isNonJobBtnDisabled } = this.state;
     const nextPage = this.state.currentPage + 1;
 
@@ -169,106 +170,109 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       })
     }
 
+    
     const checkValues: {key: string, value: any}[] = [];
-
+    
     const fieldsToValidate = this.getFieldsForValidation(currentPage);
     console.log("fieldsToValidate", fieldsToValidate)
-
+    
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
-
+  
     for (const [key,value] of Object.entries(values)) {
-      console.log("key:", key, "value:", value)
-      
-      const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
+        console.log("key:", key),
+        console.log("value:", value)
+        
+        const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
 
-      if (key === 'languageRequirements' && fieldsToValidate.includes('languageRequirements')) { 
-        continue;
-      }
-
-
-      if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
+        if (key === 'languageRequirements' && fieldsToValidate.includes('languageRequirements')) { 
           continue;
-      }
-
-      if  (value.text === `--${this.strings.select}--` || value.text === "No") {
-      checkValues.push({key, value })
-      }
-
-      if (key === "approvedStaffing" && fieldsToValidate.includes("approvedStaffing")) {
-        if (value.value === false) {
-          checkValues.push({key, value })     
         }
-      }
 
-      if ( key === "skills" && fieldsToValidate.includes("skills"))  {
-        if (value.length === 0) {
+        if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
+          continue;
+        }
+
+        if  (value.text === `--${this.strings.select}--` || value.text === "No") {
           checkValues.push({key, value })
         }
-      }
 
-    if ( (fieldsToValidate.includes(key) && value.value === "" ) 
-      || (fieldsToValidate.includes(key) && value.value === '0') 
-      || (fieldsToValidate.includes(key) && value.value === 0) 
-      || (fieldsToValidate.includes(key) && value === undefined) 
-      || (fieldsToValidate.includes(key) && value.Guid === '') 
-      || (fieldsToValidate.includes(key) && value.Guid === '0') 
-      || (stringValues.includes(key) && value === "") 
-      || (stringValues.includes(key) && value.length < 5) 
-    ) { checkValues.push({key, value }) }}
+        if (key === "approvedStaffing" && fieldsToValidate.includes("approvedStaffing")) {
+          if (value.value === false) {
+            checkValues.push({key, value })     
+          }
+        }
 
-    const langReq =  values.languageRequirements[0];
-          
-    
-    if (currentPage === 3) {    
-
-      if (langReq.language.value === ""){
-        checkValues.push({key:"language", value:""})
-      }
-    
-      if (langReq.language.key === 3 ) {
-        if (langReq.readingEN.text === "" || langReq.readingEN.key === "" ) {
-          checkValues.push({ key: "readingEN", value: "" });
-        }
-        if (langReq.readingFR.text === "" || langReq.readingFR.key === "") {
-          checkValues.push({ key: "readingFR", value: "" });
-        }
-        if (langReq.writtenEN.text === "" || langReq.writtenEN.key === "") {
-          checkValues.push({ key: "writtenEN", value: "" });
-        }
-        if (langReq.writtenFR.text === "" || langReq.writtenFR.key === "") {
-          checkValues.push({ key: "writtenFR", value: "" });
-        }
-        if (langReq.oralEN.text === "" || langReq.oralEN.key === "") {
-          checkValues.push({ key: "oralEN", value: "" });
-        }
-        if (langReq.oralFR.text === "" || langReq.oralFR.key === "") {
-          checkValues.push({ key: "oralFR", value: "" });
-        }
-      }
-    } else if (currentPage === 4) {
-
-      if (langReq.language.key === 3 ) {
-         if (langReq.readingEN.text === "" || langReq.readingEN.key === "" ) {
-          checkValues.push({ key: "readingEN", value: "" });
-        }
-        if (langReq.readingFR.text === "" || langReq.readingFR.key === "") {
-          checkValues.push({ key: "readingFR", value: "" });
-        }
-        if (langReq.writtenEN.text === "" || langReq.writtenEN.key === "") {
-          checkValues.push({ key: "writtenEN", value: "" });
-        }
-        if (langReq.writtenFR.text === "" || langReq.writtenFR.key === "") {
-          checkValues.push({ key: "writtenFR", value: "" });
-        }
-        if (langReq.oralEN.text === "" || langReq.oralEN.key === "") {
-          checkValues.push({ key: "oralEN", value: "" });
-        }
-        if (langReq.oralFR.text === "" || langReq.oralFR.key === "") {
-          checkValues.push({ key: "oralFR", value: "" });
-        }
-      }
+        if ( (fieldsToValidate.includes(key) && value.value === "" ) 
+          || (fieldsToValidate.includes(key) && value.value === '0') 
+          || (fieldsToValidate.includes(key) && value.value === 0) 
+          || (fieldsToValidate.includes(key) && value === undefined) 
+          || (fieldsToValidate.includes(key) && value.Guid === '') 
+          || (fieldsToValidate.includes(key) && value.Guid === '0') 
+          || (fieldsToValidate.includes(key) && value.length === 1 )
+          || (stringValues.includes(key) && value === "") 
+          || (stringValues.includes(key) && value.length < 5) 
+          ) { 
+            checkValues.push({key, value }) 
+          }
     }
-    
+
+      if (this.props.jobOpportunityId && this.state.values.skills.length === 0) {
+        console.log("is it working",  this.state.values.skills)
+        checkValues.push({key: 'skills', value: []})
+      }
+
+      const langReq =  values.languageRequirements[0];
+        
+      if (currentPage === 3) {    
+
+        if (langReq.language.value === ""){
+          checkValues.push({key:"language", value:""})
+        }
+      
+        if (langReq.language.key === 3 ) {
+          if (langReq.readingEN.text === "" || langReq.readingEN.key === "" ) {
+            checkValues.push({ key: "readingEN", value: "" });
+          }
+          if (langReq.readingFR.text === "" || langReq.readingFR.key === "") {
+            checkValues.push({ key: "readingFR", value: "" });
+          }
+          if (langReq.writtenEN.text === "" || langReq.writtenEN.key === "") {
+            checkValues.push({ key: "writtenEN", value: "" });
+          }
+          if (langReq.writtenFR.text === "" || langReq.writtenFR.key === "") {
+            checkValues.push({ key: "writtenFR", value: "" });
+          }
+          if (langReq.oralEN.text === "" || langReq.oralEN.key === "") {
+            checkValues.push({ key: "oralEN", value: "" });
+          }
+          if (langReq.oralFR.text === "" || langReq.oralFR.key === "") {
+            checkValues.push({ key: "oralFR", value: "" });
+          }
+        }
+      } else if (currentPage === 4) {
+
+        if (langReq.language.key === 3 ) {
+          if (langReq.readingEN.text === "" || langReq.readingEN.key === "" ) {
+            checkValues.push({ key: "readingEN", value: "" });
+          }
+          if (langReq.readingFR.text === "" || langReq.readingFR.key === "") {
+            checkValues.push({ key: "readingFR", value: "" });
+          }
+          if (langReq.writtenEN.text === "" || langReq.writtenEN.key === "") {
+            checkValues.push({ key: "writtenEN", value: "" });
+          }
+          if (langReq.writtenFR.text === "" || langReq.writtenFR.key === "") {
+            checkValues.push({ key: "writtenFR", value: "" });
+          }
+          if (langReq.oralEN.text === "" || langReq.oralEN.key === "") {
+            checkValues.push({ key: "oralEN", value: "" });
+          }
+          if (langReq.oralFR.text === "" || langReq.oralFR.key === "") {
+            checkValues.push({ key: "oralFR", value: "" });
+          }
+        }
+      }
+      
     const newArray = toTitleCase(checkValues)
     const reorderArray = this.reorderLanguage(checkValues)
     this.navigationDirection = 'next';
@@ -531,9 +535,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }))
   }
 
-  public handleDropDownItem = (valueName: any, value: any):void => {
 
-  
+  public handleDropDownItem = (valueName: any, value: any):void => {
+    console.log("valueName", valueName);
+    console.log("val", value);
+
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
       if (valueName === "language") {
@@ -671,7 +677,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             : [...prevState.values.skills, {value: value.key, text:value.text}],  
         },
       }));
-    }    
+    }
     else {
       this.setState((prevState) => ({
         values: {
@@ -742,7 +748,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-    //console.log("item", item)
+    console.log("item", item)
  
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
@@ -779,7 +785,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
     }
 
-    const skills = item.Skills.map((item:any) => ({ value: item.ID}));
+    const skills = item.Skills.map((item:any) => ({value: item.ID }));
+    console.log("SKILLS", skills)
 
     const timeZone = require('moment-timezone');
 
@@ -807,17 +814,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},
         classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
-        numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 1},
-        duration:{...prevState.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
-        durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
+        numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 2},
+        duration:{...prevState.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration), pageNumber: 2},
+        durationLength: {...prevState.values.durationLength, value:item.DurationQuantity, pageNumber: 2},
         deadline: new Date(formattedDate),
         skills: skills,
-        province: {key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
-        region: {key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
-        city:{ key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},
-        workSchedule: { key: item.WorkSchedule.ID},
-        workArrangment: {key: item.WorkArrangement.ID},
-        security:{key: item.SecurityClearance.ID},
+        province: {key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData), pageNumber: 3},
+        region: {key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId, pageNumber: 3},
+        city:{ key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId, pageNumber: 3},
+        workSchedule: { key: item.WorkSchedule.ID, pageNumber: 3},
+        workArrangment: {key: item.WorkArrangement.ID, pageNumber: 3},
+        security:{key: item.SecurityClearance.ID, pageNumber: 3},
 
         languageRequirements: [
           {
