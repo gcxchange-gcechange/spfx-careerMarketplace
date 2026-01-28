@@ -634,25 +634,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public checkedField = (event:string, checked: boolean):void => {
 
-    console.log("event",event)
-    console.log("checked", checked)
-
-
       this.setState({ isNonJobSeeker: checked})
 
   }
   
   public approvedStaffingChecked = (event:string, checked: boolean):void => {
 
-    console.log("event",event)
-    console.log("checked", checked)
-
       this.setState({ approvedStaffing: checked})
   }
 
   public handleCopyBtn = (value: any):void  => {
    console.log("txt", value)
-
   }
 
   public async _populateEditableFields(): Promise<void> {
@@ -772,7 +764,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             oralFR: getIndex.length !== 0 ? getIndex[0][6] : { ...prevState.values.languageRequirements[0].oralFR },
           },
         ],
-        // approvedStaffing: {...prevState.values.approvedStaffing, value: true}
         
        
       }
@@ -1056,9 +1047,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
 
-    if(this.state.isNonJobSeeker !== prevState.isNonJobSeeker ) {
-      console.log("I changed")
-    }
 
     if (this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
       // Focus the dialog when errors exist
@@ -1322,11 +1310,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
-    console.log("nonJobSeeker", this.state.isNonJobSeeker);
-    console.log("aprrovedStaffing", this.state.approvedStaffing)
 
     const isButtonDisabled = !(this.state.approvedStaffing && this.state.isNonJobSeeker);
-    console.log("isBtnDisabled",isButtonDisabled)
     
 
     return (
