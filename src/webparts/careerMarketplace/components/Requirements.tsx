@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { Checkbox, ComboBox, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
+import { ComboBox, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import styles from './CareerMarketplace.module.scss';
@@ -23,7 +23,7 @@ export interface IRequirementsProps {
   checkedField:(event:any, isChecked?: boolean) => void;
   values: {
     skills: any;
-    approvedStaffing: any;
+    // approvedStaffing: any;
     security: any;
     city: any;
     province: any;
@@ -54,13 +54,13 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
   };
 
-  public onChange = ( event: React.ChangeEvent<HTMLInputElement>, isChecked:boolean ): void => {
-    const eventName = event.target.id;
+  // public onChange = ( event: React.ChangeEvent<HTMLInputElement>, isChecked:boolean ): void => {
+  //   const eventName = event.target.id;
     
-    if(isChecked === true) {
-      this.props.checkedField( eventName, isChecked) 
-    }
-  }
+  //   if(isChecked === true) {
+  //     this.props.checkedField( eventName, isChecked) 
+  //   }
+  // }
 
   public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
 
@@ -349,37 +349,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             placeholder={this.strings.selectOption}
           />
 
-          <div style={{marginTop: '10px'}}>
-            <Stack  horizontal verticalAlign="center" >
-              <StackItem >
-                <Label htmlFor={'approvedStaffing'} id={'approvedStaffing_label'}>
-                  <p className={styles.mrg0}>
-                    <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">*</span>
-                    <span className={styles.visuallyHidden}>{this.strings.required}</span>
-                    {this.strings.approved_staffing}
-                  </p>
-                  <p className={styles.instruction}>{this.strings.approved_staffing_description}</p>                
-                </Label>
-              </StackItem>
-            </Stack>
-
-
-            <Checkbox 
-              id='1' 
-              name={"approvedStaffing"} 
-              label={this.strings.approved_staffing_checkbox} 
-              onChange={ this.onChange } 
-              defaultChecked={this.props.values.approvedStaffing.value} 
-              disabled={this.props.currentPage === 4}
-              ariaLabelledBy={"approvedStaffing_label"}
-            />
-
-            { this.props.inlineFieldErrors?.includes('approvedStaffing') && (
-                validate(this.props.values.approvedStaffing.key,  this.props.prefLang, 'approvedStaffing')
-              )
-            }
-          </div>
-
+      
         </form>
       </>
     );

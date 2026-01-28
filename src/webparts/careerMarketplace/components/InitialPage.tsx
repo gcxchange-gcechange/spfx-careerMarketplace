@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import { SelectLanguage } from './SelectLanguage';
-import { Checkbox} from '@fluentui/react';
+import { Checkbox, ICheckboxProps, IRenderFunction, Label, Stack, StackItem} from '@fluentui/react';
+import styles from './CareerMarketplace.module.scss';
 
 
 export interface IInitialPageProps {
 currentPage: number;
 prefLang:string;
 checkedField:(event:any, isChecked?: boolean) => void;
+checkedApprovedStaffing:(event: any, isChecked: boolean) => void;
+approvedStaffing: boolean;
+nonJobSeeker: boolean;
 }
 
 export default class InitialPage extends React.Component<IInitialPageProps> {
@@ -20,8 +24,22 @@ export default class InitialPage extends React.Component<IInitialPageProps> {
     }
 
 
+    public _onCheckedApprovedStaffing = (event: any, isChecked: boolean): void => {
+      const eventName = event.target.id;
+      this.props.checkedApprovedStaffing(eventName, isChecked);
+    }
+
 
   public render(): React.ReactElement<IInitialPageProps>{
+
+    const _renderLabel = ():IRenderFunction<ICheckboxProps> => {
+      return (props?: ICheckboxProps) => (
+          <p>
+           <strong>{this.strings.approved_staffing_checkbox}</strong> {this.strings.approved_staffing_label_description}
+          </p>
+      );
+    }
+
 
 
     return (
@@ -36,7 +54,33 @@ export default class InitialPage extends React.Component<IInitialPageProps> {
             label={this.strings.InitalPage_checkbox_txt} 
             onChange={this._onChange} 
             ariaLabelledBy={"nonJobSeeking"}
+            defaultChecked={this.props.nonJobSeeker}
         />
+
+        <div style={{marginTop: '10px'}}>
+            <Stack  horizontal verticalAlign="center" >
+              <StackItem >
+                <Label htmlFor={'approvedStaffing'} id={'approvedStaffing_label'}>
+                  <p>
+                    <strong>{this.strings.approved_staffing}</strong>
+                  </p>
+                  <p className={styles.instruction}>{this.strings.approved_staffing_description}</p>                
+                </Label>
+              </StackItem>
+            </Stack>
+
+
+            <Checkbox 
+              id={"approvedStafffing"} 
+              name={"approvedStaffing"} 
+              onRenderLabel={_renderLabel()} 
+              onChange={this._onCheckedApprovedStaffing} 
+              ariaLabelledBy={"approvedStaffing_label"}
+              defaultChecked={this.props.approvedStaffing}
+        
+            />
+
+          </div>
 
 
          
