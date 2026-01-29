@@ -29,7 +29,7 @@ export interface IReviewPageProps {
     security: any;
     languageRequirements: any[];
     workArrangment: any;
-    approvedStaffing: any;
+    // approvedStaffing: any;
 }
 
 export default class ReviewPage extends React.Component<IReviewPageProps> {
@@ -38,7 +38,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
     public render(): React.ReactElement<IReviewPageProps> {
         console.log(this.props)
         
-        const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
+        // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
         const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
 
 
@@ -317,7 +317,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     ariaLabelRequired={'required'}
                     multiline={true}
                 />
-                <ReusableTextField
+                {/* <ReusableTextField
                     id={"approveStaffing"}
                     name={"approvedStaffing"}
                     title={this.strings.approved_staffing}
@@ -325,7 +325,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     disabled={true}
                     ariaLabelRequired={'required'}
                     multiline={true}
-                />
+                /> */}
 
                 
             </>

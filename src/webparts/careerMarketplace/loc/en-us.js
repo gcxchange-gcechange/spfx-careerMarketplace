@@ -11,6 +11,10 @@ define([], function() {
     "InitialPage_para2":"Confirm this is a job opportunity and not a job-seeking post. Posts that don’t follow this rule will be removed.",   
     "InitalPage_checkbox_txt":"I confirm this is a job opportunity and not a job-seeking post.",   
     "InitialPage_next_btn":"Continue to create post",
+    "approved_staffing":"Approved staffing",
+    "approved_staffing_description":"You are responsible for ensuring that your opportunity aligns with the staffing mandates provided by your human resources department.",
+    "approved_staffing_checkbox":"Yes,",
+    "approved_staffing_label_description":"this opportunity aligns with the staffing mandates provided by my human resources department.",
 
 
     //Page1 - Poster Information
@@ -68,9 +72,7 @@ define([], function() {
     "oralFRField": "French oral expression",
     "work_arrangment":"Work arrangement",
     "work_arrangment_description": "Using the drop-down menu, select the type of work arrangement that corresponds with your opportunity.",
-    "approved_staffing":"Approved staffing",
-    "approved_staffing_description":"Using the check box, please confirm if this opportunity aligns with the staffing mandates provided by your human resources department.",
-    "approved_staffing_checkbox":"Yes",
+   
 
 
     //Page 4 - Review and Submit
