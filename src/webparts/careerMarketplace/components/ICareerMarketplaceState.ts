@@ -27,7 +27,8 @@ export interface ICareerMarketplaceState {
     isLoading: boolean;
     hasTouchedSkillCombo: boolean, 
     postDetails: any;
-    isNonJobBtnDisabled: boolean;
+    isNonJobSeeker: boolean;
+    approvedStaffing: boolean;
       
     values: {
       jobTitleEn: string;
@@ -38,7 +39,6 @@ export interface ICareerMarketplaceState {
       deadline: Date | undefined;
       department: any, 
       skills: any[],
-      approvedStaffing: any;
       jobType: any,
       programArea: any,
       classificationCode: any,

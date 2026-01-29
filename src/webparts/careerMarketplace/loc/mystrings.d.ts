@@ -10,6 +10,10 @@ declare interface ICareerMarketplaceWebPartStrings {
   "InitialPage_para2":string;
   "InitalPage_checkbox_txt":string;  
   "InitialPage_next_btn":string;
+  "approved_staffing": string;
+  "approved_staffing_description":string,
+  "approved_staffing_checkbox": string,
+  "approved_staffing_label_description":string;
   
   //Page1 - Poster Information
   "posterInformation_title": string;
@@ -65,9 +69,7 @@ declare interface ICareerMarketplaceWebPartStrings {
   "oralFRField": string;
   "work_arrangment": string;
   "work_arrangment_description": string;
-  "approved_staffing": string;
-  "approved_staffing_description":string,
-  "approved_staffing_checkbox": string,
+  
 
 
 

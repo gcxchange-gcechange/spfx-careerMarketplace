@@ -7,7 +7,7 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import {   Link, Spinner, SpinnerSize, Stack,   ThemeProvider, createTheme } from '@fluentui/react';
+import {   Link, Spinner, SpinnerSize, Stack,   ThemeProvider,  createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
@@ -79,7 +79,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       isLoading: false,
       hasTouchedSkillCombo: false,
       postDetails: "",
-      isNonJobBtnDisabled: true,
+      isNonJobSeeker: false,
+      approvedStaffing: false,
 
 
       values: {
@@ -115,9 +116,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             oralFR: {value: ""},
           },
         ],
-        workArrangment: {value: "" , pageNumber: 3}, 
-        approvedStaffing:{value:"", pageNumber: 3},
-
+        workArrangment: {value: "" , pageNumber: 3}
       },
 
     };
@@ -134,10 +133,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
  
   private next = async (): Promise<void > => {
-    const { values, currentPage, isNonJobBtnDisabled } = this.state;
+    const { values, currentPage, isNonJobSeeker, approvedStaffing } = this.state;
     const nextPage = this.state.currentPage + 1;
 
-     if (currentPage === 0 && isNonJobBtnDisabled === false) {
+
+     if (currentPage === 0 && (approvedStaffing && isNonJobSeeker)) {
       this.setState({
           currentPage: nextPage
          })
@@ -352,7 +352,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         [this.strings.language_requirements]: langCompText
       }),
       [this.strings.work_arrangment]: this.state.values.workArrangment.text,
-      [this.strings.approved_staffing]: this.state.values.approvedStaffing.value,
     };
   
     
@@ -387,7 +386,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "LanguageRequirementId": "${this.state.values.languageRequirements[0].language.key}",
               "LanguageComprehension":"${this.state.values.languageRequirements[0].language.key === 3 ? langCompText : ""}",
               "WorkArrangementId": "${this.state.values.workArrangment.key}",
-              "ApprovedStaffing": ${this.state.values.approvedStaffing.value},
+              "ApprovedStaffing": ${this.state.approvedStaffing},
               "SkillIds": ${JSON.stringify(skills)},
               "CityId": "${this.state.values.city.key}",
               "DurationQuantity":"${this.state.values.durationLength.value}",
@@ -633,27 +632,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
   }
 
-  public checkedField = (event:string, checked?: boolean):void => {
+  public checkedField = (event:string, checked: boolean):void => {
 
+      this.setState({ isNonJobSeeker: checked})
 
-    if(event === "nonJobSeeking") {
-      this.setState({isNonJobBtnDisabled: !checked})
+  }
+  
+  public approvedStaffingChecked = (event:string, checked: boolean):void => {
 
-    } else {
-
-      this.setState((prevState) => ({
-        values: {
-          ...prevState.values,
-          approvedStaffing:  { ...prevState.values.approvedStaffing, value: checked}
-        }
-      }))
-    }
-
+      this.setState({ approvedStaffing: checked})
   }
 
   public handleCopyBtn = (value: any):void  => {
    console.log("txt", value)
-
   }
 
   public async _populateEditableFields(): Promise<void> {
@@ -773,7 +764,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             oralFR: getIndex.length !== 0 ? getIndex[0][6] : { ...prevState.values.languageRequirements[0].oralFR },
           },
         ],
-        approvedStaffing: {...prevState.values.approvedStaffing, value: true}
         
        
       }
@@ -1057,9 +1047,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public async componentDidUpdate(prevProps: ICareerMarketplaceProps , prevState: ICareerMarketplaceState): Promise<void> {
 
-    if(this.state.isNonJobBtnDisabled !== prevState.isNonJobBtnDisabled ) {
-      console.log("I changed")
-    }
 
     if (this.state.hasError.length !== 0 && prevState.hasError.length === 0) {
       // Focus the dialog when errors exist
@@ -1096,7 +1083,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (this.state.values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
+    if (this.state.values.jobType?.Guid === this.props.jobTypeDeploymentTerms[0].id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -1314,7 +1301,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             security={this.state.values.security}
             languageRequirements={this.state.values.languageRequirements}
             workArrangment={this.state.values.workArrangment}
-            approvedStaffing={this.state.values.approvedStaffing}
+           // approvedStaffing={this.state.values.approvedStaffing}
           />
           </>
         ),
@@ -1323,6 +1310,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     ];
    
     const items = steps.map((item) => ({ key: item.step, title: "" }));
+
+    const isButtonDisabled = !(this.state.approvedStaffing && this.state.isNonJobSeeker);
+    
 
     return (
 
@@ -1373,9 +1363,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                          {/*Always render Initial page first */}
                           {currentPage === 0 && (
                             <>
-                              <InitialPage prefLang={ this.props.prefLang } currentPage={currentPage} checkedField={this.checkedField}/>
+                              <InitialPage prefLang={ this.props.prefLang } currentPage={currentPage} checkedField={this.checkedField} checkedApprovedStaffing={this.approvedStaffingChecked} approvedStaffing={this.state.approvedStaffing} nonJobSeeker={this.state.isNonJobSeeker}/>
                               <Stack horizontalAlign='end'>
-                                <CustomButton id="next" name={ this.strings.InitialPage_next_btn } buttonType="primary" onClick={() => this.next()} disabled={this.state.isNonJobBtnDisabled} />
+                                <CustomButton id="next" name={ this.strings.InitialPage_next_btn } buttonType="primary" onClick={() => this.next()} disabled={isButtonDisabled} />
                               </Stack>
                             </>
                           )}
@@ -1439,9 +1429,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
                                 {/* Navigation buttons */}
                                 <div style={{ marginTop: '20px' }}>
-                                  <Stack horizontal horizontalAlign={currentPage !== 0 ? 'space-between' : 'end'}>
+                                  <Stack horizontal horizontalAlign={currentPage > 1 ? 'space-between' : 'end'}>
                                     
-                                    {currentPage >= 1 && (
+                                    {currentPage >= 2 && (
                                       <CustomButton id="prev" name={this.strings.prev_btn} buttonType="secondary" onClick={() => this.prev()} />
                                     )}
                                     {currentPage === 4 ? (

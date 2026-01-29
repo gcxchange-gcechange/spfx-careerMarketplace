@@ -11,6 +11,10 @@ define([], function() {
       "InitialPage_para2":"Veuillez confirmer qu'il s'agit bien d'une opportunité d'emploi et non d'une poste de recherche d'emploi. Les publications qui ne respectent pas cette règle seront supprimées.",   
       "InitalPage_checkbox_txt":"Je confirme qu'il s'agit bien d'une offre d'emploi et non d'une poste de recherche d'emploi",
       "InitialPage_next_btn":"Continuer à créer une opportunité",
+      "approved_staffing":"Effectifs approuvés",
+      "approved_staffing_description":"Vous êtes responsable de vous assurer que votre opportunité est conforme aux mandats d’effectifs fournis par votre service des ressources humaines.",
+      "approved_staffing_checkbox":"Oui",
+      "approved_staffing_label_description":"cette opportunité est conforme aux mandats d’effectifs fournis par mon service des ressources humaines.",
 
 
       //Page1 - Poster Information
@@ -67,9 +71,7 @@ define([], function() {
       "oralFRField": "Compétence orale francais",
       "work_arrangment":"Régimes de travail",
       "work_arrangment_description": "À l’aide du menu déroulant, sélectionnez le type de régime de travail qui correspond à votre occasion.",
-      "approved_staffing":"Effectifs approuvés",
-      "approved_staffing_description":"En cochant les cases correspondantes, veuillez confirmer si cette occasion est conforme aux mandats d’effectifs fournis par votre service des ressources humaines.",
-      "approved_staffing_checkbox":"Oui",
+    
      
       //Page 4 - Review and Submit
       "reviewSubmit_title": "Revoir et soumettre",
