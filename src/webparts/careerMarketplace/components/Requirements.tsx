@@ -84,7 +84,14 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             maxHeight: 'calc(100vh - 500px) !important'
         }
       }, 
-      input:{color: "black"}
+      input:{color: 'rgb(0,0,0)!important',
+         selectors: {
+          '::placeholder': {
+            color: 'rgb(56, 54, 54)!important',      // Placeholder color
+          }
+        }
+    }
+
     };
 
     
