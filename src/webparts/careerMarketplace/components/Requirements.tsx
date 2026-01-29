@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { ComboBox, getPlaceholderStyles, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
+import { ComboBox,IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import styles from './CareerMarketplace.module.scss';
@@ -53,14 +53,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
       this.props.handleDropDownItem(eventName, item);
     }
   };
-
-  // public onChange = ( event: React.ChangeEvent<HTMLInputElement>, isChecked:boolean ): void => {
-  //   const eventName = event.target.id;
-    
-  //   if(isChecked === true) {
-  //     this.props.checkedField( eventName, isChecked) 
-  //   }
-  // }
 
   public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
 
