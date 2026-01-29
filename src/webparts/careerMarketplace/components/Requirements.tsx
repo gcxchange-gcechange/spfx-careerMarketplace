@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { ComboBox, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
+import { ComboBox,IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import styles from './CareerMarketplace.module.scss';
@@ -54,14 +54,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     }
   };
 
-  // public onChange = ( event: React.ChangeEvent<HTMLInputElement>, isChecked:boolean ): void => {
-  //   const eventName = event.target.id;
-    
-  //   if(isChecked === true) {
-  //     this.props.checkedField( eventName, isChecked) 
-  //   }
-  // }
-
   public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
 
     const selectedValue = item ? item.key : "skills-input";
@@ -83,7 +75,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         '@media only screen and (min-width: 480px)': {
             maxHeight: 'calc(100vh - 500px) !important'
         }
+      }, 
+      input:{color: 'rgb(0,0,0)!important',
       }
+
     };
 
     
@@ -181,6 +176,20 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
             errorMessage={this.props.values.workSchedule.key === "0"  ? getLocalizedString("workSchedule", this.props.prefLang) : undefined}
+            placeholder={this.strings.selectOption}
+          />
+
+          <ReusableDropdownField
+            id={"workArrangment"}
+            name={"workArrangment"}
+            title={this.strings.work_arrangment}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workArrangment]}
+            onChange={this.onChangeDropDownItem}
+            disabled={this.props.currentPage === 4}
+            selectedKey={this.props.values.workArrangment.key}
+            ariaLabelRequired={this.strings.required}
+            instruction={this.strings.work_arrangment_description}
+            errorMessage={this.props.values.workArrangment.key === "" ? getLocalizedString("workArrangment", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
 
@@ -335,19 +344,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
           />
          
-          <ReusableDropdownField
-            id={"workArrangment"}
-            name={"workArrangment"}
-            title={this.strings.work_arrangment}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workArrangment]}
-            onChange={this.onChangeDropDownItem}
-            disabled={this.props.currentPage === 4}
-            selectedKey={this.props.values.workArrangment.key}
-            ariaLabelRequired={this.strings.required}
-            instruction={this.strings.work_arrangment_description}
-            errorMessage={this.props.values.workArrangment.key === "" ? getLocalizedString("workArrangment", this.props.prefLang) : undefined}
-            placeholder={this.strings.selectOption}
-          />
+       
 
       
         </form>

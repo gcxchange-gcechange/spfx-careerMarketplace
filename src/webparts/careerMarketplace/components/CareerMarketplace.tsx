@@ -100,6 +100,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         deadline: threeMonthsLater,
         skills:[{pageNumber: 3}],
         workSchedule: {value: "" , pageNumber: 3},
+        workArrangment: {value: "" , pageNumber: 3}, 
         province: {value: "" , pageNumber: 3},
         region: {value: "" , pageNumber: 3},
         city: {value: "" , pageNumber: 3},
@@ -116,7 +117,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             oralFR: {value: ""},
           },
         ],
-        workArrangment: {value: "" , pageNumber: 3}
       },
 
     };
@@ -219,7 +219,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
     
     const newArray = toTitleCase(checkValues)
-    const reorderArray = this.reorderLanguage(checkValues)
+    //const reorderArray = this.reorderLanguage(checkValues)
     this.navigationDirection = 'next';
 
    
@@ -227,7 +227,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if (checkValues.length !== 0 ) {
         await this.setState({
-          hasError: reorderArray,
+          hasError: checkValues,
           fieldErrorTitles: newArray
         })
       } else {
@@ -244,46 +244,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
   }
-
-  public reorderLanguage(arr: { key: string; value: string; }[]): { key: string; value: string; }[] {
-
-  const languageReq = ['readingEN', 'writtenEN', 'oralEN', 'readingFR', 'writtenFR', 'oralFR'];
-  const langIndex = arr.findIndex((item) => item.key === "language");
-  const securityIndex = arr.findIndex((item) => item.key === "security");
-  const workArrIndex = arr.findIndex((item) => item.key === "workArrangment");
-
-  if (langIndex === -1) return arr; 
-
-  // Only move "language" if at least one of "security" or "work arrangment" exists
-  if (securityIndex === -1 && workArrIndex === -1) return arr;
-
-  // Remove "language" from its current position
-  const [languageItem] = arr.splice(langIndex, 1);
-
-  // Determine the new position (after "security", before "work arrangment")
-  let newIndex = securityIndex !== -1 ? securityIndex + 1 : langIndex;
-  if (workArrIndex !== -1) newIndex = Math.min(newIndex, workArrIndex);
-
-  // Insert "language" at the correct position
-  arr.splice(newIndex, 0, languageItem);
-
-  //Filter the lang req to see if they exist
-  const langReqItems = arr.filter((item:any) => item.languageReq?.includes(item.key));
-    if(langReqItems.length === 0 ) return arr;
-
-  arr = arr.filter(item => !languageReq.includes(item.key));
-
-  // Determine the new index (before workArrangment or security, whichever comes first)
-  const indices = [securityIndex, workArrIndex].filter(i => i !== -1);
-  const insertIndex = indices.length ? Math.min(...indices) : arr.length;
-
-  // Insert them at the new position
-  arr.splice(insertIndex, 0, ...langReqItems);
-
-  return arr;
-  }
-  
-
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;

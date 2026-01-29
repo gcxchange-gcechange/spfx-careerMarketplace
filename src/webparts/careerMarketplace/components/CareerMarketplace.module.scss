@@ -241,6 +241,10 @@ input[type="text"][disabled] {
     border: 3px solid #03787c;   
   }
 
+  .ms-ComboBox-Input::placeholder {
+  color: #605e5c!important;
+}
+
 }
 
  
