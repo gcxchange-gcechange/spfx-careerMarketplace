@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableDropdownField from "./ReusableDropDownField";
-import { ComboBox, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
+import { ComboBox, getPlaceholderStyles, IComboBox,  IComboBoxOption,  IComboBoxStyles,  IDropdownOption, Label, Link, Stack, StackItem } from "@fluentui/react";
 import { validate  } from "./Validations";
 import { SelectLanguage } from "./SelectLanguage";
 import styles from './CareerMarketplace.module.scss';
@@ -85,12 +85,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         }
       }, 
       input:{color: 'rgb(0,0,0)!important',
-         selectors: {
-          '::placeholder': {
-            color: 'rgb(56, 54, 54)!important',      // Placeholder color
-          }
-        }
-    }
+      }
 
     };
 
