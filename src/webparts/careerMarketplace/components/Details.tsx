@@ -20,6 +20,8 @@ import { validateNumericField, validateEmpty } from "./Validations";
 import styles from "./CareerMarketplace.module.scss";
 import { SelectLanguage } from "./SelectLanguage";
 import { isInvalid, getLocalizedString } from "./Functions";
+import {  RichText } from "@pnp/spfx-controls-react/lib/RichText";
+
 
 export interface IClassificationLevelOption extends IComboBoxOption {
   classificationLevelIds: string;
@@ -70,6 +72,12 @@ export default class Details extends React.Component<IDetailsProps> {
 
     this.props.handleOnChange(eventName, inputValue);
   };
+
+  public onChangeRichTextValue = (text: any): string => {
+    console.log("Text", text)
+    this.props.handleOnChange("jobDescriptionEn", text);
+    return text;
+  }
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventId = event.target.id;
@@ -157,7 +165,10 @@ export default class Details extends React.Component<IDetailsProps> {
       }
     }
 
-    const classificationCodeItems = this.props.classificationCode.sort();
+    const classificationCodeItems = this.props.classificationCode.sort()
+
+ 
+
     
     return (
       <>
@@ -200,6 +211,53 @@ export default class Details extends React.Component<IDetailsProps> {
               placeholder={this.strings.enter_jobTitleFr}
             />
 
+            <Stack>
+
+           
+
+              <Stack  horizontal verticalAlign="center" >
+                <StackItem>
+                  <Label  id={`jobDescriptionEn-label`} >
+                    <p className={styles.mrg0}>
+                    <>
+                    <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">
+                      *
+                    </span>
+                    <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                    </>
+                      <strong>{`${this.strings.job_Description} ${this.strings.english}`}</strong>
+                    </p>
+                    <p className={styles.instruction}>{this.strings.jobDescription_Instructions}</p>
+                  </Label>
+                </StackItem>
+              </Stack>
+            <RichText
+              id={"jobDescriptionEn"}
+              value={jobDescriptionEn}
+              onChange={this.onChangeRichTextValue}
+              //placeholder={this.strings.enter_jobDescEn}
+              styleOptions={{
+                  showBold: true,
+                  showItalic: true,
+                  showUnderline: true,
+                  showList: true,
+                  showAlign: true,
+                  showLink: false,
+                  showMore: false
+              }}
+            
+            />
+             </Stack>
+            {this.props.inlineFieldErrors?.includes(
+                "jobDescriptionEn"
+              ) &&
+                validateEmpty(
+                  jobDescriptionEn,
+                  this.props.prefLang,
+                  "jobDescriptionEn"
+                )}
+
+{/* 
             <ReusableTextField
               id={"jobDescriptionEn"}
               name={"jobDescriptionEn"}
@@ -213,7 +271,9 @@ export default class Details extends React.Component<IDetailsProps> {
               maxLength={10000}
               instruction={this.strings.jobDescription_Instructions}
               placeholder={this.strings.enter_jobDescEn}
-            />
+            /> */}
+        
+
             <ReusableTextField
               id={"jobDescriptionFr"}
               name={"jobDescriptionFr"}

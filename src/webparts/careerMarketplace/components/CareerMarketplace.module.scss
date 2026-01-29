@@ -253,6 +253,13 @@ input[type="text"][disabled] {
   align-items: center;
 }
 
+:global {
+  .ql-toolbar {
+    position: relative;
+    top: 0;
+  }
+}
+
 
 
 
