@@ -83,7 +83,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         '@media only screen and (min-width: 480px)': {
             maxHeight: 'calc(100vh - 500px) !important'
         }
-      }
+      }, 
+      input:{color: "black"}
     };
 
     
@@ -181,6 +182,20 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.workSchedule.key}
             ariaLabelRequired={this.strings.required}
             errorMessage={this.props.values.workSchedule.key === "0"  ? getLocalizedString("workSchedule", this.props.prefLang) : undefined}
+            placeholder={this.strings.selectOption}
+          />
+
+          <ReusableDropdownField
+            id={"workArrangment"}
+            name={"workArrangment"}
+            title={this.strings.work_arrangment}
+            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workArrangment]}
+            onChange={this.onChangeDropDownItem}
+            disabled={this.props.currentPage === 4}
+            selectedKey={this.props.values.workArrangment.key}
+            ariaLabelRequired={this.strings.required}
+            instruction={this.strings.work_arrangment_description}
+            errorMessage={this.props.values.workArrangment.key === "" ? getLocalizedString("workArrangment", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
 
@@ -335,19 +350,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
           />
          
-          <ReusableDropdownField
-            id={"workArrangment"}
-            name={"workArrangment"}
-            title={this.strings.work_arrangment}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workArrangment]}
-            onChange={this.onChangeDropDownItem}
-            disabled={this.props.currentPage === 4}
-            selectedKey={this.props.values.workArrangment.key}
-            ariaLabelRequired={this.strings.required}
-            instruction={this.strings.work_arrangment_description}
-            errorMessage={this.props.values.workArrangment.key === "" ? getLocalizedString("workArrangment", this.props.prefLang) : undefined}
-            placeholder={this.strings.selectOption}
-          />
+       
 
           <div style={{marginTop: '10px'}}>
             <Stack  horizontal verticalAlign="center" >
