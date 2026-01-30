@@ -395,7 +395,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleOnChangeTextField = (event: any, value: string): void => {
     const eventName = event;
-    const trimmedInputValue = value.trim();
+    let trimmedInputValue = value.trim();
+
+    if (value === "<p><br></p>") {
+      trimmedInputValue = ""
+    }
   
       this.setState((prevState) => ({
         values: {

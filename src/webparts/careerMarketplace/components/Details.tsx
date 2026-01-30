@@ -6,6 +6,7 @@ import {
   ComboBox,
   DatePicker,
   Dropdown,
+  FocusZone,
   IComboBox,
   IComboBoxOption,
   IComboBoxStyles,
@@ -74,7 +75,6 @@ export default class Details extends React.Component<IDetailsProps> {
   };
 
   public onChangeRichTextValue = (text: any): string => {
-    console.log("Text", text)
     this.props.handleOnChange("jobDescriptionEn", text);
     return text;
   }
@@ -231,23 +231,24 @@ export default class Details extends React.Component<IDetailsProps> {
                   </Label>
                 </StackItem>
               </Stack>
-            <RichText
-              id={"jobDescriptionEn"}
-              value={jobDescriptionEn}
-              onChange={this.onChangeRichTextValue}
-              //placeholder={this.strings.enter_jobDescEn}
-              styleOptions={{
-                  showBold: true,
-                  showItalic: true,
-                  showUnderline: true,
-                  showList: true,
-                  showAlign: true,
-                  showLink: false,
-                  showMore: false
-              }}
-            
-            />
-             </Stack>
+              <FocusZone tabIndex={0}>
+                <RichText
+                  id={"jobDescriptionEn"}
+                  value={jobDescriptionEn}
+                  onChange={this.onChangeRichTextValue}
+                  placeholder={this.strings.enter_jobDescEn}
+                  styleOptions={{
+                      showBold: true,
+                      showItalic: true,
+                      showUnderline: true,
+                      showList: true,
+                      showAlign: true,
+                      showLink: false,
+                      showMore: false
+                  }}
+                />
+              </FocusZone>
+            </Stack>
             {this.props.inlineFieldErrors?.includes(
                 "jobDescriptionEn"
               ) &&

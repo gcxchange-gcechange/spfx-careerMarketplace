@@ -255,8 +255,13 @@ input[type="text"][disabled] {
 
 :global {
   .ql-toolbar {
-    position: relative;
-    top: 0;
+    position: relative!important;
+    top: 0!important;
+    font-size: 14px!important;
+  }
+  .ql-editor.ql-blank:before  {
+    font-size: 14px!important;
+    color:  rgb(96, 94, 92)!important;
   }
 }
 
