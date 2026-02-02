@@ -20,6 +20,7 @@ import { validateNumericField, validateEmpty } from "./Validations";
 import styles from "./CareerMarketplace.module.scss";
 import { SelectLanguage } from "./SelectLanguage";
 import { isInvalid, getLocalizedString } from "./Functions";
+import RichTextEditor from "./RIchTextEditor";
 
 export interface IClassificationLevelOption extends IComboBoxOption {
   classificationLevelIds: string;
@@ -200,7 +201,22 @@ export default class Details extends React.Component<IDetailsProps> {
               placeholder={this.strings.enter_jobTitleFr}
             />
 
-            <ReusableTextField
+            {/* <ReusableTextField
+              id={"jobDescriptionEn"}
+              name={"jobDescriptionEn"}
+              title={`${this.strings.job_Description} ${this.strings.english}`}
+              onChange={this.onChangeTextValue}
+              defaultValue={this.props.values.jobDescriptionEn}
+              multiline={true}
+              disabled={isReadOnly}
+              onGetErrorMessage={() => validateEmpty( jobDescriptionEn, "jobDescriptionEn", this.props.prefLang )}
+              ariaLabelRequired={this.strings.required}
+              maxLength={10000}
+              instruction={this.strings.jobDescription_Instructions}
+              placeholder={this.strings.enter_jobDescEn}
+            /> */}
+
+            <RichTextEditor 
               id={"jobDescriptionEn"}
               name={"jobDescriptionEn"}
               title={`${this.strings.job_Description} ${this.strings.english}`}
@@ -214,6 +230,7 @@ export default class Details extends React.Component<IDetailsProps> {
               instruction={this.strings.jobDescription_Instructions}
               placeholder={this.strings.enter_jobDescEn}
             />
+            
             <ReusableTextField
               id={"jobDescriptionFr"}
               name={"jobDescriptionFr"}
