@@ -263,7 +263,43 @@ input[type="text"][disabled] {
     font-size: 14px!important;
     color:  rgb(96, 94, 92)!important;
   }
+  .ql-editor, .ql-snow .ql-editor{
+    padding: 6px 8px!important;
+    
+  }
 }
+
+
+  :global {
+    .ql-toolbar {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      background: #f8f8f8!important;
+      border: 1px solid  #605e5c !important;
+      border-bottom: none!important;
+      border-radius: 2px 2px 0 0 !important;
+      margin:0!important;
+    }
+
+    .ql-container {
+      border: 1px solid  #605e5c;
+      border-radius: 0 0 4px 4px;
+    }
+    .ql-snow.ql-toolbar button {
+      background-color: #f8f8f8!important;
+      color: black !important;
+    }
+    
+    .ql-toolbar .ms-Dropdown-title{
+      background-color:  #f8f8f8!important;
+      color: rgb(36, 35, 35) !important;
+    }
+  
+  }
+
+
+
 
 
 

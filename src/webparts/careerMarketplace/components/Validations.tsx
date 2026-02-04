@@ -17,7 +17,9 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     const titleMaxCharFields = ["jobTitleEn", "jobTitleFr"];
     const descriptionMaxCharFields = ['jobDescriptionEn', 'jobDescriptionFr'];
 
-    if ( value.length === 0 || value === undefined  ) {
+    const richText = "<p></p>";
+
+    if ( value.length === 0 || value === undefined || richText ) {
 
         return (
             <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
@@ -45,9 +47,6 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
             </div>
         )
     }
-    
-    
-
 }
 
 

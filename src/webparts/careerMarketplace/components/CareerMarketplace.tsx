@@ -395,12 +395,37 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleOnChangeTextField = (event: any, value: string): void => {
     const eventName = event;
-    let trimmedInputValue = value.trim();
+    const trimmedInputValue = value.trim();
 
-    if (value === "<p><br></p>") {
-      trimmedInputValue = ""
+    if(eventName === "jobDescriptionEn") {
+     const getRichEditorField = document.querySelector('div[class^="quill"]');
+      const childEditor = getRichEditorField?.firstChild;
+      const editorInput = childEditor?.firstChild;
+
+      const editorTextValue = editorInput?.textContent
+      console.log("editorText", editorTextValue)
+
+     
+      if(!editorTextValue) {
+        this.setState((prevState) => ({
+          values: {
+            ...prevState.values,
+            jobDescriptionEn: ""
+          }
+        }))
+      } else {
+        this.setState((prevState) => ({
+          values: {
+            ...prevState.values,
+            jobDescriptionEn: value.trim()
+          }
+        }))
+      }
+
+      console.log("editorInput", value)
+      
     }
-  
+
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -911,6 +936,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const getComboBox = document.querySelectorAll('div[class^="ms-ComboBox"]');
     const getInputElement = document.querySelectorAll('[class^="durationLength"]');
 
+
    
     if(getElements ) {
       getElements.forEach(element => {
@@ -925,7 +951,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       });
     }
 
-
     if(getInputElement) {
       getInputElement.forEach(el => {
         elementId.push(el.id);
@@ -939,6 +964,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const cleanUpDropDownFields = this.state.dropdownFields.filter((n) => n)
 
+    console.log("DFields", cleanUpDropDownFields)
+
     this.onBlur(cleanUpDropDownFields);
 
   }
@@ -947,7 +974,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     fields.forEach((fieldId) => {
       const dropdownElement = document.getElementById(fieldId);
-      //console.log("dropdownEl",dropdownElement)
+      console.log("dropdownEl",dropdownElement)
   
       if (dropdownElement) {
         let tab: boolean = false;

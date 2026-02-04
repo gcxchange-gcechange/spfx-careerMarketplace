@@ -7,6 +7,7 @@ import {
   DatePicker,
   Dropdown,
   FocusZone,
+  FocusZoneTabbableElements,
   IComboBox,
   IComboBoxOption,
   IComboBoxStyles,
@@ -214,7 +215,7 @@ export default class Details extends React.Component<IDetailsProps> {
             <Stack>
 
            
-
+          <FocusZone tabIndex={0} handleTabKey={FocusZoneTabbableElements.inputOnly}>
               <Stack  horizontal verticalAlign="center" >
                 <StackItem>
                   <Label  id={`jobDescriptionEn-label`} >
@@ -231,7 +232,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   </Label>
                 </StackItem>
               </Stack>
-              <FocusZone tabIndex={0}>
+              
                 <RichText
                   id={"jobDescriptionEn"}
                   value={jobDescriptionEn}
@@ -246,6 +247,7 @@ export default class Details extends React.Component<IDetailsProps> {
                       showLink: false,
                       showMore: false
                   }}
+
                 />
               </FocusZone>
             </Stack>
