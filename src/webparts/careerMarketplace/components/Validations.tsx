@@ -7,6 +7,7 @@ import { getLocalizedString } from './Functions';
 
 
 export const validateEmpty = (value: string, fieldName: string, language:string): JSX.Element  | undefined  | string=> {
+
     const strings = SelectLanguage(language);
     const key = fieldName as keyof ICareerMarketplaceWebPartStrings;
     const minCharKey = `${fieldName}-minChar` as keyof ICareerMarketplaceWebPartStrings;
@@ -17,9 +18,17 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     const titleMaxCharFields = ["jobTitleEn", "jobTitleFr"];
     const descriptionMaxCharFields = ['jobDescriptionEn', 'jobDescriptionFr'];
 
-    const richText = "<p></p>";
+    console.log("value", value)
 
-    if ( value.length === 0 || value === undefined || richText ) {
+    if (value === "") {
+          return (
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
+                <p style={{margin: '0px', fontWeight: '700', fontSize: '12px', color:'rgb(164, 38, 44)', paddingTop:'2px'}}>{localizedKey}</p>
+            </div>
+        )
+    }
+
+    if ( value.length === 0 || value === undefined ) {
 
         return (
             <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>

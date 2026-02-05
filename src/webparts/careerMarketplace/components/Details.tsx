@@ -76,16 +76,16 @@ export default class Details extends React.Component<IDetailsProps> {
   };
 
 
-private isRichTextEmpty = (value: string): boolean => {
-  if (!value) return true;
+  private isRichTextEmpty = (value: string): boolean => {
+    if (!value) return true;
 
-  const textOnly = value
-    .replace(/<[^>]*>/g, "")
-    .replace(/&nbsp;/g, "")
-    .trim();
+    const textOnly = value
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, "")
+      .trim();
 
-  return textOnly.length === 0;
-};
+    return textOnly.length === 0;
+  };
 
 
   public onChangeRichTextValue = (text: string): string => {
@@ -276,8 +276,8 @@ private isRichTextEmpty = (value: string): boolean => {
               ) &&
                 validateEmpty(
                   jobDescriptionEn,
+                  "jobDescriptionEn",
                   this.props.prefLang,
-                  "jobDescriptionEn"
                 )}
 
 {/* 

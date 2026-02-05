@@ -407,6 +407,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       console.log("editorInput", value)
 
+      if (eventName === "jobDescriptionEn" && value === "") {
+        this.setState({inlineFieldErrors: ["jobDescriptionEn"]})
+      }
+
 
       this.setState((prevState) => ({
         values: {
@@ -1066,7 +1070,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (this.state.values.jobType?.Guid === this.props.jobTypeDeploymentTerms[0].id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
+    if (this.state.values.jobType?.Guid === this.props.jobTypeDeploymentTerms[0]?.id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
