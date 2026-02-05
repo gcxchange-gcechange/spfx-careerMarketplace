@@ -393,38 +393,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   };
 
 
+
+
   public handleOnChangeTextField = (event: any, value: string): void => {
     const eventName = event;
     const trimmedInputValue = value.trim();
 
-    if(eventName === "jobDescriptionEn") {
-     const getRichEditorField = document.querySelector('div[class^="quill"]');
-      const childEditor = getRichEditorField?.firstChild;
-      const editorInput = childEditor?.firstChild;
-
-      const editorTextValue = editorInput?.textContent
-      console.log("editorText", editorTextValue)
-
-     
-      if(!editorTextValue) {
-        this.setState((prevState) => ({
-          values: {
-            ...prevState.values,
-            jobDescriptionEn: ""
-          }
-        }))
-      } else {
-        this.setState((prevState) => ({
-          values: {
-            ...prevState.values,
-            jobDescriptionEn: value.trim()
-          }
-        }))
-      }
-
       console.log("editorInput", value)
-      
-    }
+
 
       this.setState((prevState) => ({
         values: {
@@ -930,13 +906,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
 
+
+
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
     const getComboBox = document.querySelectorAll('div[class^="ms-ComboBox"]');
     const getInputElement = document.querySelectorAll('[class^="durationLength"]');
+    const getEditor = document.querySelector(".ql-editor");
 
 
+    if(getEditor) {
+      const parents = getEditor.parentElement?.parentElement;
+      if (parents) {
+        elementId.push(parents.id)
+      }
+    }
    
     if(getElements ) {
       getElements.forEach(element => {
@@ -964,13 +949,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     const cleanUpDropDownFields = this.state.dropdownFields.filter((n) => n)
 
-    console.log("DFields", cleanUpDropDownFields)
-
     this.onBlur(cleanUpDropDownFields);
 
   }
 
   public onBlur = (fields: string[]): void => {
+    console.log("fields", fields)
 
     fields.forEach((fieldId) => {
       const dropdownElement = document.getElementById(fieldId);
@@ -981,6 +965,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   
         // Add the event listener for keydown
         dropdownElement.addEventListener("keydown", (event) => {
+
           if (event.key === "Tab") {
             tab = true;
           }
@@ -990,6 +975,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
           if (tab === true) {
             if (!this.state.inlineFieldErrors.includes(fieldId)) {
+
               this.setState({
                 inlineFieldErrors: [...this.state.inlineFieldErrors, fieldId]
               })

@@ -75,10 +75,30 @@ export default class Details extends React.Component<IDetailsProps> {
     this.props.handleOnChange(eventName, inputValue);
   };
 
-  public onChangeRichTextValue = (text: any): string => {
-    this.props.handleOnChange("jobDescriptionEn", text);
-    return text;
-  }
+
+private isRichTextEmpty = (value: string): boolean => {
+  if (!value) return true;
+
+  const textOnly = value
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/g, "")
+    .trim();
+
+  return textOnly.length === 0;
+};
+
+
+  public onChangeRichTextValue = (text: string): string => {
+  const isEmpty = this.isRichTextEmpty(text);
+
+  const normalizedValue = isEmpty ? "" : text;
+
+  this.props.handleOnChange("jobDescriptionEn", normalizedValue);
+
+  return normalizedValue;
+};
+
+  
 
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventId = event.target.id;
