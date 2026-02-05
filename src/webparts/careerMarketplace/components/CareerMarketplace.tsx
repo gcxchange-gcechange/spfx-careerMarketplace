@@ -264,8 +264,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   private submit = (): void => {
-    const dateStr = this.state.values.deadline;  
-    const momentDate = moment(dateStr, "YYYY-MM-DD");  
+    const dateStr = this.state.values.deadline; 
+    const momentDate = moment(dateStr, "YYYY-MM-DD")
+      .set({
+        hour: 23,
+        minute: 59,
+        second: 59,
+        millisecond: 999
+      });
     const isoString = momentDate.toISOString(); 
     const newJoBTypeFormat = [{Label: this.state.values.jobType.Label, Guid: this.state.values.jobType.Guid}]
     const programArea = this.state.values.programArea;

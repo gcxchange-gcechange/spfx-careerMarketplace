@@ -36,7 +36,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
     public strings = SelectLanguage(this.props.prefLang);
  
     public render(): React.ReactElement<IReviewPageProps> {
-        console.log(this.props)
+        console.log("PROPS",this.props)
         
         // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
         const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
@@ -127,7 +127,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     id={"programArea"}
                     name={"programArea"}
                     title={this.strings.program_Area}
-                    defaultValue={this.props.programArea}
+                    defaultValue={this.props.programArea.text}
                     disabled={true}
                     ariaLabelRequired={'required'}
                     multiline={true}
