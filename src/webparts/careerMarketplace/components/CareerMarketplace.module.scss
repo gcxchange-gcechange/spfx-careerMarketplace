@@ -329,23 +329,25 @@ input[type="text"][disabled] {
 
   .editorError {
     border: none !important;
-    .ql-active .ql-editor:focus .editorError[data-field] {
+  }
+
+  .editorError{
     border: 1px solid rgb(164, 38, 44)!important;
     border-radius: 2px;
   }
 
-  }
+  // .editorError[data-field="2"]{
+  //   border: 2px solid rgb(164, 38, 44)!important;
+  //   border-radius: 2px;
+  // }
 
-  .editorError {
+  :global 
+     .ql-active .ql-editor:focus .editorError {
     border: 1px solid rgb(164, 38, 44)!important;
     border-radius: 2px;
-  }
+    }
+  
 
-  .editorError[data-field]{
-    border: 1px solid rgb(164, 38, 44)!important;
-    border-radius: 2px;
-  }
-   
 
 
 
