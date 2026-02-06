@@ -23,7 +23,7 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     if (value === "") {
           return (
             <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
-                <p style={{margin: '0px', fontWeight: '700', fontSize: '12px', color:'rgb(164, 38, 44)', paddingTop:'2px'}}>{localizedKey}</p>
+                <p style={{margin: '0px', fontWeight: '700', fontSize: '12px', color:'rgb(164, 38, 44)', marginTop:'5px'}}>{localizedKey}</p>
             </div>
         )
     }

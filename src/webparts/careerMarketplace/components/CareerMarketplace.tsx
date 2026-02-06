@@ -409,6 +409,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       if (eventName === "jobDescriptionEn" && value === "") {
         this.setState({inlineFieldErrors: ["jobDescriptionEn"]})
+      } else {
+          this.setState({inlineFieldErrors: []})
       }
 
 

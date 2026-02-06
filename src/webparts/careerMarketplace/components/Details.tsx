@@ -188,7 +188,14 @@ export default class Details extends React.Component<IDetailsProps> {
 
     const classificationCodeItems = this.props.classificationCode.sort()
 
- 
+    console.log("props", this.props.inlineFieldErrors)
+
+     const editor = document.querySelector(".ql-editor");
+    if(editor) {
+      editor.setAttribute("data-field", "1")
+    }
+
+    console.log("editor",editor)
 
     
     return (
@@ -255,6 +262,7 @@ export default class Details extends React.Component<IDetailsProps> {
               
                 <RichText
                   id={"jobDescriptionEn"}
+                  data-field={"jobDescriptionEn"}
                   value={jobDescriptionEn}
                   onChange={this.onChangeRichTextValue}
                   placeholder={this.strings.enter_jobDescEn}
@@ -267,18 +275,20 @@ export default class Details extends React.Component<IDetailsProps> {
                       showLink: false,
                       showMore: false
                   }}
+                  className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError : ""}
 
                 />
               </FocusZone>
             </Stack>
-            {this.props.inlineFieldErrors?.includes(
-                "jobDescriptionEn"
-              ) &&
+            <div>
+                {this.props.inlineFieldErrors?.includes("jobDescriptionEn") &&
                 validateEmpty(
                   jobDescriptionEn,
                   "jobDescriptionEn",
                   this.props.prefLang,
                 )}
+            </div>
+         
 
 {/* 
             <ReusableTextField
