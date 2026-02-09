@@ -331,21 +331,29 @@ input[type="text"][disabled] {
     border: none !important;
   }
 
-  .editorError{
+    .editorError_English{
     border: 1px solid rgb(164, 38, 44)!important;
     border-radius: 2px;
   }
 
-  // .editorError[data-field="2"]{
-  //   border: 2px solid rgb(164, 38, 44)!important;
-  //   border-radius: 2px;
-  // }
+   .editorError_French {
+    border: none !important;
+  }
 
-  :global 
-     .ql-active .ql-editor:focus .editorError {
+  .editorError_French{
     border: 1px solid rgb(164, 38, 44)!important;
     border-radius: 2px;
-    }
+  }
+
+
+  :global {
+
+    .ql-active .ql-editor:focus .editorError {
+   border: 1px solid rgb(164, 38, 44)!important;
+   border-radius: 2px;
+   }
+   
+  }
   
 
 

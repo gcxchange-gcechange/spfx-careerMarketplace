@@ -405,12 +405,24 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const eventName = event;
     const trimmedInputValue = value.trim();
 
-      console.log("editorInput", value)
-
       if (eventName === "jobDescriptionEn" && value === "") {
-        this.setState({inlineFieldErrors: ["jobDescriptionEn"]})
+        this.setState(prev => ({
+          inlineFieldErrors: prev.inlineFieldErrors.includes("jobDescriptionEn")
+            ? prev.inlineFieldErrors
+            : [...prev.inlineFieldErrors, "jobDescriptionEn"]
+        }));
+      } else if (eventName === "jobDescriptionFr" && value === "") {
+        this.setState(prev => ({
+          inlineFieldErrors: prev.inlineFieldErrors.includes("jobDescriptionFr")
+            ? prev.inlineFieldErrors
+            : [...prev.inlineFieldErrors, "jobDescriptionFr"]
+        }));
       } else {
-          this.setState({inlineFieldErrors: []})
+        this.setState(prev => ({
+          inlineFieldErrors: prev.inlineFieldErrors.filter(
+            err => err !== eventName
+          )
+        }));
       }
 
 

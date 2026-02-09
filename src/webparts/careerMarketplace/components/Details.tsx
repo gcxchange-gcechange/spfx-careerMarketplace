@@ -100,6 +100,7 @@ export default class Details extends React.Component<IDetailsProps> {
   };
 
    public onChangeRichTextValueFr = (text: string): string => {
+    console.log("text", text)
     const isEmpty = this.isRichTextEmpty(text);
 
     const normalizedValue = isEmpty ? "" : text;
@@ -199,16 +200,11 @@ export default class Details extends React.Component<IDetailsProps> {
 
     const classificationCodeItems = this.props.classificationCode.sort()
 
-    console.log("props", this.props.inlineFieldErrors)
-
     const editor = document.querySelectorAll(".ql-editor");
 
     editor.forEach((node, index) => {
-     console.log("node", node)
        node.setAttribute("data-field", String(index + 1));
     })
-
-    console.log("editor", editor)
 
 
     return (
@@ -270,7 +266,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     </Label>
                   </StackItem>
                 </Stack>
-
+              <div className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError_English : ""}>
                 <RichText
                   id={"jobDescriptionEn"}
                   value={jobDescriptionEn}
@@ -285,9 +281,10 @@ export default class Details extends React.Component<IDetailsProps> {
                     showLink: false,
                     showMore: false
                   }}
-                  className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError : ""}
+                  
 
                 />
+                </div>
               </FocusZone>
             </Stack>
             <div>
@@ -332,7 +329,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     showLink: false,
                     showMore: false
                   }}
-                  className={this.props.inlineFieldErrors?.includes("jobDescriptionFr") ? styles.editorError : ""}
+                  className={this.props.inlineFieldErrors?.includes("jobDescriptionFr") ? styles.editorError_French : ""}
 
                 />
               </FocusZone>
