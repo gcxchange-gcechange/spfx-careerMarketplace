@@ -313,7 +313,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 </div>
               </FocusZone>
             </Stack>
-            <div>
+            <div role="alert">
               {this.props.inlineFieldErrors?.includes("jobDescriptionEn") &&
                 validateEmpty(
                   jobDescriptionEn,
@@ -360,7 +360,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 />
               </FocusZone>
             </Stack>
-          <div>
+          <div role="alert">
             {this.props.inlineFieldErrors?.includes("jobDescriptionFr") &&
               validateEmpty(
                 jobDescriptionFr,
