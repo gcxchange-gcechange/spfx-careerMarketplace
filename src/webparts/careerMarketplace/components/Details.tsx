@@ -139,8 +139,8 @@ export default class Details extends React.Component<IDetailsProps> {
     };
 
     const today = new Date();
-    const oneMonthLater = new Date();
-    oneMonthLater.setMonth(today.getMonth() + 1);
+    const oneWeekLater = new Date();
+    oneWeekLater.setDate(today.getDate() + 7);
 
     //const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined);
 
@@ -518,7 +518,7 @@ export default class Details extends React.Component<IDetailsProps> {
             disabled={isReadOnly}
             formatDate={reformatDate}
             value={this.props.values.deadline}
-            minDate={this.props.jobOppId ? undefined : oneMonthLater}
+            minDate={this.props.jobOppId ? undefined : oneWeekLater}
           />
         </div>
       </>
