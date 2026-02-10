@@ -201,10 +201,36 @@ export default class Details extends React.Component<IDetailsProps> {
     const classificationCodeItems = this.props.classificationCode.sort()
 
     const editor = document.querySelectorAll(".ql-editor");
+    const toolbar = document.querySelectorAll(".ql-toolbar");
 
     editor.forEach((node, index) => {
+      console.log("node", node, "index:", index);
        node.setAttribute("data-field", String(index + 1));
+      
+       if (index === 0) {
+        node.setAttribute("tabIndex", '0');
+        node.setAttribute('aria-labelledby','jobDescriptionEn-label');
+        node.setAttribute('role', 'textbox');
+        if (this.props.inlineFieldErrors?.includes("jobDescriptionEn")) {
+          node.setAttribute('aria-invalid', 'true')
+        }
+       } else {
+        node.setAttribute("tabIndex", '0');
+        node.setAttribute('aria-labelledby','jobDescriptionFr-label');
+        node.setAttribute('role', 'textbox');
+         if (this.props.inlineFieldErrors?.includes("jobDescriptionFr")) {
+          node.setAttribute('aria-invalid', 'true')
+        }
+       }
+       
     })
+
+    toolbar.forEach((node) => {
+      console.log("toolbarNode", node);
+      node.setAttribute("role","toolbar")
+    })
+
+
 
 
     return (
@@ -266,7 +292,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     </Label>
                   </StackItem>
                 </Stack>
-              <div className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError_English : ""}>
+              <div  className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError_English : ""}>
                 <RichText
                   id={"jobDescriptionEn"}
                   value={jobDescriptionEn}
