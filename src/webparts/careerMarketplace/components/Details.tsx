@@ -76,24 +76,21 @@ export default class Details extends React.Component<IDetailsProps> {
     this.props.handleOnChange(eventName, inputValue);
   };
 
-  private convertH2ToParagraph = (value: string): string => {
-    if (!value) return value;
 
-    const container = document.createElement('div');
-    container.innerHTML = value;
+private convertToParagraph = (value: string): string => {
+  if (!value) return value;
 
-    container.querySelectorAll('h2').forEach(h2 => {
-      const p = document.createElement('p');
+  // remove the  style attributes
+  let cleaned = value.replace(/ style="[^"]*"/gi, "");
+ 
+  //remove unwanted tags
+  cleaned = cleaned.replace(/<\/?(h1|h2|h3|h4|a|i|img)[^>]*>/gi, "");
 
-      p.innerHTML = h2.innerHTML;
-      p.className = h2.className;
-      p.setAttribute('style', h2.getAttribute('style') || '');
 
-      h2.replaceWith(p);
-    });
+  return cleaned;
+};
 
-    return container.innerHTML;
-  };
+
 
 
 
@@ -112,7 +109,7 @@ export default class Details extends React.Component<IDetailsProps> {
   public onChangeRichTextValue = (text: string): string => {
     console.log("Text")
     const isEmpty = this.isRichTextEmpty(text);
-    const cleanedText = this.convertH2ToParagraph(text);
+    const cleanedText = this.convertToParagraph(text);
     console.log(cleanedText)
 
     const normalizedValue = isEmpty ? "" : cleanedText;
@@ -124,9 +121,9 @@ export default class Details extends React.Component<IDetailsProps> {
   };
 
    public onChangeRichTextValueFr = (text: string): string => {
-    console.log("text", text)
+ 
     const isEmpty = this.isRichTextEmpty(text);
-    const cleanedText = this.convertH2ToParagraph(text);
+    const cleanedText = this.convertToParagraph(text);
     console.log(cleanedText)
 
     const normalizedValue = isEmpty ? "" : cleanedText;
@@ -230,7 +227,6 @@ export default class Details extends React.Component<IDetailsProps> {
     const toolbar = document.querySelectorAll(".ql-toolbar");
 
     editor.forEach((node, index) => {
-      console.log("node", node, "index:", index);
        node.setAttribute("data-field", String(index + 1));
       
        if (index === 0) {
@@ -252,7 +248,6 @@ export default class Details extends React.Component<IDetailsProps> {
     })
 
     toolbar.forEach((node) => {
-      console.log("toolbarNode", node);
       node.setAttribute("role","toolbar")
     })
 
