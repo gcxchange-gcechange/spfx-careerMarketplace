@@ -326,7 +326,7 @@ input[type="text"][disabled] {
       color: rgb(46, 44, 44) !important;
       }
     
-  
+
   }
 
 
@@ -348,8 +348,32 @@ input[type="text"][disabled] {
       border: 1px solid rgb(164, 38, 44)!important;
       border-radius: 2px;
    }
+
+   .ms-Callout-main div#DropDownAlign-list .ms-Dropdown-item{
+    background-color: #03787c!important;
+   }
+
+    .ms-Callout-main div#DropDownLists-list .ms-Dropdown-item{
+    background-color: #03787c!important;
+   }
+
+    .ms-Callout-main  div#DropDownStyles-list .ms-Dropdown-item{
+    background-color: #03787c!important;
+   }
+
+    .ms-Panel-main div#DropDownAlign-list .ms-Dropdown-item{
+    background-color: #03787c!important;
+    }
    
+
+   .ms-Panel-main  div#DropDownLists-list .ms-Dropdown-item {
+    background-color: #03787c!important;
+   }
+ 
+  
   }
+
+  
   
 
 
