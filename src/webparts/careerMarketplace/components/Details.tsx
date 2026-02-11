@@ -8,12 +8,12 @@ import {
   Dropdown,
   FocusZone,
   FocusZoneTabbableElements,
+  Label,
   IComboBox,
   IComboBoxOption,
   IComboBoxStyles,
   IDropdownOption,
   IStackTokens,
-  Label,
   Stack,
   StackItem,
 } from "@fluentui/react";
@@ -76,6 +76,26 @@ export default class Details extends React.Component<IDetailsProps> {
     this.props.handleOnChange(eventName, inputValue);
   };
 
+  private convertH2ToParagraph = (value: string): string => {
+    if (!value) return value;
+
+    const container = document.createElement('div');
+    container.innerHTML = value;
+
+    container.querySelectorAll('h2').forEach(h2 => {
+      const p = document.createElement('p');
+
+      p.innerHTML = h2.innerHTML;
+      p.className = h2.className;
+      p.setAttribute('style', h2.getAttribute('style') || '');
+
+      h2.replaceWith(p);
+    });
+
+    return container.innerHTML;
+  };
+
+
 
   private isRichTextEmpty = (value: string): boolean => {
     if (!value) return true;
@@ -90,9 +110,13 @@ export default class Details extends React.Component<IDetailsProps> {
 
 
   public onChangeRichTextValue = (text: string): string => {
+    console.log("Text")
     const isEmpty = this.isRichTextEmpty(text);
+    const cleanedText = this.convertH2ToParagraph(text);
+    console.log(cleanedText)
 
-    const normalizedValue = isEmpty ? "" : text;
+    const normalizedValue = isEmpty ? "" : cleanedText;
+
 
     this.props.handleOnChange("jobDescriptionEn", normalizedValue);
 
@@ -102,8 +126,10 @@ export default class Details extends React.Component<IDetailsProps> {
    public onChangeRichTextValueFr = (text: string): string => {
     console.log("text", text)
     const isEmpty = this.isRichTextEmpty(text);
+    const cleanedText = this.convertH2ToParagraph(text);
+    console.log(cleanedText)
 
-    const normalizedValue = isEmpty ? "" : text;
+    const normalizedValue = isEmpty ? "" : cleanedText;
 
     this.props.handleOnChange("jobDescriptionFr", normalizedValue);
 
@@ -231,8 +257,6 @@ export default class Details extends React.Component<IDetailsProps> {
     })
 
 
-
-
     return (
       <>
         {this.props.currentPage === 2 && (
@@ -307,6 +331,7 @@ export default class Details extends React.Component<IDetailsProps> {
                     showLink: false,
                     showMore: false
                   }}
+                 
                   
 
                 />
@@ -321,7 +346,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   this.props.prefLang,
                 )}
             </div>
-
+          
             <Stack>
               <FocusZone tabIndex={0} handleTabKey={FocusZoneTabbableElements.inputOnly}>
                 <Stack horizontal verticalAlign="center" >
@@ -368,8 +393,6 @@ export default class Details extends React.Component<IDetailsProps> {
                 this.props.prefLang,
               )}
           </div>
-
-
           {/* 
             <ReusableTextField
               id={"jobDescriptionEn"}
