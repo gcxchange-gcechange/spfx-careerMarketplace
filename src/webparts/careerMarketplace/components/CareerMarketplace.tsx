@@ -402,6 +402,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public handleOnChangeTextField = (event: any, value: string): void => {
+    console.log("value", value)
     const eventName = event;
     const trimmedInputValue = value.trim();
 
