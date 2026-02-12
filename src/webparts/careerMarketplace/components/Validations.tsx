@@ -27,7 +27,7 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     } 
     else if (value.length < 5 && fieldName !== 'numberOfOpportunities' ) {
         return (
-            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine} style={{paddingTop:'5px'}}>
                 <p style={{margin: '0px', fontWeight: '700'}}>{localizedMinChar}</p>
             </div>
         )

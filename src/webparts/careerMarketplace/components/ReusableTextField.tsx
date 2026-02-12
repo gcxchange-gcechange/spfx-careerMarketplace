@@ -35,10 +35,16 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
       }
     }
 
+    const noInstructionLabelSpacing: Partial<ILabelStyles> = {
+      root:{
+        padding:'0px 0px 0px 0px'
+      }
+    }
+
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem>
-        <Label id={`${this.props.id}-label`} styles={labelSpacing}>
+        <Label id={`${this.props.id}-label`} styles={this.props.instruction !== undefined ? labelSpacing : noInstructionLabelSpacing}>
           <p className={styles.mrg0} style={{paddingBottom:'8px'}}>
             <span  aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}} >
               *
@@ -47,6 +53,7 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
             {this.props.title}
           </p>
           <p className={styles.instruction}>{this.props.instruction}</p>
+
         </Label>
       </StackItem>
     </Stack>
@@ -62,10 +69,8 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
       }
     }
 
-
-
     return (
-      <div style={{marginTop: '16px'}}>
+      <div style={this.props.instruction !== undefined ? {marginTop: '12px'}:{marginTop: '16px'}}>
         <TextField
           aria-labelledby={`${this.props.id}-label`}
           aria-invalid={this.props.ariaInvalid}

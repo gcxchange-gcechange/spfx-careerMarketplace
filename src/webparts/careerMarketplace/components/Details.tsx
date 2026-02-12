@@ -116,7 +116,7 @@ export default class Details extends React.Component<IDetailsProps> {
       },
     };
     const comboBoxStyles: Partial<IComboBoxStyles> = {
-      errorMessage: { margin: "0px", fontWeight: "700" },
+      errorMessage: { margin: "0px", fontWeight: "700", marginTop: '4px' },
         callout: {vhmax: "50%"}
     };
 
@@ -280,7 +280,7 @@ export default class Details extends React.Component<IDetailsProps> {
             }
           />
 
-          <Stack horizontal verticalAlign="center">
+          <Stack horizontal verticalAlign="center" style={{marginTop:'12px'}}>
             <StackItem>
               <Label
                 id={"classificationCode-label"}
@@ -288,7 +288,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 style={{ fontWeight: "700" }}
                 styles={labelSpacing}
               >
-                <p className={styles.mrg0}>
+                <p className={styles.mrg0} style={{paddingBottom:'8px'}}>
                   <span
                     style={{ color: "rgb(164, 38, 44)" }}
                     aria-hidden="true"
@@ -351,10 +351,10 @@ export default class Details extends React.Component<IDetailsProps> {
             }
           />
 
-          <Stack>
+          <Stack style={{marginTop:'16px'}}>
             <label
               htmlFor={"numberOfOpportunities"}
-              style={{ padding: "5px 0px", fontWeight: "700" }}
+              style={{ padding: "0px 0px 8px", fontWeight: "700",  }}
             >
               {this.strings.number_of_Opportunities}
             </label>
@@ -395,99 +395,100 @@ export default class Details extends React.Component<IDetailsProps> {
                 "numberOfOpportunities"
               )}
           
+          <div style={{marginTop:'16px'}}>
+            <Label
+              id={"duration-label"}
+              htmlFor={"duration"}
+              style={{fontWeight: "700" }}
+              styles={labelSpacing}
+            >
+              <p className={styles.mrg0} style={{marginBottom:'8px'}}>
+                <span style={{ color: "rgb(164, 38, 44)" }} aria-hidden="true">
+                  *
+                </span>
+                <span className={styles.visuallyHidden}>
+                  {this.strings.required}
+                </span>
+                {this.strings.durationField}
+              </p>
+              <p className={styles.instruction}>
+                {this.strings.durationDescription}
+              </p>
+            </Label>
 
-          <Label
-            id={"duration-label"}
-            htmlFor={"duration"}
-            style={{ padding: "5px 0px", fontWeight: "700" }}
-          >
-            <p className={styles.mrg0}>
-              <span style={{ color: "rgb(164, 38, 44)" }} aria-hidden="true">
-                *
-              </span>
-              <span className={styles.visuallyHidden}>
-                {this.strings.required}
-              </span>
-              {this.strings.durationField}
+            <p
+              id={"duration-input-label"}
+              style={{ padding: "5px 0px", fontWeight: "700" }}
+              className={styles.mrg0}
+            >
+              {this.strings.time_period}
             </p>
-            <p className={styles.instruction}>
-              {this.strings.durationDescription}
-            </p>
-          </Label>
-
-          <p
-            id={"duration-input-label"}
-            style={{ padding: "5px 0px", fontWeight: "700" }}
-            className={styles.mrg0}
-          >
-            {this.strings.time_period}
-          </p>
-          <Stack horizontal tokens={customSpacingStackTokens} wrap>
-            <StackItem>
-              <Dropdown
-                id={"duration"}
-                aria-labelledby={`${"duration-label"} ${"duration-input-label"}`}
-                options={[{ key: "", text: `--${this.strings.select}--` }, ...this.props.duration,]}
-                onChange={this.onChangeDropDownItem}
-                selectedKey={this.props.values.duration.key}
-                disabled={durationDisabled}
-                styles={dropdownStyles}
-                errorMessage={
-                  this.props.values.duration.key === "" && !permDeploy
-                 
-                    ? getLocalizedString("duration", this.props.prefLang)
-                    : undefined
-                }
-                placeholder={this.strings.selectOption}
-              />
-            </StackItem>
-
-            <StackItem>
-              <Stack style={{ marginTop: "-28px" }}>
-                <label
-                  id={"durationLength"}
-                  style={{ padding: "5px 0px", fontWeight: "700" }}
-                >
-                  {this.strings.length}
-                </label>
-                <input
-                  type="number"
-                  id={"durationLength"}
-                  name={"durationLength"}
-                  min={1}
-                  max={60}
-                    onChange={(e) => {
-                      let val = Number(e.target.value);
-
-                      // if empty string 
-                      if (e.target.value === '') {
-                        this.props.handleDurationLength('');
-                        return;
-                      }
-                      //if values are not within the 1-60
-                      if (val < 1) val = 1;
-                      if (val > 60) val = 60;
-
-                      this.props.handleDurationLength(val.toString());
-                    }}
-
-                  value={this.props.values.durationLength.value}
-                  required
-                  className={styles.durationLengthInput}
+            <Stack horizontal tokens={customSpacingStackTokens} wrap>
+              <StackItem>
+                <Dropdown
+                  id={"duration"}
+                  aria-labelledby={`${"duration-label"} ${"duration-input-label"}`}
+                  options={[{ key: "", text: `--${this.strings.select}--` }, ...this.props.duration,]}
+                  onChange={this.onChangeDropDownItem}
+                  selectedKey={this.props.values.duration.key}
                   disabled={durationDisabled}
-                  aria-describedby="durationLength-error"
-                  aria-labelledby={ "durationLength"}
+                  styles={dropdownStyles}
+                  errorMessage={
+                    this.props.values.duration.key === "" && !permDeploy
+                    
+                      ? getLocalizedString("duration", this.props.prefLang)
+                      : undefined
+                  }
+                  placeholder={this.strings.selectOption}
                 />
-              </Stack>
-              {this.props.inlineFieldErrors?.includes("durationLength") &&
-                validateNumericField(
-                  this.props.values.durationLength.value,
-                  this.props.prefLang,
-                  "durationLength"
-                )}
-            </StackItem>
-          </Stack>
- 
+              </StackItem>
+
+              <StackItem>
+                <Stack style={{ marginTop: "-28px" }}>
+                  <label
+                    id={"durationLength"}
+                    style={{ marginTop:'8px', fontWeight: "700" }}
+                  >
+                    {this.strings.length}
+                  </label>
+                  <input
+                    type="number"
+                    id={"durationLength"}
+                    name={"durationLength"}
+                    min={1}
+                    max={60}
+                      onChange={(e) => {
+                        let val = Number(e.target.value);
+
+                        // if empty string 
+                        if (e.target.value === '') {
+                          this.props.handleDurationLength('');
+                          return;
+                        }
+                        //if values are not within the 1-60
+                        if (val < 1) val = 1;
+                        if (val > 60) val = 60;
+
+                        this.props.handleDurationLength(val.toString());
+                      }}
+
+                    value={this.props.values.durationLength.value}
+                    required
+                    className={styles.durationLengthInput}
+                    disabled={durationDisabled}
+                    aria-describedby="durationLength-error"
+                    aria-labelledby={ "durationLength"}
+                  />
+                </Stack>
+                {this.props.inlineFieldErrors?.includes("durationLength") &&
+                  validateNumericField(
+                    this.props.values.durationLength.value,
+                    this.props.prefLang,
+                    "durationLength"
+                  )}
+              </StackItem>
+            </Stack>
+          </div>
 
           <Stack horizontal verticalAlign="center">
             <StackItem>

@@ -45,7 +45,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
     <Stack  horizontal verticalAlign="center" >
       <StackItem>
         <Label  id={`${this.props.id}-label`} styles={labelSpacing}>
-          <p className={styles.mrg0}>
+          <p className={styles.mrg0} style={{paddingBottom:'8px'}}>
           { this.props.id === 'duration' 
           ? 
            ""
@@ -123,7 +123,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
     return (
       <>  
-        <div>    
+        <div style={{marginTop:'12px'}}>    
           <Dropdown
             aria-labelledby={`${this.props.id}-label`}
             aria-invalid={this.props.ariaInvalid}
