@@ -18,7 +18,7 @@ export default class Complete extends React.Component<ICompleteProps> {
 
     const imageProps: Partial<IImageProps>= {
       src: (require("../assets/checkmark.png")),
-      width: 200,
+      width: 150,
       imageFit: ImageFit.contain
     }
 
@@ -36,7 +36,7 @@ export default class Complete extends React.Component<ICompleteProps> {
         </div>
 
         <div style={{textAlign: 'center'}}>
-          <p><strong>{this.props.jobOppId ? this.strings.update_para1 :this.strings.complete_para1}</strong></p>
+          <p><b>{this.props.jobOppId ? this.strings.update_para1 :this.strings.complete_para1}</b></p>
         </div>
 
         <div>
