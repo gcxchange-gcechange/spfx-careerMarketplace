@@ -37,7 +37,7 @@ export default class Complete extends React.Component<ICompleteProps> {
 
         <div style={{textAlign: 'center'}}>
           <p><b>{this.props.jobOppId ? this.strings.update_para1 :this.strings.complete_para1}</b></p>
-        </div>
+        </div><br />
 
         <div>
           <h3>{this.strings.next_steps}</h3>
