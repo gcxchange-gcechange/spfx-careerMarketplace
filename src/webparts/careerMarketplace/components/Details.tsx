@@ -10,6 +10,7 @@ import {
   IComboBoxOption,
   IComboBoxStyles,
   IDropdownOption,
+  ILabelStyles,
   IStackTokens,
   Label,
   Stack,
@@ -111,13 +112,19 @@ export default class Details extends React.Component<IDetailsProps> {
         fontWeight: "700",
         borderLeft: "2px solid rgb(164, 38, 44)",
         paddingLeft: "5px",
-        marginTop: "5px",
+        marginTop: "4px",
       },
     };
     const comboBoxStyles: Partial<IComboBoxStyles> = {
       errorMessage: { margin: "0px", fontWeight: "700" },
         callout: {vhmax: "50%"}
     };
+
+    const labelSpacing: Partial<ILabelStyles> = {
+      root:{
+        padding:'0px 0px 4px 0px'
+      }
+    }
 
     const isReadOnly = this.props.currentPage === 3;
     const durationDisabled = this.props.currentPage === 3 || permDeploy;
@@ -169,230 +176,226 @@ export default class Details extends React.Component<IDetailsProps> {
           </>
         )}
 
-        <div>
-          <Stack>
-            <ReusableTextField
-              id={"jobTitleEn"}
-              name={"jobTitleEn"}
-              title={`${this.strings.job_Title} ${this.strings.english}`}
-              onChange={this.onChangeTextValue}
-              defaultValue={this.props.values.jobTitleEn}
-              disabled={isReadOnly}
-              onGetErrorMessage={() => validateEmpty(jobTitleEn, "jobTitleEn", this.props.prefLang)}
-              ariaLabelRequired={this.strings.required}
-              ariaInvalid={isInvalid("jobTitleEn", this.props.inlineFieldErrors)}
-              maxLength={255}
-              instruction={this.strings.jobTitle_Instructions}
-              placeholder={this.strings.enter_jobTitleEn}
-            />
+          <ReusableTextField
+            id={"jobTitleEn"}
+            name={"jobTitleEn"}
+            title={`${this.strings.job_Title} ${this.strings.english}`}
+            onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.jobTitleEn}
+            disabled={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(jobTitleEn, "jobTitleEn", this.props.prefLang)}
+            ariaLabelRequired={this.strings.required}
+            ariaInvalid={isInvalid("jobTitleEn", this.props.inlineFieldErrors)}
+            maxLength={255}
+            instruction={this.strings.jobTitle_Instructions}
+            placeholder={this.strings.enter_jobTitleEn}
+          />
 
-            <ReusableTextField
-              id={"jobTitleFr"}
-              name={"jobTitleFr"}
-              title={`${this.strings.job_Title} ${this.strings.french}`}
-              onChange={this.onChangeTextValue}
-              defaultValue={this.props.values.jobTitleFr}
-              disabled={isReadOnly}
-              onGetErrorMessage={() => validateEmpty(jobTitleFr, "jobTitleFr", this.props.prefLang)}
-              ariaLabelRequired={this.strings.required}
-              maxLength={255}
-              instruction={this.strings.jobTitle_Instructions}
-              placeholder={this.strings.enter_jobTitleFr}
-            />
+          <ReusableTextField
+            id={"jobTitleFr"}
+            name={"jobTitleFr"}
+            title={`${this.strings.job_Title} ${this.strings.french}`}
+            onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.jobTitleFr}
+            disabled={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(jobTitleFr, "jobTitleFr", this.props.prefLang)}
+            ariaLabelRequired={this.strings.required}
+            maxLength={255}
+            instruction={this.strings.jobTitle_Instructions}
+            placeholder={this.strings.enter_jobTitleFr}
+          />
 
-            <ReusableTextField
-              id={"jobDescriptionEn"}
-              name={"jobDescriptionEn"}
-              title={`${this.strings.job_Description} ${this.strings.english}`}
-              onChange={this.onChangeTextValue}
-              defaultValue={this.props.values.jobDescriptionEn}
-              multiline={true}
-              disabled={isReadOnly}
-              onGetErrorMessage={() => validateEmpty( jobDescriptionEn, "jobDescriptionEn", this.props.prefLang )}
-              ariaLabelRequired={this.strings.required}
-              maxLength={10000}
-              instruction={this.strings.jobDescription_Instructions}
-              placeholder={this.strings.enter_jobDescEn}
-            />
-            <ReusableTextField
-              id={"jobDescriptionFr"}
-              name={"jobDescriptionFr"}
-              title={`${this.strings.job_Description} ${this.strings.french}`}
-              onChange={this.onChangeTextValue}
-              defaultValue={this.props.values.jobDescriptionFr}
-              multiline={true}
-              disabled={isReadOnly}
-              onGetErrorMessage={() => validateEmpty(
-                  jobDescriptionFr,
-                  "jobDescriptionFr",
-                  this.props.prefLang
-                )
-              }
-              ariaLabelRequired={this.strings.required}
-              maxLength={10000}
-              instruction={this.strings.jobDescription_Instructions}
-              placeholder={this.strings.enter_jobDescFr}
-            />
+          <ReusableTextField
+            id={"jobDescriptionEn"}
+            name={"jobDescriptionEn"}
+            title={`${this.strings.job_Description} ${this.strings.english}`}
+            onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.jobDescriptionEn}
+            multiline={true}
+            disabled={isReadOnly}
+            onGetErrorMessage={() => validateEmpty( jobDescriptionEn, "jobDescriptionEn", this.props.prefLang )}
+            ariaLabelRequired={this.strings.required}
+            maxLength={10000}
+            instruction={this.strings.jobDescription_Instructions}
+            placeholder={this.strings.enter_jobDescEn}
+          />
+
+          <ReusableTextField
+            id={"jobDescriptionFr"}
+            name={"jobDescriptionFr"}
+            title={`${this.strings.job_Description} ${this.strings.french}`}
+            onChange={this.onChangeTextValue}
+            defaultValue={this.props.values.jobDescriptionFr}
+            multiline={true}
+            disabled={isReadOnly}
+            onGetErrorMessage={() => validateEmpty(
+                jobDescriptionFr,
+                "jobDescriptionFr",
+                this.props.prefLang
+              )
+            }
+            ariaLabelRequired={this.strings.required}
+            maxLength={10000}
+            instruction={this.strings.jobDescription_Instructions}
+            placeholder={this.strings.enter_jobDescFr}
+          />
 
 
-              <ReusableDropdownField
-                id={"jobType"}
-                name={"jobType"}
-                title={this.strings.job_Type}
-                options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.jobType, ]}
-                onChange={this.onChangeDropDownItem}
-                disabled={isReadOnly}
-                selectedKey={this.props.values.jobType.Guid}
-                ariaLabelRequired={this.strings.required}
-                instruction={this.strings.job_Type_description}
-                prefLang={this.props.prefLang}
-                errorMessage={
-                  this.props.values.jobType.Guid === "0"
-                    ? getLocalizedString("jobType", this.props.prefLang)
-                    : undefined
-                }
-                placeholder={this.strings.selectOption}
-              />
+          <ReusableDropdownField
+            id={"jobType"}
+            name={"jobType"}
+            title={this.strings.job_Type}
+            options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.jobType, ]}
+            onChange={this.onChangeDropDownItem}
+            disabled={isReadOnly}
+            selectedKey={this.props.values.jobType.Guid}
+            ariaLabelRequired={this.strings.required}
+            instruction={this.strings.job_Type_description}
+            prefLang={this.props.prefLang}
+            errorMessage={
+              this.props.values.jobType.Guid === "0"
+                ? getLocalizedString("jobType", this.props.prefLang)
+                : undefined
+            }
+            placeholder={this.strings.selectOption}
+          />
 
-            <ReusableDropdownField
-              id={"programArea"}
-              name={"programArea"}
-              title={this.strings.program_Area}
-              options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.programArea,]}
-              onChange={this.onChangeDropDownItem}
-              disabled={isReadOnly}
-              selectedKey={this.props.values.programArea.key}
-              ariaLabelRequired={this.strings.required}
-              instruction={this.strings.programArea_description}
-              inlineFieldErrors={this.props.inlineFieldErrors}
-              prefLang={this.props.prefLang}
-              placeholder={this.strings.selectOption}
-              errorMessage={
-                this.props.values.programArea.key === "0"
-                  ? getLocalizedString("programArea", this.props.prefLang)
-                  : undefined
-              }
-            />
+          <ReusableDropdownField
+            id={"programArea"}
+            name={"programArea"}
+            title={this.strings.program_Area}
+            options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.programArea,]}
+            onChange={this.onChangeDropDownItem}
+            disabled={isReadOnly}
+            selectedKey={this.props.values.programArea.key}
+            ariaLabelRequired={this.strings.required}
+            instruction={this.strings.programArea_description}
+            inlineFieldErrors={this.props.inlineFieldErrors}
+            prefLang={this.props.prefLang}
+            placeholder={this.strings.selectOption}
+            errorMessage={
+              this.props.values.programArea.key === "0"
+                ? getLocalizedString("programArea", this.props.prefLang)
+                : undefined
+            }
+          />
 
-            <div>
-              <Stack horizontal verticalAlign="center">
-                <StackItem style={{ padding: "5px 0px" }}>
-                  <Label
-                    id={"classificationCode-label"}
-                    htmlFor={"classificationCode"}
-                    style={{ fontWeight: "700" }}
+          <Stack horizontal verticalAlign="center">
+            <StackItem>
+              <Label
+                id={"classificationCode-label"}
+                htmlFor={"classificationCode"}
+                style={{ fontWeight: "700" }}
+                styles={labelSpacing}
+              >
+                <p className={styles.mrg0}>
+                  <span
+                    style={{ color: "rgb(164, 38, 44)" }}
+                    aria-hidden="true"
                   >
-                    <p className={styles.mrg0}>
-                      <span
-                        style={{ color: "rgb(164, 38, 44)" }}
-                        aria-hidden="true"
-                      >
-                        *
-                      </span>
-                      <span className={styles.visuallyHidden}>
-                        {this.strings.required}
-                      </span>
-                      {this.strings.classification_Code}
-                    </p>
-                    <p className={styles.instruction}>
-                      {this.strings.classification_Code_description}
-                    </p>
-                  </Label>
-                </StackItem>
-              </Stack>
-              <ComboBox
-                id={"classificationCode"}
-                aria-labelledby={"classificationCode-label"}
-                aria-describedby="classificationCode-error"
-                options={[{ key: "0", text: `--${this.strings.select}--` },...classificationCodeItems,]}
-                onChange={this.onChangeClassificationCode}
-                disabled={this.props.currentPage === 3}
-                selectedKey={this.props.values.classificationCode.key}
-                autoComplete="on"
-                allowFreeform
-                styles={comboBoxStyles}
-                errorMessage={
-                  this.props.values.classificationCode.key === "0"
-                    ? getLocalizedString(
-                        "classificationCode",
-                        this.props.prefLang
-                      )
-                    : undefined
-                }
-                placeholder={this.strings.selectOrType}
-                useComboBoxAsMenuWidth={true}
-              />
-            </div>
-
-            <ReusableDropdownField
-              id={"classificationLevel"}
-              name={"classificationLevel"}
-              title={this.strings.classification_Level}
-              options={[{ key: "0", text: `--${this.strings.select}--` }, ...filteredClassificationLevels]}
-              onChange={this.onChangeDropDownItem}
-              disabled={isReadOnly}
-              selectedKey={this.props.values.classificationLevel.key}
-              ariaLabelRequired={this.strings.required}
-              instruction={this.strings.classification_Level_description}
-              placeholder={this.strings.selectOption}
-              errorMessage={
-                this.props.values.classificationLevel.key === "0"
-                  ? getLocalizedString(
-                      "classificationLevel",
-                      this.props.prefLang
-                    )
-                  : undefined
-              }
-            />
-
-            <div>
-              <Stack>
-                <label
-                  htmlFor={"numberOfOpportunities"}
-                  style={{ padding: "5px 0px", fontWeight: "700" }}
-                >
-                  {this.strings.number_of_Opportunities}
-                </label>
-                <input
-                  type="number"
-                  id={"numberOfOpportunities"}
-                  name={"numberOfOpportunities"}
-                  min={1}
-                  max={60}
-                  value={numberOfOpportunities.value}
-                  aria-describedby="numberOfOpportunities-error"
-                  onChange={(e) => {
-                      let val = Number(e.target.value);
-
-                      // if empty string 
-                      if (e.target.value === '') {
-                        this.props.handleNumberofOpp('');
-                        return;
-                      }
-                      //if values are not within the 1-60
-                      if (val < 1) val = 1;
-                      if (val > 60) val = 60;
-
-                      this.props.handleNumberofOpp(val.toString());
-                    }}
-               
-                  required
-                  className={styles.durationLengthInput}
-                  disabled={isReadOnly}
-                />
-              </Stack>
-              {this.props.inlineFieldErrors?.includes(
-                "numberOfOpportunities"
-              ) &&
-                validateNumericField(
-                  numberOfOpportunities.value,
-                  this.props.prefLang,
-                  "numberOfOpportunities"
-                )}
-            </div>
+                    *
+                  </span>
+                  <span className={styles.visuallyHidden}>
+                    {this.strings.required}
+                  </span>
+                  {this.strings.classification_Code}
+                </p>
+                <p className={styles.instruction}>
+                  {this.strings.classification_Code_description}
+                </p>
+              </Label>
+            </StackItem>
           </Stack>
+          <ComboBox
+            id={"classificationCode"}
+            aria-labelledby={"classificationCode-label"}
+            aria-describedby="classificationCode-error"
+            options={[{ key: "0", text: `--${this.strings.select}--` },...classificationCodeItems,]}
+            onChange={this.onChangeClassificationCode}
+            disabled={this.props.currentPage === 3}
+            selectedKey={this.props.values.classificationCode.key}
+            autoComplete="on"
+            allowFreeform
+            styles={comboBoxStyles}
+            errorMessage={
+              this.props.values.classificationCode.key === "0"
+                ? getLocalizedString(
+                    "classificationCode",
+                    this.props.prefLang
+                  )
+                : undefined
+            }
+            placeholder={this.strings.selectOrType}
+            useComboBoxAsMenuWidth={true}
+          />
+          
 
-        <div>
+          <ReusableDropdownField
+            id={"classificationLevel"}
+            name={"classificationLevel"}
+            title={this.strings.classification_Level}
+            options={[{ key: "0", text: `--${this.strings.select}--` }, ...filteredClassificationLevels]}
+            onChange={this.onChangeDropDownItem}
+            disabled={isReadOnly}
+            selectedKey={this.props.values.classificationLevel.key}
+            ariaLabelRequired={this.strings.required}
+            instruction={this.strings.classification_Level_description}
+            placeholder={this.strings.selectOption}
+            errorMessage={
+              this.props.values.classificationLevel.key === "0"
+                ? getLocalizedString(
+                    "classificationLevel",
+                    this.props.prefLang
+                  )
+                : undefined
+            }
+          />
+
+          <Stack>
+            <label
+              htmlFor={"numberOfOpportunities"}
+              style={{ padding: "5px 0px", fontWeight: "700" }}
+            >
+              {this.strings.number_of_Opportunities}
+            </label>
+            <input
+              type="number"
+              id={"numberOfOpportunities"}
+              name={"numberOfOpportunities"}
+              min={1}
+              max={60}
+              value={numberOfOpportunities.value}
+              aria-describedby="numberOfOpportunities-error"
+              onChange={(e) => {
+                  let val = Number(e.target.value);
+
+                  // if empty string 
+                  if (e.target.value === '') {
+                    this.props.handleNumberofOpp('');
+                    return;
+                  }
+                  //if values are not within the 1-60
+                  if (val < 1) val = 1;
+                  if (val > 60) val = 60;
+
+                  this.props.handleNumberofOpp(val.toString());
+                }}
+            
+              required
+              className={styles.durationLengthInput}
+              disabled={isReadOnly}
+            />
+          </Stack>
+            {this.props.inlineFieldErrors?.includes(
+              "numberOfOpportunities"
+            ) &&
+              validateNumericField(
+                numberOfOpportunities.value,
+                this.props.prefLang,
+                "numberOfOpportunities"
+              )}
+          
+
           <Label
             id={"duration-label"}
             htmlFor={"duration"}
@@ -484,7 +487,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 )}
             </StackItem>
           </Stack>
-          </div>
+ 
 
           <Stack horizontal verticalAlign="center">
             <StackItem>
@@ -508,19 +511,20 @@ export default class Details extends React.Component<IDetailsProps> {
             </StackItem>
           </Stack>
 
+          <div>
+            <DatePicker
+              id={"deadline"}
+              aria-labelledby={"deadline"}
+              className={styles.labelStyle}
+              ariaLabel={this.strings.application_deadline}
+              onSelectDate={this.onSelectedDate}
+              disabled={isReadOnly}
+              formatDate={reformatDate}
+              value={this.props.values.deadline}
+              minDate={this.props.jobOppId ? undefined : oneMonthLater}
+            />
+          </div>
 
-          <DatePicker
-            id={"deadline"}
-            aria-labelledby={"deadline"}
-            className={styles.labelStyle}
-            ariaLabel={this.strings.application_deadline}
-            onSelectDate={this.onSelectedDate}
-            disabled={isReadOnly}
-            formatDate={reformatDate}
-            value={this.props.values.deadline}
-            minDate={this.props.jobOppId ? undefined : oneMonthLater}
-          />
-        </div>
       </>
     );
   }

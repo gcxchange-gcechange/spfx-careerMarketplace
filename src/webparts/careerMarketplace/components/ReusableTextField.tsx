@@ -1,4 +1,4 @@
-import { ITextFieldStyles,  Label,  Stack, StackItem, TextField } from '@fluentui/react';
+import { ILabelStyles, ITextFieldStyles,  Label,  Stack, StackItem, TextField } from '@fluentui/react';
 import * as React from 'react';
 import styles from './CareerMarketplace.module.scss';
 
@@ -29,11 +29,17 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
 
   public customLabel = (): JSX.Element => {
 
+    const labelSpacing: Partial<ILabelStyles> = {
+      root:{
+        padding:'0px 0px 4px 0px'
+      }
+    }
+
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem>
-        <Label id={`${this.props.id}-label`}>
-          <p className={styles.mrg0}>
+        <Label id={`${this.props.id}-label`} styles={labelSpacing}>
+          <p className={styles.mrg0} style={{paddingBottom:'8px'}}>
             <span  aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}} >
               *
             </span>
@@ -56,8 +62,10 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
       }
     }
 
+
+
     return (
-      <div>
+      <div style={{marginTop: '16px'}}>
         <TextField
           aria-labelledby={`${this.props.id}-label`}
           aria-invalid={this.props.ariaInvalid}
