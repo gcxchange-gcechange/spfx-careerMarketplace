@@ -80,7 +80,7 @@ define([], function() {
       "duration_time_period": "Période de la possibilité d’emploi",
 
       //complete
-      "complete_title":"Terminer",
+      "complete_title":"Opportunité publiée",
       "complete_para1":"Félicitations! Vous avez créé une nouvelle possibilité d’emploi",
       "complete_para2":"Pour que le Marché de carrière soit toujours à jour et pertinent, ",
       "complete_para2_bold":" les possibilités d’emploi sont automatiquement supprimés six mois après la date limite de candidature.",
@@ -88,9 +88,14 @@ define([], function() {
       "view":"Afficher la possibilité d’emploi",
       "complete_para3":"Il peut falloir jusqu’à 20 minutes pour que votre nouveau message de possibilité d’emploi apparaisse dans le Marché de carrière.",
       "complete_para4":"Vous pouvez maintenant consulter et modifier votre offre d’emploi, ou retourner à la page d’accueil du Marché de carrière.",
+      "next_steps": "Étapes suivantes",
+      "application_process_1": "Les candidatures seront envoyées directement à votre boîte de courriel professionnelle.",
+      "application_process_2": " Surveillez votre boîte de réception pour les nouvelles candidatures et faites un suivi directement avec les personnes candidates.",
+      "manage_opportunity_1": "Si vous devez modifier votre opportunité, vous pouvez",
+      "manage_opportunity_2": " gérer et modifier vos opportunités",
+      "manage_opportunity_3": " à partir de la page Mes opportunités.",
 
       //errorPage
-
       "server_error_title": "Erreur de serveur ",
       "error_p1": "Désolé, une erreur de serveur empêche actuellement l’affichage de votre offre d’emploi.",
       "error_p2":"Pour nous aider à corriger la situation, veuillez appliquer la procédure suivante :",
