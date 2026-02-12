@@ -356,6 +356,12 @@ export default class Details extends React.Component<IDetailsProps> {
               htmlFor={"numberOfOpportunities"}
               style={{ padding: "0px 0px 8px", fontWeight: "700",  }}
             >
+              <span
+                  style={{ color: "rgb(164, 38, 44)" }}
+                  aria-hidden="true"
+                >
+                  *
+              </span>
               {this.strings.number_of_Opportunities}
             </label>
             <input
@@ -416,15 +422,15 @@ export default class Details extends React.Component<IDetailsProps> {
               </p>
             </Label>
 
-            <p
-              id={"duration-input-label"}
-              style={{ padding: "5px 0px", fontWeight: "700" }}
-              className={styles.mrg0}
-            >
-              {this.strings.time_period}
-            </p>
-            <Stack horizontal tokens={customSpacingStackTokens} wrap>
+            <Stack horizontal tokens={customSpacingStackTokens} wrap style={{marginTop: '16px'}} verticalAlign="end">
               <StackItem>
+              <p
+                id={"duration-input-label"}
+                style={{fontWeight: "700", marginBottom:'8px'}}
+                className={styles.mrg0}
+              >
+                {this.strings.time_period}
+              </p>
                 <Dropdown
                   id={"duration"}
                   aria-labelledby={`${"duration-label"} ${"duration-input-label"}`}
@@ -444,10 +450,10 @@ export default class Details extends React.Component<IDetailsProps> {
               </StackItem>
 
               <StackItem>
-                <Stack style={{ marginTop: "-28px" }}>
+                <Stack>
                   <label
                     id={"durationLength"}
-                    style={{ marginTop:'8px', fontWeight: "700" }}
+                    style={{marginBottom:'8px', fontWeight: "700" }}
                   >
                     {this.strings.length}
                   </label>
@@ -490,10 +496,10 @@ export default class Details extends React.Component<IDetailsProps> {
             </Stack>
           </div>
 
-          <Stack horizontal verticalAlign="center">
+          <Stack horizontal verticalAlign="center" style={{marginTop:'12px'}}>
             <StackItem>
-              <Label id={"deadline"}>
-                <p className={styles.mrg0}>
+              <Label id={"deadline"} styles={labelSpacing}>
+                <p className={styles.mrg0} style={{marginBottom:'8px', fontWeight:'700'}}>
                   <span
                     style={{ color: "rgb(164, 38, 44)" }}
                     aria-hidden="true"
@@ -505,14 +511,13 @@ export default class Details extends React.Component<IDetailsProps> {
                   </span>
                   {this.strings.application_deadline}
                 </p>
-                <p className={styles.instruction}>
+                <p className={styles.instruction} style={{marginBottom:'4px'}}>
                   {this.strings.application_deadline_description}
                 </p>
               </Label>
             </StackItem>
           </Stack>
 
-          <div>
             <DatePicker
               id={"deadline"}
               aria-labelledby={"deadline"}
@@ -524,8 +529,6 @@ export default class Details extends React.Component<IDetailsProps> {
               value={this.props.values.deadline}
               minDate={this.props.jobOppId ? undefined : oneMonthLater}
             />
-          </div>
-
       </>
     );
   }
