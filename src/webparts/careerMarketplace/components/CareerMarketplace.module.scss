@@ -271,6 +271,11 @@ input[type="text"][disabled] {
     .ql-editor p{
       font-size: 14px!important;
     }
+
+    .ql-editor ol li, .ql-editor ul li {
+      font-size: 14px!important;
+    }
+
     .ql-active .ql-editor:focus {
       border: 1px solid rgb(3, 120, 124)!important;
       border-radius: 2px;
