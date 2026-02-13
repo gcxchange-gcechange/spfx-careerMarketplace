@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
-import { Dropdown, IDropdownOption, IDropdownStyles, Label, Link, Stack, StackItem} from '@fluentui/react';
+import { Dropdown, IDropdownOption, IDropdownStyles, ILabelStyles, Label, Link, Stack, StackItem} from '@fluentui/react';
 import styles from './CareerMarketplace.module.scss';
 //import { validate } from './Validations';
 
@@ -34,13 +34,24 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
 
   public customLabel = (): JSX.Element => {
 
+    const labelSpacing: Partial<ILabelStyles> = {
+      root:{
+        padding:'0px 0px 4px 0px'
+      }
+    }
+
+    const noInstructionLabelSpacing: Partial<ILabelStyles> = {
+      root:{
+        padding:'0px 0px 0px 0px'
+      }
+    }
   
 
     return (
     <Stack  horizontal verticalAlign="center" >
       <StackItem>
-        <Label  id={`${this.props.id}-label`} >
-          <p className={styles.mrg0}>
+        <Label  id={`${this.props.id}-label`} styles={this.props.instruction !== undefined ? labelSpacing : noInstructionLabelSpacing}>
+          <p className={styles.mrg0} style={{paddingBottom:'8px'}}>
           { this.props.id === 'duration' 
           ? 
            ""
@@ -88,7 +99,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         fontWeight: 700,
         borderLeft: '2px solid rgb(164, 38, 44)',
         paddingLeft: '5px',
-        marginTop: '2px'
+        marginTop: '4px'
       },
       title: {
         color: 'rgb(96,94,92)',
@@ -108,7 +119,7 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
         fontWeight: 700,
         borderLeft: '2px solid rgb(164, 38, 44)',
         paddingLeft: '5px',
-        marginTop: '2px'
+        marginTop: '4px'
       },
       
     }
@@ -117,17 +128,19 @@ export default class ReusableDropdownField extends React.Component<IReusableDrop
   
 
     return (
-      <>      
-        <Dropdown
-          aria-labelledby={`${this.props.id}-label`}
-          aria-invalid={this.props.ariaInvalid}
-          options={this.props.options as IDropdownOption[]} 
-          onRenderLabel={this.customLabel} 
-          multiSelect={this.props.multiselect} 
-          className={styles.labelStyle} 
-          styles={!excludedIds.includes(this.props.id) ? dropdownStyle : langDropdownStyle} 
-          {...this.props}
-        />       
+      <>  
+        <div style={this.props.instruction !== undefined ? {marginTop: '12px'}:{marginTop: '16px'}}>    
+          <Dropdown
+            aria-labelledby={`${this.props.id}-label`}
+            aria-invalid={this.props.ariaInvalid}
+            options={this.props.options as IDropdownOption[]} 
+            onRenderLabel={this.customLabel} 
+            multiSelect={this.props.multiselect} 
+            className={styles.labelStyle} 
+            styles={!excludedIds.includes(this.props.id) ? dropdownStyle : langDropdownStyle} 
+            {...this.props}
+          />    
+        </div>   
       </>
 
     )

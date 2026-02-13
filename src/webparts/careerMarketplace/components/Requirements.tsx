@@ -121,18 +121,17 @@ export default class Requirements extends React.Component<IRequirementsProps> {
         </div>
         <form>
           
-          <div>
-            <Stack  horizontal verticalAlign="center" >
-              <StackItem style={{padding:'5px 0px'}}>
+            <Stack  horizontal verticalAlign="center" style={{marginTop:'16px'}}>
+              <StackItem>
                 <Label htmlFor={'skills'} id={"skills-label"} style={{fontWeight: '700'}}>
-                  <p className={styles.mrg0}>
+                  <p className={styles.mrg0} style={{marginBottom: '8px'}}>
                     <span style={{color: 'rgb(164, 38, 44)'}} aria-hidden='true'>
                       *
                     </span>
                     <span className={styles.visuallyHidden}>{this.strings.required}</span>
                     {this.strings.skillsField}
                   </p>
-                  <p className={styles.instruction}>{this.strings.skills_description} 
+                  <p className={styles.instruction} style={{marginBottom:'4px'}}>{this.strings.skills_description} 
                     {
                     <Link underline={true} href="https://www.gcpedia.gc.ca/wiki/GCconnex_Skill_List_-_Liste_des_comp%C3%A9tences_se_trouvant_sur_GCconnex" target="_blank" rel="noreferrer">
                       {this.strings.skills_description_link}
@@ -164,7 +163,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
                 
               }
 
-          </div>
       
           <ReusableDropdownField
             id={"workSchedule"}
