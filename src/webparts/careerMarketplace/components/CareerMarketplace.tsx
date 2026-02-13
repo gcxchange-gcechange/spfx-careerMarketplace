@@ -398,37 +398,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   };
 
-    private convertToParagraph = (value: string): string => {
-  if (!value) return value;
-
-  const container = document.createElement('div');
-  container.innerHTML = value;
-
-  container.querySelectorAll('h1,h2,h3,h4,a,i,img').forEach(el => {
-    const p = document.createElement('p');
-
-    p.innerHTML = el.innerHTML;
-    p.className = el.className;
-    p.setAttribute('style', el.getAttribute('style') || '');
-
-    el.replaceWith(p);
-  });
-
-  const styledElements = container.querySelectorAll("[style]");
-
-  for (const el of Array.from(styledElements)) {
-    const style = el.getAttribute("style");
-
-    if (style !== 'color: rgb(50, 49, 48);') {
-      el.setAttribute("style", 'color: rgb(50, 49, 48);');
-
-      return container.innerHTML;
-    }
-  }
-
-  return container.innerHTML;
-};
-
 
 
 
@@ -450,19 +419,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             : [...prev.inlineFieldErrors, "jobDescriptionFr"]
         }));
       } else {
-        const cleanedText = this.convertToParagraph(value);
-
         this.setState(prev => ({
           inlineFieldErrors: prev.inlineFieldErrors.filter(
             err => err !== eventName
           )
         }));
-        this.setState((prevState) => ({
-          values: {
-            ...prevState.values,
-            [eventName]:cleanedText
-          }
-        }))
       }
 
 
@@ -1012,6 +973,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     });
 
     const cleanUpDropDownFields = this.state.dropdownFields.filter((n) => n)
+    console.log("clear", cleanUpDropDownFields)
 
     this.onBlur(cleanUpDropDownFields);
 
@@ -1021,6 +983,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     fields.forEach((fieldId) => {
       const dropdownElement = document.getElementById(fieldId);
+
   
       if (dropdownElement) {
         let tab: boolean = false;

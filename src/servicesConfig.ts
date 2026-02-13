@@ -11,7 +11,6 @@ export const createOpportunityConfig = {
   programAreaTermId:"bd807536-d8e7-456b-aab0-fae3eecedd8a",
 };
 
-
 const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?";
 
 export const getJobOpportunityUrl = (jobOpportunityId: string | null ):string => {

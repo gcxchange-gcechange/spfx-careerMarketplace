@@ -38,7 +38,7 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     } 
     else if (value.length < 5 && fieldName !== 'numberOfOpportunities' ) {
         return (
-            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine} style={{paddingTop:'5px'}}>
                 <p style={{margin: '0px', fontWeight: '700'}}>{localizedMinChar}</p>
             </div>
         )
@@ -74,6 +74,7 @@ export const validate = (value: any, language:any, fieldName?: string ) : string
 }
 
 export const validateNumericField = (value: any, language:string, fieldName: string) : string| JSX.Element | undefined => {
+    console.log('Value:', value)
 
     const min: number = 1;
     const max:number = 60;
@@ -81,7 +82,7 @@ export const validateNumericField = (value: any, language:string, fieldName: str
     if (value === undefined || value === "" || value === null || value === 0 || value === '0') {
 
         return ( 
-            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine} style={{paddingTop:'5px'}}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{ getLocalizedString(`${fieldName}`, language)}</p>
             </div>
         )
@@ -89,7 +90,7 @@ export const validateNumericField = (value: any, language:string, fieldName: str
 
     if (value < min) {
         return( 
-            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>
+            <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine} style={{paddingTop:'5px'}}>
                 <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{getLocalizedString(`${fieldName}`, language)}</p>
             </div>
         )

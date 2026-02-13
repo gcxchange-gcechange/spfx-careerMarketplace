@@ -89,7 +89,12 @@ declare interface ICareerMarketplaceWebPartStrings {
   "view": string;
   "complete_para3": string;
   "complete_para4": string;
-
+  "next_steps": string;
+  "application_process_1": string;
+  "application_process_2": string;
+  "manage_opportunity_1": string;
+  "manage_opportunity_2": string;
+  "manage_opportunity_3": string;
 
   //errorPage
 
