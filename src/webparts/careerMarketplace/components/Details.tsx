@@ -499,7 +499,7 @@ export default class Details extends React.Component<IDetailsProps> {
           <Stack horizontal verticalAlign="center" style={{marginTop:'12px'}}>
             <StackItem>
               <Label id={"deadline"} styles={labelSpacing}>
-                <p className={styles.mrg0} style={{marginBottom:'8px', fontWeight:'700'}}>
+                <p className={styles.mrg0} style={{paddingBottom:'8px', fontWeight:'700'}}>
                   <span
                     style={{ color: "rgb(164, 38, 44)" }}
                     aria-hidden="true"
@@ -511,7 +511,7 @@ export default class Details extends React.Component<IDetailsProps> {
                   </span>
                   {this.strings.application_deadline}
                 </p>
-                <p className={styles.instruction} style={{marginBottom:'4px'}}>
+                <p className={styles.instruction} style={{paddingBottom:'4px'}}>
                   {this.strings.application_deadline_description}
                 </p>
               </Label>
