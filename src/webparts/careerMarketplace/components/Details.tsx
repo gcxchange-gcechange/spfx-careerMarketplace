@@ -110,13 +110,13 @@ export default class Details extends React.Component<IDetailsProps> {
       errorMessage: {
         margin: "0px",
         fontWeight: "700",
-        borderLeft: "2px solid rgb(164, 38, 44)",
+        
         paddingLeft: "5px",
         marginTop: "4px",
       },
     };
     const comboBoxStyles: Partial<IComboBoxStyles> = {
-      errorMessage: { margin: "0px", fontWeight: "700", marginTop: '4px' },
+      errorMessage: { margin: "0px", fontWeight: "700", paddingLeft: '5px', marginTop:"4px", borderLeft: "2px solid rgb(164, 38, 44)", },
         callout: {vhmax: "50%"}
     };
 
@@ -392,6 +392,7 @@ export default class Details extends React.Component<IDetailsProps> {
               disabled={isReadOnly}
             />
           </Stack>
+          <div style={{marginTop: '5px'}}>
             {this.props.inlineFieldErrors?.includes(
               "numberOfOpportunities"
             ) &&
@@ -400,6 +401,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 this.props.prefLang,
                 "numberOfOpportunities"
               )}
+          </div>
           
           <div style={{marginTop:'16px'}}>
             <Label
@@ -422,7 +424,7 @@ export default class Details extends React.Component<IDetailsProps> {
               </p>
             </Label>
 
-            <Stack horizontal tokens={customSpacingStackTokens} wrap style={{marginTop: '16px'}} verticalAlign="end">
+            <Stack horizontal tokens={customSpacingStackTokens}  style={{marginTop: '16px'}}>
               <StackItem>
               <p
                 id={"duration-input-label"}
