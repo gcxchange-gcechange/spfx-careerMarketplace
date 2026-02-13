@@ -72,8 +72,6 @@ define([], function() {
     "oralFRField": "French oral expression",
     "work_arrangment":"Work arrangement",
     "work_arrangment_description": "Using the drop-down menu, select the type of work arrangement that corresponds with your opportunity.",
-   
-
 
     //Page 4 - Review and Submit
     "reviewSubmit_title": "Review and submit",
@@ -82,17 +80,22 @@ define([], function() {
     "duration_time_period": "Time period for opportunity",
 
     //complete
-    "complete_title":"Complete",
-    "complete_para1":"Congratulations! You have created a new opportunity.",
+    "complete_title":"Opportunity posted",
+    "complete_para1":"Congratulations! Your opportunity has been successfully created.",
     "complete_para2":"To keep the Career Marketplace fresh and relevant, ",
     "complete_para2_bold":" opportunity posts are automatically removed six months after the application deadline.",
     "complete_para2_b":" We recommend saving a copy for your records.",
     "view":"View opportunity",
     "complete_para3":"It may take up to 20 minutes for your new opportunity post to appear on the Career Marketplace homepage.",
     "complete_para4":"You can now edit or view your opportunity, or head back to the Career Marketplace homepage.",
+    "next_steps": "Next steps",
+    "application_process_1": "Applications will be sent directly to your work email inbox.",
+    "application_process_2": " Monitor your inbox for incoming applications and follow up directly with candidates.",
+    "manage_opportunity_1": "If you need to make changes to your opportunity, you can",
+    "manage_opportunity_2": " manage and edit your opportunities",
+    "manage_opportunity_3": " from the My opportunities page.",
 
     //errorPage
-
     "server_error_title": "Server error",
     "error_p1": "We’re sorry, but a server error has occurred, and your job opportunity couldn’t be posted at this time.",
     "error_p2":"To help us resolve this issue, please follow these steps:",
