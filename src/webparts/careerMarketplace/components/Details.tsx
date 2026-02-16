@@ -232,21 +232,21 @@ private convertToParagraph = (value: string): string => {
 
     const editor = document.querySelectorAll(".ql-editor");
     const toolbar = document.querySelectorAll(".ql-toolbar");
+    
 
     editor.forEach((node, index) => {
+      
        node.setAttribute("data-field", String(index + 1));
       
        if (index === 0) {
-        node.setAttribute("tabIndex", '0');
         node.setAttribute('aria-labelledby','jobDescriptionEn-label');
-        node.setAttribute('role', 'textbox');
+        node.setAttribute('role', 'input');
         if (this.props.inlineFieldErrors?.includes("jobDescriptionEn")) {
           node.setAttribute('aria-invalid', 'true')
         }
        } else {
-        node.setAttribute("tabIndex", '0');
         node.setAttribute('aria-labelledby','jobDescriptionFr-label');
-        node.setAttribute('role', 'textbox');
+        node.setAttribute('role', 'input');
          if (this.props.inlineFieldErrors?.includes("jobDescriptionFr")) {
           node.setAttribute('aria-invalid', 'true')
         }
@@ -257,6 +257,8 @@ private convertToParagraph = (value: string): string => {
     toolbar.forEach((node) => {
       node.setAttribute("role","toolbar")
     })
+
+    
 
 
     return (
@@ -298,12 +300,12 @@ private convertToParagraph = (value: string): string => {
             placeholder={this.strings.enter_jobTitleFr}
           />
 
-            <Stack>
-              <FocusZone tabIndex={0} handleTabKey={FocusZoneTabbableElements.inputOnly}>
+            <Stack style={{marginTop:'16px'}}>
+              <FocusZone handleTabKey={FocusZoneTabbableElements.inputOnly}>
                 <Stack horizontal verticalAlign="center" >
                   <StackItem>
-                    <Label id={`jobDescriptionEn-label`} >
-                      <p className={styles.mrg0}>
+                    <Label id={`jobDescriptionEn-label`} styles={labelSpacing}>
+                      <p className={styles.mrg0} style={{paddingBottom:"8px"}}>
                         <>
                           <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">
                             *
@@ -316,7 +318,7 @@ private convertToParagraph = (value: string): string => {
                     </Label>
                   </StackItem>
                 </Stack>
-              <div  className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError_English : ""}>
+              <div  className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError_English : ""} >
                 <RichText
                   id={"jobDescriptionEn"}
                   value={jobDescriptionEn}
@@ -347,12 +349,12 @@ private convertToParagraph = (value: string): string => {
                 )}
             </div>
           
-            <Stack>
-              <FocusZone tabIndex={0} handleTabKey={FocusZoneTabbableElements.inputOnly}>
+            <Stack style={{marginTop:'16px'}}>
+              <FocusZone handleTabKey={FocusZoneTabbableElements.inputOnly}>
                 <Stack horizontal verticalAlign="center" >
                   <StackItem>
-                    <Label id={`jobDescriptionFr-label`} >
-                      <p className={styles.mrg0}>
+                    <Label id={`jobDescriptionFr-label`} styles={labelSpacing}>
+                      <p className={styles.mrg0} style={{paddingBottom:"8px"}}>
                         <>
                           <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">
                             *
@@ -365,24 +367,24 @@ private convertToParagraph = (value: string): string => {
                     </Label>
                   </StackItem>
                 </Stack>
+                <div  className={this.props.inlineFieldErrors?.includes("jobDescriptionFr") ? styles.editorError_French : ""}  >
+                  <RichText
+                    id={"jobDescriptionFr"}
+                    value={jobDescriptionFr}
+                    onChange={this.onChangeRichTextValueFr}
+                    placeholder={this.strings.enter_jobDescFr}
+                    styleOptions={{
+                      showBold: true,
+                      showItalic: true,
+                      showUnderline: true,
+                      showList: true,
+                      showAlign: true,
+                      showLink: false,
+                      showMore: false
+                    }}
 
-                <RichText
-                  id={"jobDescriptionFr"}
-                  value={jobDescriptionFr}
-                  onChange={this.onChangeRichTextValueFr}
-                  placeholder={this.strings.enter_jobDescFr}
-                  styleOptions={{
-                    showBold: true,
-                    showItalic: true,
-                    showUnderline: true,
-                    showList: true,
-                    showAlign: true,
-                    showLink: false,
-                    showMore: false
-                  }}
-                  className={this.props.inlineFieldErrors?.includes("jobDescriptionFr") ? styles.editorError_French : ""}
-
-                />
+                  />
+                </div>
               </FocusZone>
             </Stack>
           <div role="alert">
