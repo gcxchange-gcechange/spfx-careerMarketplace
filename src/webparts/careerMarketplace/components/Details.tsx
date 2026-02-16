@@ -333,9 +333,6 @@ private convertToParagraph = (value: string): string => {
                     showLink: false,
                     showMore: false
                   }}
-                 
-                  
-
                 />
                 </div>
               </FocusZone>
