@@ -146,8 +146,8 @@ export default class Details extends React.Component<IDetailsProps> {
     };
 
     const today = new Date();
-    const oneMonthLater = new Date();
-    oneMonthLater.setMonth(today.getMonth() + 1);
+    const oneWeekLater = new Date();
+    oneWeekLater.setDate(today.getDate() + 7);
 
     //const selectedItems =  jobType.map((item: any) => item.value).filter((item: any) => item !== undefined);
 
@@ -520,17 +520,19 @@ export default class Details extends React.Component<IDetailsProps> {
             </StackItem>
           </Stack>
 
-            <DatePicker
-              id={"deadline"}
-              aria-labelledby={"deadline"}
-              className={styles.labelStyle}
-              ariaLabel={this.strings.application_deadline}
-              onSelectDate={this.onSelectedDate}
-              disabled={isReadOnly}
-              formatDate={reformatDate}
-              value={this.props.values.deadline}
-              minDate={this.props.jobOppId ? undefined : oneMonthLater}
-            />
+
+          <DatePicker
+            id={"deadline"}
+            aria-labelledby={"deadline"}
+            className={styles.labelStyle}
+            ariaLabel={this.strings.application_deadline}
+            onSelectDate={this.onSelectedDate}
+            disabled={isReadOnly}
+            formatDate={reformatDate}
+            value={this.props.values.deadline}
+            minDate={this.props.jobOppId ? undefined : oneWeekLater}
+          />
+        </div>
       </>
     );
   }
