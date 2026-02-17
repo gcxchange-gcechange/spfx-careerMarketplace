@@ -2,6 +2,9 @@
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
 import { SelectLanguage } from "./SelectLanguage";
+import CustomButton from "./CustomButton";
+import styles from "./CareerMarketplace.module.scss";
+import PageTitle from "./PageTitle";
 
 export interface IReviewPageProps {
     currentPage: number;
@@ -29,11 +32,17 @@ export interface IReviewPageProps {
     security: any;
     languageRequirements: any[];
     workArrangment: any;
-    // approvedStaffing: any;
+    handlePageNumber: (page: number) => void;
 }
 
 export default class ReviewPage extends React.Component<IReviewPageProps> {
     public strings = SelectLanguage(this.props.prefLang);
+
+
+    public goToPage = (subtractAmount: number):void => {
+        const newPage = this.props.currentPage - subtractAmount
+        this.props.handlePageNumber(newPage)
+    }
  
     public render(): React.ReactElement<IReviewPageProps> {
         console.log("PROPS",this.props)
@@ -44,6 +53,18 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
 
         return(
             <>
+            <p>{this.strings.reviewSubmit_para1}</p>
+
+            <div className={styles.reviewPageColor}>
+                <div className={styles.reviewPageHeader}>
+                    <PageTitle currentPage={1} prefLang={this.props.prefLang}/>
+                    <CustomButton
+                        id="1"
+                        name="submit"
+                        buttonType="primary"
+                        onClick={() => this.goToPage(3)}
+                    />
+                </div>
                 <ReusableTextField
                     id={"contactName"}
                     name={"contactName"}
@@ -73,6 +94,17 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     ariaLabelRequired={'required'}
                     multiline={true}
                 />
+            </div>
+
+            <div className={styles.reviewPageColor}>
+                <div className={styles.reviewPageHeader}>
+                     <CustomButton
+                        id="2"
+                        name="submit"
+                        buttonType="primary"
+                        onClick={(currentPage) => { console.log("currentPage", currentPage)}}
+                    />
+                </div>
 
                 <ReusableTextField
                     id={"jobTitleEn"}
@@ -189,7 +221,17 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     ariaLabelRequired={'required'}
                     multiline={true}
                 />
+            </div>
 
+            <div className={styles.reviewPageColor}>
+                <div className={styles.reviewPageHeader}>
+                    <CustomButton
+                        id="3"
+                        name="submit"
+                        buttonType="primary"
+                        onClick={(currentPage) => { console.log("currentPage", currentPage)}}
+                    />
+                </div>
                 <ReusableTextField
                     id={"skills"}
                     name={"skills"}
@@ -317,16 +359,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     ariaLabelRequired={'required'}
                     multiline={true}
                 />
-                {/* <ReusableTextField
-                    id={"approveStaffing"}
-                    name={"approvedStaffing"}
-                    title={this.strings.approved_staffing}
-                    defaultValue={isApproved }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                /> */}
-
+            </div>
                 
             </>
         )

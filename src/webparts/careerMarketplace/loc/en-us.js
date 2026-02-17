@@ -75,7 +75,7 @@ define([], function() {
 
     //Page 4 - Review and Submit
     "reviewSubmit_title": "Review and submit",
-    "reviewSubmit_para1": "This is a preview of your submission. It has not been submitted yet!",
+    "reviewSubmit_para1": "Please review the information below before submitting.",
     "duration_length":"Duration length for opportunity",
     "duration_time_period": "Time period for opportunity",
 

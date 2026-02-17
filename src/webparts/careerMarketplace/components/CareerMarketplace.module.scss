@@ -374,10 +374,19 @@ input[type="text"][disabled] {
    .ms-Panel-main  div#DropDownLists-list .ms-Dropdown-item {
     background-color: #03787c!important;
    }
- 
-  
-  }
 
+  }
+  
+  .reviewPageColor {
+   background: rgb(161, 159, 157);
+   padding: 20px;
+   border-radius: 2px;
+  }
+  .reviewPageHeader {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   
   
 

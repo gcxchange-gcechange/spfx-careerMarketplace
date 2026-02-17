@@ -127,6 +127,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
  
   }
 
+  public handlePageNumber = (page: number):void => {
+    this.setState({currentPage: page})
+  }
+
   private goToInitialPage = (value: number):void => {
     this.setState({ currentPage: value, validationStatus: 0 });
   }
@@ -1304,7 +1308,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             security={this.state.values.security}
             languageRequirements={this.state.values.languageRequirements}
             workArrangment={this.state.values.workArrangment}
-           // approvedStaffing={this.state.values.approvedStaffing}
+            handlePageNumber={this.handlePageNumber}
           />
           </>
         ),
