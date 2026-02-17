@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import ReusableTextField from "./ReusableTextField";
-import { ComboBox, IComboBox, IComboBoxOption,  IComboBoxStyles,   IDropdownOption, Label, Stack, StackItem } from "@fluentui/react";
+import { ComboBox, IComboBox, IComboBoxOption,  IComboBoxStyles,   IDropdownOption, ILabelStyles, Label, Stack, StackItem } from "@fluentui/react";
 import { SelectLanguage } from './SelectLanguage';
 import styles from './CareerMarketplace.module.scss';
 import { getLocalizedString, isInvalid } from "./Functions";
@@ -56,7 +56,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
 
     const comboBoxStyles: Partial<IComboBoxStyles> = { 
-      errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', marginTop: '5px' },
+      errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px'},
       callout: {vh: "50%"}
     }
 
@@ -72,6 +72,12 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
         },
       },
     }))
+
+    const labelSpacing: Partial<ILabelStyles> = {
+      root:{
+        padding:'0px 0px 8px 0px'
+      }
+    }
 
 
     return (
@@ -102,9 +108,9 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
           />
 
      
-          <Stack  horizontal verticalAlign="center" >
+          <Stack  horizontal verticalAlign="center" style={{marginTop:'16px'}}>
             <StackItem >
-              <Label id={"department-label"} htmlFor={'department'} style={{padding:'5px 0px', fontWeight: '700'}} >
+              <Label id={"department-label"} htmlFor={'department'} style={{ fontWeight: '700'}} styles={labelSpacing}>
                 <p className={styles.mrg0}>
                   <span aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}}>*</span>
                   <span className={styles.visuallyHidden}>{this.strings.required}</span>
@@ -114,19 +120,19 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             </StackItem>
           </Stack>
           <ComboBox
-              id={"department"}
-              aria-labelledby={"department-label"}
-              options={[{key: "0", text: `--${this.strings.select}--`}, ...comboBoxOptions.sort()] }
-              onChange={this.onChangeComboItem}
-              disabled={this.props.currentPage === 3}
-              selectedKey={ this.props.values.department.key}
-              autoComplete="on"
-              allowFreeform
-              errorMessage={this.props.values.department.key === "0"  ? getLocalizedString("department", this.props.prefLang): undefined}
-              styles={comboBoxStyles}
-              aria-invalid = {isInvalid("department", this.props.inlineFieldErrors)}
-              placeholder={this.strings.selectOrType}
-              useComboBoxAsMenuWidth={true}
+            id={"department"}
+            aria-labelledby={"department-label"}
+            options={[{key: "0", text: `--${this.strings.select}--`}, ...comboBoxOptions.sort()] }
+            onChange={this.onChangeComboItem}
+            disabled={this.props.currentPage === 3}
+            selectedKey={ this.props.values.department.key}
+            autoComplete="on"
+            allowFreeform
+            errorMessage={this.props.values.department.key === "0"  ? getLocalizedString("department", this.props.prefLang): undefined}
+            styles={comboBoxStyles}
+            aria-invalid = {isInvalid("department", this.props.inlineFieldErrors)}
+            placeholder={this.strings.selectOrType}
+            useComboBoxAsMenuWidth={true}
           />
       
           <ReusableTextField
