@@ -94,7 +94,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         classificationCode: {value: "" , pageNumber: 2},
         classificationLevel: {value: "" , pageNumber: 2},
         classificationLevelIds: "",
-        numberOfOpportunities: {value: 0, pageNumber: 2},
+        numberOfOpportunities: {value: 1, pageNumber: 2},
         durationLength: {value: 0, pageNumber: 2},
         duration: {value: "" , pageNumber: 2},
         deadline: threeMonthsLater,
@@ -647,6 +647,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       "JobDescriptionFr", 
       "JobType", 
       "ProgramArea",
+      "Program_Area",
       "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr",
       "ClassificationLevel/ID","ClassificationLevel/NameFr",
       "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
@@ -662,7 +663,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-    //console.log("item", item)
+    console.log("item", item)
  
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
@@ -723,7 +724,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
         jobType: {...prevState.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
-        programArea : {...prevState.programArea, key: item.ProgramArea[0].TermGuid},
+        programArea : {...prevState.programArea,  key: item.ProgramArea?.[0]?.TermGuid ?? item.Program_Area?.[0]?.TermGuid?? ""},
         classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},
         classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
