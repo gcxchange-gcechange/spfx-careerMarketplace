@@ -21,6 +21,7 @@ export interface IReusableTextFieldProps {
   maxLength?: number;
   instruction?: string;
   placeholder?: string;
+  underlined? : boolean;
 }
 
 
@@ -63,9 +64,9 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
 
   public render(): React.ReactElement<IReusableTextFieldProps> {
 
-    const disabledStyle : Partial<ITextFieldStyles>= {
+    const fieldStyle : Partial<ITextFieldStyles>= {
       field: {
-        color: 'black'
+        color: 'black',
       }
     }
 
@@ -75,13 +76,14 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
           aria-labelledby={`${this.props.id}-label`}
           aria-invalid={this.props.ariaInvalid}
           className={styles.labelStyle}
-          styles={disabledStyle}
+          styles={fieldStyle}
           onRenderLabel={this.customLabel}  
           validateOnLoad={false} 
           validateOnFocusOut={true}
           autoComplete='off'
           {...this.props} 
           onBlur={this.props.onBlur}
+          underlined={this.props.underlined}
         />
       </div>
     )

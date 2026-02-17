@@ -222,19 +222,19 @@ input[type="text"][disabled] {
   color: rgb(161, 159, 157);
 }
 
-:global {
+// :global {
 
 
-  .ms-Dropdown.is-disabled .ms-Dropdown-title {
-    color: #4F4F4F; 
-  }
+//   .ms-Dropdown.is-disabled .ms-Dropdown-title {
+//     color: #4F4F4F; 
+//   }
 
-  .ms-TextField.is-disabled .ms-TextField-field {
-    color: #4F4F4F;   
-    border-radius: 2px;
-    border: 1px solid #4F4F4F;
-  }
-}
+//   .ms-TextField.is-disabled .ms-TextField-field {
+//     color: #4F4F4F;   
+//     border-radius: 2px;
+//     border: 1px solid #4F4F4F;
+//   }
+// }
 
 :global {
   .ms-Dropdown:focus::after , .css-75:focus {
@@ -378,14 +378,28 @@ input[type="text"][disabled] {
   }
   
   .reviewPageColor {
-   background: rgb(161, 159, 157);
-   padding: 20px;
-   border-radius: 2px;
+    background: #f3f2f1;
+    padding: 20px;
+    border: 1px solid rgb(97, 96, 96);
+    border-radius: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 30px;
   }
+
   .reviewPageHeader {
     display:flex;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid rgb(97, 96, 96);
+    border-bottom: none;
+    background: #f3f2f1;
+    height: 40px;
+    padding: 0px 20px;
+  }
+
+  .reviewPageFields {
+     background: #f3f2f1;
   }
   
   

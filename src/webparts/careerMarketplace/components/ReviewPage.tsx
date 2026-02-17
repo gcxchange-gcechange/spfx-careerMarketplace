@@ -5,6 +5,7 @@ import { SelectLanguage } from "./SelectLanguage";
 import CustomButton from "./CustomButton";
 import styles from "./CareerMarketplace.module.scss";
 import PageTitle from "./PageTitle";
+import { ITextFieldStyles, TextField } from "@fluentui/react";
 
 export interface IReviewPageProps {
     currentPage: number;
@@ -46,6 +47,15 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
  
     public render(): React.ReactElement<IReviewPageProps> {
         console.log("PROPS",this.props)
+
+        
+            const disabledField: Partial<ITextFieldStyles>={
+              root: {
+                background:' #f3f2f1',
+                paddingLeft: '40px',
+                color: 'black'
+              }
+            }
         
         // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
         const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
@@ -55,25 +65,20 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
             <>
             <p>{this.strings.reviewSubmit_para1}</p>
 
-            <div className={styles.reviewPageColor}>
-                <div className={styles.reviewPageHeader}>
-                    <PageTitle currentPage={1} prefLang={this.props.prefLang}/>
-                    <CustomButton
-                        id="1"
-                        name="submit"
-                        buttonType="primary"
-                        onClick={() => this.goToPage(3)}
-                    />
-                </div>
-                <ReusableTextField
-                    id={"contactName"}
-                    name={"contactName"}
-                    title={this.strings.fullName}
-                    defaultValue={this.props.userInfo}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
+
+            <div className={styles.reviewPageHeader}>
+                <PageTitle currentPage={1} prefLang={this.props.prefLang}/>
+                <CustomButton
+                    id="1"
+                    name="edit"
+                    buttonType="primary"
+                    onClick={() => this.goToPage(3)}
                 />
+            </div>
+            <div className={styles.reviewPageColor}>
+                 <TextField label={this.strings.fullName} underlined disabled defaultValue={this.props.userInfo} styles={disabledField} />
+                 <TextField label={this.strings.departmentField} underlined disabled defaultValue={this.props.department.text} styles={disabledField}/>
+               
 
                 <ReusableTextField
                     id={"department"}
@@ -96,16 +101,16 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 />
             </div>
 
+            <div className={styles.reviewPageHeader}>
+                <PageTitle currentPage={2} prefLang={this.props.prefLang}/>
+                    <CustomButton
+                    id="2"
+                    name="edit"
+                    buttonType="primary"
+                    onClick={() => this.goToPage(2)}
+                />
+            </div>
             <div className={styles.reviewPageColor}>
-                <div className={styles.reviewPageHeader}>
-                     <CustomButton
-                        id="2"
-                        name="submit"
-                        buttonType="primary"
-                        onClick={(currentPage) => { console.log("currentPage", currentPage)}}
-                    />
-                </div>
-
                 <ReusableTextField
                     id={"jobTitleEn"}
                     name={"jobTitleEn"}
@@ -229,7 +234,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                         id="3"
                         name="submit"
                         buttonType="primary"
-                        onClick={(currentPage) => { console.log("currentPage", currentPage)}}
+                        onClick={() => this.goToPage(1)}
                     />
                 </div>
                 <ReusableTextField
