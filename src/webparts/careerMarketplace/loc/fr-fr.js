@@ -27,12 +27,12 @@ define([], function() {
       //Page 2 - Opportunity Details
       "oppotunityDetails_Title":"Détails de la possibilité d’emploi",
       "oppotunityDetails_para1": "Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps.",
-      "job_Title":"Titre du poste",
+      "job_Title":"Titre de l'opportunité",
       "jobTitle_Instructions":"La longueur du titre du poste doit être comprise entre 5 et 255 caractères.",
       "number_of_Opportunities":"Nombre de possibilités d’emploi",
-      "job_Description":"Description du poste",
-      "jobDescription_Instructions":"La longueur de la description du poste doit être comprise entre 5 et 10 000 caractères.",
-      "job_Type":"Type d’emploi",
+      "job_Description":"Description de l'opportunité",
+      "jobDescription_Instructions":"La longueur de la description de l'opportunité doit être comprise entre 5 et 10 000 caractères.",
+      "job_Type":"Type d’opportunité",
       "job_Type_description": "Conseils et des définitions sur chaque type d’occasion",
       "program_Area":"Secteur de programme",
       "programArea_description": "À l’aide du menu déroulant, sélectionnez le domaine de travail qui correspond le mieux à votre occasion.",
@@ -77,7 +77,8 @@ define([], function() {
       "reviewSubmit_title": "Revoir et soumettre",
       "reviewSubmit_para1":"Veuillez lire attentivement les informations ci-dessous avant de soumettre votre opportunité.",
       "duration_length":"Durée de la possibilité d’emploi",
-      "duration_time_period": "Période de la possibilité d’emploi",
+      "duration_time_period": "Durée de l'opportunité",
+      "location": "Lieu",
 
       //complete
       "complete_title":"Opportunité publiée",

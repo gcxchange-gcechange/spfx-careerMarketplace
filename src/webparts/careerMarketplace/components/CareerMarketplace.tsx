@@ -1327,7 +1327,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         <ThemeProvider applyTo='body' theme={myTheme}>
 
           <section>
-             <ReviewPage 
+             {/* <ReviewPage 
             userInfo={this.props.userDisplayName} 
             currentPage= {this.state.currentPage} 
             prefLang={this.props.prefLang}
@@ -1354,7 +1354,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             languageRequirements={this.state.values.languageRequirements}
             workArrangment={this.state.values.workArrangment}
             handlePageNumber={this.handlePageNumber}
-          />
+          /> */}
             <div>
                 { this.state.validationStatus === 200 ? (
                   //Success

@@ -27,12 +27,12 @@ define([], function() {
     //Page 2 - Opportunity Details
     "oppotunityDetails_Title":"Opportunity details",
     "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
-    "job_Title":"Job title ",
+    "job_Title":"Opportunity title ",
     "jobTitle_Instructions":"The job title must be between 5 and 255 characters in length.",
     "number_of_Opportunities":"Number of opportunities",
-    "job_Description":"Job description",
+    "job_Description":"Opportunity description",
     "jobDescription_Instructions":"The job description must be between 5 and 10,000 characters in length.",
-    "job_Type":"Job type",
+    "job_Type":"Opportunity type",
     "job_Type_description": "Guidance and definitions about each type of opportunity",
     "program_Area":"Program area",
     "programArea_description": "Using the drop-down menu, select the field of work that most closely corresponds with your opportunity.",
@@ -78,6 +78,8 @@ define([], function() {
     "reviewSubmit_para1": "Please review the information below before submitting.",
     "duration_length":"Duration length for opportunity",
     "duration_time_period": "Time period for opportunity",
+    "location": "Location",
+    "duration": "Duration",
 
     //complete
     "complete_title":"Opportunity posted",
