@@ -81,9 +81,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       postDetails: "",
       isNonJobSeeker: false,
       approvedStaffing: false,
+      workEmail: "",
 
 
       values: {
+        applyEmail: this.props.workEmail,
         department: {value: "" , pageNumber: 1},
         jobTitleEn: "",
         jobTitleFr: "",
@@ -159,6 +161,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }).map(([field]) => field)
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
+    console.log("stringVal", stringValues)
 
     for (const [key,value] of Object.entries(values)) {
 
@@ -298,7 +301,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const postDetailsObject = {
       [this.strings.fullName]: this.props.userDisplayName,
       [this.strings.departmentField]: this.state.values.department.text,
-      [this.strings.workEmail]: this.props.workEmail,
+      [this.strings.applyEmail]: this.state.values.applyEmail,
       [`${this.strings.job_Title} ${this.strings.english}`]: this.state.values.jobTitleEn,
       [`${this.strings.job_Title} ${this.strings.french}`]: this.state.values.jobTitleFr,
       [`${this.strings.job_Description} ${this.strings.english}`]: this.state.values.jobDescriptionEn,
@@ -406,7 +409,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public handleOnChangeTextField = (event: any, value: string): void => {
-    console.log("value", value)
+    console.log("valueParent", value)
+    console.log("event", event)
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const eventName = event;
     const trimmedInputValue = value.trim();
 
@@ -428,6 +433,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             err => err !== eventName
           )
         }));
+      }
+
+   
+
+      if (eventName === "applyEmail" && regex.test(value)) {
+        console.log("valid email")
+        this.setState((prevState) => ({
+            values: {
+              ...prevState.values,
+              applyEmail: trimmedInputValue
+
+            }
+        }))
       }
 
 
@@ -676,9 +694,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
     const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
-    //console.log(classificationCode);
     const getClassificationCodeList = classificationCode.filter((levelItem:any) => levelItem.ID === item.ClassificationCode.ID);
-    //console.log("getClassificationCodeList", getClassificationCodeList);
+ 
 
    
     if (item.LanguageRequirement.ID === 3) {
@@ -1214,9 +1231,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           <PosterInfo 
             items={this.state.departmentList} 
             userInfo={this.props.userDisplayName} 
-            workEmail = {this.props.workEmail}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField}
             readOnly= {false}
             values={this.state.values}
             fields={this.state.dropdownFields}
@@ -1286,7 +1303,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             userInfo={this.props.userDisplayName} 
             currentPage= {this.state.currentPage} 
             prefLang={this.props.prefLang}
-            workEmail = {this.props.workEmail}
+            applyEmail = {this.state.values.applyEmail}
             department={this.state.values.department}
             jobTitleEn={this.state.values.jobTitleEn}
             jobTitleFr={this.state.values.jobTitleFr}
@@ -1327,6 +1344,34 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         <ThemeProvider applyTo='body' theme={myTheme}>
 
           <section>
+             <ReviewPage 
+            userInfo={this.props.userDisplayName} 
+            currentPage= {this.state.currentPage} 
+            prefLang={this.props.prefLang}
+            applyEmail = {this.state.values.applyEmail}
+            department={this.state.values.department}
+            jobTitleEn={this.state.values.jobTitleEn}
+            jobTitleFr={this.state.values.jobTitleFr}
+            jobDescriptionEn={this.state.values.jobDescriptionEn}
+            jobDescriptionFr={this.state.values.jobDescriptionFr}
+            jobType={this.state.values.jobType}
+            programArea={this.state.values.programArea}
+            classificationCode={this.state.values.classificationCode}
+            classificationLevel={this.state.values.classificationLevel}
+            numberOfOpportunities={this.state.values.numberOfOpportunities}
+            durationLength={this.state.values.durationLength}
+            duration={this.state.values.duration}
+            deadline={this.state.values.deadline}
+            skills={this.state.values.skills}
+            workSchedule={this.state.values.workSchedule}
+            province={this.state.values.province}
+            region={this.state.values.region}
+            city={this.state.values.city}
+            security={this.state.values.security}
+            languageRequirements={this.state.values.languageRequirements}
+            workArrangment={this.state.values.workArrangment}
+            handlePageNumber={this.handlePageNumber}
+          />
             <div>
                 { this.state.validationStatus === 200 ? (
                   //Success

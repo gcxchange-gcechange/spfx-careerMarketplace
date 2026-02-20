@@ -29,8 +29,10 @@ export interface ICareerMarketplaceState {
     postDetails: any;
     isNonJobSeeker: boolean;
     approvedStaffing: boolean;
+    workEmail:string;
       
     values: {
+      applyEmail: string;
       jobTitleEn: string;
       jobTitleFr: string;
       jobDescriptionEn: string;

@@ -22,7 +22,7 @@ define([], function() {
     "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "fullName":"Full name",
     "departmentField":"Department",
-    "workEmail":"Work email",
+    "apply_Email":"Work email",
 
     //Page 2 - Opportunity Details
     "oppotunityDetails_Title":"Opportunity details",
@@ -163,6 +163,7 @@ define([], function() {
  
     //fieldErrors
     "department":"Department field is required",
+    "applyEmail":"Work email field is required",
     "jobTitleEn":"Opportunity title English field is required",
     "jobTitleFr":"Opportunity title French  field is required",
     "jobTitleEn-minChar":"Minimum 5 characters for Opportunity title English field is required",
