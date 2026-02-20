@@ -94,7 +94,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         classificationCode: {value: "" , pageNumber: 2},
         classificationLevel: {value: "" , pageNumber: 2},
         classificationLevelIds: "",
-        numberOfOpportunities: {value: 0, pageNumber: 2},
+        numberOfOpportunities: {value: 1, pageNumber: 2},
         durationLength: {value: 0, pageNumber: 2},
         duration: {value: "" , pageNumber: 2},
         deadline: threeMonthsLater,
@@ -399,10 +399,34 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   };
 
 
+
+
   public handleOnChangeTextField = (event: any, value: string): void => {
+    console.log("value", value)
     const eventName = event;
     const trimmedInputValue = value.trim();
-  
+
+      if (eventName === "jobDescriptionEn" && value === "") {
+        this.setState(prev => ({
+          inlineFieldErrors: prev.inlineFieldErrors.includes("jobDescriptionEn")
+            ? prev.inlineFieldErrors
+            : [...prev.inlineFieldErrors, "jobDescriptionEn"]
+        }));
+      } else if (eventName === "jobDescriptionFr" && value === "") {
+        this.setState(prev => ({
+          inlineFieldErrors: prev.inlineFieldErrors.includes("jobDescriptionFr")
+            ? prev.inlineFieldErrors
+            : [...prev.inlineFieldErrors, "jobDescriptionFr"]
+        }));
+      } else {
+        this.setState(prev => ({
+          inlineFieldErrors: prev.inlineFieldErrors.filter(
+            err => err !== eventName
+          )
+        }));
+      }
+
+
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
@@ -623,6 +647,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       "JobDescriptionFr", 
       "JobType", 
       "ProgramArea",
+      "Program_Area",
       "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr",
       "ClassificationLevel/ID","ClassificationLevel/NameFr",
       "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
@@ -638,7 +663,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-    //console.log("item", item)
+    console.log("item", item)
  
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
@@ -699,7 +724,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
         jobType: {...prevState.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
-        programArea : {...prevState.programArea, key: item.ProgramArea[0].TermGuid},
+        programArea : {...prevState.programArea,  key: item.ProgramArea?.[0]?.TermGuid ?? item.Program_Area?.[0]?.TermGuid?? ""},
         classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{key:item.ClassificationLevel.ID},
         classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
@@ -907,12 +932,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
 
+
+
   public getDropdownElements =(): void => {
     const elementId :any[] = [];
     const getElements = document.querySelectorAll('div[class^="ms-Dropdown"]');
     const getComboBox = document.querySelectorAll('div[class^="ms-ComboBox"]');
     const getInputElement = document.querySelectorAll('[class^="durationLength"]');
+    const getEditor = document.querySelector(".ql-editor");
 
+
+    if(getEditor) {
+      const parents = getEditor.parentElement?.parentElement;
+      if (parents) {
+        elementId.push(parents.id)
+      }
+    }
    
     if(getElements ) {
       getElements.forEach(element => {
@@ -927,7 +962,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       });
     }
 
-
     if(getInputElement) {
       getInputElement.forEach(el => {
         elementId.push(el.id);
@@ -940,6 +974,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     });
 
     const cleanUpDropDownFields = this.state.dropdownFields.filter((n) => n)
+    console.log("clear", cleanUpDropDownFields)
 
     this.onBlur(cleanUpDropDownFields);
 
@@ -949,13 +984,14 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     fields.forEach((fieldId) => {
       const dropdownElement = document.getElementById(fieldId);
-      //console.log("dropdownEl",dropdownElement)
+
   
       if (dropdownElement) {
         let tab: boolean = false;
   
         // Add the event listener for keydown
         dropdownElement.addEventListener("keydown", (event) => {
+
           if (event.key === "Tab") {
             tab = true;
           }
@@ -965,6 +1001,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
           if (tab === true) {
             if (!this.state.inlineFieldErrors.includes(fieldId)) {
+
               this.setState({
                 inlineFieldErrors: [...this.state.inlineFieldErrors, fieldId]
               })
@@ -1049,7 +1086,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (this.state.values.jobType?.Guid === this.props.jobTypeDeploymentTerms[0].id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
+    if (this.state.values.jobType?.Guid === this.props.jobTypeDeploymentTerms[0]?.id && prevState.values.jobType.Guid !== this.props.jobTypeDeploymentTerms[0].id) {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,

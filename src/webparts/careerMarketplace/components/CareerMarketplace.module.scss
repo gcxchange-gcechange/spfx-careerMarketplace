@@ -253,6 +253,137 @@ input[type="text"][disabled] {
   align-items: center;
 }
 
+  :global {
+    .ql-editor {
+      overflow: visible!important;
+    }
+
+    .ql-editor.ql-blank:before  {
+      font-size: 14px!important;
+      color:  rgb(96, 94, 92)!important;
+      position:absolute;
+      top: 6px;
+    }
+    .ql-editor, .ql-snow .ql-editor{
+      padding: 6px 8px!important;
+      animation: none !important; 
+    }
+    .ql-editor p{
+      font-size: 14px!important;
+    }
+
+    .ql-editor ol li, .ql-editor ul li {
+      font-size: 14px!important;
+    }
+
+    .ql-active .ql-editor:focus {
+      border: 1px solid rgb(3, 120, 124)!important;
+      border-radius: 2px;
+    }
+    
+
+    .ql-toolbar {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      background: #f8f8f8!important;
+      border: 1px solid  #605e5c !important;
+      border-bottom: 1px solid #605e5c !important;
+      border-radius: 2px 2px 0 0 !important;
+      margin:0!important;
+      animation: none !important;
+      transition: none !important;
+      //position: absolute;
+      height: auto !important;
+      position: relative!important;
+      top: 0!important;
+      font-size: 14px!important;
+    }
+    .ql-toolbar .ms-TooltipHost{
+      position: relative;
+    }
+
+    .ql-container {
+      border: 1px solid  #605e5c;
+      border-radius: 0 0 4px 4px;
+    }
+    
+    .ql-snow.ql-toolbar button {
+      background-color: #f8f8f8!important;
+      color: black !important;
+      margin:1px!important;
+    }
+    
+    .ql-toolbar .ms-Dropdown-title{
+      background-color:  #f8f8f8!important;
+      color: rgb(36, 35, 35) !important;
+      margin:1px!important;
+    }
+    .toolbarDropDownTitleIcon_d558f376 {
+      color: rgb(36, 35, 35) !important;
+    }
+    .ql-toolbar .ms-Button.is-checked{
+      color:#f8f8f8!important;
+      background-color: #605e5c!important;
+    }
+
+    .toolbarSubmenuCaret_d558f376{
+      color: rgb(46, 44, 44) !important;
+      }
+    
+
+  }
+
+
+    .editorError_English{
+      border: 1px solid rgb(164, 38, 44)!important;
+      border-radius: 2px;
+  }
+
+
+  .editorError_French{
+    border: 1px solid rgb(164, 38, 44)!important;
+    border-radius: 2px;
+  }
+
+
+  :global {
+
+    .editorError_English .ql-active .ql-editor:focus  {
+      border: 1px solid rgb(164, 38, 44)!important;
+      border-radius: 2px;
+   }
+
+   .ms-Callout-main div#DropDownAlign-list .ms-Dropdown-item{
+    background-color: #03787c!important;
+   }
+
+    .ms-Callout-main div#DropDownLists-list .ms-Dropdown-item{
+    background-color: #03787c!important;
+   }
+
+    .ms-Callout-main  div#DropDownStyles-list .ms-Dropdown-item{
+    background-color: #03787c!important;
+   }
+
+    .ms-Panel-main div#DropDownAlign-list .ms-Dropdown-item{
+    background-color: #03787c!important;
+    }
+   
+
+   .ms-Panel-main  div#DropDownLists-list .ms-Dropdown-item {
+    background-color: #03787c!important;
+   }
+ 
+  
+  }
+
+  
+  
+
+
+
+
 
 
 
