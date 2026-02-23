@@ -85,7 +85,7 @@ private convertToParagraph = (value: string): string => {
   let cleaned = value.replace(/ style="[^"]*"/gi, "");
  
   //remove unwanted tags
-  cleaned = cleaned.replace(/<\/?(h1|h2|h3|h4|a|img)[^>]*>/gi, "");
+  cleaned = cleaned.replace(/<\/?(h1|h2|h3|h4|a|code|img)[^>]*>/gi, "");
 
 
   return cleaned;
