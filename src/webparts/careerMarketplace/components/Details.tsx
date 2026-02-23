@@ -684,7 +684,6 @@ private convertToParagraph = (value: string): string => {
             value={this.props.values.deadline}
             minDate={this.props.jobOppId ? undefined : oneWeekLater}
           />
-        </div>
       </>
     );
   }
