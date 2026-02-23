@@ -73,8 +73,16 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                         color: 'black'
                     } 
                 }
-              }
+            },
+              wrapper: {
+                selectors: {
+                ':focus-within': {
+                    outline: '2px solid #605e5c',
+                    outlineOffset: '2px'
+                    }
+                }
             }
+        }
         
         // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
         const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
@@ -83,26 +91,26 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
 
         console.log("location", location)
 
-    //        const editor = document.querySelectorAll(".ql-editor");
+    const editor = document.querySelectorAll(".ql-editor");
 
 
-    // editor.forEach((node, index) => {
+    editor.forEach((node, index) => {
 
-    //   node.setAttribute("data-field", String(index + 1));
+      node.setAttribute("data-field", String(index + 1));
+      console.log("node", node)
 
-    //   if (index === 0) {
-    //     node.setAttribute('aria-labelledby', `${this.strings.job_Description} ${this.strings.english}`);
-      
-    //   } else {
-    //     node.setAttribute('aria-labelledby', `${this.strings.job_Description} ${this.strings.french}`);
+       if (index === 0) {
+        node.setAttribute('aria-labelledby', 'jobDescriptionEn');
+        node.setAttribute('role', 'input');
+      } else {
+        node.setAttribute('aria-labelledby', 'jobDescriptionFr');
+        node.setAttribute('role', 'input');
+       
+      }
 
-    //   }
 
-    // })
+    })
 
-    // toolbar.forEach((node) => {
-    //   node.setAttribute("role", "toolbar")
-    // })
 
 
 
@@ -110,7 +118,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
             <>
                 <p>{this.strings.reviewSubmit_para1}</p>
 
-                <div className={styles.reviewPageHeader}  >
+                <section className={styles.reviewPageHeader}  >
                     <h2 id={`${this.strings.posterInformation_title}`} tabIndex={0}>{this.strings.posterInformation_title}</h2>
                     <CustomButton
                         id="1"
@@ -118,7 +126,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                         buttonType="secondary"
                         onClick={() => this.goToPage(3)}
                     />
-                </div>
+                </section>
                 <div className={styles.reviewPageBody}>
                     <Stack wrap horizontal className={styles.reviewRowSeparator}>
                         <Label htmlFor={this.strings.fullName} className={styles.reviewPageLabelWidth}>{this.strings.fullName}</Label>
@@ -127,8 +135,12 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                         </StackItem>
                     </Stack>
                     <Stack wrap horizontal className={styles.reviewRowSeparator}>
-                        <Label htmlFor={this.strings.departmentField} className={styles.reviewPageLabelWidth}>{this.strings.departmentField}</Label>
-                        <TextField id={this.strings.departmentField} borderless readOnly defaultValue={this.props.department.text} styles={disabledField}/>
+                        <StackItem>
+                            <Label htmlFor={this.strings.departmentField} className={styles.reviewPageLabelWidth}>{this.strings.departmentField}</Label>
+                        </StackItem>
+                        <StackItem grow>
+                            <TextField id={this.strings.departmentField} borderless readOnly defaultValue={this.props.department.text} styles={disabledField}/>
+                        </StackItem>
                     </Stack>
                     <Stack wrap horizontal >
                         <StackItem>
@@ -141,7 +153,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 
                 </div>
 
-                <div className={styles.reviewPageHeader}>
+                <section className={styles.reviewPageHeader}>
                     <h2 tabIndex={0} > {this.strings.oppotunityDetails_Title}</h2>
                     <CustomButton
                         id="2"
@@ -149,9 +161,9 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                         buttonType="secondary"
                         onClick={() => this.goToPage(2)}
                     />
-                </div>
-                <div className={styles.reviewPageBody}>
+                </section>
 
+                <div className={styles.reviewPageBody}>
                     <Stack wrap horizontal className={styles.reviewRowSeparator}>
                         <StackItem>
                             <Label htmlFor={`${this.strings.job_Title} ${this.strings.english}`} className={styles.reviewPageLabelWidth}>{`${this.strings.job_Title} ${this.strings.english}`}</Label>
@@ -168,42 +180,48 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <TextField id={`${this.strings.job_Title} ${this.strings.french}`} borderless readOnly defaultValue={this.props.jobTitleFr} styles={disabledField}/>
                         </StackItem>
                     </Stack>
+   
 
                     <Stack wrap className={styles.reviewRowSeparator}>
-                        <Label htmlFor={`${this.strings.job_Description} ${this.strings.english}`} > {`${this.strings.job_Description} ${this.strings.english}`}</Label>
-                        <RichText
-                            id={`${this.strings.job_Description} ${this.strings.english}`}
-                            value={this.props.jobDescriptionEn}
-                            isEditMode={false}
-                            styleOptions={{
-                                showBold: false,
-                                showItalic: false,
-                                showUnderline: false,
-                                showList: false,
-                                showAlign: false,
-                                showLink: false,
-                                showMore: false
-                            }}
-
-                        />
+                        <div  tabIndex={0}>
+                            <label className={styles.richTextLabelStyle} htmlFor={"jobDescriptionEn"}> {`${this.strings.job_Description} ${this.strings.english}`}</label>
+                            <RichText
+                                id={"jobDescriptionEn"}
+                                value={this.props.jobDescriptionEn}
+                                isEditMode={false}
+                                styleOptions={{
+                                    showBold: false,
+                                    showItalic: false,
+                                    showUnderline: false,
+                                    showList: false,
+                                    showAlign: false,
+                                    showLink: false,
+                                    showMore: false
+                                }}
+                            />
+                        </div>
                     </Stack>
-                    <Stack wrap className={styles.reviewRowSeparator}>
-                        <Label htmlFor={`${this.strings.job_Description} ${this.strings.french}`} >{`${this.strings.job_Description} ${this.strings.french}`}</Label>
-                        <RichText
-                            id={`${this.strings.job_Description} ${this.strings.french}`}
-                            value={this.props.jobDescriptionFr}
-                            isEditMode={false}
-                            styleOptions={{
-                                showBold: false,
-                                showItalic: false,
-                                showUnderline: false,
-                                showList: false,
-                                showAlign: false,
-                                showLink: false,
-                                showMore: false
-                            }}
 
-                        />
+
+                    <Stack wrap className={styles.reviewRowSeparator}>
+                        <div tabIndex={0}>
+                            <label className={styles.richTextLabelStyle} htmlFor={"jobDescriptionFr"} tabIndex={0}>{`${this.strings.job_Description} ${this.strings.french}`}</label>
+                            <RichText
+                                id={"jobDescriptionFr"}
+                                value={this.props.jobDescriptionFr}
+                                isEditMode={false}
+                                styleOptions={{
+                                    showBold: false,
+                                    showItalic: false,
+                                    showUnderline: false,
+                                    showList: false,
+                                    showAlign: false,
+                                    showLink: false,
+                                    showMore: false
+                                }}
+
+                            />
+                        </div>
                     </Stack>
 
                     <Stack wrap horizontal className={styles.reviewRowSeparator}>
@@ -224,20 +242,13 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                     </Stack>
                     <Stack wrap horizontal className={styles.reviewRowSeparator}>
                         <StackItem>
-                            <Label htmlFor={this.strings.classification_Code} className={styles.reviewPageLabelWidth}>{this.strings.classification_Code}</Label>
+                            <Label htmlFor={this.strings.classification} className={styles.reviewPageLabelWidth}>{this.strings.classification}</Label>
                         </StackItem>
                         <StackItem grow>
-                            <TextField id={this.strings.classification_Code} borderless readOnly defaultValue={this.props.classificationCode.text} styles={disabledField}/>
+                            <TextField id={this.strings.classification} borderless readOnly defaultValue={this.props.classificationCode.text + " - " + this.props.classificationLevel.text} styles={disabledField}/>
                         </StackItem>
                     </Stack>
-                    <Stack wrap  horizontal className={styles.reviewRowSeparator}>
-                        <StackItem>
-                            <Label htmlFor={this.strings.classification_Level} className={styles.reviewPageLabelWidth}>{this.strings.classification_Level}</Label>
-                        </StackItem>
-                        <StackItem grow>
-                            <TextField id={this.strings.classification_Level} borderless readOnly defaultValue={this.props.classificationLevel.text} styles={disabledField}/>
-                        </StackItem>
-                    </Stack>
+                   
                     <Stack wrap horizontal className={styles.reviewRowSeparator} verticalAlign="center">
                         <Stack.Item>
                             <Label htmlFor={this.strings.number_of_Opportunities} className={styles.reviewPageLabelWidth}>

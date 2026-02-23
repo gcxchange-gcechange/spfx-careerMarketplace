@@ -79,6 +79,7 @@ define([], function() {
     "duration_length":"Duration length for opportunity",
     "duration_time_period": "Duration",
     "location": "Location",
+    "classification":"Classification",
 
     //complete
     "complete_title":"Opportunity posted",

@@ -39,6 +39,13 @@
     
 }
 
+.richTextLabelStyle {
+  font-weight: 600;
+  color: rgb(50, 49, 48);
+    
+}
+
+
 .stepper {
 
   display: flex;
@@ -409,6 +416,7 @@
   .reviewRowSeparator{
     margin-bottom: 10px; 
     border-bottom: 1px solid black;
+    padding-bottom: 4px;
   }
   
   

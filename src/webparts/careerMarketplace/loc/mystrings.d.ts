@@ -80,6 +80,7 @@ declare interface ICareerMarketplaceWebPartStrings {
   "duration_length": string;
   "duration_time_period": string;
   "location": string;
+  "classification": string;
 
   //complete
   "complete_title": string;
