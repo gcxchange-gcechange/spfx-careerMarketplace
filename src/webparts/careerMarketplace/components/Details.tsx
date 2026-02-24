@@ -6,13 +6,15 @@ import {
   ComboBox,
   DatePicker,
   Dropdown,
+  FocusZone,
+  FocusZoneTabbableElements,
+  Label,
   IComboBox,
   IComboBoxOption,
   IComboBoxStyles,
   IDropdownOption,
   ILabelStyles,
   IStackTokens,
-  Label,
   Stack,
   StackItem,
 } from "@fluentui/react";
@@ -21,6 +23,9 @@ import { validateNumericField, validateEmpty } from "./Validations";
 import styles from "./CareerMarketplace.module.scss";
 import { SelectLanguage } from "./SelectLanguage";
 import { isInvalid, getLocalizedString } from "./Functions";
+import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
+
+
 
 export interface IClassificationLevelOption extends IComboBoxOption {
   classificationLevelIds: string;
@@ -72,6 +77,65 @@ export default class Details extends React.Component<IDetailsProps> {
     this.props.handleOnChange(eventName, inputValue);
   };
 
+
+private convertToParagraph = (value: string): string => {
+  if (!value) return value;
+
+  // remove the  style attributes
+  let cleaned = value.replace(/ style="[^"]*"/gi, "");
+ 
+  //remove unwanted tags
+  cleaned = cleaned.replace(/<\/?(h1|h2|h3|h4|a|code|img)[^>]*>/gi, "");
+
+
+  return cleaned;
+};
+
+
+
+
+
+  private isRichTextEmpty = (value: string): boolean => {
+    if (!value) return true;
+
+    const textOnly = value
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, "")
+      .trim();
+
+    return textOnly.length === 0;
+  };
+
+
+  public onChangeRichTextValue = (text: string): string => {
+    console.log("Text")
+    const isEmpty = this.isRichTextEmpty(text);
+    const cleanedText = this.convertToParagraph(text);
+    console.log(cleanedText)
+
+    const normalizedValue = isEmpty ? "" : cleanedText;
+
+
+    this.props.handleOnChange("jobDescriptionEn", normalizedValue);
+
+    return normalizedValue;
+  };
+
+   public onChangeRichTextValueFr = (text: string): string => {
+ 
+    const isEmpty = this.isRichTextEmpty(text);
+    const cleanedText = this.convertToParagraph(text);
+    console.log(cleanedText)
+
+    const normalizedValue = isEmpty ? "" : cleanedText;
+
+    this.props.handleOnChange("jobDescriptionFr", normalizedValue);
+
+    return normalizedValue;
+  };
+
+
+
   public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
     const eventId = event.target.id;
 
@@ -86,27 +150,27 @@ export default class Details extends React.Component<IDetailsProps> {
     }
   };
 
-  public onChangeClassificationCode = (event: React.FormEvent<IComboBox>,  item?: IClassificationLevelOption, index?: number, value?: string): void => {
-      const selectedValue = item ? item.key : "classificationCode-input";
-      const selectedText = item ? item.text : value;
-      this.props.values.classificationLevelIds = item ? item.classificationLevelIds : "";
+  public onChangeClassificationCode = (event: React.FormEvent<IComboBox>, item?: IClassificationLevelOption, index?: number, value?: string): void => {
+    const selectedValue = item ? item.key : "classificationCode-input";
+    const selectedText = item ? item.text : value;
+    this.props.values.classificationLevelIds = item ? item.classificationLevelIds : "";
 
-      if (item) {
-        this.props.handleDropDownItem("classificationCode", { key: selectedValue, text: selectedText });
-      }
+    if (item) {
+      this.props.handleDropDownItem("classificationCode", { key: selectedValue, text: selectedText });
+    }
   };
 
   public render(): React.ReactElement<IDetailsProps> {
 
 
-    const permDeploy = this.props.values.jobType.Guid === this.props.jobTypeProps[0].id ;
+    const permDeploy = this.props.values.jobType.Guid === this.props.jobTypeProps[0].id;
 
 
     const customSpacingStackTokens: IStackTokens = {
       childrenGap: "10%",
     };
     const dropdownStyles = {
-      dropdown: { width: 150},
+      dropdown: { width: 150 },
       errorMessage: {
         margin: "0px",
         fontWeight: "700",
@@ -137,7 +201,7 @@ export default class Details extends React.Component<IDetailsProps> {
       deadline,
     } = this.props.values;
 
-    const filteredClassificationLevels = this.props.classificationLevel?.filter ((item) => this.props.values.classificationLevelIds?.includes(item.key));
+    const filteredClassificationLevels = this.props.classificationLevel?.filter((item) => this.props.values.classificationLevelIds?.includes(item.key));
 
     const reformatDate = (): string => {
       const formattedDate = moment(deadline).format("YYYY-MM-DD");
@@ -157,15 +221,50 @@ export default class Details extends React.Component<IDetailsProps> {
       if (durationDisabled) {
         getDisabledElement.style.backgroundColor = "rgb(243, 242, 241)";
         getDisabledElement.style.borderColor = "rgb(243, 242, 241)";
-        
+
       } else {
         getDisabledElement.style.backgroundColor = "rgb(255, 255, 255)";
         getDisabledElement.style.borderColor = "rgb(96, 94, 92)";
       }
     }
 
-    const classificationCodeItems = this.props.classificationCode.sort();
+    const classificationCodeItems = this.props.classificationCode.sort()
+
+    const editor = document.querySelectorAll(".ql-editor");
+    const toolbar = document.querySelectorAll(".ql-toolbar");
     
+
+    editor.forEach((node, index) => {
+      
+       node.setAttribute("data-field", String(index + 1));
+      
+       if (index === 0) {
+        node.setAttribute('aria-labelledby','jobDescriptionEn-label');
+        node.setAttribute('role', 'input');
+        node.setAttribute('aria-multiline', 'true');
+        if (this.props.inlineFieldErrors?.includes("jobDescriptionEn")) {
+          node.setAttribute('aria-invalid', 'true')
+        }
+       } else {
+        node.setAttribute('aria-labelledby','jobDescriptionFr-label');
+        node.setAttribute('role', 'input');
+        node.setAttribute('aria-multiline', 'true');
+         if (this.props.inlineFieldErrors?.includes("jobDescriptionFr")) {
+          node.setAttribute('aria-invalid', 'true')
+        }
+       }
+       
+    })
+
+    toolbar.forEach((node) => {
+      node.setAttribute("role","toolbar")
+      node.setAttribute("aria-label",`${this.strings.toolbar}`);
+
+    })
+
+    
+
+
     return (
       <>
         {this.props.currentPage === 2 && (
@@ -205,47 +304,104 @@ export default class Details extends React.Component<IDetailsProps> {
             placeholder={this.strings.enter_jobTitleFr}
           />
 
-          <ReusableTextField
-            id={"jobDescriptionEn"}
-            name={"jobDescriptionEn"}
-            title={`${this.strings.job_Description} ${this.strings.english}`}
-            onChange={this.onChangeTextValue}
-            defaultValue={this.props.values.jobDescriptionEn}
-            multiline={true}
-            disabled={isReadOnly}
-            onGetErrorMessage={() => validateEmpty( jobDescriptionEn, "jobDescriptionEn", this.props.prefLang )}
-            ariaLabelRequired={this.strings.required}
-            maxLength={10000}
-            instruction={this.strings.jobDescription_Instructions}
-            placeholder={this.strings.enter_jobDescEn}
-          />
+            <Stack style={{marginTop:'16px'}}>
+              <FocusZone handleTabKey={FocusZoneTabbableElements.inputOnly}>
+                <Stack horizontal verticalAlign="center" >
+                  <StackItem>
+                    <Label id={`jobDescriptionEn-label`} styles={labelSpacing}>
+                      <p className={styles.mrg0} style={{paddingBottom:"8px"}}>
+                        <>
+                          <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">
+                            *
+                          </span>
+                          <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                        </>
+                        <strong>{`${this.strings.job_Description} ${this.strings.english}`}</strong>
+                      </p>
+                      <p className={styles.instruction}>{this.strings.jobDescription_Instructions}</p>
+                    </Label>
+                  </StackItem>
+                </Stack>
+              <div  className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError_English : ""} >
+                <RichText
+                  id={"jobDescriptionEn"}
+                  value={jobDescriptionEn}
+                  onChange={this.onChangeRichTextValue}
+                  placeholder={this.strings.enter_jobDescEn}
+                  styleOptions={{
+                    showBold: true,
+                    showItalic: true,
+                    showUnderline: true,
+                    showList: true,
+                    showAlign: true,
+                    showLink: false,
+                    showMore: false
+                  }}
+                />
+                </div>
+              </FocusZone>
+            </Stack>
+            <div role="alert">
+              {this.props.inlineFieldErrors?.includes("jobDescriptionEn") &&
+                validateEmpty(
+                  jobDescriptionEn,
+                  "jobDescriptionEn",
+                  this.props.prefLang,
+                )}
+            </div>
+          
+            <Stack style={{marginTop:'16px'}}>
+              <FocusZone handleTabKey={FocusZoneTabbableElements.inputOnly}>
+                <Stack horizontal verticalAlign="center" >
+                  <StackItem>
+                    <Label id={`jobDescriptionFr-label`} styles={labelSpacing}>
+                      <p className={styles.mrg0} style={{paddingBottom:"8px"}}>
+                        <>
+                          <span style={{ color: 'rgb(164, 38, 44)' }} aria-hidden="true">
+                            *
+                          </span>
+                          <span className={styles.visuallyHidden}>{this.strings.required}</span>
+                        </>
+                        <strong>{`${this.strings.job_Description} ${this.strings.french}`}</strong>
+                      </p>
+                      <p className={styles.instruction}>{this.strings.jobDescription_Instructions}</p>
+                    </Label>
+                  </StackItem>
+                </Stack>
+                <div  className={this.props.inlineFieldErrors?.includes("jobDescriptionFr") ? styles.editorError_French : ""}  >
+                  <RichText
+                    id={"jobDescriptionFr"}
+                    value={jobDescriptionFr}
+                    onChange={this.onChangeRichTextValueFr}
+                    placeholder={this.strings.enter_jobDescFr}
+                    styleOptions={{
+                      showBold: true,
+                      showItalic: true,
+                      showUnderline: true,
+                      showList: true,
+                      showAlign: true,
+                      showLink: false,
+                      showMore: false
+                    }}
 
-          <ReusableTextField
-            id={"jobDescriptionFr"}
-            name={"jobDescriptionFr"}
-            title={`${this.strings.job_Description} ${this.strings.french}`}
-            onChange={this.onChangeTextValue}
-            defaultValue={this.props.values.jobDescriptionFr}
-            multiline={true}
-            disabled={isReadOnly}
-            onGetErrorMessage={() => validateEmpty(
+                  />
+                </div>
+              </FocusZone>
+            </Stack>
+          <div role="alert">
+            {this.props.inlineFieldErrors?.includes("jobDescriptionFr") &&
+              validateEmpty(
                 jobDescriptionFr,
                 "jobDescriptionFr",
-                this.props.prefLang
-              )
-            }
-            ariaLabelRequired={this.strings.required}
-            maxLength={10000}
-            instruction={this.strings.jobDescription_Instructions}
-            placeholder={this.strings.enter_jobDescFr}
-          />
-
+                this.props.prefLang,
+              )}
+          </div>
 
           <ReusableDropdownField
             id={"jobType"}
             name={"jobType"}
             title={this.strings.job_Type}
-            options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.jobType, ]}
+            options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.jobType,]}
             onChange={this.onChangeDropDownItem}
             disabled={isReadOnly}
             selectedKey={this.props.values.jobType.Guid}
@@ -532,7 +688,6 @@ export default class Details extends React.Component<IDetailsProps> {
             value={this.props.values.deadline}
             minDate={this.props.jobOppId ? undefined : oneWeekLater}
           />
-        </div>
       </>
     );
   }

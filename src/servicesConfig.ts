@@ -1,6 +1,7 @@
 /* eslint-disable @rushstack/no-new-null */
 
 
+
 export const createOpportunityConfig = {
   clientId: "ce84ae3b-5f99-4316-8c7e-135aa35f67ab",
   createJobApiUrl: "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity",
@@ -9,6 +10,7 @@ export const createOpportunityConfig = {
   jobTypeDeploymentId: "2d309c8b-7b87-49ed-9e35-9b7fc3aa95ba",
   programAreaTermId:"bd807536-d8e7-456b-aab0-fae3eecedd8a",
 };
+
 const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?";
 
 export const getJobOpportunityUrl = (jobOpportunityId: string | null ):string => {
