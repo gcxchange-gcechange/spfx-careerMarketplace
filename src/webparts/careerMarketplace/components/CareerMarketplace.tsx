@@ -25,7 +25,7 @@ import ErrorPage from './ErrorPage';
 import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
 import ErrorPagePostRemoval from './ErrorPagePostRemoval';
- 
+
  
 
 
@@ -141,6 +141,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private next = async (): Promise<void > => {
     const { values, currentPage, isNonJobSeeker, approvedStaffing } = this.state;
     const nextPage = this.state.currentPage + 1;
+    const isRemote = this.state.values.workArrangment?.key === 3;
 
 
      if (currentPage === 0 && (approvedStaffing && isNonJobSeeker)) {
@@ -161,18 +162,20 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }).map(([field]) => field)
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
-    console.log("stringVal", stringValues)
 
     for (const [key,value] of Object.entries(values)) {
 
       const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
+      const isLocationField = ["province", "region", "city"].includes(key);
+
+      if (isRemote && isLocationField) {
+        continue;
+      }
 
 
       if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
           continue;
       }
-
-
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
@@ -199,6 +202,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
  
       const { values } = this.state;
       const langReq =  values.languageRequirements[0];
+
+
 
       if (langReq.language.value === "" || langReq.language.key === ""){
         checkValues.push({key:"language", value:""})

@@ -45,8 +45,6 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
     }
  
     public render(): React.ReactElement<IReviewPageProps> {
-        console.log("PROPS",this.props)
-
         
             const disabledField: Partial<ITextFieldStyles>={
               root: {
@@ -87,29 +85,26 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
         // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
         const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
 
-        const location: string = this.props.province.text + ", " + this.props.region.text + ", " + this.props.city.text
-
-        console.log("location", location)
-
-    const editor = document.querySelectorAll(".ql-editor");
 
 
-    editor.forEach((node, index) => {
+        const location: string = this.props.workArrangment.key === 3 ? this.props.workArrangment.text : this.props.province.text + ", " + this.props.region.text + ", " + this.props.city.text
 
-      node.setAttribute("data-field", String(index + 1));
-      console.log("node", node)
-
-       if (index === 0) {
-        node.setAttribute('aria-labelledby', 'jobDescriptionEn');
-        node.setAttribute('role', 'input');
-      } else {
-        node.setAttribute('aria-labelledby', 'jobDescriptionFr');
-        node.setAttribute('role', 'input');
-       
-      }
+        const editor = document.querySelectorAll(".ql-editor");
 
 
-    })
+        editor.forEach((node, index) => {
+
+            node.setAttribute("data-field", String(index + 1));
+
+            if (index === 0) {
+                node.setAttribute('aria-labelledby', 'jobDescriptionEn');
+                node.setAttribute('role', 'input');
+            } else {
+                node.setAttribute('aria-labelledby', 'jobDescriptionFr');
+                node.setAttribute('role', 'input');
+            
+            }
+        })
 
 
 
