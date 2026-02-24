@@ -301,7 +301,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const postDetailsObject = {
       [this.strings.fullName]: this.props.userDisplayName,
       [this.strings.departmentField]: this.state.values.department.text,
-      [this.strings.applyEmail]: this.state.values.applyEmail,
+      [this.strings.apply_Email]: this.state.values.applyEmail,
       [`${this.strings.job_Title} ${this.strings.english}`]: this.state.values.jobTitleEn,
       [`${this.strings.job_Title} ${this.strings.french}`]: this.state.values.jobTitleFr,
       [`${this.strings.job_Description} ${this.strings.english}`]: this.state.values.jobDescriptionEn,
