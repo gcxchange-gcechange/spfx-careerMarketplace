@@ -81,11 +81,11 @@ export default class Details extends React.Component<IDetailsProps> {
   private convertToParagraph = (value: string): string => {
     if (!value) return value;
 
-    // remove the  style attributes
-    let cleaned = value.replace(/ style="[^"]*"/gi, "");
-
-    //remove unwanted tags
-    cleaned = cleaned.replace(/<\/?(h1|h2|h3|h4|a|img)[^>]*>/gi, "");
+  // remove the  style attributes
+  let cleaned = value.replace(/ style="[^"]*"/gi, "");
+ 
+  //remove unwanted tags
+  cleaned = cleaned.replace(/<\/?(h1|h2|h3|h4|a|code|img)[^>]*>/gi, "");
 
 
     return cleaned;
@@ -241,13 +241,15 @@ export default class Details extends React.Component<IDetailsProps> {
       if (index === 0) {
         node.setAttribute('aria-labelledby', 'jobDescriptionEn-label');
         node.setAttribute('role', 'input');
+        node.setAttribute('aria-multiline', 'true');
         if (this.props.inlineFieldErrors?.includes("jobDescriptionEn")) {
           node.setAttribute('aria-invalid', 'true')
         }
       } else {
         node.setAttribute('aria-labelledby', 'jobDescriptionFr-label');
         node.setAttribute('role', 'input');
-        if (this.props.inlineFieldErrors?.includes("jobDescriptionFr")) {
+        node.setAttribute('aria-multiline', 'true');
+         if (this.props.inlineFieldErrors?.includes("jobDescriptionFr")) {
           node.setAttribute('aria-invalid', 'true')
         }
       }
@@ -255,7 +257,9 @@ export default class Details extends React.Component<IDetailsProps> {
     })
 
     toolbar.forEach((node) => {
-      node.setAttribute("role", "toolbar")
+      node.setAttribute("role","toolbar")
+      node.setAttribute("aria-label",`${this.strings.toolbar}`);
+
     })
 
 
@@ -673,18 +677,17 @@ export default class Details extends React.Component<IDetailsProps> {
         </Stack>
 
 
-        <DatePicker
-          id={"deadline"}
-          aria-labelledby={"deadline"}
-          className={styles.labelStyle}
-          ariaLabel={this.strings.application_deadline}
-          onSelectDate={this.onSelectedDate}
-          disabled={isReadOnly}
-          formatDate={reformatDate}
-          value={this.props.values.deadline}
-          minDate={this.props.jobOppId ? undefined : oneWeekLater}
-        />
-  
+          <DatePicker
+            id={"deadline"}
+            aria-labelledby={"deadline"}
+            className={styles.labelStyle}
+            ariaLabel={this.strings.application_deadline}
+            onSelectDate={this.onSelectedDate}
+            disabled={isReadOnly}
+            formatDate={reformatDate}
+            value={this.props.values.deadline}
+            minDate={this.props.jobOppId ? undefined : oneWeekLater}
+          />
       </>
     );
   }

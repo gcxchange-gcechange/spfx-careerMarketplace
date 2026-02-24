@@ -10,6 +10,8 @@ define([], function() {
       "InitialPage_para1_b": "afin de respecter nos exigences en matière de confidentialité.",  
       "InitialPage_para2":"Veuillez confirmer qu'il s'agit bien d'une opportunité et non d'une poste de recherche d'emploi. Les publications qui ne respectent pas cette règle seront supprimées.",   
       "InitalPage_checkbox_txt":"Je confirme qu'il s'agit bien d'une opportunité et non d'une poste de recherche d'emploi",
+      "InitialPage_para2":"Veuillez confirmer qu'il s'agit bien d'une opportunité et non d'une poste de recherche d'emploi. Les publications qui ne respectent pas cette règle seront supprimées.",   
+      "InitalPage_checkbox_txt":"Je confirme qu'il s'agit bien d'une opportunité et non d'une poste de recherche d'emploi",
       "InitialPage_next_btn":"Continuer à créer une opportunité",
       "approved_staffing":"Effectifs approuvés",
       "approved_staffing_description":"Vous êtes responsable de vous assurer que votre opportunité est conforme aux mandats d’effectifs fournis par votre service des ressources humaines.",
@@ -23,10 +25,18 @@ define([], function() {
       "fullName":"Nom complet",
       "departmentField":"Ministère",
       "apply_Email":"Adresse courriel professionnelle",
+      "apply_Email":"Adresse courriel professionnelle",
 
       //Page 2 - Opportunity Details
       "oppotunityDetails_Title":"Détails de la possibilité d'opportunité",
+      "oppotunityDetails_Title":"Détails de la possibilité d'opportunité",
       "oppotunityDetails_para1": "Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps.",
+      "job_Title":"Titre de l'opportunité",
+      "jobTitle_Instructions":"La longueur du titre de l'opportunité doit être comprise entre 5 et 255 caractères.",
+      "number_of_Opportunities":"Nombre de possibilités d’opportunité",
+      "job_Description":"Description de l'opportunité",
+      "jobDescription_Instructions":"La longueur de la description de l'opportunité doit être comprise entre 5 et 10 000 caractères.",
+      "job_Type":"Type d’opportunité",
       "job_Title":"Titre de l'opportunité",
       "jobTitle_Instructions":"La longueur du titre de l'opportunité doit être comprise entre 5 et 255 caractères.",
       "number_of_Opportunities":"Nombre de possibilités d’opportunité",
@@ -41,11 +51,13 @@ define([], function() {
       "classification_Level":"Niveau de classification",
       "classification_Level_description":"À l’aide du menu déroulant, identifiez le groupe/niveau requis pour votre occasion. ",
       "durationField":"Durée de la possibilité d'opportunité",
+      "durationField":"Durée de la possibilité d'opportunité",
         "durationDescription":"En utilisant le menu déroulant, sélectionnez la durée qui correspond le mieux à votre type d’occasion.",
       "length":"Durée",
       "time_period":"Période",
       "application_deadline":"Date limite de candidature",
       "application_deadline_description": "Cliquez sur le champ et, à l’aide du calendrier contextuel, sélectionnez une date limite de candidature.",
+      "toolbar":"Options de mise en forme",
 
 
       //Page 3 - Opportunity Requirements
@@ -76,9 +88,11 @@ define([], function() {
       //Page 4 - Review and Submit
       "reviewSubmit_title": "Revoir et soumettre",
       "reviewSubmit_para1":"Veuillez lire attentivement les informations ci-dessous avant de soumettre votre opportunité.",
+      "reviewSubmit_para1":"Veuillez lire attentivement les informations ci-dessous avant de soumettre votre opportunité.",
       "duration_length":"Durée de la possibilité d’emploi",
       "duration_time_period": "Durée de l'opportunité",
       "location": "Lieu",
+      "classification":"Classification",
 
       //complete
       "complete_title":"Opportunité publiée",
@@ -99,14 +113,19 @@ define([], function() {
       //errorPage
       "server_error_title": "Erreur de serveur ",
       "error_p1": "Désolé, une erreur de serveur empêche actuellement l’affichage de votre opportunité.",
+      "error_p1": "Désolé, une erreur de serveur empêche actuellement l’affichage de votre opportunité.",
       "error_p2":"Pour nous aider à corriger la situation, veuillez appliquer la procédure suivante :",
+      "error_list_1": "Copiez le contenu de votre opportunité figurant ci dessous.",
       "error_list_1": "Copiez le contenu de votre opportunité figurant ci dessous.",
       "error_list_2": "Cliquez sur le bouton « Contactez nous » ci bas, puis collez le contenu dans le courriel.",
       "error_list_3": "Envoyez ce courriel à l’adresse",
       "error_list_3b" : "L’équipe de soutien verra à afficher votre opportunité dès que possible, normalement d’ici le jour ouvrable suivant.",
+      "error_list_3b" : "L’équipe de soutien verra à afficher votre opportunité dès que possible, normalement d’ici le jour ouvrable suivant.",
       "error_p3": "Nous vous prions de nous excuser pour cet inconvénient. Merci de votre patience et de votre collaboration pendant que nous y remédions.",
       "postDetails_btn": "Copier les détails de l'opportunité",
       "contact_btn":"Contactez nous",
+      "email_subject": "Marché de carrière - Erreur de serveur touchant la publication d’une opportunité ",
+      "email_body":"[Collez les détails de votre publication d’une opportunité ici.]",
       "email_subject": "Marché de carrière - Erreur de serveur touchant la publication d’une opportunité ",
       "email_body":"[Collez les détails de votre publication d’une opportunité ici.]",
 
@@ -164,6 +183,7 @@ define([], function() {
 
       //fieldErrors
       "department":"Le champ « Ministère » est obligatoire.",
+      "applyEmail":"Le champ « Adresse courriel professionnelle » est obligatoire.",
       "applyEmail":"Le champ « Adresse courriel professionnelle » est obligatoire.",
       "jobTitleEn":"Le champ « Titre du poste en anglais » est obligatoire.",
       "jobTitleFr":"Le champ « Titre du poste en français » est obligatoire.",

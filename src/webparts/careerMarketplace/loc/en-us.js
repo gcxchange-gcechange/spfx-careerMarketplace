@@ -46,6 +46,7 @@ define([], function() {
     "time_period":"Time period",
     "application_deadline":"Application deadline",
     "application_deadline_description": "Click on the field and, using the pop-up calendar, select a date for the application deadline.",
+    "toolbar":"Formatting options",
 
     
 
