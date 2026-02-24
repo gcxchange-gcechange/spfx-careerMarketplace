@@ -241,12 +241,14 @@ private convertToParagraph = (value: string): string => {
        if (index === 0) {
         node.setAttribute('aria-labelledby','jobDescriptionEn-label');
         node.setAttribute('role', 'input');
+        node.setAttribute('aria-multiline', 'true');
         if (this.props.inlineFieldErrors?.includes("jobDescriptionEn")) {
           node.setAttribute('aria-invalid', 'true')
         }
        } else {
         node.setAttribute('aria-labelledby','jobDescriptionFr-label');
         node.setAttribute('role', 'input');
+        node.setAttribute('aria-multiline', 'true');
          if (this.props.inlineFieldErrors?.includes("jobDescriptionFr")) {
           node.setAttribute('aria-invalid', 'true')
         }
@@ -256,6 +258,8 @@ private convertToParagraph = (value: string): string => {
 
     toolbar.forEach((node) => {
       node.setAttribute("role","toolbar")
+      node.setAttribute("aria-label",`${this.strings.toolbar}`);
+
     })
 
     

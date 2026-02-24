@@ -44,6 +44,7 @@ declare interface ICareerMarketplaceWebPartStrings {
   "time_period": string;
   "application_deadline": string;
   "application_deadline_description": string;
+  "toolbar": string;
   
 
   //Page 3 - Opportunity Requirements
