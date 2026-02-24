@@ -343,6 +343,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ContactName": ${JSON.stringify(this.props.userDisplayName)},
               "DepartmentId": "${this.state.values.department.key}",
               "ContactEmail": "${this.props.workEmail}",
+              "ApplyEmail": "${this.state.values.applyEmail}",
               "JobTitleEn": ${JSON.stringify(this.state.values.jobTitleEn)},
               "JobTitleFr": ${JSON.stringify(this.state.values.jobTitleFr)},
               "JobType": ${JSON.stringify(newJoBTypeFormat)},
