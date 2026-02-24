@@ -81,9 +81,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       postDetails: "",
       isNonJobSeeker: false,
       approvedStaffing: false,
+      workEmail: "",
 
 
       values: {
+        applyEmail: this.props.workEmail,
         department: {value: "" , pageNumber: 1},
         jobTitleEn: "",
         jobTitleFr: "",
@@ -127,6 +129,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
  
   }
 
+  public handlePageNumber = (page: number):void => {
+    this.setState({currentPage: page})
+  }
+
   private goToInitialPage = (value: number):void => {
     this.setState({ currentPage: value, validationStatus: 0 });
   }
@@ -155,6 +161,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }).map(([field]) => field)
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
+    console.log("stringVal", stringValues)
 
     for (const [key,value] of Object.entries(values)) {
 
@@ -294,7 +301,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const postDetailsObject = {
       [this.strings.fullName]: this.props.userDisplayName,
       [this.strings.departmentField]: this.state.values.department.text,
-      [this.strings.workEmail]: this.props.workEmail,
+      [this.strings.apply_Email]: this.state.values.applyEmail,
       [`${this.strings.job_Title} ${this.strings.english}`]: this.state.values.jobTitleEn,
       [`${this.strings.job_Title} ${this.strings.french}`]: this.state.values.jobTitleFr,
       [`${this.strings.job_Description} ${this.strings.english}`]: this.state.values.jobDescriptionEn,
@@ -336,6 +343,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ContactName": ${JSON.stringify(this.props.userDisplayName)},
               "DepartmentId": "${this.state.values.department.key}",
               "ContactEmail": "${this.props.workEmail}",
+              "ApplyEmail": "${this.state.values.applyEmail}",
               "JobTitleEn": ${JSON.stringify(this.state.values.jobTitleEn)},
               "JobTitleFr": ${JSON.stringify(this.state.values.jobTitleFr)},
               "JobType": ${JSON.stringify(newJoBTypeFormat)},
@@ -402,7 +410,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public handleOnChangeTextField = (event: any, value: string): void => {
-    console.log("value", value)
+    console.log("valueParent", value)
+    console.log("event", event)
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const eventName = event;
     const trimmedInputValue = value.trim();
 
@@ -424,6 +434,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             err => err !== eventName
           )
         }));
+      }
+
+   
+
+      if (eventName === "applyEmail" && regex.test(value)) {
+        console.log("valid email")
+        this.setState((prevState) => ({
+            values: {
+              ...prevState.values,
+              applyEmail: trimmedInputValue
+
+            }
+        }))
       }
 
 
@@ -672,9 +695,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
     const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
-    //console.log(classificationCode);
     const getClassificationCodeList = classificationCode.filter((levelItem:any) => levelItem.ID === item.ClassificationCode.ID);
-    //console.log("getClassificationCodeList", getClassificationCodeList);
+ 
 
    
     if (item.LanguageRequirement.ID === 3) {
@@ -1210,9 +1232,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           <PosterInfo 
             items={this.state.departmentList} 
             userInfo={this.props.userDisplayName} 
-            workEmail = {this.props.workEmail}
             currentPage= {this.state.currentPage}
             handleDropDownItem={this.handleDropDownItem}
+            handleOnChange={this.handleOnChangeTextField}
             readOnly= {false}
             values={this.state.values}
             fields={this.state.dropdownFields}
@@ -1282,7 +1304,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             userInfo={this.props.userDisplayName} 
             currentPage= {this.state.currentPage} 
             prefLang={this.props.prefLang}
-            workEmail = {this.props.workEmail}
+            applyEmail = {this.state.values.applyEmail}
             department={this.state.values.department}
             jobTitleEn={this.state.values.jobTitleEn}
             jobTitleFr={this.state.values.jobTitleFr}
@@ -1304,7 +1326,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             security={this.state.values.security}
             languageRequirements={this.state.values.languageRequirements}
             workArrangment={this.state.values.workArrangment}
-           // approvedStaffing={this.state.values.approvedStaffing}
+            handlePageNumber={this.handlePageNumber}
           />
           </>
         ),

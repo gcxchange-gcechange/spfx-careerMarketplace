@@ -6,10 +6,10 @@ define([], function() {
     //Initial Page
     "InitialPage_title1":"Before you create a post",
     "InitialPage_para1":"In GCXchange Career Marketplace ",
-    "InitialPage_para1_a":"only job opportunities can be created ",
+    "InitialPage_para1_a":"only opportunities can be created ",
     "InitialPage_para1_b": "to comply with our privacy requirements.",  
-    "InitialPage_para2":"Confirm this is a job opportunity and not a job-seeking post. Posts that don’t follow this rule will be removed.",   
-    "InitalPage_checkbox_txt":"I confirm this is a job opportunity and not a job-seeking post.",   
+    "InitialPage_para2":"Confirm this is an opportunity and not a job-seeking post. Posts that don’t follow this rule will be removed.",   
+    "InitalPage_checkbox_txt":"I confirm this is an opportunity and not a job-seeking post.",   
     "InitialPage_next_btn":"Continue to create post",
     "approved_staffing":"Approved staffing",
     "approved_staffing_description":"You are responsible for ensuring that your opportunity aligns with the staffing mandates provided by your human resources department.",
@@ -22,17 +22,17 @@ define([], function() {
     "posterInformation_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
     "fullName":"Full name",
     "departmentField":"Department",
-    "workEmail":"Work email",
+    "apply_Email":"Work email",
 
     //Page 2 - Opportunity Details
     "oppotunityDetails_Title":"Opportunity details",
     "oppotunityDetails_para1": "Please note that information you input in these fields will be stored in your cache for several minutes. Inactivity for extended periods of time may result in lost information. Please avoid refreshing or using the back button during this process.",
-    "job_Title":"Job title ",
-    "jobTitle_Instructions":"The job title must be between 5 and 255 characters in length.",
+    "job_Title":"Opportunity title ",
+    "jobTitle_Instructions":"The opportunity title must be between 5 and 255 characters in length.",
     "number_of_Opportunities":"Number of opportunities",
-    "job_Description":"Job description",
-    "jobDescription_Instructions":"The job description must be between 5 and 10,000 characters in length.",
-    "job_Type":"Job type",
+    "job_Description":"Opportunity description",
+    "jobDescription_Instructions":"The opportunity description must be between 5 and 10,000 characters in length.",
+    "job_Type":"Opportunity type",
     "job_Type_description": "Guidance and definitions about each type of opportunity",
     "program_Area":"Program area",
     "programArea_description": "Using the drop-down menu, select the field of work that most closely corresponds with your opportunity.",
@@ -76,9 +76,11 @@ define([], function() {
 
     //Page 4 - Review and Submit
     "reviewSubmit_title": "Review and submit",
-    "reviewSubmit_para1": "This is a preview of your submission. It has not been submitted yet!",
+    "reviewSubmit_para1": "Please review the information below before submitting.",
     "duration_length":"Duration length for opportunity",
-    "duration_time_period": "Time period for opportunity",
+    "duration_time_period": "Duration",
+    "location": "Location",
+    "classification":"Classification",
 
     //complete
     "complete_title":"Opportunity posted",
@@ -143,10 +145,10 @@ define([], function() {
     //dropwdown and combobox
     "select":"Select an option",
     "selectOrType":"Type to search or select",
-    "enter_jobTitleEn":"Enter job title (English)",
-    "enter_jobTitleFr":"Enter job title (French)",
-    "enter_jobDescEn":"Enter job description (English)",
-    "enter_jobDescFr":"Enter job description (French)",
+    "enter_jobTitleEn":"Enter opportunity title (English)",
+    "enter_jobTitleFr":"Enter opportunity title (French)",
+    "enter_jobDescEn":"Enter opportunity description (English)",
+    "enter_jobDescFr":"Enter opportunity description (French)",
 
    
 
@@ -163,19 +165,20 @@ define([], function() {
  
     //fieldErrors
     "department":"Department field is required",
-    "jobTitleEn":"Job title English field is required",
-    "jobTitleFr":"Job title French  field is required",
-    "jobTitleEn-minChar":"Minimum 5 characters for Job title English field is required",
-    "jobTitleFr-minChar":"Minimum 5 characters for Job title French field is required",
-    "jobTitleEn-maxChar":"Maximum of 255 characters for Job title English field is required",
-    "jobTitleFr-maxChar":"Maximum of 255 characters for Job title French field is required",
-    "jobDescriptionEn":"Job description English field is required",
-    "jobDescriptionFr":"Job description French field is required",
-    "jobDescriptionEn-minChar":"Minimum 5 characters for Job description English field is required",
-    "jobDescriptionFr-minChar":"Minimum 5 characters for Job description French field is required",
-    "jobDescriptionEn-maxChar":"Maximum of 10000 characters for Job description English field is required",
-    "jobDescriptionFr-maxChar":"Maximum of 10000 characters for Job description French field is required",
-    "jobType":"Job type field is required",
+    "applyEmail":"Work email field is required",
+    "jobTitleEn":"Opportunity title English field is required",
+    "jobTitleFr":"Opportunity title French  field is required",
+    "jobTitleEn-minChar":"Minimum 5 characters for Opportunity title English field is required",
+    "jobTitleFr-minChar":"Minimum 5 characters for Opportunity title French field is required",
+    "jobTitleEn-maxChar":"Maximum of 255 characters for Opportunity title English field is required",
+    "jobTitleFr-maxChar":"Maximum of 255 characters for Opportunity title French field is required",
+    "jobDescriptionEn":"Opportunity description English field is required",
+    "jobDescriptionFr":"Opportunity description French field is required",
+    "jobDescriptionEn-minChar":"Minimum 5 characters for Opportunity description English field is required",
+    "jobDescriptionFr-minChar":"Minimum 5 characters for Opportunity description French field is required",
+    "jobDescriptionEn-maxChar":"Maximum of 10000 characters for Opportunity description English field is required",
+    "jobDescriptionFr-maxChar":"Maximum of 10000 characters for Opportunity description French field is required",
+    "jobType":"Opportunity type field is required",
     "programArea":"Program area field is required",
     "classificationCode":"Classification code field is required",
     "classificationLevel":"Classification level field is required",
@@ -206,10 +209,10 @@ define([], function() {
 
     //placeholders
     "selectOrType":"Type to search or select",
-    "enter_jobTitleEn":"Enter job title (English)",
-    "enter_jobTitleFr":"Enter job title (French)",
-    "enter_jobDescEn":"Enter job description (English)",
-    "enter_jobDescFr":"Enter job description (French)",
+    "enter_jobTitleEn":"Enter opportunity title (English)",
+    "enter_jobTitleFr":"Enter opportunity title (French)",
+    "enter_jobDescEn":"Enter opportunity description (English)",
+    "enter_jobDescFr":"Enter opportunity description (French)",
 
     //shared
     "careerOpportunitiesOnly_1": "Only post available career opportunities. ",

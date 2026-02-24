@@ -39,6 +39,13 @@
     
 }
 
+.richTextLabelStyle {
+  font-weight: 600;
+  color: rgb(50, 49, 48);
+    
+}
+
+
 .stepper {
 
   display: flex;
@@ -212,29 +219,29 @@
   margin:0;
 }
 
-input[type="number"][disabled] {
-  color: rgb(161, 159, 157);
-  border: none;
+// input[type="number"][disabled] {
+//   color: rgb(161, 159, 157);
+//   border: none;
  
-}
+// }
 
-input[type="text"][disabled] {
-  color: rgb(161, 159, 157);
-}
+// input[type="text"][disabled] {
+//   color: rgb(161, 159, 157);
+// }
 
-:global {
+// :global {
 
 
-  .ms-Dropdown.is-disabled .ms-Dropdown-title {
-    color: #4F4F4F; 
-  }
+//   .ms-Dropdown.is-disabled .ms-Dropdown-title {
+//     color: #4F4F4F; 
+//   }
 
-  .ms-TextField.is-disabled .ms-TextField-field {
-    color: #4F4F4F;   
-    border-radius: 2px;
-    border: 1px solid #4F4F4F;
-  }
-}
+//   .ms-TextField.is-disabled .ms-TextField-field {
+//     color: #4F4F4F;   
+//     border-radius: 2px;
+//     border: 1px solid #4F4F4F;
+//   }
+// }
 
 :global {
   .ms-Dropdown:focus::after , .css-75:focus {
@@ -374,10 +381,43 @@ input[type="text"][disabled] {
    .ms-Panel-main  div#DropDownLists-list .ms-Dropdown-item {
     background-color: #03787c!important;
    }
- 
+
+  }
   
+  .reviewPageBody {
+    background: #d6d6d5;
+    border: 1px solid rgb(97, 96, 96);
+    border-radius: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 30px;
+    padding: 10px;
   }
 
+  .reviewPageHeader {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgb(97, 96, 96);
+    border-bottom: none;
+    background: #d6d6d5;
+    height: 40px;
+    padding: 0px 10px;
+  }
+
+  .reviewPageFields {
+     background: #d6d6d5;
+  }
+
+  .reviewPageLabelWidth{
+    width: 180px; // Set a fixed width for labels
+  }
+
+  .reviewRowSeparator{
+    margin-bottom: 10px; 
+    border-bottom: 1px solid black;
+    padding-bottom: 4px;
+  }
   
   
 

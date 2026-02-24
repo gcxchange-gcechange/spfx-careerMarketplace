@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
-import ReusableTextField from "./ReusableTextField";
 import { SelectLanguage } from "./SelectLanguage";
+import CustomButton from "./CustomButton";
+import styles from "./CareerMarketplace.module.scss";
+import { ITextFieldStyles, Label, Stack, StackItem, TextField } from "@fluentui/react";
+import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
 
 export interface IReviewPageProps {
     currentPage: number;
     prefLang:string;
     userInfo:string;
-    workEmail: string;
+    applyEmail: string;
     department: any;
     jobTitleEn: string;
     jobTitleFr: string;
@@ -29,305 +32,415 @@ export interface IReviewPageProps {
     security: any;
     languageRequirements: any[];
     workArrangment: any;
-    // approvedStaffing: any;
+    handlePageNumber: (page: number) => void;
 }
 
 export default class ReviewPage extends React.Component<IReviewPageProps> {
     public strings = SelectLanguage(this.props.prefLang);
+
+
+    public goToPage = (subtractAmount: number):void => {
+        const newPage = this.props.currentPage - subtractAmount
+        this.props.handlePageNumber(newPage)
+    }
  
     public render(): React.ReactElement<IReviewPageProps> {
         console.log("PROPS",this.props)
+
+        
+            const disabledField: Partial<ITextFieldStyles>={
+              root: {
+                background:' #d6d6d5!important',
+               
+              },
+              field: {
+                background: '#d6d6d5!important',
+                paddingLeft: '10px',
+                selectors: {
+                    ':disabled': {
+                        color: 'black'
+                    }
+                }
+              },
+               fieldGroup: {
+                    background: '#d6d6d5!important',
+                    
+            },
+
+              subComponentStyles: {
+                label: {
+                    root: {
+                        color: 'black'
+                    } 
+                }
+            },
+              wrapper: {
+                selectors: {
+                ':focus-within': {
+                    outline: '2px solid #605e5c',
+                    outlineOffset: '2px'
+                    }
+                }
+            }
+        }
         
         // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
         const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
 
+        const location: string = this.props.province.text + ", " + this.props.region.text + ", " + this.props.city.text
+
+        console.log("location", location)
+
+    const editor = document.querySelectorAll(".ql-editor");
+
+
+    editor.forEach((node, index) => {
+
+      node.setAttribute("data-field", String(index + 1));
+      console.log("node", node)
+
+       if (index === 0) {
+        node.setAttribute('aria-labelledby', 'jobDescriptionEn');
+        node.setAttribute('role', 'input');
+      } else {
+        node.setAttribute('aria-labelledby', 'jobDescriptionFr');
+        node.setAttribute('role', 'input');
+       
+      }
+
+
+    })
+
+
+
 
         return(
             <>
-                <ReusableTextField
-                    id={"contactName"}
-                    name={"contactName"}
-                    title={this.strings.fullName}
-                    defaultValue={this.props.userInfo}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
+                <p>{this.strings.reviewSubmit_para1}</p>
 
-                <ReusableTextField
-                    id={"department"}
-                    name={"department"}
-                    title={this.strings.departmentField}
-                    defaultValue={this.props.department.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"workEmail"}
-                    name={"workEmail"}
-                    title={this.strings.workEmail}
-                    defaultValue={this.props.workEmail}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"jobTitleEn"}
-                    name={"jobTitleEn"}
-                    title={`${this.strings.job_Title} ${this.strings.english}`}
-                    defaultValue={this.props.jobTitleEn}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"jobTitleFr"}
-                    name={"jobTitleFr"}
-                    title={`${this.strings.job_Title} ${this.strings.french}`}
-                    defaultValue={this.props.jobTitleFr}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"jobDescriptionEn"}
-                    name={"jobDescriptionEn"}
-                    title={`${this.strings.job_Description} ${this.strings.english}`}
-                    defaultValue={this.props.jobDescriptionEn}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"jobDescriptionFr"}
-                    name={"jobDescriptionFr"}
-                    title={`${this.strings.job_Description} ${this.strings.french}`}
-                    defaultValue={this.props.jobDescriptionFr}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                 <ReusableTextField
-                    id={"jobType"}
-                    name={"jobType"}
-                    title={this.strings.job_Type}
-                    defaultValue={this.props.jobType.Label}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                 <ReusableTextField
-                    id={"programArea"}
-                    name={"programArea"}
-                    title={this.strings.program_Area}
-                    defaultValue={this.props.programArea.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"classificationCode"}
-                    name={"classificationCode"}
-                    title={this.strings.classification_Code}
-                    defaultValue={this.props.classificationCode.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                <ReusableTextField
-                    id={"classificationLevel"}
-                    name={"classificationLevel"}
-                    title={this.strings.classification_Level}
-                    defaultValue={this.props.classificationLevel.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                <ReusableTextField
-                    id={"numberOfOpportunities"}
-                    name={"numberOfOpportunities"}
-                    title={this.strings.number_of_Opportunities}
-                    defaultValue={this.props.numberOfOpportunities.value}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"duration"}
-                    name={"duration"}
-                    title={this.strings.duration_time_period}
-                    defaultValue={this.props.duration.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                <ReusableTextField
-                    id={"durationLength"}
-                    name={"durationLength"}
-                    title={this.strings.duration_length}
-                    defaultValue={this.props.durationLength.value}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"deadline"}
-                    name={"deadline"}
-                    title={this.strings.application_deadline}
-                    defaultValue={this.props.deadline?.toDateString()}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"skills"}
-                    name={"skills"}
-                    title={this.strings.skillsField}
-                    defaultValue={ skillsItems}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-
-                <ReusableTextField
-                    id={"workSchedule"}
-                    name={"workSchedule"}
-                    title={this.strings.time_in_hours}
-                    defaultValue={this.props.workSchedule.text }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                 <ReusableTextField
-                    id={"province"}
-                    name={"province"}
-                    title={this.strings.provinceField}
-                    defaultValue={this.props.province.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                 <ReusableTextField
-                    id={"region"}
-                    name={"region"}
-                    title={this.strings.regionField}
-                    defaultValue={this.props.region.text }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                 <ReusableTextField
-                    id={"city"}
-                    name={"city"}
-                    title={this.strings.cityField}
-                    defaultValue={this.props.city.text }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                 <ReusableTextField
-                    id={"security "}
-                    name={"security"}
-                    title={this.strings.security_level}
-                    defaultValue={this.props.security.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                 <ReusableTextField
-                    id={"language"}
-                    name={"language"}
-                    title={this.strings.language_requirements}
-                    defaultValue={this.props.languageRequirements[0].language.text }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                 <ReusableTextField
-                    id={"readingEN"}
-                    name={"readingEN"}
-                    title={this.strings.readingENField}
-                    defaultValue={this.props.languageRequirements[0].readingEN.text }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                 <ReusableTextField
-                    id={"writtenEN"}
-                    name={"writtenEN"}
-                    title={this.strings.writtenENField}
-                    defaultValue={this.props.languageRequirements[0].writtenEN.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                <ReusableTextField
-                    id={"oralEN"}
-                    name={"oralEN"}
-                    title={this.strings.oralENField}
-                    defaultValue={this.props.languageRequirements[0].oralEN.text }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                <ReusableTextField
-                    id={"readingFR"}
-                    name={"readingFR"}
-                    title={this.strings.readingFRField}
-                    defaultValue={this.props.languageRequirements[0].readingFR.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                <ReusableTextField
-                    id={"writtenFR"}
-                    name={"writtenFR"}
-                    title={this.strings.writtenFRField}
-                    defaultValue={this.props.languageRequirements[0].writtenFR.text }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                <ReusableTextField
-                    id={"oralFR"}
-                    name={"oralFR"}
-                    title={this.strings.oralFRField}
-                    defaultValue={this.props.languageRequirements[0].oralFR.text}
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                <ReusableTextField
-                    id={"workArrangment"}
-                    name={"workArrangement"}
-                    title={this.strings.work_arrangment}
-                    defaultValue={this.props.workArrangment.text }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                />
-                {/* <ReusableTextField
-                    id={"approveStaffing"}
-                    name={"approvedStaffing"}
-                    title={this.strings.approved_staffing}
-                    defaultValue={isApproved }
-                    disabled={true}
-                    ariaLabelRequired={'required'}
-                    multiline={true}
-                /> */}
-
+                <section className={styles.reviewPageHeader}  >
+                    <h2 id={`${this.strings.posterInformation_title}`} tabIndex={0}>{this.strings.posterInformation_title}</h2>
+                    <CustomButton
+                        id="1"
+                        name="Edit"
+                        buttonType="secondary"
+                        onClick={() => this.goToPage(3)}
+                    />
+                </section>
+                <div className={styles.reviewPageBody}>
+                    <Stack wrap horizontal className={styles.reviewRowSeparator}>
+                        <Label htmlFor={this.strings.fullName} className={styles.reviewPageLabelWidth}>{this.strings.fullName}</Label>
+                        <StackItem grow>
+                            <TextField id={this.strings.fullName} borderless readOnly defaultValue={this.props.userInfo} styles={disabledField} />
+                        </StackItem>
+                    </Stack>
+                    <Stack wrap horizontal className={styles.reviewRowSeparator}>
+                        <StackItem>
+                            <Label htmlFor={this.strings.departmentField} className={styles.reviewPageLabelWidth}>{this.strings.departmentField}</Label>
+                        </StackItem>
+                        <StackItem grow>
+                            <TextField id={this.strings.departmentField} borderless readOnly defaultValue={this.props.department.text} styles={disabledField}/>
+                        </StackItem>
+                    </Stack>
+                    <Stack wrap horizontal >
+                        <StackItem>
+                            <Label htmlFor={this.strings.apply_Email} className={styles.reviewPageLabelWidth}>{this.strings.apply_Email}</Label>
+                        </StackItem>
+                        <StackItem grow>
+                            <TextField id={this.strings.apply_Email}  borderless readOnly defaultValue={this.props.applyEmail} styles={disabledField}/>
+                        </StackItem>
+                    </Stack>
                 
+                </div>
+
+                <section className={styles.reviewPageHeader}>
+                    <h2 tabIndex={0} > {this.strings.oppotunityDetails_Title}</h2>
+                    <CustomButton
+                        id="2"
+                        name="Edit"
+                        buttonType="secondary"
+                        onClick={() => this.goToPage(2)}
+                    />
+                </section>
+
+                <div className={styles.reviewPageBody}>
+                    <Stack wrap horizontal className={styles.reviewRowSeparator}>
+                        <StackItem>
+                            <Label htmlFor={`${this.strings.job_Title} ${this.strings.english}`} className={styles.reviewPageLabelWidth}>{`${this.strings.job_Title} ${this.strings.english}`}</Label>
+                        </StackItem>
+                        <StackItem grow>
+                            <TextField id={`${this.strings.job_Title} ${this.strings.english}`} borderless readOnly defaultValue={this.props.jobTitleEn} styles={disabledField}/>
+                        </StackItem>
+                    </Stack>
+                    <Stack wrap horizontal className={styles.reviewRowSeparator}>
+                        <StackItem>
+                            <Label htmlFor={`${this.strings.job_Title} ${this.strings.french}`} className={styles.reviewPageLabelWidth}>{`${this.strings.job_Title} ${this.strings.french}`}</Label>
+                        </StackItem>
+                        <StackItem grow>
+                            <TextField id={`${this.strings.job_Title} ${this.strings.french}`} borderless readOnly defaultValue={this.props.jobTitleFr} styles={disabledField}/>
+                        </StackItem>
+                    </Stack>
+   
+
+                    <Stack wrap className={styles.reviewRowSeparator}>
+                        <div  tabIndex={0}>
+                            <label className={styles.richTextLabelStyle} htmlFor={"jobDescriptionEn"}> {`${this.strings.job_Description} ${this.strings.english}`}</label>
+                            <RichText
+                                id={"jobDescriptionEn"}
+                                value={this.props.jobDescriptionEn}
+                                isEditMode={false}
+                                styleOptions={{
+                                    showBold: false,
+                                    showItalic: false,
+                                    showUnderline: false,
+                                    showList: false,
+                                    showAlign: false,
+                                    showLink: false,
+                                    showMore: false
+                                }}
+                            />
+                        </div>
+                    </Stack>
+
+
+                    <Stack wrap className={styles.reviewRowSeparator}>
+                        <div tabIndex={0}>
+                            <label className={styles.richTextLabelStyle} htmlFor={"jobDescriptionFr"} tabIndex={0}>{`${this.strings.job_Description} ${this.strings.french}`}</label>
+                            <RichText
+                                id={"jobDescriptionFr"}
+                                value={this.props.jobDescriptionFr}
+                                isEditMode={false}
+                                styleOptions={{
+                                    showBold: false,
+                                    showItalic: false,
+                                    showUnderline: false,
+                                    showList: false,
+                                    showAlign: false,
+                                    showLink: false,
+                                    showMore: false
+                                }}
+
+                            />
+                        </div>
+                    </Stack>
+
+                    <Stack wrap horizontal className={styles.reviewRowSeparator}>
+                        <StackItem>
+                            <Label htmlFor={this.strings.job_Type} className={styles.reviewPageLabelWidth}>{this.strings.job_Type}</Label>
+                        </StackItem>
+                        <StackItem grow>
+                            <TextField id={this.strings.job_Type} borderless readOnly defaultValue={this.props.jobType.Label} styles={disabledField}/>
+                        </StackItem>
+                    </Stack>
+                    <Stack wrap horizontal className={styles.reviewRowSeparator}>
+                        <StackItem>
+                            <Label htmlFor={this.strings.program_Area}className={styles.reviewPageLabelWidth}>{this.strings.program_Area}</Label>
+                        </StackItem>
+                        <StackItem grow>
+                            <TextField id={this.strings.program_Area} borderless readOnly  defaultValue={this.props.programArea.text} styles={disabledField}/>
+                        </StackItem>
+                    </Stack>
+                    <Stack wrap horizontal className={styles.reviewRowSeparator}>
+                        <StackItem>
+                            <Label htmlFor={this.strings.classification} className={styles.reviewPageLabelWidth}>{this.strings.classification}</Label>
+                        </StackItem>
+                        <StackItem grow>
+                            <TextField id={this.strings.classification} borderless readOnly defaultValue={this.props.classificationCode.text + " - " + this.props.classificationLevel.text} styles={disabledField}/>
+                        </StackItem>
+                    </Stack>
+                   
+                    <Stack wrap horizontal className={styles.reviewRowSeparator} verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.number_of_Opportunities} className={styles.reviewPageLabelWidth}>
+                            {this.strings.number_of_Opportunities}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.number_of_Opportunities}
+                            borderless
+                            readOnly
+                            defaultValue={this.props.numberOfOpportunities.value}
+                            styles={disabledField}
+                            />
+                        </Stack.Item>
+                    </Stack>
+
+                    <Stack wrap horizontal className={styles.reviewRowSeparator} verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.duration_time_period} className={styles.reviewPageLabelWidth}>
+                            {this.strings.duration_time_period}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.duration_time_period}
+                            borderless
+                            readOnly
+                            defaultValue={
+                                this.props.durationLength.value + " " + this.props.duration.text
+                            }
+                            styles={disabledField}
+                            />
+                        </Stack.Item>
+                    </Stack>
+
+                    <Stack wrap horizontal verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.application_deadline} className={styles.reviewPageLabelWidth}>
+                            {this.strings.application_deadline}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.application_deadline}
+                            borderless
+                            readOnly
+                            defaultValue={this.props.deadline?.toDateString()}
+                            styles={disabledField}
+                            />
+                        </Stack.Item>
+                    </Stack>
+
+                </div>
+
+            
+                <div className={styles.reviewPageHeader}>
+                        <h2 tabIndex={0}>{this.strings.opportunityRequirements_title}</h2>
+                        <CustomButton
+                            id="3"
+                            name="Edit"
+                            buttonType="secondary"
+                            onClick={() => this.goToPage(1)}
+                        />
+                </div>
+                    
+                <div className={styles.reviewPageBody}>
+                    <Stack wrap horizontal className={styles.reviewRowSeparator} verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.skillsField} className={styles.reviewPageLabelWidth}>
+                            {this.strings.skillsField}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.skillsField}
+                            multiline
+                            borderless
+                            readOnly
+                            defaultValue={skillsItems}
+                            styles={disabledField}
+                            />
+                        </Stack.Item>
+                    </Stack>
+
+                    <Stack wrap horizontal className={styles.reviewRowSeparator} verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.time_in_hours} className={styles.reviewPageLabelWidth}>
+                            {this.strings.time_in_hours}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.time_in_hours}
+                            borderless
+                            readOnly
+                            defaultValue={this.props.workSchedule.text}
+                            styles={disabledField}
+                            />
+                        </Stack.Item>
+                    </Stack>
+
+                    <Stack wrap horizontal className={styles.reviewRowSeparator} verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.work_arrangment} className={styles.reviewPageLabelWidth}>
+                            {this.strings.work_arrangment}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.work_arrangment}
+                            borderless
+                            readOnly
+                            defaultValue={this.props.workArrangment.text}
+                            styles={disabledField}
+                            />
+                        </Stack.Item>
+                    </Stack>
+
+                    <Stack wrap horizontal className={styles.reviewRowSeparator} verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.location} className={styles.reviewPageLabelWidth}>
+                            {this.strings.location}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.location}
+                            borderless
+                            readOnly
+                            defaultValue={location}
+                            styles={disabledField}
+                            />
+                        </Stack.Item>
+                    </Stack>
+
+                    <Stack wrap horizontal className={styles.reviewRowSeparator} verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.security_level} className={styles.reviewPageLabelWidth}>
+                            {this.strings.security_level}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.security_level}
+                            borderless
+                            readOnly
+                            defaultValue={this.props.security.text}
+                            styles={disabledField}
+                            />
+                        </Stack.Item>
+                    </Stack>
+
+                    <Stack wrap horizontal verticalAlign="center">
+                        <Stack.Item>
+                            <Label htmlFor={this.strings.language_requirements} className={styles.reviewPageLabelWidth}>
+                            {this.strings.language_requirements}
+                            </Label>
+                        </Stack.Item>
+
+                        <Stack.Item grow>
+                            <TextField
+                            id={this.strings.language_requirements}
+                            borderless
+                            readOnly
+                            styles={disabledField}
+                            defaultValue={
+                                this.props.languageRequirements[0].language.key !== 3 
+                                ? this.props.languageRequirements[0].language.text :
+
+                                this.props.languageRequirements[0].language.text +
+                                " " +
+                                this.props.languageRequirements[0].writtenEN.text +
+                                this.props.languageRequirements[0].readingEN.text +
+                                this.props.languageRequirements[0].oralEN.text +
+                                "-" +
+                                this.props.languageRequirements[0].writtenFR.text +
+                                this.props.languageRequirements[0].readingFR.text +
+                                this.props.languageRequirements[0].oralFR.text
+                            }
+                            />
+                        </Stack.Item>
+                    </Stack>
+                </div>
             </>
         )
     }

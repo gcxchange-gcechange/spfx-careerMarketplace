@@ -7,18 +7,21 @@ import { ComboBox, IComboBox, IComboBoxOption,  IComboBoxStyles,   IDropdownOpti
 import { SelectLanguage } from './SelectLanguage';
 import styles from './CareerMarketplace.module.scss';
 import { getLocalizedString, isInvalid } from "./Functions";
+import { applyEmail } from "CareerMarketplaceWebPartStrings";
+import { validateEmpty } from "./Validations";
 
 
 export interface IPosterInfoProps {
   prefLang: string;
   handleDropDownItem: (event: any, item: any) => void;
+  handleOnChange: (event: string, newValue?: string) => void;
   items: IDropdownOption[];
   userInfo: string;
-  workEmail: string;
   currentPage: number;
   readOnly: boolean;
   jobOpportunityId: string;
   values: {
+    applyEmail: string;
     department: any;
   };
   errorMessage?:(value: string | number) => string | undefined;
@@ -50,6 +53,16 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
     }
   };
 
+    public  onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
+      const eventName = event.target.name;
+      const inputValue = value;
+
+        this.props.handleOnChange(eventName, inputValue);
+      
+    }
+  
+    
+  
 
 
   public render(): React.ReactElement<IPosterInfoProps> {
@@ -59,8 +72,6 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
       errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', maginTop:'4px'},
       callout: {vh: "50%"}
     }
-
-    const isReadOnly = this.props.currentPage === 0;
 
 
     const comboBoxOptions: IComboBoxOption[] = this.props.items.map((item:any) => ({
@@ -102,8 +113,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             name={"contactName"}
             title={this.strings.fullName}
             defaultValue={this.props.userInfo}
-            readOnly={isReadOnly}
-            disabled={this.props.currentPage === 3}
+            readOnly={true}
             ariaLabelRequired={'required'}
           />
 
@@ -134,15 +144,17 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             placeholder={this.strings.selectOrType}
             useComboBoxAsMenuWidth={true}
           />
-      
+
           <ReusableTextField
-            id={"workEmail"}
-            name={"workEmail"}
-            title={this.strings.workEmail}
-            defaultValue={this.props.workEmail}
-            readOnly={isReadOnly}
+            id={"applyEmail"}
+            name={"applyEmail"}
+            title={this.strings.apply_Email}
+            defaultValue={this.props.values.applyEmail}
+            readOnly={true}
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
+            onChange={this.onChangeEmail}
+            onGetErrorMessage={() => validateEmpty(applyEmail, "applyEmail", this.props.prefLang)}
           />
        
       </>

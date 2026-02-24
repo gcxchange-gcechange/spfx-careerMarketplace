@@ -20,7 +20,7 @@ declare interface ICareerMarketplaceWebPartStrings {
   "posterInformation_para1": string;
   "fullName": string;
   "departmentField": string;
-  "workEmail": string;
+  "apply_Email": string;
 
   //Page 2 - Opportunity Details
   "oppotunityDetails_Title": string;
@@ -80,6 +80,8 @@ declare interface ICareerMarketplaceWebPartStrings {
   "reviewSubmit_para1": string;
   "duration_length": string;
   "duration_time_period": string;
+  "location": string;
+  "classification": string;
 
   //complete
   "complete_title": string;
@@ -159,6 +161,7 @@ declare interface ICareerMarketplaceWebPartStrings {
 
   //fieldErrors
   "department":string;
+  "applyEmail":string;
   "jobTitleEn":string;
   "jobTitleFr":string;
   "jobDescriptionEn":string;
