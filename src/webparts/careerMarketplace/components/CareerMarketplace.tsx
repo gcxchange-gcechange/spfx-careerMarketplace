@@ -104,8 +104,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         workSchedule: {value: "" , pageNumber: 3},
         workArrangment: {value: "" , pageNumber: 3}, 
         province: {value: "" , pageNumber: 3},
-        region: {value: "" , pageNumber: 3},
-        city: {value: "" , pageNumber: 3},
+        region: {key: "" , text: "", pageNumber: 3},
+        city: {key: "" , text: "" , pageNumber: 3},
         security: {value: "" , pageNumber: 3},
         languageRequirements: [
           {
@@ -142,6 +142,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const { values, currentPage, isNonJobSeeker, approvedStaffing } = this.state;
     const nextPage = this.state.currentPage + 1;
     const isRemote = this.state.values.workArrangment?.key === 3;
+    const checkValues: {key: string, value: any}[] = [];
+    const provinceIsSelected = values.province.key !== "0" || values.province.key !== "";
 
 
      if (currentPage === 0 && (approvedStaffing && isNonJobSeeker)) {
@@ -150,32 +152,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
          })
     }
 
-
-
-    const checkValues: {key: string, value: any}[] = [];
+    console.log("State_values", values)
 
     const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
       if ( Array.isArray(fieldData) && field !== "languageRequirements") {
         return fieldData.some(item => item.pageNumber === currentPage);
       }
+      console.log("fieldData", field, fieldData)
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
     for (const [key,value] of Object.entries(values)) {
-
+ 
       const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
-      const isLocationField = ["province", "region", "city"].includes(key);
-
-      if (isRemote && isLocationField) {
-        continue;
-      }
-
 
       if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
           continue;
       }
+
+      console.log("currentPgFields", currentPgFields)
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
@@ -228,6 +225,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           checkValues.push({ key: "oralFR", value: "" });
         }
       }
+
+
+      // province is selected , and is not a remote work arrangment
+      if ((provinceIsSelected  && !isRemote) && this.state.values.region.key === "") {
+        checkValues.push({key:"region", value: ""})
+      }
+
+      if ((provinceIsSelected && !isRemote) && this.state.values.city.key === "") {
+        checkValues.push({key:"city", value: ""})
+      }
+
     }
     
     const newArray = toTitleCase(checkValues)
@@ -415,8 +423,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public handleOnChangeTextField = (event: any, value: string): void => {
-    console.log("valueParent", value)
-    console.log("event", event)
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const eventName = event;
     const trimmedInputValue = value.trim();
@@ -486,6 +492,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
+    console.log("valueName:", valueName, "value:", value)
 
   
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
@@ -503,9 +510,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           },
         }));
 
-      }
-
-      else if (langEvaluationdIds.includes(valueName)) {
+      } else if (langEvaluationdIds.includes(valueName)) {
 
           if (valueName === 'readingEN' ) {
             this.setState((prevState) => ({
@@ -592,7 +597,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       
       const deployment = value.key === this.props.jobTypeDeploymentTerms[0]?.id
 
-      if(deployment) {
+      if (deployment) {
         this.setState((prevState) => ({
           values: {
             ...prevState.values,
@@ -603,13 +608,13 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }));
       }
 
-     this.setState((prevState) => ({
-      values: {
-        ...prevState.values,
-        jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
-          
-      },    
-    }));
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
+            
+        },    
+      }));
     
     }
 
@@ -626,7 +631,33 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             : [...prevState.values.skills, {value: value.key, text:value.text}],  
         },
       }));
-    }    
+    }  
+    else if (valueName === "province" ) {
+
+      this.setState((prevState) => {
+
+        //check if the province changed
+        const provinceChanged = prevState.values.province?.key !== value.key;
+
+        return {
+          values: {
+            ...prevState.values,
+            province: {
+              key: value.key,
+              text: value.text
+            },
+
+            region: provinceChanged
+              ? { key: '', text: '' }
+              : prevState.values.region,
+
+            city: provinceChanged
+              ? { key: '', text: '' }
+              : prevState.values.city
+          }
+        };
+      });
+    }
     else {
       this.setState((prevState) => ({
         values: {
@@ -1001,7 +1032,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     });
 
     const cleanUpDropDownFields = this.state.dropdownFields.filter((n) => n)
-    console.log("clear", cleanUpDropDownFields)
 
     this.onBlur(cleanUpDropDownFields);
 
@@ -1123,6 +1153,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }))
 
     }
+
+    // if (this.state.values.province !== prevState.values.province) {
+    //   console.log("province changed")
+    //   this.setState((prevState) => ({
+    //     values: {
+    //       ...prevState.values,
+    //       region: {value: "" },
+    //       city:  {value: "" }
+    //     }
+    //   }))
+    // }
 
     if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
       this.setState((prevState) => ({

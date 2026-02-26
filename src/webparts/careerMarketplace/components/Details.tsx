@@ -108,11 +108,9 @@ export default class Details extends React.Component<IDetailsProps> {
 
 
   public onChangeRichTextValue = (text: string): string => {
-    console.log("Text")
+
     const isEmpty = this.isRichTextEmpty(text);
     const cleanedText = this.convertToParagraph(text);
-    console.log(cleanedText)
-
     const normalizedValue = isEmpty ? "" : cleanedText;
 
 
@@ -125,8 +123,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
     const isEmpty = this.isRichTextEmpty(text);
     const cleanedText = this.convertToParagraph(text);
-    console.log(cleanedText)
-
     const normalizedValue = isEmpty ? "" : cleanedText;
 
     this.props.handleOnChange("jobDescriptionFr", normalizedValue);
