@@ -85,9 +85,19 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
         // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
         const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
 
+        const { province, region, city } = this.props;
 
+        const locationFields = [
+            province?.key !== "0" ? province.text : `${this.props.workArrangment.text}`,
+            region?.key !== "0" ? region.text : "",
+            city?.key !== "0" ? city.text : ""
+        ].filter(Boolean);
 
-        const location: string = this.props.workArrangment.key === 3 ? this.props.workArrangment.text : this.props.province.text + ", " + this.props.region.text + ", " + this.props.city.text
+        console.log("locationFiedls", locationFields)
+
+        const  remoteLocation =  locationFields.join(", ");
+    
+        const location: string =   remoteLocation 
 
         const editor = document.querySelectorAll(".ql-editor");
 
@@ -98,7 +108,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
 
             if (index === 0) {
                 node.setAttribute('aria-labelledby', 'jobDescriptionEn');
-                node.setAttribute('role', 'input');
+                node.setAttribute('role', 'input')
             } else {
                 node.setAttribute('aria-labelledby', 'jobDescriptionFr');
                 node.setAttribute('role', 'input');

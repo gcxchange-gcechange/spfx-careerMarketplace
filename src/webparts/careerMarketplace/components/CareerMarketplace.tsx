@@ -103,7 +103,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         skills:[{pageNumber: 3}],
         workSchedule: {value: "" , pageNumber: 3},
         workArrangment: {value: "" , pageNumber: 3}, 
-        province: {value: "" , pageNumber: 3},
+        province: {key: "", text: "", pageNumber: 3},
         region: {key: "" , text: "", pageNumber: 3},
         city: {key: "" , text: "" , pageNumber: 3},
         security: {value: "" , pageNumber: 3},
@@ -141,38 +141,33 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private next = async (): Promise<void > => {
     const { values, currentPage, isNonJobSeeker, approvedStaffing } = this.state;
     const nextPage = this.state.currentPage + 1;
-    const isRemote = this.state.values.workArrangment?.key === 3;
-    const checkValues: {key: string, value: any}[] = [];
-    const provinceIsSelected = values.province.key !== "0" || values.province.key !== "";
-
-
-     if (currentPage === 0 && (approvedStaffing && isNonJobSeeker)) {
+    const isRemote = this.state.values.workArrangment.key === 3;
+    let checkValues: {key: string, value: any}[] = [];
+  
+    if (currentPage === 0 && (approvedStaffing && isNonJobSeeker)) 
       this.setState({
           currentPage: nextPage
          })
-    }
-
-    console.log("State_values", values)
-
+    
     const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
       if ( Array.isArray(fieldData) && field !== "languageRequirements") {
         return fieldData.some(item => item.pageNumber === currentPage);
       }
-      console.log("fieldData", field, fieldData)
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
 
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
+    console.log("currentPgFields", currentPgFields)
+
     for (const [key,value] of Object.entries(values)) {
- 
+
       const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
 
       if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
           continue;
       }
 
-      console.log("currentPgFields", currentPgFields)
 
       if ((currentPgFields.includes(key) && value.value === "" )
           || (currentPgFields.includes(key) && value.value === '0') 
@@ -194,12 +189,29 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-
     if (currentPage === 3) {   
  
       const { values } = this.state;
       const langReq =  values.languageRequirements[0];
 
+
+      const { province, region, city } = this.state.values;
+      const removeFields = ["province", "region", "city"]
+
+      const locationFields = [
+        { name: "province", ...province },
+        { name: "region", ...region },
+        { name: "city", ...city }
+      ];
+
+
+      if (isRemote) {
+        locationFields.forEach((field:any) => {
+          if ( field.key === "" || field.key === "0") {
+            checkValues = checkValues.filter(item => !removeFields.includes(item.key))
+           }
+         })
+      }
 
 
       if (langReq.language.value === "" || langReq.language.key === ""){
@@ -227,15 +239,34 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
 
 
-      // province is selected , and is not a remote work arrangment
-      if ((provinceIsSelected  && !isRemote) && this.state.values.region.key === "") {
-        checkValues.push({key:"region", value: ""})
-      }
-
-      if ((provinceIsSelected && !isRemote) && this.state.values.city.key === "") {
-        checkValues.push({key:"city", value: ""})
-      }
-
+      // if ( isRemote) {
+      //   //province is default state or select option  skip and delete from checkvalues
+      //   if (province.key === "" || province.key === "0") {
+      //     console.log("skip validation")
+      //      console.log("checkValues1", checkValues)
+      //      const provinceIndex = checkValues.findIndex(item => item.key === "province");
+      //      console.log("index",provinceIndex)
+      //         if (provinceIndex !== -1) {
+      //           checkValues.splice(provinceIndex, 1);
+      //         }
+      //     console.log("checkValues2", checkValues)      
+      //   } else {
+      //     //Province is selected then Region and City are mandatory
+      //     ["region", "city"].forEach((fieldName:any) => {
+      //     const field = locationFields.find(f => f.name === fieldName);
+      //       if (!field?.key || field.key === "0") {
+      //         checkValues.push({ key: field.name, value: "" });
+      //       }
+      //     })
+      //   }
+      // }
+      // else {
+      //    locationFields.forEach(field => {
+      //     if (!field?.key || field.key === "0") {
+      //       checkValues.push({ key: field.name, value: "" });
+      //     }
+      //   });
+      // }
     }
     
     const newArray = toTitleCase(checkValues)
@@ -264,6 +295,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
   }
+
+
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
@@ -638,6 +671,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
         //check if the province changed
         const provinceChanged = prevState.values.province?.key !== value.key;
+        console.log("provinceChanged", provinceChanged)
 
         return {
           values: {

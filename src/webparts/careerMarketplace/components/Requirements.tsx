@@ -87,6 +87,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 4;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined);
 
+
     const skillItems = this.props.skills.map((item: any) => ({
       ...item,
       styles: {
