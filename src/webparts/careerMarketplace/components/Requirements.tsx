@@ -87,6 +87,9 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 4;
     const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined);
 
+    const locationOptional = this.props.values.workArrangment.key === 3 && this.props.values.province.key === "0" ;
+    const locationMandatory = this.props.values.workArrangment.key !== 3 && this.props.values.province.key === "0";
+
 
     const skillItems = this.props.skills.map((item: any) => ({
       ...item,
@@ -203,7 +206,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.province.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.provinceField_description}
-            errorMessage={this.props.values.province.key === "0"  ? getLocalizedString("province", this.props.prefLang) : undefined}
+            errorMessage={locationOptional ? undefined : locationMandatory ? getLocalizedString("province", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
 
@@ -217,6 +220,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
             errorMessage={ this.props.values.region.key === "0"  ? getLocalizedString("region", this.props.prefLang) : undefined}
+            //make the errorMessage only appear when the Province is selected in Remote bcause it is optional
             placeholder={this.strings.selectOption}
           />
 
