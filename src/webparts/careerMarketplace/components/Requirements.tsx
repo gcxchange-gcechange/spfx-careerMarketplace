@@ -216,7 +216,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={this.props.currentPage === 4}
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
-            errorMessage={this.props.values.region.key === "0"  ? getLocalizedString("region", this.props.prefLang) : undefined}
+            errorMessage={ this.props.values.region.key === "0"  ? getLocalizedString("region", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
 

@@ -93,7 +93,6 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
             city?.key !== "0" ? city.text : ""
         ].filter(Boolean);
 
-        console.log("locationFiedls", locationFields)
 
         const  remoteLocation =  locationFields.join(", ");
     

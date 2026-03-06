@@ -102,10 +102,10 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         deadline: threeMonthsLater,
         skills:[{pageNumber: 3}],
         workSchedule: {value: "" , pageNumber: 3},
-        workArrangment: {value: "" , pageNumber: 3}, 
-        province: {key: "", text: "", pageNumber: 3},
+        workArrangment: {value: "", pageNumber: 3 }, 
+        province: {key: "", text: "" , pageNumber: 3},
         region: {key: "" , text: "", pageNumber: 3},
-        city: {key: "" , text: "" , pageNumber: 3},
+        city: {key: "" , text: "", pageNumber: 3  },
         security: {value: "" , pageNumber: 3},
         languageRequirements: [
           {
@@ -142,7 +142,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const { values, currentPage, isNonJobSeeker, approvedStaffing } = this.state;
     const nextPage = this.state.currentPage + 1;
     const isRemote = this.state.values.workArrangment.key === 3;
-    let checkValues: {key: string, value: any}[] = [];
+    const checkValues: {key: string, value: any}[] = [];
   
     if (currentPage === 0 && (approvedStaffing && isNonJobSeeker)) 
       this.setState({
@@ -150,17 +150,19 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
          })
     
     const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
+
       if ( Array.isArray(fieldData) && field !== "languageRequirements") {
         return fieldData.some(item => item.pageNumber === currentPage);
       }
       return fieldData.pageNumber === currentPage;
     }).map(([field]) => field)
 
+    console.log("currentPageFields", currentPgFields)
+
     const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
 
-    console.log("currentPgFields", currentPgFields)
-
     for (const [key,value] of Object.entries(values)) {
+      console.log("key:", key, "value:", value)
 
       const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
 
@@ -168,8 +170,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           continue;
       }
 
-
-      if ((currentPgFields.includes(key) && value.value === "" )
+      if (   (currentPgFields.includes(key) && value.value === "" )
+          || (currentPgFields.includes(key) && value.key === '0')
+          || (currentPgFields.includes(key) && value.key === '')
           || (currentPgFields.includes(key) && value.value === '0') 
           || (currentPgFields.includes(key) && value.value === 0) 
           || (currentPgFields.includes(key) && value === undefined) 
@@ -189,28 +192,25 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    if (currentPage === 3) {   
- 
+    if (currentPage === 3) {  
+    
       const { values } = this.state;
       const langReq =  values.languageRequirements[0];
 
+      const removeLocation = ["province", "region", "city"];
 
-      const { province, region, city } = this.state.values;
-      const removeFields = ["province", "region", "city"]
+        if ( isRemote) {
+        console.log("isRemote")
+        if (values.province.key === "0" || values.province.key === "") {
+          removeLocation.forEach(item => {
+            const index = checkValues.findIndex(field => field.key === item) 
+            if (index !== -1) {
+              checkValues.splice(index, 1)
+            }
+          });
+          
+        }
 
-      const locationFields = [
-        { name: "province", ...province },
-        { name: "region", ...region },
-        { name: "city", ...city }
-      ];
-
-
-      if (isRemote) {
-        locationFields.forEach((field:any) => {
-          if ( field.key === "" || field.key === "0") {
-            checkValues = checkValues.filter(item => !removeFields.includes(item.key))
-           }
-         })
       }
 
 
@@ -237,37 +237,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           checkValues.push({ key: "oralFR", value: "" });
         }
       }
-
-
-      // if ( isRemote) {
-      //   //province is default state or select option  skip and delete from checkvalues
-      //   if (province.key === "" || province.key === "0") {
-      //     console.log("skip validation")
-      //      console.log("checkValues1", checkValues)
-      //      const provinceIndex = checkValues.findIndex(item => item.key === "province");
-      //      console.log("index",provinceIndex)
-      //         if (provinceIndex !== -1) {
-      //           checkValues.splice(provinceIndex, 1);
-      //         }
-      //     console.log("checkValues2", checkValues)      
-      //   } else {
-      //     //Province is selected then Region and City are mandatory
-      //     ["region", "city"].forEach((fieldName:any) => {
-      //     const field = locationFields.find(f => f.name === fieldName);
-      //       if (!field?.key || field.key === "0") {
-      //         checkValues.push({ key: field.name, value: "" });
-      //       }
-      //     })
-      //   }
-      // }
-      // else {
-      //    locationFields.forEach(field => {
-      //     if (!field?.key || field.key === "0") {
-      //       checkValues.push({ key: field.name, value: "" });
-      //     }
-      //   });
-      // }
     }
+    
     
     const newArray = toTitleCase(checkValues)
     //const reorderArray = this.reorderLanguage(checkValues)
@@ -525,9 +496,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public handleDropDownItem = (valueName: any, value: any):void => {
-    console.log("valueName:", valueName, "value:", value)
 
-  
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
       if (valueName === "language") {
@@ -652,7 +621,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     else if( valueName === "skills") {
-      console.log("skills", value)
       const findSkillItem = [...this.state.values.skills];
       const skillExists = findSkillItem.some((item: any) => item.value === value.key);
       this.setState((prevState) => ({
@@ -671,7 +639,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
         //check if the province changed
         const provinceChanged = prevState.values.province?.key !== value.key;
-        console.log("provinceChanged", provinceChanged)
 
         return {
           values: {
@@ -682,11 +649,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             },
 
             region: provinceChanged
-              ? { key: '', text: '' }
+              ? { key: '0', text: `--${this.strings.select}--` }
               : prevState.values.region,
 
             city: provinceChanged
-              ? { key: '', text: '' }
+              ? { key: '0', text: `--${this.strings.select}--` }
               : prevState.values.city
           }
         };
@@ -756,8 +723,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-    console.log("item", item)
- 
+
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
@@ -1188,16 +1154,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
-    // if (this.state.values.province !== prevState.values.province) {
-    //   console.log("province changed")
-    //   this.setState((prevState) => ({
-    //     values: {
-    //       ...prevState.values,
-    //       region: {value: "" },
-    //       city:  {value: "" }
-    //     }
-    //   }))
-    // }
 
     if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
       this.setState((prevState) => ({

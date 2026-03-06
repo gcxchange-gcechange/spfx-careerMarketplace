@@ -18,8 +18,6 @@ export const validateEmpty = (value: string, fieldName: string, language:string)
     const titleMaxCharFields = ["jobTitleEn", "jobTitleFr"];
     const descriptionMaxCharFields = ['jobDescriptionEn', 'jobDescriptionFr'];
 
-    console.log("value", value)
-
     if (value === "") {
           return (
             <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine}>

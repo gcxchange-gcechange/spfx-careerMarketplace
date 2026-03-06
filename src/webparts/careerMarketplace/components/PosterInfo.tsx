@@ -69,7 +69,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
 
 
     const comboBoxStyles: Partial<IComboBoxStyles> = { 
-      errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', maginTop:'4px'},
+      errorMessage: { margin: "0px", fontWeight: "700", paddingLeft: '5px', marginTop: "4px", borderLeft: "2px solid rgb(164, 38, 44)", },
       callout: {vh: "50%"}
     }
 
