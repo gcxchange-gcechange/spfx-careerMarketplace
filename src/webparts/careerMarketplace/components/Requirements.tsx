@@ -89,28 +89,6 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const locationOptional = this.props.values.workArrangment.key === 3 && this.props.values.province.key === "0" ;
     const locationMandatory = this.props.values.workArrangment.key !== 3 && this.props.values.province.key === "0";
-    const isRemote = this.props.values.workArrangment === 3;
-    const provinceSelected = this.props.values.province.key !== '0';
-    // const provinceEmpty = this.props.values.province.key === "0";
-    const regionEmpty = this.props.values.region.key === '0';
-
-    const getInlineError = (fieldName: string):string | undefined => {
-      if (isRemote) {
-        if ((provinceSelected && regionEmpty)) {
-          return getLocalizedString(fieldName, this.props.prefLang) 
-        } else {
-          return undefined
-        }
-        
-      } else {
-        if (regionEmpty) {
-          return getLocalizedString(fieldName, this.props.prefLang) 
-        } else {
-          return undefined
-        }
-      }
-      
-    }
 
 
 
@@ -242,10 +220,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={this.props.currentPage === 4}
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
-            errorMessage={getInlineError('region')}
-            // errorMessage={(!isRemote && regionEmpty) || (isRemote && provinceSelected && regionEmpty)
-            //   ? getLocalizedString("region", this.props.prefLang) 
-            //   : undefined}
+            errorMessage={locationOptional ? undefined : locationMandatory ? getLocalizedString("region", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
 
@@ -258,9 +233,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={this.props.currentPage === 4}
             selectedKey={this.props.values.city.key}
             ariaLabelRequired={this.strings.required}
-            errorMessage={(!isRemote && regionEmpty) || (isRemote && provinceSelected && regionEmpty)  
-              ? getLocalizedString("city", this.props.prefLang) 
-              : undefined}
+            errorMessage={locationOptional ? undefined : locationMandatory ? getLocalizedString("city", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
 
