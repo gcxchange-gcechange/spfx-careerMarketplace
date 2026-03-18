@@ -162,6 +162,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
       const isDeployment = this.state.values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id;
       const isRemote = this.state.values.workArrangment.key === 3;
+      const provinceNotSelected = this.state.values.province.key === "" || this.state.values.province.key === "0";
 
       currentPgFields.forEach((field:any) => {
         const value = field.value;
@@ -171,7 +172,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           return;
         }
 
-        if (isRemote && (field.fieldName === "province" || field.fieldName === "region" || field.fieldName === "city")) {
+
+        if(isRemote  && provinceNotSelected &&  (field.fieldName === "province" || field.fieldName === "region" || field.fieldName === "city"))  {
           return;
         }
 
@@ -639,11 +641,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             },
 
             region: provinceChanged
-              ? {...prevState.values.region,  key: '', text: "" }
+              ? {...prevState.values.region,  key: '0', text: `--${this.strings.select}--` }
               : prevState.values.region,
 
             city: provinceChanged
-              ? { ...prevState.values.city, key: '', text: `--${this.strings.select}--` }
+              ? { ...prevState.values.city, key: '0', text: `--${this.strings.select}--` }
               : prevState.values.city
           }
         };
