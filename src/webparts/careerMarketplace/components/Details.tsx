@@ -49,10 +49,10 @@ export interface IDetailsProps {
   fields: string[];
   values: {
     jobType: any;
-    jobTitleEn: string;
-    jobTitleFr: string;
-    jobDescriptionEn: string;
-    jobDescriptionFr: string;
+    jobTitleEn: {value: string, pageNumber: number};
+    jobTitleFr: {value: string, pageNumber: number};
+    jobDescriptionEn: {value: string, pageNumber: number};
+    jobDescriptionFr: {value: string, pageNumber: number};
     numberOfOpportunities: any;
     deadline: Date | undefined;
     programArea: any;
@@ -195,9 +195,15 @@ export default class Details extends React.Component<IDetailsProps> {
       jobDescriptionEn,
       numberOfOpportunities,
       deadline,
+      classificationCode
     } = this.props.values;
+    
 
-    const filteredClassificationLevels = this.props.classificationLevel?.filter((item) => this.props.values.classificationLevelIds?.includes(item.key));
+    
+   const filteredClassificationLevels = classificationCode.key !== "0" 
+   ? this.props.classificationLevel?.filter((item) => this.props.values.classificationLevelIds?.includes(item.key)) 
+   : [...this.props.values.classificationLevel];
+
 
     const reformatDate = (): string => {
       const formattedDate = moment(deadline).format("YYYY-MM-DD");
@@ -276,9 +282,9 @@ export default class Details extends React.Component<IDetailsProps> {
           name={"jobTitleEn"}
           title={`${this.strings.job_Title} ${this.strings.english}`}
           onChange={this.onChangeTextValue}
-          defaultValue={this.props.values.jobTitleEn}
+          defaultValue={jobTitleEn.value}
           disabled={isReadOnly}
-          onGetErrorMessage={() => validateEmpty(jobTitleEn, "jobTitleEn", this.props.prefLang)}
+          onGetErrorMessage={() => validateEmpty(jobTitleEn.value, "jobTitleEn", this.props.prefLang)}
           ariaLabelRequired={this.strings.required}
           ariaInvalid={isInvalid("jobTitleEn", this.props.inlineFieldErrors)}
           maxLength={255}
@@ -291,9 +297,9 @@ export default class Details extends React.Component<IDetailsProps> {
           name={"jobTitleFr"}
           title={`${this.strings.job_Title} ${this.strings.french}`}
           onChange={this.onChangeTextValue}
-          defaultValue={this.props.values.jobTitleFr}
+          defaultValue={ jobTitleFr.value}
           disabled={isReadOnly}
-          onGetErrorMessage={() => validateEmpty(jobTitleFr, "jobTitleFr", this.props.prefLang)}
+          onGetErrorMessage={() => validateEmpty(jobTitleFr.value, "jobTitleFr", this.props.prefLang)}
           ariaLabelRequired={this.strings.required}
           maxLength={255}
           instruction={this.strings.jobTitle_Instructions}
@@ -321,7 +327,7 @@ export default class Details extends React.Component<IDetailsProps> {
             <div className={this.props.inlineFieldErrors?.includes("jobDescriptionEn") ? styles.editorError_English : ""} >
               <RichText
                 id={"jobDescriptionEn"}
-                value={jobDescriptionEn}
+                value={jobDescriptionEn.value}
                 onChange={this.onChangeRichTextValue}
                 placeholder={this.strings.enter_jobDescEn}
                 styleOptions={{
@@ -340,7 +346,7 @@ export default class Details extends React.Component<IDetailsProps> {
         <div role="alert">
           {this.props.inlineFieldErrors?.includes("jobDescriptionEn") &&
             validateEmpty(
-              jobDescriptionEn,
+              jobDescriptionEn.value,
               "jobDescriptionEn",
               this.props.prefLang,
             )}
@@ -367,7 +373,7 @@ export default class Details extends React.Component<IDetailsProps> {
             <div className={this.props.inlineFieldErrors?.includes("jobDescriptionFr") ? styles.editorError_French : ""}  >
               <RichText
                 id={"jobDescriptionFr"}
-                value={jobDescriptionFr}
+                value={jobDescriptionFr.value}
                 onChange={this.onChangeRichTextValueFr}
                 placeholder={this.strings.enter_jobDescFr}
                 styleOptions={{
@@ -387,7 +393,7 @@ export default class Details extends React.Component<IDetailsProps> {
         <div role="alert">
           {this.props.inlineFieldErrors?.includes("jobDescriptionFr") &&
             validateEmpty(
-              jobDescriptionFr,
+              jobDescriptionFr.value,
               "jobDescriptionFr",
               this.props.prefLang,
             )}
@@ -588,13 +594,13 @@ export default class Details extends React.Component<IDetailsProps> {
               <Dropdown
                 id={"duration"}
                 aria-labelledby={`${"duration-label"} ${"duration-input-label"}`}
-                options={[{ key: "", text: `--${this.strings.select}--` }, ...this.props.duration,]}
+                options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.duration,]}
                 onChange={this.onChangeDropDownItem}
                 selectedKey={this.props.values.duration.key}
                 disabled={durationDisabled}
                 styles={dropdownStyles}
                 errorMessage={
-                  this.props.values.duration.key === "" && !permDeploy
+                  this.props.values.duration.key === "0" && !permDeploy
 
                     ? getLocalizedString("duration", this.props.prefLang)
                     : undefined

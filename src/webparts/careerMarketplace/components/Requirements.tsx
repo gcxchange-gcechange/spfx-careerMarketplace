@@ -89,6 +89,28 @@ export default class Requirements extends React.Component<IRequirementsProps> {
 
     const locationOptional = this.props.values.workArrangment.key === 3 && this.props.values.province.key === "0" ;
     const locationMandatory = this.props.values.workArrangment.key !== 3 && this.props.values.province.key === "0";
+    const isRemote = this.props.values.workArrangment === 3;
+    const provinceSelected = this.props.values.province.key !== '0';
+    // const provinceEmpty = this.props.values.province.key === "0";
+    const regionEmpty = this.props.values.region.key === '0';
+
+    const getInlineError = (fieldName: string):string | undefined => {
+      if (isRemote) {
+        if ((provinceSelected && regionEmpty)) {
+          return getLocalizedString(fieldName, this.props.prefLang) 
+        } else {
+          return undefined
+        }
+        
+      } else {
+        if (regionEmpty) {
+          return getLocalizedString(fieldName, this.props.prefLang) 
+        } else {
+          return undefined
+        }
+      }
+      
+    }
 
 
 
@@ -186,13 +208,13 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"workArrangment"}
             name={"workArrangment"}
             title={this.strings.work_arrangment}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...this.props.workArrangment]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...this.props.workArrangment]}
             onChange={this.onChangeDropDownItem}
             disabled={this.props.currentPage === 4}
             selectedKey={this.props.values.workArrangment.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.work_arrangment_description}
-            errorMessage={this.props.values.workArrangment.key === "" ? getLocalizedString("workArrangment", this.props.prefLang) : undefined}
+           errorMessage={this.props.values.workArrangment.key === "0" ? getLocalizedString("workArrangment", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
 
@@ -220,7 +242,10 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={this.props.currentPage === 4}
             selectedKey={this.props.values.region.key}
             ariaLabelRequired={this.strings.required}
-            errorMessage={locationMandatory && this.props.values.region.key === "0"  ? getLocalizedString("region", this.props.prefLang) : undefined}
+            errorMessage={getInlineError('region')}
+            // errorMessage={(!isRemote && regionEmpty) || (isRemote && provinceSelected && regionEmpty)
+            //   ? getLocalizedString("region", this.props.prefLang) 
+            //   : undefined}
             placeholder={this.strings.selectOption}
           />
 
@@ -233,7 +258,9 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             disabled={this.props.currentPage === 4}
             selectedKey={this.props.values.city.key}
             ariaLabelRequired={this.strings.required}
-            errorMessage={locationMandatory && this.props.values.city.key === "0"  ? getLocalizedString("city", this.props.prefLang) : undefined}
+            errorMessage={(!isRemote && regionEmpty) || (isRemote && provinceSelected && regionEmpty)  
+              ? getLocalizedString("city", this.props.prefLang) 
+              : undefined}
             placeholder={this.strings.selectOption}
           />
 
@@ -261,7 +288,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             selectedKey={this.props.values.languageRequirements[0].language.key}
             ariaLabelRequired={this.strings.required}
             instruction={this.strings.language_requirements_description}
-            errorMessage={this.props.values.languageRequirements[0].language.key === ""  ? getLocalizedString("language", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].language.key === "0"  ? getLocalizedString("language", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
          
@@ -269,12 +296,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"readingEN"}
             name={"readingEN"}
             title={this.strings.readingENField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             ariaLabelRequired={this.strings.required}
             selectedKey={this.props.values.languageRequirements[0].readingEN.key}
-            errorMessage={this.props.values.languageRequirements[0].readingEN.key === ""  ? getLocalizedString("readingEN", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].readingEN.key === "0"  ? getLocalizedString("readingEN", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
 
@@ -282,12 +309,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"writtenEN"}
             name={"writtenEN"}
             title={this.strings.writtenENField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             disabled={disabledField}
             ariaLabelRequired={this.strings.required}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].writtenEN.key}
-            errorMessage={this.props.values.languageRequirements[0].writtenEN.key === ""  ? getLocalizedString("writtenEN", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].writtenEN.key === "0"  ? getLocalizedString("writtenEN", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
         
@@ -295,12 +322,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"oralEN"}
             name={"oralEN"}
             title= {this.strings.oralENField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             ariaLabelRequired={this.strings.required}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].oralEN.key}
-            errorMessage={this.props.values.languageRequirements[0].oralEN.key === ""  ? getLocalizedString("oralEN", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].oralEN.key === "0"  ? getLocalizedString("oralEN", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
           />
           
@@ -308,12 +335,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"readingFR"}
             name={"readingFR"}
             title={this.strings.readingFRField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             ariaLabelRequired={this.strings.required}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].readingFR.key}
-            errorMessage={this.props.values.languageRequirements[0].readingFR.key === ""  ? getLocalizedString("readingFR", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].readingFR.key === "0"  ? getLocalizedString("readingFR", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
  
           />
@@ -322,12 +349,12 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"writtenFR"}
             name={"writtenFR"}
             title={this.strings.writtenFRField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             ariaLabelRequired={this.strings.required}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].writtenFR.key}
-            errorMessage={this.props.values.languageRequirements[0].writtenFR.key === ""  ? getLocalizedString("writtenFR", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].writtenFR.key === "0"  ? getLocalizedString("writtenFR", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
  
           />
@@ -336,20 +363,16 @@ export default class Requirements extends React.Component<IRequirementsProps> {
             id={"oralFR"}
             name={"oralFR"}
             title={this.strings.oralFRField}
-            options={[{key:"", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
+            options={[{key:"0", text: `--${this.strings.select}--`}, ...languageEvaluationOptions]}
             ariaLabelRequired={this.strings.required}
             disabled={disabledField}
             onChange={this.onChangeDropDownItem}
             selectedKey={this.props.values.languageRequirements[0].oralFR.key}
-            errorMessage={this.props.values.languageRequirements[0].oralFR.key === ""  ? getLocalizedString("oralFR", this.props.prefLang) : undefined}
+            errorMessage={this.props.values.languageRequirements[0].oralFR.key === "0"  ? getLocalizedString("oralFR", this.props.prefLang) : undefined}
             placeholder={this.strings.selectOption}
  
 
           />
-         
-       
-
-      
         </form>
       </>
     );

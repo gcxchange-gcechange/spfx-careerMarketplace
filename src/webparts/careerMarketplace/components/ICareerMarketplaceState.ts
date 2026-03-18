@@ -32,22 +32,22 @@ export interface ICareerMarketplaceState {
     workEmail:string;
       
     values: {
-      applyEmail: string;
-      jobTitleEn: string;
-      jobTitleFr: string;
-      jobDescriptionEn: string;
-      jobDescriptionFr: string;
+      applyEmail: {value: any, pageNumber: number};
+      department: { key: string; text: string; pageNumber: number };
+      jobTitleEn: {value: string, pageNumber: number};
+      jobTitleFr: {value: string, pageNumber: number};
+      jobDescriptionEn: {value: string, pageNumber: number};
+      jobDescriptionFr: {value: string, pageNumber: number};
       numberOfOpportunities: any;
       deadline: Date | undefined;
-      department: any, 
       skills: any[],
-      jobType: any,
+      jobType: { Label: string; Guid: string; pageNumber: number };
       programArea: any,
       classificationCode: any,
       classificationLevel: any,
-      classificationLevelIds: string,
+      classificationLevelIds: any,
       durationLength:any,
-      duration: any, 
+      duration: { key: string; text: string; pageNumber: number };
       security: any,
       city: any, 
       province: any,

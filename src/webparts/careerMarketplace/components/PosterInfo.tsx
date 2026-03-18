@@ -21,12 +21,13 @@ export interface IPosterInfoProps {
   readOnly: boolean;
   jobOpportunityId: string;
   values: {
-    applyEmail: string;
-    department: any;
+    applyEmail: {value: string, pageNumber: number};
+    department: {key: string, text: string, pageNumber: number};
   };
   errorMessage?:(value: string | number) => string | undefined;
   fields: string[];
   inlineFieldErrors: any[];
+  workEmail: string;
 }
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
@@ -62,8 +63,6 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
     }
   
     
-  
-
 
   public render(): React.ReactElement<IPosterInfoProps> {
 
@@ -73,6 +72,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
       callout: {vh: "50%"}
     }
 
+    const isReadOnly = this.props.currentPage === 0;
 
     const comboBoxOptions: IComboBoxOption[] = this.props.items.map((item:any) => ({
       ...item,
@@ -145,15 +145,26 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             useComboBoxAsMenuWidth={true}
           />
 
+            <ReusableTextField
+            id={"workEmail"}
+            name={"workEmail"}
+            title={this.strings.workEmail}
+            defaultValue={this.props.workEmail}
+            readOnly={isReadOnly}
+            disabled={this.props.currentPage === 3}
+            ariaLabelRequired={'required'}
+          />
+       
+
           <ReusableTextField
             id={"applyEmail"}
             name={"applyEmail"}
             title={this.strings.apply_Email}
-            defaultValue={this.props.values.applyEmail}
-            readOnly={true}
+            defaultValue={this.props.workEmail}
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
             onChange={this.onChangeEmail}
+            instruction={this.strings.apply_Email_Instructions}
             onGetErrorMessage={() => validateEmpty(applyEmail, "applyEmail", this.props.prefLang)}
           />
        
