@@ -87,24 +87,10 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
 
         const { province, region, city } = this.props;
 
-        // const locationFields = [
-        //     province?.key !== "0" ? province.text : `${this.props.workArrangment.text}`,
-        //     region?.key !== "0" ? region.text : "",
-        //     city?.key !== "0" ? city.text : ""
-        // ].filter(Boolean);
-
-
-        //const  remoteLocation =  locationFields.join(", ");
-    
-        //const location: string =   remoteLocation 
+        const location: string = province.key === "0" || province.key === ""
+        ? (this.props.prefLang === 'fr-fr' ? "Travail à distance" : "Remote")
+        : `${province.text}, ${region.text}, ${city.text}`;
         
-        let location1 : string = this.props.prefLang === 'fr-fr' ? "Travail à distance" : "Remote";
-
-        if (province.key === "0" || province.key === "") {
-            location1 
-        } else {
-            location1 = `${province.text}, ${region.text}, ${city.text}`
-        }
 
 
         const editor = document.querySelectorAll(".ql-editor");
@@ -399,7 +385,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             id={this.strings.location}
                             borderless
                             readOnly
-                            defaultValue={location1}
+                            defaultValue={location}
                             styles={disabledField}
                             />
                         </Stack.Item>
