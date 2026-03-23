@@ -25,10 +25,6 @@ import ErrorPage from './ErrorPage';
 import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
 import ErrorPagePostRemoval from './ErrorPagePostRemoval';
- 
- 
-
-
 
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
@@ -85,38 +81,38 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
       values: {
-        applyEmail: this.props.workEmail,
-        department: {value: "" , pageNumber: 1},
-        jobTitleEn: "",
-        jobTitleFr: "",
-        jobDescriptionEn: "",
-        jobDescriptionFr: "",
-        jobType: {pageNumber: 2, Label:"", Guid:""},
-        programArea:{value: "" , pageNumber: 2},
-        classificationCode: {value: "" , pageNumber: 2},
-        classificationLevel: {value: "" , pageNumber: 2},
+        applyEmail: { value: this.props.workEmail, pageNumber: 1},
+        department: {key: "", text: "" , pageNumber: 1},
+        jobTitleEn: {value: "", pageNumber: 2},
+        jobTitleFr: {value: "", pageNumber: 2},
+        jobDescriptionEn: {value: "", pageNumber: 2},
+        jobDescriptionFr: {value: "", pageNumber: 2},
+        jobType: {Label:"", Guid:"", pageNumber: 2,},
+        programArea:{key: "", text: "" , pageNumber: 2},
+        classificationCode: {key: "", text: "" , pageNumber: 2},
+        classificationLevel: {key: "", text: "" , pageNumber: 2},
         classificationLevelIds: "",
         numberOfOpportunities: {value: 1, pageNumber: 2},
-        durationLength: {value: 0, pageNumber: 2},
-        duration: {value: "" , pageNumber: 2},
+        durationLength: {value: 1, pageNumber: 2},
+        duration: {key: "", text: "" , pageNumber: 2},
         deadline: threeMonthsLater,
         skills:[{pageNumber: 3}],
-        workSchedule: {value: "" , pageNumber: 3},
-        workArrangment: {value: "" , pageNumber: 3}, 
-        province: {value: "" , pageNumber: 3},
-        region: {value: "" , pageNumber: 3},
-        city: {value: "" , pageNumber: 3},
-        security: {value: "" , pageNumber: 3},
+        workSchedule: {key: "", text: "" , pageNumber: 3},
+        workArrangment: {key: "", text: "" , pageNumber: 3 }, 
+        province: {key: "", text: "" , pageNumber: 3},
+        region: {key: "" , text: "", pageNumber: 3},
+        city: {key: "" , text: "", pageNumber: 3  },
+        security: {key: "", text: "" , pageNumber: 3},
         languageRequirements: [
           {
             pageNumber: 3,
-            language: {value: ""},
-            readingEN: {value: ""},
-            writtenEN: {value: ""},
-            oralEN: {value: ""},
-            readingFR: {value: ""},
-            writtenFR: {value: ""},
-            oralFR: {value: ""},
+            language:   {key: "" , text: "",},
+            readingEN:  {key: "" , text: "",},
+            writtenEN:  {key: "" , text: "",},
+            oralEN:     {key: "" , text: "",},
+            readingFR:  {key: "" , text: "",},
+            writtenFR:  {key: "" , text: "",},
+            oralFR:     {key: "" , text: "",},
           },
         ],
       },
@@ -135,96 +131,109 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   private goToInitialPage = (value: number):void => {
     this.setState({ currentPage: value, validationStatus: 0 });
-  }
+  } 
 
- 
+
   private next = async (): Promise<void > => {
     const { values, currentPage, isNonJobSeeker, approvedStaffing } = this.state;
     const nextPage = this.state.currentPage + 1;
-
-
-     if (currentPage === 0 && (approvedStaffing && isNonJobSeeker)) {
+    const checkValues: {key: string, value: any}[] = [];
+  
+    if (currentPage === 0 && (approvedStaffing && isNonJobSeeker)) {
       this.setState({
           currentPage: nextPage
-         })
+      })
     }
-
-
-
-    const checkValues: {key: string, value: any}[] = [];
-
-    const  currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
-      if ( Array.isArray(fieldData) && field !== "languageRequirements") {
-        return fieldData.some(item => item.pageNumber === currentPage);
+  //Iterate through the values state to get the field name and field values for current page
+    const currentPgFields = Object.entries(values).filter(([field, fieldData]) => {
+      if (Array.isArray(fieldData)) {
+        return fieldData.some(item => 
+          item.pageNumber !== undefined && item.pageNumber === currentPage
+        );
       }
-      return fieldData.pageNumber === currentPage;
-    }).map(([field]) => field)
+        return (fieldData && typeof fieldData === "object" && "pageNumber" in fieldData && fieldData.pageNumber === currentPage );
+      })
+      .map(([fieldName, fieldData]) => ({
+        fieldName: fieldName,
+        value: fieldData
+      }));
 
-    const stringValues = Object.entries(values).filter(([key, value]) => typeof value === "string" && document.getElementById(key)).map(([value]) => value);
-    console.log("stringVal", stringValues)
+    console.log("pageFields", currentPgFields)
 
-    for (const [key,value] of Object.entries(values)) {
+      const isDeployment = this.state.values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id;
+      const isRemote = this.state.values.workArrangment.key === 3;
+      const provinceNotSelected = this.state.values.province.key === "" || this.state.values.province.key === "0";
 
-      const jobTypeIncludesDeployment = values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id ;
+      currentPgFields.forEach((field:any) => {
+        const value = field.value;
 
-
-      if (jobTypeIncludesDeployment && (key === 'duration' || key === 'durationLength')) {
-          continue;
-      }
-
-
-
-      if ((currentPgFields.includes(key) && value.value === "" )
-          || (currentPgFields.includes(key) && value.value === '0') 
-          || (currentPgFields.includes(key) && value.value === 0) 
-          || (currentPgFields.includes(key) && value === undefined) 
-          || (currentPgFields.includes(key) && value.Guid === '') 
-          || (currentPgFields.includes(key) && value.Guid === '0') 
-          || (currentPgFields.includes(key) && value.length === 1) 
-          || (stringValues.includes(key) && value === "")
-          || (stringValues.includes(key) && value.length < 5)
-          || value.text === `--${this.strings.select}--` 
-          || value.text === 'No' 
-  
-
-        ){
-        
-        checkValues.push({key, value })
-      }
-
-    }
-
-
-    if (currentPage === 3) {   
- 
-      const { values } = this.state;
-      const langReq =  values.languageRequirements[0];
-
-      if (langReq.language.value === "" || langReq.language.key === ""){
-        checkValues.push({key:"language", value:""})
-      }
-      else if (langReq.language.key === 3) {
-        if (langReq.readingEN.text === "" || langReq.readingEN.key === "" ) {
-          checkValues.push({ key: "readingEN", value: "" });
+        // Skip duration fields IF deployment
+        if (isDeployment && field.fieldName === "duration" || field.fieldName === "durationLength") {
+          return;
         }
-        if (langReq.readingFR.text === "" || langReq.readingFR.key === "") {
-          checkValues.push({ key: "readingFR", value: "" });
+
+
+        if(isRemote  && provinceNotSelected &&  (field.fieldName === "province" || field.fieldName === "region" || field.fieldName === "city"))  {
+          return;
         }
-        if (langReq.writtenEN.text === "" || langReq.writtenEN.key === "") {
-          checkValues.push({ key: "writtenEN", value: "" });
+
+        if (field.fieldName === "applyEmail") {
+          console.log("field", field)
+          const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+          //const outlookRegex =  /^[a-zA-Z0-9._%+-]+@(outlook|hotmail|live)\.com$/i;
+           const isValid = regex.test(value.value);
+           if(!isValid ) {
+            checkValues.push({key: field.fieldName, value: value})
+           }
         }
-        if (langReq.writtenFR.text === "" || langReq.writtenFR.key === "") {
-          checkValues.push({ key: "writtenFR", value: "" });
-        }
-        if (langReq.oralEN.text === "" || langReq.oralEN.key === "") {
-          checkValues.push({ key: "oralEN", value: "" });
-        }
-        if (langReq.oralFR.text === "" || langReq.oralFR.key === "") {
-          checkValues.push({ key: "oralFR", value: "" });
-        }
-      }
-    }
+      
+
+        if (field.fieldName === "jobTitleEn" || field.fieldName === "jobTitleFr" || field.fieldName === "jobDescriptionEn" || field.fieldName === "jobDescriptionFr") {
+          if (value.value.length < 5 || value.value === '') {
+            checkValues.push({key: field.fieldName, value: value})
+          }
+        }  
+
     
+        if (Array.isArray(value)) {
+          if (field.fieldName === "skills" && field.value.length === 1) {
+            console.log('fieldName', field.fieldName)
+            checkValues.push({key: field.fieldName, value: value})
+          }
+          if (field.fieldName === "languageRequirements") {
+            if (value[0].language.key === "") {
+               checkValues.push({key: "language", value: value})
+            } 
+
+            if (value[0].language.key === 3) {
+              if (value[0].readingEN.key === '' || value[0].readingEN.key === '0' ) {
+                  checkValues.push({key: "readingEN", value: value})
+              }
+              if (value[0].readingFR.key === '' || value[0].readingFR.key === '0') {
+                  checkValues.push({key: "readingFR", value: value})
+              }
+              if (value[0].writtenEN.key === ''|| value[0].writtenEN.key === '0') {
+                  checkValues.push({key: "writtenEN", value: value})
+              }
+              if (value[0].writtenFR.key === '' || value[0].writtenFR.key === '0') {
+                  checkValues.push({key: "writtenFR", value: value})
+              }
+              if (value[0].oralEN.key === '' || value[0].oralEN.key === '0') {
+                  checkValues.push({key: "oralEN", value: value})
+              } 
+              if (value[0].oralFR.key === '' || value[0].oralFR.key === '0') {
+                  checkValues.push({key: "oralFR", value: value})
+              }   
+            }
+          }
+        }
+        
+        if (value.value === 0 ||  value.key === '' || value.key === "0" || value.Label === "" || value.Guid === "0" ) {
+            checkValues.push({key: field.fieldName, value: value})
+          } 
+
+        })
+
     const newArray = toTitleCase(checkValues)
     //const reorderArray = this.reorderLanguage(checkValues)
     this.navigationDirection = 'next';
@@ -251,6 +260,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
   }
+
+
 
   private prev = (): void => {
     const prevPage = this.state.currentPage -1 ;
@@ -343,9 +354,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "ContactName": ${JSON.stringify(this.props.userDisplayName)},
               "DepartmentId": "${this.state.values.department.key}",
               "ContactEmail": "${this.props.workEmail}",
-              "ApplyEmail": "${this.state.values.applyEmail}",
-              "JobTitleEn": ${JSON.stringify(this.state.values.jobTitleEn)},
-              "JobTitleFr": ${JSON.stringify(this.state.values.jobTitleFr)},
+              "ApplyEmail": "${this.state.values.applyEmail.value}",
+              "JobTitleEn": ${JSON.stringify(this.state.values.jobTitleEn.value)},
+              "JobTitleFr": ${JSON.stringify(this.state.values.jobTitleFr.value)},
               "JobType": ${JSON.stringify(newJoBTypeFormat)},
               "ProgramArea": ${JSON.stringify(programAreaFormat, null, 2)},
               "ClassificationCodeId": "${this.state.values.classificationCode.key}",
@@ -353,8 +364,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
               "NumberOfOpportunities": "${this.state.values.numberOfOpportunities.value}",
               "DurationId": "${this.state.values.duration.key}",
               "ApplicationDeadlineDate": "${isoString}",
-              "JobDescriptionEn": ${JSON.stringify(this.state.values.jobDescriptionEn)},
-              "JobDescriptionFr": ${JSON.stringify(this.state.values.jobDescriptionFr)},
+              "JobDescriptionEn": ${JSON.stringify(this.state.values.jobDescriptionEn.value)},
+              "JobDescriptionFr": ${JSON.stringify(this.state.values.jobDescriptionFr.value)},
               "WorkScheduleId": "${this.state.values.workSchedule.key}",
               "SecurityClearanceId": "${this.state.values.security.key}",
               "LanguageRequirementId": "${this.state.values.languageRequirements[0].language.key}",
@@ -410,9 +421,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public handleOnChangeTextField = (event: any, value: string): void => {
-    console.log("valueParent", value)
-    console.log("event", event)
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const eventName = event;
     const trimmedInputValue = value.trim();
 
@@ -436,24 +444,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }));
       }
 
-   
+      // if (eventName === "applyEmail") {
+       
+      //     this.setState((prevState) => ({
+      //       values: {
+      //         ...prevState.values,
+      //         applyEmail: {...prevState.values.applyEmail, value: ""}
+      //       }
+      //     }))
 
-      if (eventName === "applyEmail" && regex.test(value)) {
-        console.log("valid email")
-        this.setState((prevState) => ({
-            values: {
-              ...prevState.values,
-              applyEmail: trimmedInputValue
-
-            }
-        }))
-      }
+      // } 
 
 
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
-          [eventName]: trimmedInputValue
+          [eventName]: {...prevState.values[eventName as keyof typeof prevState.values], value:trimmedInputValue}
   
         }
       }))
@@ -482,7 +488,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
   public handleDropDownItem = (valueName: any, value: any):void => {
 
-  
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
       if (valueName === "language") {
@@ -498,9 +503,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           },
         }));
 
-      }
-
-      else if (langEvaluationdIds.includes(valueName)) {
+      } else if (langEvaluationdIds.includes(valueName)) {
 
           if (valueName === 'readingEN' ) {
             this.setState((prevState) => ({
@@ -587,7 +590,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       
       const deployment = value.key === this.props.jobTypeDeploymentTerms[0]?.id
 
-      if(deployment) {
+      if (deployment) {
         this.setState((prevState) => ({
           values: {
             ...prevState.values,
@@ -598,18 +601,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }));
       }
 
-     this.setState((prevState) => ({
-      values: {
-        ...prevState.values,
-        jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
-          
-      },    
-    }));
+      this.setState((prevState) => ({
+        values: {
+          ...prevState.values,
+          jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
+            
+        },    
+      }));
     
     }
 
     else if( valueName === "skills") {
-      console.log("skills", value)
       const findSkillItem = [...this.state.values.skills];
       const skillExists = findSkillItem.some((item: any) => item.value === value.key);
       this.setState((prevState) => ({
@@ -621,12 +623,39 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             : [...prevState.values.skills, {value: value.key, text:value.text}],  
         },
       }));
-    }    
+    }  
+    else if (valueName === "province" ) {
+
+      this.setState((prevState) => {
+
+        //check if the province changed
+        const provinceChanged = prevState.values.province?.key !== value.key;
+
+        return {
+          values: {
+            ...prevState.values,
+            province: {
+              ...prevState.values.province,
+              key: value.key,
+              text: value.text
+            },
+
+            region: provinceChanged
+              ? {...prevState.values.region,  key: '0', text: `--${this.strings.select}--` }
+              : prevState.values.region,
+
+            city: provinceChanged
+              ? { ...prevState.values.city, key: '0', text: `--${this.strings.select}--` }
+              : prevState.values.city
+          }
+        };
+      });
+    }
     else {
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
-          [valueName]: value,
+          [valueName]: { ...prevState.values[valueName as keyof typeof prevState.values], ...value }
         }
       }));
     }
@@ -686,8 +715,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
     const cityId = item.City.ID;
-    console.log("item", item)
- 
+
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
@@ -696,6 +724,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const getIndex: any[] =  [];
     const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
     const getClassificationCodeList = classificationCode.filter((levelItem:any) => levelItem.ID === item.ClassificationCode.ID);
+    console.log("classificationCodeList", getClassificationCodeList)
  
 
    
@@ -740,27 +769,27 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
-        department: { key: item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department) },
+        department: {...prevState.values.department, key: item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department)},
         jobTitleEn: item.JobTitleEn,
         jobTitleFr: item.JobTitleFr,
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
-        jobType: {...prevState.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
-        programArea : {...prevState.programArea,  key: item.ProgramArea?.[0]?.TermGuid ?? item.Program_Area?.[0]?.TermGuid?? ""},
-        classificationCode: {key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
-        classificationLevel:{key:item.ClassificationLevel.ID},
+        jobType: {...prevState.values.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
+        programArea : {...prevState.values.programArea,  key: item.ProgramArea?.[0]?.TermGuid ?? item.Program_Area?.[0]?.TermGuid?? ""},
+        classificationCode: {...prevState.values.classificationCode, key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
+        classificationLevel:{...prevState.values.classificationLevel, key:item.ClassificationLevel.ID },
         classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
-        numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 1},
-        duration:{...prevState.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
+        numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 2},
+        duration:{...prevState.values.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
         deadline: new Date(formattedDate),
         skills: skills,
-        province: {key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
-        region: {key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
-        city:{ key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},
-        workSchedule: { key: item.WorkSchedule.ID},
-        workArrangment: {key: item.WorkArrangement.ID},
-        security:{key: item.SecurityClearance.ID},
+        province: {...prevState.values.province, key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
+        region: {...prevState.values.region, key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
+        city:{...prevState.values.city, key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},
+        workSchedule: {...prevState.values.workSchedule, key: item.WorkSchedule.ID},
+        workArrangment: {...prevState.values.workArrangment, key: item.WorkArrangement.ID},
+        security:{...prevState.values.security, key: item.SecurityClearance.ID},
 
         languageRequirements: [
           {
@@ -782,6 +811,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
 
     }))
+    console.log("state", this.state.values)
   }
 
   public async _populateDropDowns(): Promise<void> {
@@ -996,7 +1026,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     });
 
     const cleanUpDropDownFields = this.state.dropdownFields.filter((n) => n)
-    console.log("clear", cleanUpDropDownFields)
 
     this.onBlur(cleanUpDropDownFields);
 
@@ -1089,7 +1118,6 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
     if (this.state.currentPage !== prevState.currentPage) {
-
         this.setState({
           inlineFieldErrors: [],
           hasError: []
@@ -1119,6 +1147,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
     }
 
+
     if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
       this.setState((prevState) => ({
         values: {
@@ -1126,12 +1155,12 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
           languageRequirements: [
             {
               ...prevState.values.languageRequirements[0],
-              readingEN:{ key: "0", text: "" },
-              readingFR: { key: "0", text: "" },
-              writtenEN: { key: "0", text: "" },
-              writtenFR:  { key: "0", text: "" },
-              oralEN: { key: "0", text: "" },
-              oralFR: { key: "0", text: "" },
+              readingEN:{ key: "", text: "" },
+              readingFR: { key: "", text: "" },
+              writtenEN: { key: "", text: "" },
+              writtenFR:  { key: "", text: "" },
+              oralEN: { key: "", text: "" },
+              oralFR: { key: "", text: "" },
 
             }
           ]
@@ -1241,6 +1270,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             inlineFieldErrors={this.state.inlineFieldErrors}
             prefLang={this.props.prefLang}
             jobOpportunityId={this.props.jobOpportunityId}
+            workEmail={this.props.workEmail}
           />
         ),
       },

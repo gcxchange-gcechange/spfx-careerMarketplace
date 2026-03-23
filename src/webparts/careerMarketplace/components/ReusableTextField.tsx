@@ -22,6 +22,7 @@ export interface IReusableTextFieldProps {
   instruction?: string;
   placeholder?: string;
   underlined? : boolean;
+  onRenderInstruction?: () => JSX.Element;
 }
 
 
@@ -41,26 +42,26 @@ export default class ReusableTextField extends React.Component<IReusableTextFiel
         padding:'0px 0px 0px 0px'
       }
     }
+    const hasInstruction = this.props.instruction || this.props.onRenderInstruction;
 
     return (
-    <Stack  horizontal verticalAlign="center" >
-      <StackItem>
-        <Label id={`${this.props.id}-label`} styles={this.props.instruction !== undefined ? labelSpacing : noInstructionLabelSpacing}>
-          <p className={styles.mrg0} style={{paddingBottom:'8px'}}>
-            <span  aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}} >
-              *
-            </span>
-             <span className={styles.visuallyHidden}>{this.props.ariaLabelRequired}</span>
-            {this.props.title}
-          </p>
-          <p className={styles.instruction}>{this.props.instruction}</p>
-
-        </Label>
-      </StackItem>
-    </Stack>
+      <Stack  horizontal verticalAlign="center" >
+        <StackItem>
+          <Label id={`${this.props.id}-label`} styles={hasInstruction !== undefined ? labelSpacing : noInstructionLabelSpacing}>
+            <p className={styles.mrg0} style={{paddingBottom:'8px'}}>
+              <span  aria-hidden="true" style={{color: 'rgb(164, 38, 44)'}} >
+                *
+              </span>
+              <span className={styles.visuallyHidden}>{this.props.ariaLabelRequired}</span>
+              {this.props.title}
+            </p>
+            <p className={styles.instruction}>{this.props.onRenderInstruction ? this.props.onRenderInstruction() : this.props.instruction}</p>
+          
+          </Label>
+        </StackItem>
+      </Stack>
     )
   }
-
 
   public render(): React.ReactElement<IReusableTextFieldProps> {
 

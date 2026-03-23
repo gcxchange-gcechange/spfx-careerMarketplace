@@ -10,12 +10,12 @@ export interface IReviewPageProps {
     currentPage: number;
     prefLang:string;
     userInfo:string;
-    applyEmail: string;
+    applyEmail: {value: string, pageNumber: number}
     department: any;
-    jobTitleEn: string;
-    jobTitleFr: string;
-    jobDescriptionEn: string;
-    jobDescriptionFr: string;
+    jobTitleEn: {value: string, pageNumber: number};
+    jobTitleFr: {value: string, pageNumber: number};
+    jobDescriptionEn: {value: string, pageNumber: number};
+    jobDescriptionFr: {value: string, pageNumber: number};
     jobType: any;
     programArea: any;
     classificationCode: any;
@@ -45,8 +45,6 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
     }
  
     public render(): React.ReactElement<IReviewPageProps> {
-        console.log("PROPS",this.props)
-
         
             const disabledField: Partial<ITextFieldStyles>={
               root: {
@@ -87,29 +85,30 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
         // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
         const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
 
-        const location: string = this.props.province.text + ", " + this.props.region.text + ", " + this.props.city.text
+        const { province, region, city } = this.props;
 
-        console.log("location", location)
-
-    const editor = document.querySelectorAll(".ql-editor");
-
-
-    editor.forEach((node, index) => {
-
-      node.setAttribute("data-field", String(index + 1));
-      console.log("node", node)
-
-       if (index === 0) {
-        node.setAttribute('aria-labelledby', 'jobDescriptionEn');
-        node.setAttribute('role', 'input');
-      } else {
-        node.setAttribute('aria-labelledby', 'jobDescriptionFr');
-        node.setAttribute('role', 'input');
-       
-      }
+        const location: string = province.key === "0" || province.key === ""
+        ? (this.props.prefLang === 'fr-fr' ? "Travail à distance" : "Remote")
+        : `${province.text}, ${region.text}, ${city.text}`;
+        
 
 
-    })
+        const editor = document.querySelectorAll(".ql-editor");
+
+
+        editor.forEach((node, index) => {
+
+            node.setAttribute("data-field", String(index + 1));
+
+            if (index === 0) {
+                node.setAttribute('aria-labelledby', 'jobDescriptionEn');
+                node.setAttribute('role', 'input')
+            } else {
+                node.setAttribute('aria-labelledby', 'jobDescriptionFr');
+                node.setAttribute('role', 'input');
+            
+            }
+        })
 
 
 
@@ -147,7 +146,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <Label htmlFor={this.strings.apply_Email} className={styles.reviewPageLabelWidth}>{this.strings.apply_Email}</Label>
                         </StackItem>
                         <StackItem grow>
-                            <TextField id={this.strings.apply_Email}  borderless readOnly defaultValue={this.props.applyEmail} styles={disabledField}/>
+                            <TextField id={this.strings.apply_Email}  borderless readOnly defaultValue={this.props.applyEmail.value} styles={disabledField}/>
                         </StackItem>
                     </Stack>
                 
@@ -169,7 +168,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <Label htmlFor={`${this.strings.job_Title} ${this.strings.english}`} className={styles.reviewPageLabelWidth}>{`${this.strings.job_Title} ${this.strings.english}`}</Label>
                         </StackItem>
                         <StackItem grow>
-                            <TextField id={`${this.strings.job_Title} ${this.strings.english}`} borderless readOnly defaultValue={this.props.jobTitleEn} styles={disabledField}/>
+                            <TextField id={`${this.strings.job_Title} ${this.strings.english}`} borderless readOnly defaultValue={this.props.jobTitleEn.value} styles={disabledField}/>
                         </StackItem>
                     </Stack>
                     <Stack wrap horizontal className={styles.reviewRowSeparator}>
@@ -177,7 +176,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <Label htmlFor={`${this.strings.job_Title} ${this.strings.french}`} className={styles.reviewPageLabelWidth}>{`${this.strings.job_Title} ${this.strings.french}`}</Label>
                         </StackItem>
                         <StackItem grow>
-                            <TextField id={`${this.strings.job_Title} ${this.strings.french}`} borderless readOnly defaultValue={this.props.jobTitleFr} styles={disabledField}/>
+                            <TextField id={`${this.strings.job_Title} ${this.strings.french}`} borderless readOnly defaultValue={this.props.jobTitleFr.value} styles={disabledField}/>
                         </StackItem>
                     </Stack>
    
@@ -187,7 +186,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <label className={styles.richTextLabelStyle} htmlFor={"jobDescriptionEn"}> {`${this.strings.job_Description} ${this.strings.english}`}</label>
                             <RichText
                                 id={"jobDescriptionEn"}
-                                value={this.props.jobDescriptionEn}
+                                value={this.props.jobDescriptionEn.value}
                                 isEditMode={false}
                                 styleOptions={{
                                     showBold: false,
@@ -208,7 +207,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <label className={styles.richTextLabelStyle} htmlFor={"jobDescriptionFr"} tabIndex={0}>{`${this.strings.job_Description} ${this.strings.french}`}</label>
                             <RichText
                                 id={"jobDescriptionFr"}
-                                value={this.props.jobDescriptionFr}
+                                value={this.props.jobDescriptionFr.value}
                                 isEditMode={false}
                                 styleOptions={{
                                     showBold: false,

@@ -21,6 +21,10 @@ declare interface ICareerMarketplaceWebPartStrings {
   "fullName": string;
   "departmentField": string;
   "apply_Email": string;
+  "workEmail": string;
+  "apply_Email_Instructions": string;
+  "apply_Email_Instructions_bold":string;
+  "apply_Email_Instructions_b":string;
 
   //Page 2 - Opportunity Details
   "oppotunityDetails_Title": string;

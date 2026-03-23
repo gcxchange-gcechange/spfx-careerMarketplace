@@ -3,10 +3,9 @@
 import { SelectLanguage } from "./SelectLanguage";
 
 
-export const toTitleCase = ( value: {key: string, value: string | number}[]): string[] => {
-
+export const toTitleCase = ( value: any): string[] => {
   const properCaseValues: string[] = [];
-  const convertString: string[] = value.map((item: {key: string, value: string | number}) => item.key.replace(/([A-Z])/g, ' $1').replace(/^ /, '').toLowerCase() );
+  const convertString: string[] = value.map((item: any) => item.key.replace(/([A-Z])/g, ' $1').replace(/^ /, '').toLowerCase() );
   properCaseValues.push(...convertString);
 
   return properCaseValues

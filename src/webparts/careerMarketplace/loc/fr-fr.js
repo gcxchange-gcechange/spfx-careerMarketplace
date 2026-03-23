@@ -24,8 +24,11 @@ define([], function() {
       "posterInformation_para1": "Veuillez noter que les informations que vous saisissez dans ces champs seront stockées dans votre mémoire cache pendant plusieurs minutes. Une inactivité prolongée peut entraîner la perte des informations. Veuillez éviter de rafraîchir la page ou de cliquer sur le bouton retour pendant ce temps.",
       "fullName":"Nom complet",
       "departmentField":"Ministère",
-      "apply_Email":"Adresse courriel professionnelle",
-      "apply_Email":"Adresse courriel professionnelle",
+      "workEmail":"Adresse courriel professionnelle",
+      "apply_Email":"Adresse courriel pour les candidatures",
+      "apply_Email_Instructions":"Les candidatures seront envoyées à cette adresse courriel. Par défaut, il s’agit de votre adresse courriel au travail, mais vous pouvez entrer une autre adresse courriel valide. Utilisez une  .",
+      "apply_Email_Instructions_bold":"boîte de réception contrôlée",
+      "apply_Email_Instructions_b":"accessible uniquement aux personnes autorisées à examiner les candidatures. Cela aide à protéger les renseignements personnels des personnes candidates.",
 
       //Page 2 - Opportunity Details
       "oppotunityDetails_Title":"Détails de la possibilité d'opportunité",
@@ -183,7 +186,6 @@ define([], function() {
 
       //fieldErrors
       "department":"Le champ « Ministère » est obligatoire.",
-      "applyEmail":"Le champ « Adresse courriel professionnelle » est obligatoire.",
       "applyEmail":"Le champ « Adresse courriel professionnelle » est obligatoire.",
       "jobTitleEn":"Le champ « Titre du poste en anglais » est obligatoire.",
       "jobTitleFr":"Le champ « Titre du poste en français » est obligatoire.",

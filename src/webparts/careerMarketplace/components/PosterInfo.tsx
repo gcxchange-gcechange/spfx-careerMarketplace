@@ -7,8 +7,7 @@ import { ComboBox, IComboBox, IComboBoxOption,  IComboBoxStyles,   IDropdownOpti
 import { SelectLanguage } from './SelectLanguage';
 import styles from './CareerMarketplace.module.scss';
 import { getLocalizedString, isInvalid } from "./Functions";
-import { applyEmail } from "CareerMarketplaceWebPartStrings";
-import { validateEmpty } from "./Validations";
+import { validateEmail  } from "./Validations";
 
 
 export interface IPosterInfoProps {
@@ -21,12 +20,13 @@ export interface IPosterInfoProps {
   readOnly: boolean;
   jobOpportunityId: string;
   values: {
-    applyEmail: string;
-    department: any;
+    applyEmail: {value: string, pageNumber: number};
+    department: {key: string, text: string, pageNumber: number};
   };
   errorMessage?:(value: string | number) => string | undefined;
   fields: string[];
   inlineFieldErrors: any[];
+  workEmail: string;
 }
 
 export default class PosterInfo extends React.Component<IPosterInfoProps> {
@@ -62,14 +62,12 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
     }
   
     
-  
-
 
   public render(): React.ReactElement<IPosterInfoProps> {
 
 
     const comboBoxStyles: Partial<IComboBoxStyles> = { 
-      errorMessage: { margin: '0px', fontWeight: '700', borderLeft: '2px solid rgb(164, 38, 44)', paddingLeft: '5px', maginTop:'4px'},
+      errorMessage: { margin: "0px", fontWeight: "700", paddingLeft: '5px', marginTop: "4px", borderLeft: "2px solid rgb(164, 38, 44)", },
       callout: {vh: "50%"}
     }
 
@@ -89,6 +87,13 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
         padding:'0px 0px 8px 0px'
       }
     }
+
+    const onRenderAppEmailDescription = ( ): JSX.Element => {
+
+      return (
+         <> {this.strings.apply_Email_Instructions}<span><strong>{this.strings.apply_Email_Instructions_bold}</strong></span>{this.strings.apply_Email_Instructions_b}  </> 
+      );
+    };
 
 
     return (
@@ -145,16 +150,27 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             useComboBoxAsMenuWidth={true}
           />
 
+            <ReusableTextField
+            id={"workEmail"}
+            name={"workEmail"}
+            title={this.strings.workEmail}
+            defaultValue={this.props.workEmail}
+            readOnly={true}
+            disabled={this.props.currentPage === 3}
+            ariaLabelRequired={'required'}
+          />
+       
+
           <ReusableTextField
             id={"applyEmail"}
             name={"applyEmail"}
             title={this.strings.apply_Email}
-            defaultValue={this.props.values.applyEmail}
-            readOnly={true}
+            defaultValue={this.props.workEmail}
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
             onChange={this.onChangeEmail}
-            onGetErrorMessage={() => validateEmpty(applyEmail, "applyEmail", this.props.prefLang)}
+            onRenderInstruction = {onRenderAppEmailDescription}
+            onGetErrorMessage={() => validateEmail(this.props.values.applyEmail.value, this.props.prefLang, "applyEmail" )}
           />
        
       </>
