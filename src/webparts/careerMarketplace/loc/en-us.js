@@ -24,7 +24,9 @@ define([], function() {
     "departmentField":"Department",
     "workEmail":"Work email",
     "apply_Email":"Application email",
-    "apply_Email_Instructions":"Applications will be sent to this email address. By default it is your work email, but you can enter another email. Use a controlled inbox that only authorized reviewers can access. This helps protect applicants’ personal information.",
+    "apply_Email_Instructions":"Applications will be sent to this email address. By default it is your work email, but you can enter another valid email. Use a",
+    "apply_Email_Instructions_bold":" controlled inbox",
+    "apply_Email_Instructions_b":" that only authorized reviewers can access. This helps protect applicants’ personal information. ",
 
     //Page 2 - Opportunity Details
     "oppotunityDetails_Title":"Opportunity details",

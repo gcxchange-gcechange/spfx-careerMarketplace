@@ -26,7 +26,9 @@ define([], function() {
       "departmentField":"Ministère",
       "workEmail":"Adresse courriel professionnelle",
       "apply_Email":"Adresse courriel pour les candidatures",
-      "apply_Email_Instructions":"Les candidatures seront envoyées à cette adresse courriel. Par défaut, il s’agit de votre adresse courriel au travail, mais vous pouvez entrer une autre adresse. Utilisez une boîte de réception contrôlée accessible uniquement aux personnes autorisées à examiner les candidatures. Cela aide à protéger les renseignements personnels des personnes candidates.",
+      "apply_Email_Instructions":"Les candidatures seront envoyées à cette adresse courriel. Par défaut, il s’agit de votre adresse courriel au travail, mais vous pouvez entrer une autre adresse courriel valide. Utilisez une  .",
+      "apply_Email_Instructions_bold":"boîte de réception contrôlée",
+      "apply_Email_Instructions_b":"accessible uniquement aux personnes autorisées à examiner les candidatures. Cela aide à protéger les renseignements personnels des personnes candidates.",
 
       //Page 2 - Opportunity Details
       "oppotunityDetails_Title":"Détails de la possibilité d'opportunité",

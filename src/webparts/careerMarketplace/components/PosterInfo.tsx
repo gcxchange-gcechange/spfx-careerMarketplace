@@ -72,7 +72,6 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
       callout: {vh: "50%"}
     }
 
-    const isReadOnly = this.props.currentPage === 0;
 
     const comboBoxOptions: IComboBoxOption[] = this.props.items.map((item:any) => ({
       ...item,
@@ -89,6 +88,13 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
         padding:'0px 0px 8px 0px'
       }
     }
+
+    const onRenderAppEmailDescription = ( ): JSX.Element => {
+
+      return (
+         <> {this.strings.apply_Email_Instructions}<span><strong>{this.strings.apply_Email_Instructions_bold}</strong></span>{this.strings.apply_Email_Instructions_b}  </> 
+      );
+    };
 
 
     return (
@@ -150,7 +156,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             name={"workEmail"}
             title={this.strings.workEmail}
             defaultValue={this.props.workEmail}
-            readOnly={isReadOnly}
+            readOnly={true}
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
           />
@@ -164,7 +170,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
             onChange={this.onChangeEmail}
-            instruction={this.strings.apply_Email_Instructions}
+            onRenderInstruction = {onRenderAppEmailDescription}
             onGetErrorMessage={() => validateEmpty(applyEmail, "applyEmail", this.props.prefLang)}
           />
        
