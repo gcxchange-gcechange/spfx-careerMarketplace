@@ -7,8 +7,7 @@ import { ComboBox, IComboBox, IComboBoxOption,  IComboBoxStyles,   IDropdownOpti
 import { SelectLanguage } from './SelectLanguage';
 import styles from './CareerMarketplace.module.scss';
 import { getLocalizedString, isInvalid } from "./Functions";
-import { applyEmail } from "CareerMarketplaceWebPartStrings";
-import { validateEmpty } from "./Validations";
+import { validateEmail  } from "./Validations";
 
 
 export interface IPosterInfoProps {
@@ -171,7 +170,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             ariaLabelRequired={'required'}
             onChange={this.onChangeEmail}
             onRenderInstruction = {onRenderAppEmailDescription}
-            onGetErrorMessage={() => validateEmpty(applyEmail, "applyEmail", this.props.prefLang)}
+            onGetErrorMessage={() => validateEmail(this.props.values.applyEmail.value, this.props.prefLang, "applyEmail" )}
           />
        
       </>

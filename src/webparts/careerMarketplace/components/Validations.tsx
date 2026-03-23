@@ -106,6 +106,30 @@ export const validateNumericField = (value: any, language:string, fieldName: str
 
 }
 
+export const validateEmail = (value: string, language: string, fieldName: string) : string | JSX.Element | undefined => {
+console.log("value", value)
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const isValid = regex.test(value);
+
+    if (value === "") {
+        return (
+             <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine} style={{paddingTop:'5px'}}>
+                <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{getLocalizedString(`${fieldName}`, language)}</p>
+            </div>
+        )
+    }
+
+    if(!isValid) {
+        return (
+           <div aria-live="polite" id={`${fieldName}-error`} className={styles.errorLine} style={{paddingTop:'5px'}}>
+                <p style={{margin: '0px', fontWeight: '700', color: 'rgb(164, 38, 44)', fontSize: '12px'}}>{language === 'fr-fr' ? "Entrez une adresse courriel valide." : " Enter a valid email address"}</p>
+            </div> 
+        )
+    }
+
+
+}
+
 
 
   
