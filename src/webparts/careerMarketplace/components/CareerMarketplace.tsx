@@ -836,14 +836,15 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
 
     } else if (currentPage === 2) {
-      const classificationLevel = await this._sp.web.lists.getByTitle('ClassificationLevel').items();
 
-      const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
+      const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items.top(800)();
+      const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, classificationLevelIds: data.ClassificationLevelIds }));
+
+      const classificationLevel = await this._sp.web.lists.getByTitle('ClassificationLevel').items();
+      const classLevelResults = classificationLevel.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
+
 
       const duration = await this._sp.web.lists.getByTitle('Duration').items();
-
-      const classLevelResults = classificationLevel.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn }));
-      const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, classificationLevelIds: data.ClassificationLevelIds }));
       const durationData = duration.map((data: any) => ({key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
 
       GraphService._sets(parameters[0]).then(async (data: any) => {
