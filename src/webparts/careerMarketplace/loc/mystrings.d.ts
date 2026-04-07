@@ -38,6 +38,8 @@ declare interface ICareerMarketplaceWebPartStrings {
   "job_Type_description": string;
   "program_Area": string;
   "programArea_description": string,
+  "programArea_description_bold": string;
+  "programArea_description_b": string;
   "classification_Code": string;
   "classification_Code_description":string,
   "classification_Level": string;

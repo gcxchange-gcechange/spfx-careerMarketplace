@@ -427,7 +427,7 @@ export default class Details extends React.Component<IDetailsProps> {
           disabled={isReadOnly}
           selectedKey={this.props.values.programArea.key}
           ariaLabelRequired={this.strings.required}
-          instruction={this.strings.programArea_description}
+          instruction={`${this.strings.programArea_description} ${this.strings.programArea_description_bold } ${this.strings.programArea_description_b}`}
           inlineFieldErrors={this.props.inlineFieldErrors}
           prefLang={this.props.prefLang}
           placeholder={this.strings.selectOption}
