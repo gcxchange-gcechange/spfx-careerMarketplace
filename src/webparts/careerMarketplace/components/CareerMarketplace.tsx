@@ -1362,6 +1362,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             workArrangment={this.state.values.workArrangment}
             handlePageNumber={this.handlePageNumber}
             securityList={this.state.security}
+            skillsList={this.state.skillsList}
           />
           </>
         ),

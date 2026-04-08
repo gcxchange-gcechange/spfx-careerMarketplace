@@ -281,7 +281,7 @@ export default class Details extends React.Component<IDetailsProps> {
           id={"jobTitleEn"}
           name={"jobTitleEn"}
           title={`${this.strings.job_Title} ${this.strings.english}`}
-          onChange={() => this.onChangeTextValue}
+          onChange={this.onChangeTextValue}
           defaultValue={jobTitleEn.value}
           disabled={isReadOnly}
           onGetErrorMessage={() => validateEmpty(jobTitleEn.value, "jobTitleEn", this.props.prefLang)}
@@ -296,7 +296,7 @@ export default class Details extends React.Component<IDetailsProps> {
           id={"jobTitleFr"}
           name={"jobTitleFr"}
           title={`${this.strings.job_Title} ${this.strings.french}`}
-          onChange={ () => this.onChangeTextValue}
+          onChange={this.onChangeTextValue}
           defaultValue={ jobTitleFr.value}
           disabled={isReadOnly}
           onGetErrorMessage={() => validateEmpty(jobTitleFr.value, "jobTitleFr", this.props.prefLang)}
@@ -469,7 +469,7 @@ export default class Details extends React.Component<IDetailsProps> {
           aria-labelledby={"classificationCode-label"}
           aria-describedby="classificationCode-error"
           options={[{ key: "0", text: `--${this.strings.select}--` }, ...classificationCodeItems,]}
-          onChange={() => this.onChangeClassificationCode}
+          onChange={this.onChangeClassificationCode}
           disabled={this.props.currentPage === 3}
           selectedKey={this.props.values.classificationCode.key}
           autoComplete="on"
@@ -595,7 +595,7 @@ export default class Details extends React.Component<IDetailsProps> {
                 id={"duration"}
                 aria-labelledby={`${"duration-label"} ${"duration-input-label"}`}
                 options={[{ key: "0", text: `--${this.strings.select}--` }, ...this.props.duration,]}
-                onChange={() => this.onChangeDropDownItem}
+                onChange={this.onChangeDropDownItem}
                 selectedKey={this.props.values.duration.key}
                 disabled={durationDisabled}
                 styles={dropdownStyles}
@@ -684,7 +684,7 @@ export default class Details extends React.Component<IDetailsProps> {
             aria-labelledby={"deadline"}
             className={styles.labelStyle}
             ariaLabel={this.strings.application_deadline}
-            onSelectDate={() => this.onSelectedDate}
+            onSelectDate={this.onSelectedDate}
             disabled={isReadOnly}
             formatDate={reformatDate}
             value={this.props.values.deadline}

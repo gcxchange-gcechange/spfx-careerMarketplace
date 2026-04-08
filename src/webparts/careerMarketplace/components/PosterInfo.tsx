@@ -168,7 +168,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             defaultValue={this.props.workEmail}
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
-            onChange={() => this.onChangeEmail}
+            onChange={this.onChangeEmail}
             onRenderInstruction = {onRenderAppEmailDescription}
             onGetErrorMessage={() => validateEmail(this.props.values.applyEmail.value, this.props.prefLang, "applyEmail" )}
           />

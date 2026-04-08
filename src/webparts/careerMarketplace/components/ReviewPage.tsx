@@ -34,6 +34,7 @@ export interface IReviewPageProps {
     workArrangment: any;
     handlePageNumber: (page: number) => void;
     securityList: any[];
+    skillsList:any[];
 }
 
 export default class ReviewPage extends React.Component<IReviewPageProps> {
@@ -119,6 +120,10 @@ console.log("Security LIST", this.props.securityList)
 console.log("SElected Security", this.props.security)
 
 const matchSecurity = this.props.securityList.find(item => item.key === this.props.security.key);
+
+const matchSkills = this.props.skills.map((selected) => this.props.skillsList.find(item => item.key === selected.key));
+
+console.log("matchSkills", matchSkills)
  
 
 
