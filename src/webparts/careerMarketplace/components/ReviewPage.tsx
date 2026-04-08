@@ -33,6 +33,7 @@ export interface IReviewPageProps {
     languageRequirements: any[];
     workArrangment: any;
     handlePageNumber: (page: number) => void;
+    securityList: any[];
 }
 
 export default class ReviewPage extends React.Component<IReviewPageProps> {
@@ -110,7 +111,15 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
             }
         })
 
+console.log("skills",this.props.skills)
+console.log("classLe", this.props.classificationLevel)
+console.log("PROP", this.props)
 
+console.log("Security LIST", this.props.securityList)
+console.log("SElected Security", this.props.security)
+
+const matchSecurity = this.props.securityList.find(item => item.key === this.props.security.key);
+ 
 
 
         return(
@@ -236,7 +245,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <Label htmlFor={this.strings.program_Area}className={styles.reviewPageLabelWidth}>{this.strings.program_Area}</Label>
                         </StackItem>
                         <StackItem grow>
-                            <TextField id={this.strings.program_Area} borderless readOnly  defaultValue={this.props.programArea.text} styles={disabledField}/>
+                            <TextField id={this.strings.program_Area} borderless readOnly  value={this.props.programArea.text} styles={disabledField}/>
                         </StackItem>
                     </Stack>
                     <Stack wrap horizontal className={styles.reviewRowSeparator}>
@@ -244,7 +253,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <Label htmlFor={this.strings.classification} className={styles.reviewPageLabelWidth}>{this.strings.classification}</Label>
                         </StackItem>
                         <StackItem grow>
-                            <TextField id={this.strings.classification} borderless readOnly defaultValue={this.props.classificationCode.text + " - " + this.props.classificationLevel.text} styles={disabledField}/>
+                            <TextField id={this.strings.classification} borderless readOnly value={this.props.classificationCode.text + " - " + this.props.classificationLevel.text} styles={disabledField}/>
                         </StackItem>
                     </Stack>
                    
@@ -403,7 +412,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             id={this.strings.security_level}
                             borderless
                             readOnly
-                            defaultValue={this.props.security.text}
+                            defaultValue={matchSecurity.text}
                             styles={disabledField}
                             />
                         </Stack.Item>

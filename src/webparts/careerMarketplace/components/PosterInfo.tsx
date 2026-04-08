@@ -13,7 +13,7 @@ import { validateEmail  } from "./Validations";
 export interface IPosterInfoProps {
   prefLang: string;
   handleDropDownItem: (event: any, item: any) => void;
-  handleOnChange: (event: string, newValue?: string) => void;
+  handleOnChange: (event: string, newValue: string) => void;
   items: IDropdownOption[];
   userInfo: string;
   currentPage: number;
@@ -168,7 +168,7 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
             defaultValue={this.props.workEmail}
             disabled={this.props.currentPage === 3}
             ariaLabelRequired={'required'}
-            onChange={this.onChangeEmail}
+            onChange={() => this.onChangeEmail}
             onRenderInstruction = {onRenderAppEmailDescription}
             onGetErrorMessage={() => validateEmail(this.props.values.applyEmail.value, this.props.prefLang, "applyEmail" )}
           />

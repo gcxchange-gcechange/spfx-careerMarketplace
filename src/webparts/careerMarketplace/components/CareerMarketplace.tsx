@@ -714,6 +714,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
    
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
+    console.log("item",item)
     const cityId = item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
@@ -764,20 +765,22 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const evaluateLanguage = (languageValue: string, value: { NameFr: string; NameEn: string }):string => {
       return languageValue === 'fr-fr' ? value.NameFr : value.NameEn
     }
+
+    // const matchSecurityField = this.state.security
  
 
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
         department: {...prevState.values.department, key: item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department)},
-        jobTitleEn: item.JobTitleEn,
-        jobTitleFr: item.JobTitleFr,
-        jobDescriptionEn: item.JobDescriptionEn,
-        jobDescriptionFr: item.JobDescriptionFr,
+        jobTitleEn: {...prevState.values.jobTitleEn, value: item.JobTitleEn},
+        jobTitleFr: {...prevState.values.jobTitleFr, value: item.JobTitleFr},
+        jobDescriptionEn: {...prevState.values.jobDescriptionEn, value: item.JobDescriptionEn},
+        jobDescriptionFr: {...prevState.values.jobDescriptionFr, value: item.JobDescriptionFr}, 
         jobType: {...prevState.values.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
-        programArea : {...prevState.values.programArea,  key: item.ProgramArea?.[0]?.TermGuid ?? item.Program_Area?.[0]?.TermGuid?? ""},
+        programArea : {...prevState.values.programArea,  key: item.Program_Area?.[0]?.TermGuid || item.ProgramArea?.[0].TermGuid, text: item.Program_Area[0].Label || item.ProgramArea[0].Label},
         classificationCode: {...prevState.values.classificationCode, key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
-        classificationLevel:{...prevState.values.classificationLevel, key:item.ClassificationLevel.ID },
+        classificationLevel:{...prevState.values.classificationLevel, key:item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
         classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
         numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 2},
         duration:{...prevState.values.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
@@ -787,8 +790,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         province: {...prevState.values.province, key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
         region: {...prevState.values.region, key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
         city:{...prevState.values.city, key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},
-        workSchedule: {...prevState.values.workSchedule, key: item.WorkSchedule.ID},
-        workArrangment: {...prevState.values.workArrangment, key: item.WorkArrangement.ID},
+        workSchedule: {...prevState.values.workSchedule, key: item.WorkSchedule.ID, text: evaluateLanguage(this.props.prefLang, item.WorkSchedule) },
+        workArrangment: {...prevState.values.workArrangment, key: item.WorkArrangement.ID, text: evaluateLanguage(this.props.prefLang, item.WorkArrangement) },
         security:{...prevState.values.security, key: item.SecurityClearance.ID},
 
         languageRequirements: [
@@ -1358,6 +1361,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             languageRequirements={this.state.values.languageRequirements}
             workArrangment={this.state.values.workArrangment}
             handlePageNumber={this.handlePageNumber}
+            securityList={this.state.security}
           />
           </>
         ),
