@@ -83,11 +83,16 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 }
             }
         }
-        
-        // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
-        const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
 
         const { province, region, city } = this.props;
+
+        const matchSecurity = this.props.securityList.find(item => item.key === this.props.security.key);
+
+        const matchSkills = this.props.skills.map(selected => this.props.skillsList.find(item => item.key === selected.value));
+        
+        // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
+        const skillsItems: string = matchSkills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
+
 
         const location: string = province.key === "0" || province.key === ""
         ? (this.props.prefLang === 'fr-fr' ? "Travail à distance" : "Remote")
@@ -111,21 +116,6 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
             
             }
         })
-
-console.log("skills",this.props.skills)
-console.log("classLe", this.props.classificationLevel)
-console.log("PROP", this.props)
-
-console.log("Security LIST", this.props.securityList)
-console.log("SElected Security", this.props.security)
-
-const matchSecurity = this.props.securityList.find(item => item.key === this.props.security.key);
-
-const matchSkills = this.props.skills.map((selected) => this.props.skillsList.find(item => item.key === selected.key));
-
-console.log("matchSkills", matchSkills)
- 
-
 
         return(
             <>
