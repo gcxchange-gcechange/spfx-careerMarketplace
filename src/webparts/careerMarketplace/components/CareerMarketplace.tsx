@@ -780,7 +780,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobType: {...prevState.values.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
         programArea : {...prevState.values.programArea,  key: item.Program_Area?.[0]?.TermGuid || item.ProgramArea?.[0].TermGuid, text: item.Program_Area[0].Label || item.ProgramArea[0].Label},
         classificationCode: {...prevState.values.classificationCode, key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
-        classificationLevel:{...prevState.values.classificationLevel, key:item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
+        classificationLevel:{...prevState.values.classificationLevel, key:item.ClassificationLevel.ID, text: evaluateLanguage(this.props.prefLang, item.ClassificationLevel )},
         classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
         numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 2},
         duration:{...prevState.values.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
