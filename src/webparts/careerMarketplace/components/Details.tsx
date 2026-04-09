@@ -156,6 +156,7 @@ export default class Details extends React.Component<IDetailsProps> {
     }
   };
 
+
   public render(): React.ReactElement<IDetailsProps> {
 
 
