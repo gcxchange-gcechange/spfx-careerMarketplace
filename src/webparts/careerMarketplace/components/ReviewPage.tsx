@@ -47,6 +47,8 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
     }
  
     public render(): React.ReactElement<IReviewPageProps> {
+
+        console.log("PROPS:", this.props)
         
             const disabledField: Partial<ITextFieldStyles>={
               root: {
@@ -87,11 +89,13 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
         const { province, region, city } = this.props;
 
         const matchSecurity = this.props.securityList.find(item => item.key === this.props.security.key);
+        console.log("this.props.skills", this.props.skills)
 
-        const matchSkills = this.props.skills.map(selected => this.props.skillsList.find(item => item.key === selected.value));
+        const matchSkills = new Set(this.props.skills.filter(skill => skill.value !== undefined).map(selected => this.props.skillsList.find(item => item.key === selected.value)));
+        console.log("match",matchSkills)
         
         // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
-        const skillsItems: string = matchSkills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
+        const skillsItems: string = Array.from(matchSkills).map(skill => skill.text?.trim()).filter(text => text).join(", ");
 
 
         const location: string = province.key === "0" || province.key === ""

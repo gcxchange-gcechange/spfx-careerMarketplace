@@ -171,7 +171,6 @@ export default class Details extends React.Component<IDetailsProps> {
       errorMessage: {
         margin: "0px",
         fontWeight: "700",
-
         paddingLeft: "5px",
         marginTop: "4px",
       },
