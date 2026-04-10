@@ -19,3 +19,5 @@ swiper
 @pnp/spfx-property-controls
 requirejs
 validator
+@xmldom/xmldom
+lodash
