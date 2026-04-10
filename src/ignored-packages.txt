@@ -1,8 +1,4 @@
 @microsoft/sp-adaptive-card-extension-base
-@pnp/spfx-controls-react
-adaptivecards
-fast-xml-parser
-swiper
 @microsoft/sp-application-base
 @microsoft/sp-component-base
 @microsoft/sp-dialog
@@ -15,8 +11,12 @@ swiper
 @microsoft/sp-property-pane
 @microsoft/sp-search-extensibility
 @microsoft/sp-webpart-base
+@pnp/spfx-controls-react
 @pnp/spfx-property-controls
 @xmldom/xmldom
+adaptivecards
+fast-xml-parser
 lodash
 requirejs
+swiper
 validator
