@@ -17,5 +17,7 @@ swiper
 @microsoft/sp-search-extensibility
 @microsoft/sp-webpart-base
 @pnp/spfx-property-controls
+@xmldom/xmldom
+lodash
 requirejs
 validator
