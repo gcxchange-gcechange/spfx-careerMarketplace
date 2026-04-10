@@ -3,7 +3,6 @@
 adaptivecards
 fast-xml-parser
 swiper
-
 @microsoft/sp-application-base
 @microsoft/sp-component-base
 @microsoft/sp-dialog
@@ -17,7 +16,7 @@ swiper
 @microsoft/sp-search-extensibility
 @microsoft/sp-webpart-base
 @pnp/spfx-property-controls
-requirejs
-validator
 @xmldom/xmldom
 lodash
+requirejs
+validator
