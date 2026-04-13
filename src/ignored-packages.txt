@@ -11,8 +11,6 @@
 @microsoft/sp-property-pane
 @microsoft/sp-search-extensibility
 @microsoft/sp-webpart-base
-@pnp/spfx-controls-react
-@pnp/spfx-property-controls
 @xmldom/xmldom
 @babel/runtime
 adaptivecards
@@ -21,3 +19,6 @@ lodash
 requirejs
 swiper
 validator
+form-data
+request
+swiper
