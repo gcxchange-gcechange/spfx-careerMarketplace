@@ -29,3 +29,4 @@ validator
 form-data
 request
 swiper
+yaml
