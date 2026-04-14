@@ -293,6 +293,7 @@
       display: flex !important;
       visibility: visible !important;
       opacity: 1 !important;
+      color: rgb(36, 35, 35) !important;
       background: #f8f8f8!important;
       border: 1px solid  #605e5c !important;
       border-bottom: 1px solid #605e5c !important;
@@ -314,30 +315,45 @@
       border: 1px solid  #605e5c;
       border-radius: 0 0 4px 4px;
     }
-    
-    .ql-snow.ql-toolbar button {
+
+    .pnp-richtext-quill-container .ql-snow.ql-toolbar button {
       background-color: #f8f8f8!important;
-      color: black !important;
+      color: rgb(36, 35, 35) !important;
       margin:1px!important;
     }
     
-    .ql-toolbar .ms-Dropdown-title{
+    .pnp-richtext-quill-container .ql-toolbar .ms-Dropdown-container {
+      color: rgb(36, 35, 35) !important;
+    }
+
+    .pnp-richtext-quill-container .ql-toolbar .ms-Dropdown-title{
+      background-color:  #f8f8f8!important;
+      margin:1px!important;
+    }
+     .pnp-richtext-quill-container .ql-toolbar .ms-Dropdown-title:hover{
       background-color:  #f8f8f8!important;
       color: rgb(36, 35, 35) !important;
       margin:1px!important;
     }
-    .toolbarDropDownTitleIcon_d558f376 {
+
+    .toolbarDropDownTitleIcon {
       color: rgb(36, 35, 35) !important;
     }
+
+    .toolbarDropDownIcon{
+      color: #fafafa!important; 
+    }
+    
+
     .ql-toolbar .ms-Button.is-checked{
       color:#f8f8f8!important;
       background-color: #605e5c!important;
     }
 
-    .toolbarSubmenuCaret_d558f376{
+    .toolbarSubmenuCaret{
       color: rgb(46, 44, 44) !important;
       }
-    
+
 
   }
 

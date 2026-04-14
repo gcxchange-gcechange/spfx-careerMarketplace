@@ -264,6 +264,13 @@ export default class Details extends React.Component<IDetailsProps> {
 
     })
 
+    const onRenderProgramAreaDescription = ( ): JSX.Element => {
+
+      return (
+         <> {this.strings.programArea_description}<span><strong>{this.strings.programArea_description_bold}</strong></span>{this.strings.programArea_description_b}  </> 
+      );
+    };
+
 
 
 
@@ -427,7 +434,8 @@ export default class Details extends React.Component<IDetailsProps> {
           disabled={isReadOnly}
           selectedKey={this.props.values.programArea.key}
           ariaLabelRequired={this.strings.required}
-          instruction={this.strings.programArea_description}
+          onRenderInstruction={onRenderProgramAreaDescription}
+          // instruction={}
           inlineFieldErrors={this.props.inlineFieldErrors}
           prefLang={this.props.prefLang}
           placeholder={this.strings.selectOption}
