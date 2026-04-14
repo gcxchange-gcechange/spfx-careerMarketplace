@@ -35,3 +35,5 @@ markdown-to-jsx
 quill
 react-quill
 react-mentions
+@pnp/spfx-controls-teact
+@pnp/spfx-property-controls
