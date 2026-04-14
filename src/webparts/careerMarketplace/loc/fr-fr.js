@@ -49,6 +49,8 @@ define([], function() {
       "job_Type_description": "Conseils et des définitions sur chaque type d’occasion",
       "program_Area":"Secteur de programme",
       "programArea_description": "À l’aide du menu déroulant, sélectionnez le domaine de travail qui correspond le mieux à votre occasion.",
+      "programArea_description_bold": "Cette information ne sera pas affichée dans l’annonce. ",
+      "programArea_description_b": "Elle sert uniquement à la production de rapports internes.",
       "classification_Code":"Code de classification",
       "classification_Code_description":"Le cas échéant, À l’aide du menu déroulant, identifiez la classification requise pour votre occasion.",
       "classification_Level":"Niveau de classification",
