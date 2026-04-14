@@ -27,20 +27,22 @@ jobs:
         echo "ignored-packages.txt not found. Proceeding without ignored packages."
         ignored='[]'
       fi
-
-      high=$(jq --argjson ignored "$ignored" '
-        [.vulnerabilities[]
-          | select(.name as $name | ($ignored | index($name) | not))
-          | .via[]
-          | select(type=="object")
-          | select(.severity == "high")
-        ] | length' npm-audit.json)
+      
+        high=$(jq --argjson ignored "$ignored" '
+          [.vulnerabilities[]
+            | select(.name as $name | ($ignored | index($name) | not))
+            | .via[]
+            | select(type=="object")
+            | select(.name as $v | ($ignored | index($v) | not))
+            | select(.severity == "high")
+          ] | length' npm-audit.json)
 
       critical=$(jq --argjson ignored "$ignored" '
         [.vulnerabilities[]
           | select(.name as $name | ($ignored | index($name) | not))
           | .via[]
           | select(type=="object")
+          | select(.name as $v | ($ignored | index($v) | not))
           | select(.severity == "critical")
         ] | length' npm-audit.json)
 
@@ -54,6 +56,10 @@ jobs:
       jq -r --argjson ignored "$ignored" '
         .vulnerabilities[]
         | select(.name as $name | ($ignored | index($name) | not))
+        | .via[]
+        | select(type=="object")
+        | select(.name as $v | ($ignored | index($v) | not))
+        | select(.severity == "high" or .severity == "critical")
         | .name
       ' npm-audit.json | sort -u | while read pkg; do
         echo "$pkg"
