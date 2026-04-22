@@ -16,7 +16,7 @@ import { SPFI } from '@pnp/sp';
 import PageTitle from './PageTitle';
 import * as moment from 'moment';
 import Complete from './Complete';
-import { toTitleCase } from './Functions';
+import { getEnvConfig, toTitleCase } from './Functions';
 import { RefObject } from 'react';
 import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
@@ -34,6 +34,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private navigationDirection = 'next';
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
+
+       private config = getEnvConfig(this.props.environment, this.props)
+    //  console.log("enviro", config)
   
  
 
@@ -282,6 +285,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   private submit = (): void => {
+
+
+     
     const dateStr = this.state.values.deadline; 
     const momentDate = moment(dateStr, "YYYY-MM-DD")
       .set({
@@ -345,6 +351,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       requestHeaders.append("Content-type", "application/json");
       requestHeaders.append("Cache-Control", "no-cache");
       let responseText: string = "";
+
       
       const postOptions: IHttpClientOptions= {
         headers: requestHeaders,
@@ -379,14 +386,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }`,
       };
 
-      console.log("BODY", postOptions.body)
+
+
+console.log("BODY", postOptions.body)
       try {
         this.setState({isLoading: true, postDetails: postDetailsObject}, () => {
         this.props.context.aadHttpClientFactory
-        .getClient(this.props.clientId)
+        .getClient(this.config.clientId)
         .then((client: AadHttpClient): void => {
           client
-          .post(this.props.jobOpportunityId ? this.props. editJobApiUrl : this.props.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
+          .post(this.props.jobOpportunityId ? this.config.editJobApiUrl : this.config.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
             console.log("RESPONSE", response)
             if (response.status) {
@@ -819,10 +828,11 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const {currentPage} = this.state;
     const parameters = [
       [
-        this.props.jobTypeTermId,
-        this.props.programAreaTermId,
+        this.config.jobTypeTermId,
+        this.config.programAreaTermId,
       ]  
     ];
+
   
     if (currentPage === 1  ) {
       const departments = await this._sp.web.lists.getByTitle('Department').items.top(200)();
@@ -1077,8 +1087,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public async componentDidMount(): Promise<void> {
-
-    
+   
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
