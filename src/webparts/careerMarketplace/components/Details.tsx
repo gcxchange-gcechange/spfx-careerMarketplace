@@ -64,7 +64,7 @@ export interface IDetailsProps {
   };
   jobTypeProps: any;
   inlineFieldErrors?: any[];
-  jobOppId: string;
+  jobOppId: string |undefined;
 }
 
 export default class Details extends React.Component<IDetailsProps> {

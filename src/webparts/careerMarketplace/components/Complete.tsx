@@ -6,7 +6,7 @@ import { SelectLanguage } from "./SelectLanguage";
 
 export interface ICompleteProps {
   prefLang: string;
-  jobOppId: string;
+  jobOppId: string | undefined;
 }
 
 

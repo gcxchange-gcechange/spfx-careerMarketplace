@@ -71,3 +71,9 @@ export const getEnvConfig = (environment: string, props: any): IEnvConfig => {
   return config;
 };
 
+const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?";
+
+export const getJobOpportunityUrl = (jobOpportunityId: string | undefined ):string => {
+  return `${baseJobOpportunityUrl}?JobOpportunityId=${jobOpportunityId}`
+}
+

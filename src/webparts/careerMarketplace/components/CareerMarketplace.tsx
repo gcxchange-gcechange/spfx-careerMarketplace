@@ -35,9 +35,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
 
-       private config = getEnvConfig(this.props.environment, this.props)
-    //  console.log("enviro", config)
-  
+  private config = getEnvConfig(this.props.environment, this.props)
  
 
 
@@ -1418,7 +1416,7 @@ console.log("BODY", postOptions.body)
                   <>
                     
                     {
-                      this.props.jobOpportunityId !== "" && this.state.jobOpportunityOwner === false ? (
+                      this.props.jobOpportunityId !== undefined && this.state.jobOpportunityOwner === false ? (
                         <>
                           <h2>You are not the owner</h2>
                           <CustomButton id="home" name="Go on, git! 🤠" buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />

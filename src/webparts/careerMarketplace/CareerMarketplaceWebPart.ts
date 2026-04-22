@@ -15,9 +15,10 @@ import CareerMarketplace from './components/CareerMarketplace';
 import { ICareerMarketplaceProps } from './components/ICareerMarketplaceProps';
 import { getSP } from '../../pnpConfig';
 import GraphService from '../../services/GraphService';
-import { createOpportunityConfig, getJobOpportunityUrl } from '../../servicesConfig';
+// import { createOpportunityConfig, getJobOpportunityUrl } from '../../servicesConfig';
 import { ITerm } from '@pnp/graph/taxonomy';
 import { graphfi, SPFx } from '@pnp/graph';
+import { getEnvConfig, getJobOpportunityUrl } from './components/Functions';
  
 
 export interface ICareerMarketplaceWebPartProps {
@@ -59,9 +60,10 @@ export interface ICareerMarketplaceWebPartProps {
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
 
-  private jobOpportunityId: string | null = null;
+  private jobOpportunityId: string | undefined = undefined ;
   private jobOpportunityOwner: string | undefined = undefined ; 
   private jobTypeDeploymentTerms: any[] = [];
+  
 
   public render(): void {
 
@@ -74,7 +76,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         userDisplayName: this.context.pageContext.user.displayName,
         workEmail: this.context.pageContext.user.email,
         url: this.context.pageContext.site.absoluteUrl,
-        jobOpportunityId: this.jobOpportunityId || '',
+        jobOpportunityId: this.jobOpportunityId || undefined,
         jobOppOwner: this.jobOpportunityOwner,
         environment: this.properties.environment,
 
@@ -116,10 +118,10 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
     this._getJobTypeTerms();
 
  
-    this.jobOpportunityId = this.getQueryParam('JobOpportunityId');
+    this.jobOpportunityId = this.getQueryParam('JobOpportunityId') || undefined;
    
     try {
-      if (this.jobOpportunityId !== null ) {
+      if (this.jobOpportunityId !== undefined ) {
         const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
         this.jobOpportunityOwner = jobOppList.ContactEmail
       }
@@ -132,20 +134,21 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
   }
 
   private  async _getJobTypeTerms(): Promise<void> {
+    const config = getEnvConfig(this.properties.environment, this.properties)
     const graph = graphfi().using(SPFx(this.context));
     const jobTypeItems:any[]=[];
 
     try { 
 
       //Id of term set "Job Type"
-        const jobTypeTermSet: ITerm[] = await graph.termStore.sets.getById(createOpportunityConfig.jobTypeTermId).terms();
+        const jobTypeTermSet: ITerm[] = await graph.termStore.sets.getById(config.jobTypeTermId).terms();
 
         jobTypeTermSet.map((term:any) => {
           jobTypeItems.push({id: term.id, labels: term.labels})
         });
 
         //Filtered Id of term "Deployment - permanent" and "Mutation – permanente"
-        jobTypeItems.filter(item => item.id === createOpportunityConfig.jobTypeDeploymentId).map(filteredItem => {
+        jobTypeItems.filter(item => item.id === config.jobTypeDeploymentId).map(filteredItem => {
           this.jobTypeDeploymentTerms.push(filteredItem);
         });
 
@@ -232,6 +235,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                 groupFields: [
                   PropertyPaneChoiceGroup('environment', {
                     label: 'Environment Configuration',
+
                     options: [
                       { key: 'dev', text: 'Development' },
                       { key: 'uat', text: 'UAT' },

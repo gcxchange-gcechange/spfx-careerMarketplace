@@ -18,7 +18,7 @@ export interface IPosterInfoProps {
   userInfo: string;
   currentPage: number;
   readOnly: boolean;
-  jobOpportunityId: string;
+  jobOpportunityId: string | undefined;
   values: {
     applyEmail: {value: string, pageNumber: number};
     department: {key: string, text: string, pageNumber: number};
