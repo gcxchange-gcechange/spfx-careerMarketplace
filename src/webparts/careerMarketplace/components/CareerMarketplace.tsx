@@ -698,30 +698,41 @@ console.log("BODY", postOptions.body)
   }
 
   public async _populateEditableFields(): Promise<void> {
-    const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
-    .select(
-      "Department",  "Department/NameEn",  "Department/NameFr", "Department/ID", 
-      "JobTitleFr", 
-      "JobTitleEn", 
-      "JobDescriptionEn", 
-      "JobDescriptionFr", 
-      "JobType", 
-      "ProgramArea",
-      "Program_Area",
-      "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "ClassificationCode/ClassificationLevelIds",
-      "ClassificationLevel/ID","ClassificationLevel/NameFr",
-      "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
-      "NumberOfOpportunities",
-      "ApplicationDeadlineDate",
-      "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
-      "City/ID", "City/NameEn", "City/NameFr", 
-      "SecurityClearance/ID", 
-      "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
-      "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
-      "Skills/ID"
-   
-    )
-    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
+
+    let item:any  = {};
+
+     if (this.props.list) {
+      const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
+      item = selectedListA
+      console.log("listA", selectedListA)
+    } else {
+      const items = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
+      .select(
+        "Department",  "Department/NameEn",  "Department/NameFr", "Department/ID", 
+        "JobTitleFr", 
+        "JobTitleEn", 
+        "JobDescriptionEn", 
+        "JobDescriptionFr", 
+        "JobType", 
+        "ProgramArea",
+        "Program_Area",
+        "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "ClassificationCode/ClassificationLevelIds",
+        "ClassificationLevel/ID","ClassificationLevel/NameFr",
+        "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
+        "NumberOfOpportunities",
+        "ApplicationDeadlineDate",
+        "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
+        "City/ID", "City/NameEn", "City/NameFr", 
+        "SecurityClearance/ID", 
+        "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
+        "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
+        "Skills/ID"
+     
+      )
+      .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
+
+      item = items;
+    }
     console.log("item",item)
     const cityId = item.City.ID;
 
@@ -731,15 +742,8 @@ console.log("BODY", postOptions.body)
 
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
-    const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
-    const getClassificationCodeList = classificationCode.filter((levelItem:any) => levelItem.ID === item.ClassificationCode.ID);
 
-    if(this.props.list) {
-      const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
-      console.log("listA", selectedListA)
-    }
-
- 
+  
 
    
     if (item.LanguageRequirement.ID === 3) {

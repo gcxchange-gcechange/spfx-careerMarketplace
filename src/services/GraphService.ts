@@ -56,7 +56,7 @@ export class GraphService {
                           console.error("ERROR", error);
                           reject(error);
                         } else {
-                          // console.log("RESPONSE", response.value);
+                           console.log("RESPONSE", response.value);
                           resolve(response.value); // Return the data
                         }
                       });
