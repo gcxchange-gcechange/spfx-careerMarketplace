@@ -15,32 +15,33 @@ export class GraphService {
     }
 
     //This is not used currently
-    public static _departmentSets(termSetId: string): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
-          try {
-            this.context.msGraphClientFactory
-              .getClient("3")
-              .then((client: MSGraphClientV3) => {
-                client
-                  .api(`/sites/devgcx.sharepoint.com/termStore/groups/656c725c-def6-46cd-86df-b51f1b22383e/sets/${termSetId}/terms`) 
-                  .get((error: any, response: any, rawResponse: any) => {
-                    //  console.log("RESPONSE",response.value)
+    // public static _departmentSets(termSetId: string): Promise<void> {
+    //     return new Promise<void>((resolve, reject) => {
+    //       try {
+    //         this.context.msGraphClientFactory
+    //           .getClient("3")
+    //           .then((client: MSGraphClientV3) => {
+    //             client
+    //               .api(`/sites/devgcx.sharepoint.com/termStore/groups/656c725c-def6-46cd-86df-b51f1b22383e/sets/${termSetId}/terms`) 
+    //               .get((error: any, response: any, rawResponse: any) => {
+    //                 //  console.log("RESPONSE",response.value)
                    
-                    resolve(response);
-                  })
-                  .catch((error: any) => {
-                    console.error("ERROR", error);
-                    reject(error)
-                  })
-              });
-          } catch (error) {
-            console.error("ERROR-" + error);
-          }
-        });
-      }
+    //                 resolve(response);
+    //               })
+    //               .catch((error: any) => {
+    //                 console.error("ERROR", error);
+    //                 reject(error)
+    //               })
+    //           });
+    //       } catch (error) {
+    //         console.error("ERROR-" + error);
+    //       }
+    //     });
+    //   }
 
       // Fetch CM group term sets by their IDs
-      public static _sets(termSetId: any): Promise<any[]> {
+      public static _sets(termSetId: any, props: any): Promise<any[]> {
+        const domainUrl = props.domain === 'dev' ? 'devgcx.sharepoint.com' : 'gcxgce.sharepoint.com';
         return Promise.all(
           termSetId.map((id: any) => {
             return new Promise<any>((resolve, reject) => {
@@ -49,7 +50,7 @@ export class GraphService {
                   .getClient("3")
                   .then((client: MSGraphClientV3) => {
                     client
-                      .api(`/sites/devgcx.sharepoint.com/termStore/groups/656c725c-def6-46cd-86df-b51f1b22383e/sets/${id}/terms`)
+                      .api(`/sites/${domainUrl}/termStore/groups/${props.graphId}/sets/${id}/terms`)
                       .get((error: any, response: any, rawResponse: any) => {
                         if (error) {
                           console.error("ERROR", error);

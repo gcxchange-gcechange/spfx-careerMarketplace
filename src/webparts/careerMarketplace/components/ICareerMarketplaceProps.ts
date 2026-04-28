@@ -10,6 +10,9 @@ export interface ICareerMarketplaceProps {
   jobOpportunityId: string | undefined;
   jobOppOwner: string | undefined;
   environment: string;
+  list: string;
+  list_Columns: string[];
+
 
   // clientId: string,
   // createJobApiUrl: string,
@@ -38,5 +41,9 @@ export interface ICareerMarketplaceProps {
   jobTypeDeploymentId: string,
   jobOpportunityListUrl: string;
   jobTypeDeploymentTerms: any[],
+
+  baseUrl: string;
+  domain: string;
+  graphId: string;
 
 }

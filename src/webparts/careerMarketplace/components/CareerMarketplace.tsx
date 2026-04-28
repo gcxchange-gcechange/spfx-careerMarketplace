@@ -26,6 +26,7 @@ import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
 import ErrorPagePostRemoval from './ErrorPagePostRemoval';
 
+
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
   private alertRef: RefObject<HTMLDivElement>;
@@ -721,6 +722,8 @@ console.log("BODY", postOptions.body)
    
     )
     .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
+
+    console.log("items", item)
     const cityId = item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
@@ -731,7 +734,12 @@ console.log("BODY", postOptions.body)
     const getIndex: any[] =  [];
     const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
     const getClassificationCodeList = classificationCode.filter((levelItem:any) => levelItem.ID === item.ClassificationCode.ID);
-    console.log("classificationCodeList", getClassificationCodeList)
+
+    if(this.props.list) {
+      const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
+      console.log("listA", selectedListA)
+    }
+
  
 
    
@@ -777,7 +785,7 @@ console.log("BODY", postOptions.body)
       values: {
         ...prevState.values,
         department: {...prevState.values.department, key: item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department)},
-        jobTitleEn: item.JobTitleEn,
+        jobTitleEn: {...prevState.values.jobTitleEn, value: item.JobTitleEn },
         jobTitleFr: item.JobTitleFr,
         jobDescriptionEn: item.JobDescriptionEn,
         jobDescriptionFr: item.JobDescriptionFr,
@@ -855,7 +863,7 @@ console.log("BODY", postOptions.body)
       const duration = await this._sp.web.lists.getByTitle('Duration').items();
       const durationData = duration.map((data: any) => ({key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
 
-      GraphService._sets(parameters[0]).then(async (data: any) => {
+      GraphService._sets(parameters[0], this.props).then(async (data: any) => {
 
         const processLabels = (dataIndex: number):any[] => {
             return data[dataIndex].flatMap((items: any) =>
@@ -1230,6 +1238,7 @@ console.log("BODY", postOptions.body)
     // const customSpacingStackTokens: IStackTokens = {
     //   childrenGap: '3%',
     // };
+    console.log("domain:", this.props.domain)
 
     const myTheme = createTheme({
       palette: {
@@ -1375,6 +1384,8 @@ console.log("BODY", postOptions.body)
     const items = steps.map((item) => ({ key: item.step, title: "" }));
 
     const isButtonDisabled = !(this.state.approvedStaffing && this.state.isNonJobSeeker);
+
+    const domainUrl = this.props.domain === "dev" ? "https://devgcx.sharepoint.com" : "https://gcxgce.sharepoint.com"
     
 
     return (
@@ -1391,7 +1402,7 @@ console.log("BODY", postOptions.body)
 
                     <Stack horizontal horizontalAlign="space-between" wrap>
                       {this.state.jobOpportunityId !== ''  && (
-                        <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={ `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`} onClick={() => ( `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`)} />
+                        <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={ `${domainUrl}${this.props.baseUrl}JobOpportunityId=${this.state.jobOpportunityId}`} onClick={() => ( `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`)} />
                       )}
                       <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
                     </Stack>

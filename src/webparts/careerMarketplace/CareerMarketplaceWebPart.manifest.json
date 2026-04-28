@@ -22,7 +22,16 @@
     "description": { "default": "careerMarketplace description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "careerMarketplace"
+      "description": "careerMarketplace",
+      "devClientId": "ce84ae3b-5f99-4316-8c7e-135aa35f67ab",
+      "devCreateJobApiUrl": "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/CreateJobOpportunity",
+      "devEditJobApiUrl": "https://appsvc-function-dev-cm-listmgmt-dotnet001.azurewebsites.net/api/UpdateJobOpportunity",
+      "devJobTypeTermId": "45f37f08-3ff4-4d84-bf21-4a77ddffcf3e",
+      "devJobTypeDeploymentId": "2d309c8b-7b87-49ed-9e35-9b7fc3aa95ba",
+      "devProgramAreaTermId": "bd807536-d8e7-456b-aab0-fae3eecedd8a",
+      "baseUrl": "/sites/CM-test/SitePages/Job-Opportunity.aspx",
+      "domain": "dev",
+      "graphId": "656c725c-def6-46cd-86df-b51f1b22383e"
     }
   }]
 }

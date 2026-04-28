@@ -18,7 +18,8 @@ import GraphService from '../../services/GraphService';
 // import { createOpportunityConfig, getJobOpportunityUrl } from '../../servicesConfig';
 import { ITerm } from '@pnp/graph/taxonomy';
 import { graphfi, SPFx } from '@pnp/graph';
-import { getEnvConfig, getJobOpportunityUrl } from './components/Functions';
+import { getEnvConfig } from './components/Functions';
+import { IColumnReturnProperty, PropertyFieldColumnPicker, PropertyFieldColumnPickerOrderBy, PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls';
  
 
 export interface ICareerMarketplaceWebPartProps {
@@ -56,6 +57,13 @@ export interface ICareerMarketplaceWebPartProps {
   jobOpportunityListUrl: string,
   jobTypeDeploymentId: string,
   jobTypeDeploymentTerms: any[],
+  
+  list: string;
+  list_Columns: string[];
+
+  baseUrl: string;
+  domain: string;
+  graphId: string;
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
@@ -98,10 +106,16 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         prodJobTypeTermId: this.properties.prodJobTypeTermId,
         prodProgramAreaTermId: this.properties.prodProgramAreaTermId,
 
-        jobOpportunityListUrl: `${getJobOpportunityUrl(this.jobOpportunityId)}`,
+        jobOpportunityListUrl: `${this.properties.baseUrl}?JobOpportunityId=${this.jobOpportunityId}`,
         jobTypeDeploymentTerms: this.jobTypeDeploymentTerms,
         jobTypeDeploymentId: this.properties.jobTypeDeploymentId,
-    
+
+        list: this.properties.list,
+        list_Columns: this.properties.list_Columns,
+
+        baseUrl: this.properties.baseUrl,
+        domain: this.properties.domain,
+        graphId: this.properties.graphId
       }
     );
 
@@ -338,7 +352,76 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                     description: 'The ID of the program area term set.'
                   }),
                 ]
-              }]: [])
+              }]: []),
+              {
+                groupFields:[
+                  PropertyPaneChoiceGroup('domain', {
+                    label: 'Domanin Configuration',
+
+                    options: [
+                      { key: 'dev', text: 'Cipher' },
+                      { key: 'gcx', text: 'GCXchange' },
+                    ]
+                  })
+                ]
+              },
+              {
+                groupName : 'Base URL Settings',
+                groupFields:[
+                   PropertyPaneTextField('baseUrl', {
+                    label: 'Base URL',
+                    description: 'The base URL for the application.',
+                    placeholder:'/sites/CM-test/SitePages/Job-Opportunity.aspx?'
+                  }),
+                ]
+              },
+              {
+                groupName : 'MsGraph Settings',
+                 isCollapsed:true,
+                groupFields:[
+                  PropertyPaneTextField('graphId', {
+                    label: 'Graph ID',
+                    description: 'The group ID for the Microsoft Graph integration.'
+                  }),
+                ]
+              },
+
+              {
+                groupName: 'Job Opportunity List Settings',
+                isCollapsed:true,
+                groupFields:[
+                  PropertyFieldListPicker('list', {
+                    label: 'Select list for Editing Job Opportunities',
+                    selectedList: this.properties.list,
+                    includeHidden: false,
+                    orderBy: PropertyFieldListPickerOrderBy.Title,
+                    disabled: false,
+                    onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                    properties: this.properties,
+                    context: this.context as any,
+                    onGetErrorMessage: undefined,
+                    deferredValidationTime: 0,
+                    key: 'listPickerFieldId',
+                    filter: "Hidden eq false and BaseType eq 0"
+                  }),
+                    PropertyFieldColumnPicker('list_Columns', {
+                      label: 'Select columns to display from selected list',
+                      context: this.context as any,
+                      selectedColumn: this.properties.list_Columns,
+                      listId: this.properties.list,
+                      disabled: !this.properties.list,
+                      orderBy: PropertyFieldColumnPickerOrderBy.Title,
+                      key: 'multiColumnPickerFieldId',
+                      columnReturnProperty: IColumnReturnProperty.Title,
+                      properties: this.properties,
+                      multiSelect: true,
+                      onPropertyChange: function (propertyPath: string, oldValue: any, newValue: any): void {
+                        throw new Error('Function not implemented.');
+                      }
+                    })
+ 
+                ]
+              },
             ]
           }
         ]
