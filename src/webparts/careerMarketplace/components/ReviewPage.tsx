@@ -33,6 +33,8 @@ export interface IReviewPageProps {
     languageRequirements: any[];
     workArrangment: any;
     handlePageNumber: (page: number) => void;
+    securityList: any[];
+    skillsList:any[];
 }
 
 export default class ReviewPage extends React.Component<IReviewPageProps> {
@@ -45,6 +47,8 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
     }
  
     public render(): React.ReactElement<IReviewPageProps> {
+
+        console.log("PROPS:", this.props)
         
             const disabledField: Partial<ITextFieldStyles>={
               root: {
@@ -81,11 +85,18 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                 }
             }
         }
-        
-        // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
-        const skillsItems: string = this.props.skills.map(skill => skill.text?.trim()).filter(text => text).join(", ");
 
         const { province, region, city } = this.props;
+
+        const matchSecurity = this.props.securityList.find(item => item.key === this.props.security.key);
+        console.log("this.props.skills", this.props.skills)
+
+        const matchSkills = new Set(this.props.skills.filter(skill => skill.value !== undefined).map(selected => this.props.skillsList.find(item => item.key === selected.value)));
+        console.log("match",matchSkills)
+        
+        // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
+        const skillsItems: string = Array.from(matchSkills).map(skill => skill.text?.trim()).filter(text => text).join(", ");
+
 
         const location: string = province.key === "0" || province.key === ""
         ? (this.props.prefLang === 'fr-fr' ? "Travail à distance" : "Remote")
@@ -109,9 +120,6 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
             
             }
         })
-
-
-
 
         return(
             <>
@@ -236,7 +244,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <Label htmlFor={this.strings.program_Area}className={styles.reviewPageLabelWidth}>{this.strings.program_Area}</Label>
                         </StackItem>
                         <StackItem grow>
-                            <TextField id={this.strings.program_Area} borderless readOnly  defaultValue={this.props.programArea.text} styles={disabledField}/>
+                            <TextField id={this.strings.program_Area} borderless readOnly  value={this.props.programArea.text} styles={disabledField}/>
                         </StackItem>
                     </Stack>
                     <Stack wrap horizontal className={styles.reviewRowSeparator}>
@@ -244,7 +252,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             <Label htmlFor={this.strings.classification} className={styles.reviewPageLabelWidth}>{this.strings.classification}</Label>
                         </StackItem>
                         <StackItem grow>
-                            <TextField id={this.strings.classification} borderless readOnly defaultValue={this.props.classificationCode.text + " - " + this.props.classificationLevel.text} styles={disabledField}/>
+                            <TextField id={this.strings.classification} borderless readOnly value={this.props.classificationCode.text + " - " + this.props.classificationLevel.text} styles={disabledField}/>
                         </StackItem>
                     </Stack>
                    
@@ -403,7 +411,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             id={this.strings.security_level}
                             borderless
                             readOnly
-                            defaultValue={this.props.security.text}
+                            defaultValue={matchSecurity.text}
                             styles={disabledField}
                             />
                         </Stack.Item>

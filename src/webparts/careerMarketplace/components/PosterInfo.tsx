@@ -13,7 +13,7 @@ import { validateEmail  } from "./Validations";
 export interface IPosterInfoProps {
   prefLang: string;
   handleDropDownItem: (event: any, item: any) => void;
-  handleOnChange: (event: string, newValue?: string) => void;
+  handleOnChange: (event: string, newValue: string) => void;
   items: IDropdownOption[];
   userInfo: string;
   currentPage: number;
