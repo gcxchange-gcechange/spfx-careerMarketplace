@@ -8,22 +8,19 @@ import styles from './CareerMarketplace.module.scss';
 import { getLocalizedString  } from "./Functions";
 
 export interface IRequirementsProps {
-  prefLang: string;
   language: any[];
-  city: any[];
-  province: any[];
-  region: any[];
   security: any[];
   workArrangment: any[];
+  city: any[];
   workSchedule: any[];
-  skills: any[];
+  province: any[];
+  region: any[];
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
-  handleOnChange: (event: string, newValue?: string) => void;
-  checkedField:(event:any, isChecked?: boolean) => void;
+  handleOnChange: (event: string, newValue: string) => void;
+  checkedField:(event:any, isChecked: boolean) => void;
   values: {
     skills: any;
-    // approvedStaffing: any;
     security: any;
     city: any;
     province: any;
@@ -34,6 +31,9 @@ export interface IRequirementsProps {
   };
 
   inlineFieldErrors?:string[];
+  prefLang: string;
+  skills: any[];
+ 
   hasTouchedSkillCombo?: boolean;
 }
 
