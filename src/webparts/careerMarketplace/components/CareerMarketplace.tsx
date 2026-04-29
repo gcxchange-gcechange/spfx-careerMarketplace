@@ -1244,7 +1244,6 @@ console.log("BODY", postOptions.body)
     // const customSpacingStackTokens: IStackTokens = {
     //   childrenGap: '3%',
     // };
-    console.log("domain:", this.props.domain)
 
     const myTheme = createTheme({
       palette: {
@@ -1393,7 +1392,7 @@ console.log("BODY", postOptions.body)
 
     const isButtonDisabled = !(this.state.approvedStaffing && this.state.isNonJobSeeker);
 
-    const domainUrl = this.props.domain === "dev" ? "https://devgcx.sharepoint.com" : "https://gcxgce.sharepoint.com"
+    const domainUrl = this.props.environment === "dev" ? "https://devgcx.sharepoint.com" : "https://gcxgce.sharepoint.com"
     
 
     return (

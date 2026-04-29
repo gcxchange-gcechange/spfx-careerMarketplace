@@ -62,7 +62,7 @@ export interface ICareerMarketplaceWebPartProps {
   list_Columns: string[];
 
   baseUrl: string;
-  domain: string;
+  //domain: string;
   graphId: string;
 }
 
@@ -114,7 +114,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         list_Columns: this.properties.list_Columns,
 
         baseUrl: this.properties.baseUrl,
-        domain: this.properties.domain,
+        //domain: this.properties.domain,
         graphId: this.properties.graphId
       }
     );
@@ -353,18 +353,18 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                   }),
                 ]
               }]: []),
-              {
-                groupFields:[
-                  PropertyPaneChoiceGroup('domain', {
-                    label: 'Domanin Configuration',
+              // {
+              //   groupFields:[
+              //     PropertyPaneChoiceGroup('domain', {
+              //       label: 'Domanin Configuration',
 
-                    options: [
-                      { key: 'dev', text: 'Cipher' },
-                      { key: 'gcx', text: 'GCXchange' },
-                    ]
-                  })
-                ]
-              },
+              //       options: [
+              //         { key: 'dev', text: 'Cipher' },
+              //         { key: 'gcx', text: 'GCXchange' },
+              //       ]
+              //     })
+              //   ]
+              // },
               {
                 groupName : 'Base URL Settings',
                 groupFields:[

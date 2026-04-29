@@ -43,7 +43,7 @@ export interface ICareerMarketplaceProps {
   jobTypeDeploymentTerms: any[],
 
   baseUrl: string;
-  domain: string;
+  //domain: string;
   graphId: string;
 
 }
