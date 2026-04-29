@@ -697,17 +697,67 @@ console.log("BODY", postOptions.body)
    console.log("txt", value)
   }
 
+  public buildSelectAndExpand(columns: string[]): any {
+     const select:string[] = [];
+     const expand: string[] =[];
+
+      columns.forEach(col => {
+        if (col.includes(":")) {
+          const [lookup, field] = col.split(":")
+          console.log("col", lookup, field)
+
+          const cleanLookup = lookup.trim();
+          const cleanField = field.trim();
+
+          select.push(`${cleanLookup}/${cleanField}`);
+          select.push(cleanLookup);
+          expand.push(cleanLookup)
+            
+        }
+      })
+
+      const addDepartEN = ["Department/NameEn", "ClassificationCode/NameEn","Duration/NameEn", "WorkArrangement/NameEn", "City/NameEn","WorkSchedule/NameEn","LanguageRequirement/NameEn"]
+      const sortSelect = Array.from(new Set(select)).sort();
+      const uniqueSelect = [...addDepartEN, ...sortSelect].sort();
+      const uniqueExpand = Array.from(new Set(expand)).sort();
+      
+      console.log("Select", uniqueSelect);
+      console.log("Expand", uniqueExpand)
+
+      return { uniqueSelect, uniqueExpand };
+  }
+
   public async _populateEditableFields(): Promise<void> {
 
     let item:any  = {};
-
+   
      if (this.props.list) {
-      const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
-      item = selectedListA
-      console.log("listA", selectedListA)
+      
+      let itemsQuery = await this._sp.web.lists.getById(this.props.list).items;
+      console.log("query", itemsQuery)
+
+      if (this.props.list_Columns ) {
+
+        const {uniqueSelect, uniqueExpand } = this.buildSelectAndExpand(this.props.list_Columns);
+
+        itemsQuery = itemsQuery.select(uniqueSelect).expand(uniqueExpand);
+   
+
+      console.log("newQuery", itemsQuery)
+      
+      }
+      const selectedList = await itemsQuery();
+      item = selectedList
+
+      // const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
+      // item = selectedListA
+      console.log("listA", selectedList)
     } else {
       const items = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
       .select(
+        "City/ID", "City/NameEn", "City/NameFr", 
+        "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "ClassificationCode/ClassificationLevelIds",
+        "ClassificationLevel/ID","ClassificationLevel/NameFr",
         "Department",  "Department/NameEn",  "Department/NameFr", "Department/ID", 
         "JobTitleFr", 
         "JobTitleEn", 
@@ -716,13 +766,10 @@ console.log("BODY", postOptions.body)
         "JobType", 
         "ProgramArea",
         "Program_Area",
-        "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "ClassificationCode/ClassificationLevelIds",
-        "ClassificationLevel/ID","ClassificationLevel/NameFr",
         "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
         "NumberOfOpportunities",
         "ApplicationDeadlineDate",
         "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
-        "City/ID", "City/NameEn", "City/NameFr", 
         "SecurityClearance/ID", 
         "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
         "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
@@ -1244,6 +1291,7 @@ console.log("BODY", postOptions.body)
     // const customSpacingStackTokens: IStackTokens = {
     //   childrenGap: '3%',
     // };
+
 
     const myTheme = createTheme({
       palette: {

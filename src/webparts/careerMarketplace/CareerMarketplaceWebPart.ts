@@ -136,8 +136,15 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
    
     try {
       if (this.jobOpportunityId !== undefined ) {
-        const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
-        this.jobOpportunityOwner = jobOppList.ContactEmail
+
+        if (!this.properties.list){
+          const jobOppList = await sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
+          this.jobOpportunityOwner = jobOppList.ContactEmail
+        } else {
+          const jobOppList = await sp.web.lists.getById(this.properties.list).items.getById(Number(this.jobOpportunityId)).select('ContactEmail')();
+          console.log("Job Opportunity List Item:", jobOppList);
+          this.jobOpportunityOwner = jobOppList.ContactEmail;
+        }
       }
     } catch (error){
       console.error("Error fetching list", error);
