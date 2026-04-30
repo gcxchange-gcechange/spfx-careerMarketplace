@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Guid } from "@microsoft/sp-core-library";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 
 export interface ICareerMarketplaceProps {
@@ -45,5 +46,6 @@ export interface ICareerMarketplaceProps {
   baseUrl: string;
   //domain: string;
   graphId: string;
+  siteId: Guid;
 
 }

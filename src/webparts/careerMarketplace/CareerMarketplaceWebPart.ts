@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
+import { Guid, Version } from '@microsoft/sp-core-library';
 import {
   type IPropertyPaneConfiguration,
   PropertyPaneChoiceGroup,
@@ -64,6 +64,7 @@ export interface ICareerMarketplaceWebPartProps {
   baseUrl: string;
   //domain: string;
   graphId: string;
+  siteId: Guid;
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
@@ -115,7 +116,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
 
         baseUrl: this.properties.baseUrl,
         //domain: this.properties.domain,
-        graphId: this.properties.graphId
+        graphId: this.properties.graphId,
+        siteId: this.context.pageContext.site.id,
       }
     );
 

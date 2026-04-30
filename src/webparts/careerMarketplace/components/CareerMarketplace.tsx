@@ -700,55 +700,67 @@ console.log("BODY", postOptions.body)
   public buildSelectAndExpand(columns: string[]): any {
      const select:string[] = [];
      const expand: string[] =[];
+     const columnName: string[] = [];
+    
 
       columns.forEach(col => {
+        
         if (col.includes(":")) {
-          const [lookup, field] = col.split(":")
-          console.log("col", lookup, field)
 
+          //split the columns with  the : and convert to /
+          const [lookup, field] = col.split(":")
+
+          //remove any spaces before 
           const cleanLookup = lookup.trim();
           const cleanField = field.trim();
 
-          select.push(`${cleanLookup}/${cleanField}`);
-          select.push(cleanLookup);
-          expand.push(cleanLookup)
-            
-        }
-      })
+          console.log("Clean Field:",cleanField)
 
-      const addDepartEN = ["Department/NameEn", "ClassificationCode/NameEn","Duration/NameEn", "WorkArrangement/NameEn", "City/NameEn","WorkSchedule/NameEn","LanguageRequirement/NameEn"]
+          select.push(`${cleanLookup}/${cleanField}`);
+          expand.push(cleanLookup)
+          
+        } else {
+
+          columnName.push(col);
+          
+        }
+        
+      })
+      console.log("Cn", columnName)
+      // const addDepartEN = ["Department/NameEn", "ClassificationCode/NameEn","Duration/NameEn", "WorkArrangement/NameEn", "City/NameEn","WorkSchedule/NameEn","LanguageRequirement/NameEn"]
       const sortSelect = Array.from(new Set(select)).sort();
-      const uniqueSelect = [...addDepartEN, ...sortSelect].sort();
+      const uniqueSelect = [...sortSelect, "Skills/ID"].sort();
       const uniqueExpand = Array.from(new Set(expand)).sort();
+      const addExpand = [...uniqueExpand, "Skills"]
       
       console.log("Select", uniqueSelect);
       console.log("Expand", uniqueExpand)
 
-      return { uniqueSelect, uniqueExpand };
+      return { uniqueSelect, addExpand };
   }
 
   public async _populateEditableFields(): Promise<void> {
+
 
     let item:any  = {};
    
      if (this.props.list) {
       
       let itemsQuery = await this._sp.web.lists.getById(this.props.list).items;
-      console.log("query", itemsQuery)
+      
+        //GraphService._getListColumns(this.props.siteId, this.props.list).then((value: any) => {console.log(value)});
+
 
       if (this.props.list_Columns ) {
 
-        const {uniqueSelect, uniqueExpand } = this.buildSelectAndExpand(this.props.list_Columns);
+        const {uniqueSelect, addExpand } = this.buildSelectAndExpand(this.props.list_Columns);
 
-        itemsQuery = itemsQuery.select(uniqueSelect).expand(uniqueExpand);
-   
+        itemsQuery = itemsQuery.select(...uniqueSelect).expand(...addExpand);
 
-      console.log("newQuery", itemsQuery)
       
       }
       const selectedList = await itemsQuery();
       item = selectedList
-
       // const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
       // item = selectedListA
       console.log("listA", selectedList)
@@ -780,8 +792,8 @@ console.log("BODY", postOptions.body)
 
       item = items;
     }
-    console.log("item",item)
-    const cityId = item.City.ID;
+    console.log("item",item[0].City)
+    const cityId = this.props.list_Columns ? item[0].City.ID : item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
@@ -790,10 +802,12 @@ console.log("BODY", postOptions.body)
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
 
+    const languages = this.props.list_Columns? item[0].LanguageRequirement.ID : item.LanguageRequirement.ID;
+
   
 
    
-    if (item.LanguageRequirement.ID === 3) {
+    if (languages === 3) {
 
       const languageComprehensionArray= item.LanguageComprehension?.split("") 
  
