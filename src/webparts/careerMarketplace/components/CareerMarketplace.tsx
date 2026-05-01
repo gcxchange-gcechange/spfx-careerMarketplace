@@ -720,7 +720,7 @@ console.log("BODY", postOptions.body)
           expand.push(cleanLookup)
           
         } else {
-
+          select.push(col)
           columnName.push(col);
           
         }
@@ -728,15 +728,16 @@ console.log("BODY", postOptions.body)
       })
       console.log("Cn", columnName)
       // const addDepartEN = ["Department/NameEn", "ClassificationCode/NameEn","Duration/NameEn", "WorkArrangement/NameEn", "City/NameEn","WorkSchedule/NameEn","LanguageRequirement/NameEn"]
-      const sortSelect = Array.from(new Set(select)).sort();
-      const uniqueSelect = [...sortSelect, "Skills/ID"].sort();
-      const uniqueExpand = Array.from(new Set(expand)).sort();
-      const addExpand = [...uniqueExpand, "Skills"]
       
-      console.log("Select", uniqueSelect);
+      const sortSelect = Array.from(new Set(select)).sort();
+     // const uniqueSelect = [...sortSelect, "Skills/ID"].sort();
+      const uniqueExpand = Array.from(new Set(expand)).sort();
+      //const addExpand = [...uniqueExpand, "Skills"]
+      
+      console.log("SELECT", sortSelect);
       console.log("Expand", uniqueExpand)
 
-      return { uniqueSelect, addExpand };
+      return { sortSelect, uniqueExpand };
   }
 
   public async _populateEditableFields(): Promise<void> {
@@ -746,7 +747,7 @@ console.log("BODY", postOptions.body)
    
      if (this.props.list) {
       
-      let itemsQuery = await this._sp.web.lists.getById(this.props.list).items;
+      let itemsQuery = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)); // get jobOpportunity List for the specific opportunity
       
         //GraphService._getListColumns(this.props.siteId, this.props.list).then((value: any) => {console.log(value)});
 
@@ -760,6 +761,7 @@ console.log("BODY", postOptions.body)
       
       }
       const selectedList = await itemsQuery();
+      
       item = selectedList
       // const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
       // item = selectedListA
@@ -792,8 +794,8 @@ console.log("BODY", postOptions.body)
 
       item = items;
     }
-    console.log("item",item[0].City)
-    const cityId = this.props.list_Columns ? item[0].City.ID : item.City.ID;
+    
+    const cityId = this.props.list_Columns ? item.CityId : item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
@@ -802,7 +804,7 @@ console.log("BODY", postOptions.body)
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
 
-    const languages = this.props.list_Columns? item[0].LanguageRequirement.ID : item.LanguageRequirement.ID;
+    const languages = this.props.list_Columns? item.LanguageRequirementId : item.LanguageRequirement.ID;
 
   
 
@@ -830,7 +832,7 @@ console.log("BODY", postOptions.body)
       }
     }
 
-    const skills = item.Skills.map((item:any) => ({ value: item.ID}));
+    const skills = this.props.list_Columns ? item.SkillsId.map((item:any) => ({ value: item.ID})) : item.Skills.map((item:any) => ({ value: item.ID}));
 
     const timeZone = require('moment-timezone');
 
@@ -850,15 +852,15 @@ console.log("BODY", postOptions.body)
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
-        department: {...prevState.values.department, key: item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department)},
+        department: {...prevState.values.department, key: this.props.list_Columns ? item.DepartmentId :  item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department)},
         jobTitleEn: {...prevState.values.jobTitleEn, value: item.JobTitleEn},
         jobTitleFr: {...prevState.values.jobTitleFr, value: item.JobTitleFr},
         jobDescriptionEn: {...prevState.values.jobDescriptionEn, value: item.JobDescriptionEn},
         jobDescriptionFr: {...prevState.values.jobDescriptionFr, value: item.JobDescriptionFr}, 
         jobType: {...prevState.values.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
         programArea : {...prevState.values.programArea,  key: item.Program_Area?.[0]?.TermGuid || item.ProgramArea?.[0].TermGuid, text: item.Program_Area[0].Label || item.ProgramArea[0].Label},
-        classificationCode: {...prevState.values.classificationCode, key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
-        classificationLevel:{...prevState.values.classificationLevel, key:item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
+        classificationCode: {...prevState.values.classificationCode, key: this.props.list_Columns ? item.ClassidicationCodeId : item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
+        classificationLevel:{...prevState.values.classificationLevel, key:  this.props.list_Columns ? item.ClassidicationLevelId :item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
         classificationLevelIds: item.ClassificationCode.ClassificationLevelIds,
         // classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
         numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 2},
