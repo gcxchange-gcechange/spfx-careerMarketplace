@@ -690,7 +690,9 @@ console.log("BODY", postOptions.body)
   
   public approvedStaffingChecked = (event:string, checked: boolean):void => {
 
-      this.setState({ approvedStaffing: checked})
+      this.setState({ approvedStaffing: checked
+
+      })
   }
 
   public handleCopyBtn = (value: any):void  => {
@@ -698,27 +700,41 @@ console.log("BODY", postOptions.body)
   }
 
   public buildSelectAndExpand(columns: string[]): any {
-     const select:string[] = [];
-     const expand: string[] =[];
-     const columnName: string[] = [];
+    const select:string[] = [];
+    const expand: string[] =[];
+    const columnName: string[] = [];
     
 
       columns.forEach(col => {
+
         
         if (col.includes(":")) {
 
           //split the columns with  the : and convert to /
           const [lookup, field] = col.split(":")
 
+
           //remove any spaces before 
           const cleanLookup = lookup.trim();
-          const cleanField = field.trim();
+          let cleanField = field.trim();
 
           console.log("Clean Field:",cleanField)
 
+         // Replace NameFr with TitleFr ONLY in DEV as original list name was changed
+
+         if (this.props.environment === "dev") {
+          //  if (cleanLookup === "Skills" && cleanField === "NameEn") {
+          //    cleanField = "TitleEn";
+          //  }
+ 
+           if (cleanLookup === "Skills" && cleanField === "NameFr") {
+             cleanField = "TitleFr";
+           }
+         }
+
           select.push(`${cleanLookup}/${cleanField}`);
           expand.push(cleanLookup)
-          
+
         } else {
           select.push(col)
           columnName.push(col);
@@ -749,25 +765,21 @@ console.log("BODY", postOptions.body)
       
       let itemsQuery = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)); // get jobOpportunity List for the specific opportunity
       
-        //GraphService._getListColumns(this.props.siteId, this.props.list).then((value: any) => {console.log(value)});
-
-
       if (this.props.list_Columns ) {
 
-        const {uniqueSelect, addExpand } = this.buildSelectAndExpand(this.props.list_Columns);
+        const {sortSelect, uniqueExpand } = this.buildSelectAndExpand(this.props.list_Columns);
 
-        itemsQuery = itemsQuery.select(...uniqueSelect).expand(...addExpand);
+        itemsQuery = itemsQuery.select(sortSelect).expand(uniqueExpand);
 
-      
       }
       const selectedList = await itemsQuery();
-      
+
       item = selectedList
       // const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
       // item = selectedListA
       console.log("listA", selectedList)
     } else {
-      const items = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
+      const items = await this._sp.web.lists.getByTitle(this.props.list).items.getById(Number(this.props.jobOpportunityId))
       .select(
         "City/ID", "City/NameEn", "City/NameFr", 
         "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "ClassificationCode/ClassificationLevelIds",
@@ -795,7 +807,7 @@ console.log("BODY", postOptions.body)
       item = items;
     }
     
-    const cityId = this.props.list_Columns ? item.CityId : item.City.ID;
+    const cityId = item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
  
@@ -804,7 +816,7 @@ console.log("BODY", postOptions.body)
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
 
-    const languages = this.props.list_Columns? item.LanguageRequirementId : item.LanguageRequirement.ID;
+    const languages = item.LanguageRequirement.ID;
 
   
 
@@ -832,7 +844,7 @@ console.log("BODY", postOptions.body)
       }
     }
 
-    const skills = this.props.list_Columns ? item.SkillsId.map((item:any) => ({ value: item.ID})) : item.Skills.map((item:any) => ({ value: item.ID}));
+    const skills =  item.Skills.map((item:any) => ({ value: item.ID}));
 
     const timeZone = require('moment-timezone');
 
@@ -846,21 +858,20 @@ console.log("BODY", postOptions.body)
       return languageValue === 'fr-fr' ? value.NameFr : value.NameEn
     }
 
-    // const matchSecurityField = this.state.security
- 
+    // const matchSecurityField = this.state.security 
 
     this.setState((prevState) => ({
       values: {
         ...prevState.values,
-        department: {...prevState.values.department, key: this.props.list_Columns ? item.DepartmentId :  item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department)},
+        department: {...prevState.values.department, key: item.Department.ID, text: evaluateLanguage(this.props.prefLang, item.Department)},
         jobTitleEn: {...prevState.values.jobTitleEn, value: item.JobTitleEn},
         jobTitleFr: {...prevState.values.jobTitleFr, value: item.JobTitleFr},
         jobDescriptionEn: {...prevState.values.jobDescriptionEn, value: item.JobDescriptionEn},
         jobDescriptionFr: {...prevState.values.jobDescriptionFr, value: item.JobDescriptionFr}, 
         jobType: {...prevState.values.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
         programArea : {...prevState.values.programArea,  key: item.Program_Area?.[0]?.TermGuid || item.ProgramArea?.[0].TermGuid, text: item.Program_Area[0].Label || item.ProgramArea[0].Label},
-        classificationCode: {...prevState.values.classificationCode, key: this.props.list_Columns ? item.ClassidicationCodeId : item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
-        classificationLevel:{...prevState.values.classificationLevel, key:  this.props.list_Columns ? item.ClassidicationLevelId :item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
+        classificationCode: {...prevState.values.classificationCode, key: item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
+        classificationLevel:{...prevState.values.classificationLevel, key: item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
         classificationLevelIds: item.ClassificationCode.ClassificationLevelIds,
         // classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
         numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 2},
