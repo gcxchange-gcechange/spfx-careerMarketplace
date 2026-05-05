@@ -65,6 +65,8 @@ export interface ICareerMarketplaceWebPartProps {
   //domain: string;
   graphId: string;
   siteId: Guid;
+  programAreaColumn: string;
+  jobTypeColumn: string;
 }
 
 export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICareerMarketplaceWebPartProps> {
@@ -118,6 +120,8 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
         //domain: this.properties.domain,
         graphId: this.properties.graphId,
         siteId: this.context.pageContext.site.id,
+        programAreaColumn: this.properties.programAreaColumn,
+        jobTypeColumn: this.properties.jobTypeColumn  
       }
     );
 
@@ -258,11 +262,10 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                 groupFields: [
                   PropertyPaneChoiceGroup('environment', {
                     label: 'Environment Configuration',
-
                     options: [
-                      { key: 'dev', text: 'Development' },
+                      { key: 'dev', text: 'Development', checked: true },
                       { key: 'uat', text: 'UAT' },
-                      { key: 'prod', text: 'Production' },
+                      { key: 'prod', text: 'Production'},
                     ]
                   })
                 ]
@@ -431,6 +434,20 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
  
                 ]
               },
+
+              {
+                groupName: 'Column Name Settings',  
+                groupFields:[
+                  PropertyPaneTextField('programAreaColumn', {
+                    label: 'Program Area Column',
+                    description: 'The column name for the program area.'
+                  }),
+                  PropertyPaneTextField('jobTypeColumn', {
+                    label: 'Job Type Column',
+                    description: 'The column name for the job type.'
+                  })
+                ]
+              }
             ]
           }
         ]

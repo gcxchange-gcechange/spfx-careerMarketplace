@@ -47,5 +47,8 @@ export interface ICareerMarketplaceProps {
   //domain: string;
   graphId: string;
   siteId: Guid;
+  programAreaColumn: string;
+  jobTypeColumn: string;
+
 
 }

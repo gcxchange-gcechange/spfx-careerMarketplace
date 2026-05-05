@@ -761,25 +761,28 @@ console.log("BODY", postOptions.body)
 
     let item:any  = {};
    
-     if (this.props.list) {
+    //  if (this.props.list) {
       
-      let itemsQuery = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)); // get jobOpportunity List for the specific opportunity
+    //   let itemsQuery = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)); // get jobOpportunity List for the specific opportunity
       
-      if (this.props.list_Columns ) {
+    //   if (this.props.list_Columns ) {
 
-        const {sortSelect, uniqueExpand } = this.buildSelectAndExpand(this.props.list_Columns);
+    //     const {sortSelect, uniqueExpand } = this.buildSelectAndExpand(this.props.list_Columns);
 
-        itemsQuery = itemsQuery.select(sortSelect).expand(uniqueExpand);
+    //     itemsQuery = itemsQuery.select(sortSelect).expand(uniqueExpand);
 
-      }
-      const selectedList = await itemsQuery();
+    //   }
+    //   const selectedList = await itemsQuery();
 
-      item = selectedList
-      // const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
-      // item = selectedListA
-      console.log("listA", selectedList)
-    } else {
-      const items = await this._sp.web.lists.getByTitle(this.props.list).items.getById(Number(this.props.jobOpportunityId))
+    //   item = selectedList
+    //   // const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
+    //   // item = selectedListA
+    //   console.log("listA", selectedList)
+    // } else {
+
+
+      const items = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId))
+    
       .select(
         "City/ID", "City/NameEn", "City/NameFr", 
         "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "ClassificationCode/ClassificationLevelIds",
@@ -789,8 +792,8 @@ console.log("BODY", postOptions.body)
         "JobTitleEn", 
         "JobDescriptionEn", 
         "JobDescriptionFr", 
-        "JobType", 
-        "ProgramArea",
+        `${this.props.jobTypeColumn}`, 
+        `${this.props.programAreaColumn}`,
         "Program_Area",
         "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
         "NumberOfOpportunities",
@@ -805,7 +808,9 @@ console.log("BODY", postOptions.body)
       .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
 
       item = items;
-    }
+
+      console.log("items", items)
+    //}
     
     const cityId = item.City.ID;
 
