@@ -802,16 +802,19 @@ console.log("BODY", postOptions.body)
         "SecurityClearance/ID", 
         "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
         "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
-        "Skills/ID"
+      
      
       )
-      .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
+      .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement")();
 
       item = items;
 
       console.log("items", items)
     //}
-    
+    const querySkills = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId))
+    .select("Skills/id").expand("Skills")();
+    console.log("querySkills", querySkills)
+
     const cityId = item.City.ID;
 
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();

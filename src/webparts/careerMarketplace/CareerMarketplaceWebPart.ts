@@ -19,7 +19,7 @@ import GraphService from '../../services/GraphService';
 import { ITerm } from '@pnp/graph/taxonomy';
 import { graphfi, SPFx } from '@pnp/graph';
 import { getEnvConfig } from './components/Functions';
-import { IColumnReturnProperty, PropertyFieldColumnPicker, PropertyFieldColumnPickerOrderBy, PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls';
+import {PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls';
  
 
 export interface ICareerMarketplaceWebPartProps {
@@ -416,28 +416,6 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                     key: 'listPickerFieldId',
                     filter: "Hidden eq false and BaseType eq 0"
                   }),
-                    PropertyFieldColumnPicker('list_Columns', {
-                      label: 'Select columns to display from selected list',
-                      context: this.context as any,
-                      selectedColumn: this.properties.list_Columns,
-                      listId: this.properties.list,
-                      disabled: !this.properties.list,
-                      orderBy: PropertyFieldColumnPickerOrderBy.Title,
-                      key: 'multiColumnPickerFieldId',
-                      columnReturnProperty: IColumnReturnProperty.Title,
-                      properties: this.properties,
-                      multiSelect: true,
-                      onPropertyChange: function (propertyPath: string, oldValue: any, newValue: any): void {
-                        throw new Error('Function not implemented.');
-                      }
-                    })
- 
-                ]
-              },
-
-              {
-                groupName: 'Column Name Settings',  
-                groupFields:[
                   PropertyPaneTextField('programAreaColumn', {
                     label: 'Program Area Column',
                     description: 'The column name for the program area.'
@@ -446,8 +424,31 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                     label: 'Job Type Column',
                     description: 'The column name for the job type.'
                   })
+                    // PropertyFieldColumnPicker('list_Columns', {
+                    //   label: 'Select columns to display from selected list',
+                    //   context: this.context as any,
+                    //   selectedColumn: this.properties.list_Columns,
+                    //   listId: this.properties.list,
+                    //   disabled: !this.properties.list,
+                    //   orderBy: PropertyFieldColumnPickerOrderBy.Title,
+                    //   key: 'multiColumnPickerFieldId',
+                    //   columnReturnProperty: IColumnReturnProperty.Title,
+                    //   properties: this.properties,
+                    //   multiSelect: true,
+                    //   onPropertyChange: function (propertyPath: string, oldValue: any, newValue: any): void {
+                    //     throw new Error('Function not implemented.');
+                    //   }
+                    // })
+ 
                 ]
-              }
+              },
+
+              // {
+              //   groupName: 'Column Name Settings',  
+              //   groupFields:[
+                  
+              //   ]
+              // }
             ]
           }
         ]
