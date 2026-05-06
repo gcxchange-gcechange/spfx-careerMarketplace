@@ -811,9 +811,28 @@ console.log("BODY", postOptions.body)
 
       console.log("items", items)
     //}
-    const querySkills = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId))
-    .select("Skills/id").expand("Skills")();
-    console.log("querySkills", querySkills)
+
+    //let SkillsID: { value: number, NameEn: string; NameFr: string } = { value: 0, NameEn: '', NameFr: '' };
+    let SkillsID : {value: number}
+    const querySkills = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select("Skills/ID").expand("Skills")(); 
+    console.log("Query", querySkills)
+    
+     if (querySkills?.SKills?.length !== 0) {
+      const skills = await  Promise.all (
+        querySkills.Skills.map((skill: any) => 
+        this._sp.web.lists.getByTitle("Skills").items.getById(skill.ID)()
+        )
+      )
+      console.log("SKILLS", skills)
+      //SkillsID = {value: skills[0].ID, NameEn: skills[0].TitleEN ?? skills[0].NameEn, NameFr:skills[0].TitleFr ?? skills[0].NameFr}
+
+      SkillsID = {value: skills[0].ID}
+      console.log("ID", SkillsID)
+     }
+
+
+      //const skills =  item.Skills.map((item:any) => ({ value: item.ID}));
+    
 
     const cityId = item.City.ID;
 
@@ -852,7 +871,8 @@ console.log("BODY", postOptions.body)
       }
     }
 
-    const skills =  item.Skills.map((item:any) => ({ value: item.ID}));
+ 
+
 
     const timeZone = require('moment-timezone');
 
@@ -886,7 +906,7 @@ console.log("BODY", postOptions.body)
         duration:{...prevState.values.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
         deadline: new Date(formattedDate),
-        skills: skills,
+        skills: [SkillsID],
         province: {...prevState.values.province, key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
         region: {...prevState.values.region, key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
         city:{...prevState.values.city, key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},

@@ -411,14 +411,19 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                     onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
                     properties: this.properties,
                     context: this.context as any,
-                    onGetErrorMessage: undefined,
                     deferredValidationTime: 0,
                     key: 'listPickerFieldId',
                     filter: "Hidden eq false and BaseType eq 0"
                   }),
                   PropertyPaneTextField('programAreaColumn', {
                     label: 'Program Area Column',
-                    description: 'The column name for the program area.'
+                    description: 'The column name for the program area.',
+                    onGetErrorMessage: () => {
+                      if (this.properties.list) {
+                        return 'Please enter a valid column name';
+                      }
+                      return '';
+                    },
                   }),
                   PropertyPaneTextField('jobTypeColumn', {
                     label: 'Job Type Column',
