@@ -41,7 +41,9 @@ export class GraphService {
 
       // Fetch CM group term sets by their IDs
       public static _sets(termSetId: any, props: any): Promise<any[]> {
-        const domainUrl = props.domain === 'dev' ? 'devgcx.sharepoint.com' : 'gcxgce.sharepoint.com';
+        console.log("TERMSETID", termSetId);
+        console.log("PROPS", props);
+        const domainUrl = props.environment === 'dev' ? 'devgcx.sharepoint.com' : 'gcxgce.sharepoint.com';
         return Promise.all(
           termSetId.map((id: any) => {
             return new Promise<any>((resolve, reject) => {

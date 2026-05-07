@@ -938,6 +938,8 @@ console.log("BODY", postOptions.body)
   }
 
   public async _populateDropDowns(): Promise<void> {
+
+    console.log("JOBTERMID",this.config.jobTypeTermId)
     
     const {currentPage} = this.state;
     const parameters = [

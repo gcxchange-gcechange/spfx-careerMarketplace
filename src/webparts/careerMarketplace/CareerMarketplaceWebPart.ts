@@ -263,7 +263,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                   PropertyPaneChoiceGroup('environment', {
                     label: 'Environment Configuration',
                     options: [
-                      { key: 'dev', text: 'Development', checked: true },
+                      { key: 'dev', text: 'Development'},
                       { key: 'uat', text: 'UAT' },
                       { key: 'prod', text: 'Production'},
                     ]
@@ -419,7 +419,7 @@ export default class CareerMarketplaceWebPart extends BaseClientSideWebPart<ICar
                     label: 'Program Area Column',
                     description: 'The column name for the program area.',
                     onGetErrorMessage: () => {
-                      if (this.properties.list) {
+                      if ( this.properties.programAreaColumn && this.properties.programAreaColumn.trim() === '') {
                         return 'Please enter a valid column name';
                       }
                       return '';
