@@ -98,7 +98,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         durationLength: {value: 1, pageNumber: 2},
         duration: {key: "", text: "" , pageNumber: 2},
         deadline: threeMonthsLater,
-        skills:[{pageNumber: 3}],
+        skills:[{pageNumber: 3, value: "", text: ""}],
         workSchedule: {key: "", text: "" , pageNumber: 3},
         workArrangment: {key: "", text: "" , pageNumber: 3 }, 
         province: {key: "", text: "" , pageNumber: 3},
@@ -699,89 +699,12 @@ console.log("BODY", postOptions.body)
    console.log("txt", value)
   }
 
-  public buildSelectAndExpand(columns: string[]): any {
-    const select:string[] = [];
-    const expand: string[] =[];
-    const columnName: string[] = [];
-    
-
-      columns.forEach(col => {
-
-        
-        if (col.includes(":")) {
-
-          //split the columns with  the : and convert to /
-          const [lookup, field] = col.split(":")
-
-
-          //remove any spaces before 
-          const cleanLookup = lookup.trim();
-          let cleanField = field.trim();
-
-          console.log("Clean Field:",cleanField)
-
-         // Replace NameFr with TitleFr ONLY in DEV as original list name was changed
-
-         if (this.props.environment === "dev") {
-          //  if (cleanLookup === "Skills" && cleanField === "NameEn") {
-          //    cleanField = "TitleEn";
-          //  }
- 
-           if (cleanLookup === "Skills" && cleanField === "NameFr") {
-             cleanField = "TitleFr";
-           }
-         }
-
-          select.push(`${cleanLookup}/${cleanField}`);
-          expand.push(cleanLookup)
-
-        } else {
-          select.push(col)
-          columnName.push(col);
-          
-        }
-        
-      })
-      console.log("Cn", columnName)
-      // const addDepartEN = ["Department/NameEn", "ClassificationCode/NameEn","Duration/NameEn", "WorkArrangement/NameEn", "City/NameEn","WorkSchedule/NameEn","LanguageRequirement/NameEn"]
-      
-      const sortSelect = Array.from(new Set(select)).sort();
-     // const uniqueSelect = [...sortSelect, "Skills/ID"].sort();
-      const uniqueExpand = Array.from(new Set(expand)).sort();
-      //const addExpand = [...uniqueExpand, "Skills"]
-      
-      console.log("SELECT", sortSelect);
-      console.log("Expand", uniqueExpand)
-
-      return { sortSelect, uniqueExpand };
-  }
 
   public async _populateEditableFields(): Promise<void> {
 
-
     let item:any  = {};
-   
-    //  if (this.props.list) {
-      
-    //   let itemsQuery = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)); // get jobOpportunity List for the specific opportunity
-      
-    //   if (this.props.list_Columns ) {
 
-    //     const {sortSelect, uniqueExpand } = this.buildSelectAndExpand(this.props.list_Columns);
-
-    //     itemsQuery = itemsQuery.select(sortSelect).expand(uniqueExpand);
-
-    //   }
-    //   const selectedList = await itemsQuery();
-
-    //   item = selectedList
-    //   // const selectedListA = await this._sp.web.lists.getById(this.props.list).items.select(this.props.list_Columns.toString())();
-    //   // item = selectedListA
-    //   console.log("listA", selectedList)
-    // } else {
-
-
-      const items = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId))
+    const items = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId))
     
       .select(
         "City/ID", "City/NameEn", "City/NameFr", 
@@ -802,53 +725,48 @@ console.log("BODY", postOptions.body)
         "SecurityClearance/ID", 
         "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
         "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
-      
-     
       )
       .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement")();
 
-      item = items;
+    item = items;
 
-      console.log("items", items)
-    //}
+    console.log("items", items)
 
-    //let SkillsID: { value: number, NameEn: string; NameFr: string } = { value: 0, NameEn: '', NameFr: '' };
-    let SkillsID : {value: number}
+   const skillsValues: { value: number, NameEn: string; NameFr: string }[] = [];
+    // const skillsID :any[] =[] 
+    // const skillsText : any[] = []
     const querySkills = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select("Skills/ID").expand("Skills")(); 
-    console.log("Query", querySkills)
     
-     if (querySkills?.SKills?.length !== 0) {
+    if (querySkills?.SKills?.length !== 0) {
       const skills = await  Promise.all (
         querySkills.Skills.map((skill: any) => 
         this._sp.web.lists.getByTitle("Skills").items.getById(skill.ID)()
         )
       )
-      console.log("SKILLS", skills)
-      //SkillsID = {value: skills[0].ID, NameEn: skills[0].TitleEN ?? skills[0].NameEn, NameFr:skills[0].TitleFr ?? skills[0].NameFr}
 
-      SkillsID = {value: skills[0].ID}
-      console.log("ID", SkillsID)
-     }
+      skills.forEach((element: any) => {
+        skillsValues.push({
+          value: element.ID,
+          NameEn: element.TitleEN,
+          NameFr: element.TitleFr
+        });
+       });
 
+    }
 
-      //const skills =  item.Skills.map((item:any) => ({ value: item.ID}));
-    
+    console.log("SKILLSID", skillsValues)
 
     const cityId = item.City.ID;
-
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
- 
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
-
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
 
-    const languages = item.LanguageRequirement.ID;
-
+    console.log("Index", getIndex)
   
 
    
-    if (languages === 3) {
+    if (item.LanguageRequirement.ID === 3) {
 
       const languageComprehensionArray= item.LanguageComprehension?.split("") 
  
@@ -887,6 +805,7 @@ console.log("BODY", postOptions.body)
     }
 
     // const matchSecurityField = this.state.security 
+    console.log("item", item)
 
     this.setState((prevState) => ({
       values: {
@@ -906,7 +825,7 @@ console.log("BODY", postOptions.body)
         duration:{...prevState.values.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
         deadline: new Date(formattedDate),
-        skills: [SkillsID],
+        skills: {...prevState.values.skills, value: skillsValues},
         province: {...prevState.values.province, key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
         region: {...prevState.values.region, key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
         city:{...prevState.values.city, key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},
@@ -1432,6 +1351,7 @@ console.log("BODY", postOptions.body)
         title: 'Requirements',
         content: (
           <Requirements
+            jobOpportunityId={this.props.jobOpportunityId}
             language = {this.state.language}
             security = {this.state.security}
             workArrangment = {this.state.wrkArrangement}
@@ -1486,6 +1406,8 @@ console.log("BODY", postOptions.body)
             handlePageNumber={this.handlePageNumber}
             securityList={this.state.security}
             skillsList={this.state.skillsList}
+            editSkills = {this.state.values.skills}
+            jobOpportunityId={this.props.jobOpportunityId}
           />
           </>
         ),

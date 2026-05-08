@@ -33,7 +33,7 @@ export interface IRequirementsProps {
   inlineFieldErrors?:string[];
   prefLang: string;
   skills: any[];
- 
+  jobOpportunityId: string |undefined;
   hasTouchedSkillCombo?: boolean;
 }
 
@@ -85,7 +85,15 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const filteredRegions = this.props.region.filter ((item) => item.provinceId === this.props.values.province.key);
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 4;
-    const selectedSkillItems =  this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined);
+
+    console.log("PROPS", this.props.values.skills.value)
+
+    const selectedSkillItems = this.props.jobOpportunityId ? 
+    this.props.values.skills.value.map((item: any) => item.value).filter((item: any) => item !== undefined)
+    :
+    this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined);
+    
+   // const selectedSkillItems =  this.props.values.skills.value.map((item: any) => item.value).filter((item: any) => item !== undefined);
 
     const locationOptional = this.props.values.workArrangment.key === 3 && this.props.values.province.key === "0" ;
     const locationMandatory = this.props.values.workArrangment.key !== 3 && this.props.values.province.key === "0";
@@ -106,6 +114,8 @@ export default class Requirements extends React.Component<IRequirementsProps> {
       {key: 2, text: 'C'},
       {key: 3, text: 'E'}
     ]
+
+    console.log("Language", this.props.values.languageRequirements)
 
     return (
       <>
