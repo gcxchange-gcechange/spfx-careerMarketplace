@@ -762,15 +762,15 @@ console.log("BODY", postOptions.body)
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
 
-    console.log("Index", getIndex)
-  
+    console.log("Index", getIndex[0])
 
    
     if (item.LanguageRequirement.ID === 3) {
 
       const languageComprehensionArray= item.LanguageComprehension?.split("") 
+      console.log("LC", languageComprehensionArray)
  
-      if(languageComprehensionArray.length !== 0) {
+      if (languageComprehensionArray.length !== 0) {
        
          getIndex.push ( languageComprehensionArray.map((letter:string) => {
           if (letter === 'A') {
@@ -1193,26 +1193,27 @@ console.log("BODY", postOptions.body)
     }
 
 
-    if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
-      this.setState((prevState) => ({
-        values: {
-          ...prevState.values,
-          languageRequirements: [
-            {
-              ...prevState.values.languageRequirements[0],
-              readingEN:{ key: "", text: "" },
-              readingFR: { key: "", text: "" },
-              writtenEN: { key: "", text: "" },
-              writtenFR:  { key: "", text: "" },
-              oralEN: { key: "", text: "" },
-              oralFR: { key: "", text: "" },
+    // if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
+    //   console.log("hello")
+    //   this.setState((prevState) => ({
+    //     values: {
+    //       ...prevState.values,
+    //       languageRequirements: [
+    //         {
+    //           ...prevState.values.languageRequirements[0],
+    //           readingEN:{ key: "", text: "" },
+    //           readingFR: { key: "", text: "" },
+    //           writtenEN: { key: "", text: "" },
+    //           writtenFR:  { key: "", text: "" },
+    //           oralEN: { key: "", text: "" },
+    //           oralFR: { key: "", text: "" },
 
-            }
-          ]
+    //         }
+    //       ]
         
-        }
-      }))
-    }
+    //     }
+    //   }))
+    // }
 
   }
 
