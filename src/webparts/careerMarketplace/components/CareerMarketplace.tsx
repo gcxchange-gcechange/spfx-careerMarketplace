@@ -1193,27 +1193,31 @@ console.log("BODY", postOptions.body)
     }
 
 
-    // if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
-    //   console.log("hello")
-    //   this.setState((prevState) => ({
-    //     values: {
-    //       ...prevState.values,
-    //       languageRequirements: [
-    //         {
-    //           ...prevState.values.languageRequirements[0],
-    //           readingEN:{ key: "", text: "" },
-    //           readingFR: { key: "", text: "" },
-    //           writtenEN: { key: "", text: "" },
-    //           writtenFR:  { key: "", text: "" },
-    //           oralEN: { key: "", text: "" },
-    //           oralFR: { key: "", text: "" },
+    if ( this.props.jobOpportunityId === undefined) {
 
-    //         }
-    //       ]
-        
-    //     }
-    //   }))
-    // }
+      if (this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
+        console.log("hello")
+        this.setState((prevState) => ({
+          values: {
+            ...prevState.values,
+            languageRequirements: [
+              {
+                ...prevState.values.languageRequirements[0],
+                readingEN:{ key: "", text: "" },
+                readingFR: { key: "", text: "" },
+                writtenEN: { key: "", text: "" },
+                writtenFR:  { key: "", text: "" },
+                oralEN: { key: "", text: "" },
+                oralFR: { key: "", text: "" },
+  
+              }
+            ]
+          
+          }
+        }))
+      }
+    }
+
 
   }
 
