@@ -311,7 +311,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state.values.languageRequirements[0].oralFR.text;
  
  
-    const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
+    const skills = this.state.values.skills.slice(1).map(item => (item.value.toString()));
+    //const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
+    console.log("skills", skills)
     const errorPageSkills = this.state.values.skills.filter(item => Object.keys(item).includes('text')).map(item => (item.text));
 
     const postDetailsObject = {
@@ -627,7 +629,7 @@ console.log("BODY", postOptions.body)
         values: {
           ...prevState.values,
           skills: skillExists
-            ? prevState.values.skills.filter((item) => item.value !== value.key) 
+            ? prevState.values.skills.filter((item: any) => item.value !== value.key) 
             : [...prevState.values.skills, {value: value.key, text:value.text}],  
         },
       }));
@@ -732,7 +734,7 @@ console.log("BODY", postOptions.body)
 
     console.log("items", items)
 
-   const skillsValues: { value: number, NameEn: string; NameFr: string }[] = [];
+   const skillsValues: { value: number, text: string;   }[] = [];
     // const skillsID :any[] =[] 
     // const skillsText : any[] = []
     const querySkills = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select("Skills/ID").expand("Skills")(); 
@@ -745,11 +747,14 @@ console.log("BODY", postOptions.body)
       )
 
       skills.forEach((element: any) => {
+
         skillsValues.push({
           value: element.ID,
-          NameEn: element.TitleEN,
-          NameFr: element.TitleFr
+          text: this.props.prefLang === "fr-fr"
+            ? element.TitleFr
+            : element.TitleEN
         });
+        
        });
 
     }
@@ -824,8 +829,14 @@ console.log("BODY", postOptions.body)
         numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 2},
         duration:{...prevState.values.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
-        deadline: new Date(formattedDate),
-        skills: {...prevState.values.skills, value: skillsValues},
+        deadline: new Date(formattedDate),      
+        //skills: [...prevState.values.skills, {value: skillsValues}],  
+        skills: skillsValues.map((skill, index) => ({
+          pageNmber: 3,
+          value: skillsValues[index]?.value ?? skill.value,
+          text: skillsValues[index]?.text ?? skill.text
+        })),
+        // skills: [{...prevState.values.skills, values:skillsValues}],
         province: {...prevState.values.province, key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
         region: {...prevState.values.region, key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
         city:{...prevState.values.city, key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},
@@ -1196,7 +1207,6 @@ console.log("BODY", postOptions.body)
     if ( this.props.jobOpportunityId === undefined) {
 
       if (this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
-        console.log("hello")
         this.setState((prevState) => ({
           values: {
             ...prevState.values,

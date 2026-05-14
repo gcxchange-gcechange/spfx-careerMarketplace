@@ -94,26 +94,59 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
 
         const matchSecurity = this.props.securityList.find(item => item.key === this.props.security.key);
 
-        const listSkills:any[] = []
+        // const listSkills:any[] = []
 
-        console.log("JobOPPID", this.props.jobOpportunityId)
+        // console.log("JobOPPID", this.props.jobOpportunityId)
+        // console.log("this.props.editSkills", this.props.editSkills)
 
-        if (this.props.jobOpportunityId) {
-            this.props.editSkills.value.forEach((skill:any) =>  {
+        // if (this.props.jobOpportunityId) {
+        //     this.props.editSkills.value.forEach((skill:any) =>  {
 
-            if (this.props.prefLang === "fr-fr") {
-                listSkills.push(skill.NameFr )
-            } else {
-                listSkills.push(skill.NameEn ) 
-            }
-            })
-        }  else{
-            this.props.skills.forEach((skill:any) => {
-                console.log("skill", skill)
-                listSkills.push(skill.text)
-            })
-        }
-      
+        //     if (this.props.prefLang === "fr-fr") {
+        //         listSkills.push(skill.NameFr )
+        //     } else {
+        //         listSkills.push(skill.NameEn ) 
+        //     }
+        //     })
+        // }  else{
+        //     this.props.skills.forEach((skill:any) => {
+        //         console.log("skill", skill)
+        //         listSkills.push(skill.text)
+        //     })
+        // }
+
+        const selectedSkillItems: any[] = [];
+
+        // if (this.props.jobOpportunityId) {
+        //     for (const key in this.props.skills) {
+        //             const skill = this.props.skills[key].value;
+        //             console.log("key", skill);
+    
+        //         for(const k in skill) {
+        //             console.log("text",skill[k].text)
+        //             selectedSkillItems.push(skill[k].text)
+        //         }
+            
+        //       if (skill.value) {
+        //         selectedSkillItems.push(skill.text)
+        //       }
+
+        //     }
+
+        // }  else {
+    
+            const match = this.props.skills.filter(s => s.value !== '')
+            console.log("match", match)
+    
+            const matchSkills = new Set(this.props.skills.filter(skill => skill.value !== '').map(selected => this.props.skillsList.find(item => item.key === selected.value)));
+            console.log("matchSkills",matchSkills)
+            
+            const skillsItems: string = Array.from(matchSkills).map(skill => skill.text?.trim()).filter(text => text).join(", ");
+            selectedSkillItems.push(skillsItems)
+            
+        // }
+        
+        // const isApproved = this.props.approvedStaffing.value === true ? "Yes" : "No";
 
         const location: string = province.key === "0" || province.key === ""
         ? (this.props.prefLang === 'fr-fr' ? "Travail à distance" : "Remote")
@@ -356,7 +389,7 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
                             multiline
                             borderless
                             readOnly
-                            defaultValue={ listSkills.toString()}
+                            defaultValue={ selectedSkillItems.toString()}
                             styles={disabledField}
                             />
                         </Stack.Item>

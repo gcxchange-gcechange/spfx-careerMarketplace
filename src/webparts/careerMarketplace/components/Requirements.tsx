@@ -7,6 +7,7 @@ import { SelectLanguage } from "./SelectLanguage";
 import styles from './CareerMarketplace.module.scss';
 import { getLocalizedString  } from "./Functions";
 
+
 export interface IRequirementsProps {
   language: any[];
   security: any[];
@@ -86,14 +87,38 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const filteredCities = this.props.city.filter((item) => item.regionID === this.props.values.region.key);
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 4;
 
-    console.log("PROPS", this.props.values.skills.value)
 
-    const selectedSkillItems = this.props.jobOpportunityId ? 
-    this.props.values.skills.value.map((item: any) => item.value).filter((item: any) => item !== undefined)
-    :
-    this.props.values.skills.map((item: any) => item.value).filter((item: any) => item !== undefined);
-    
-   // const selectedSkillItems =  this.props.values.skills.value.map((item: any) => item.value).filter((item: any) => item !== undefined);
+    console.log("PROPS:", this.props.values.skills);
+
+
+
+    let selectedSkillItems: any[] = [];
+
+    // if (this.props.jobOpportunityId) {
+    //   for (const key in this.props.values.skills) {
+    //     const skill = this.props.values.skills[key];
+    //     console.log("key", skill.value);
+
+    //     if (skill.value && Array.isArray(skill.value)) {
+    //       for (const k in skill.value) {
+    //         const value = skill.value[k].value;
+    //         if (value !== undefined) {
+    //           selectedSkillItems.push(value);
+    //         }
+    //       }
+    //     } else if (skill.value !== undefined) {
+    //       selectedSkillItems.push(skill.value);
+    //     }
+    //   }
+    // } else {
+      selectedSkillItems = this.props.values.skills
+        .map((item: any) => item.value)
+        .filter((item: any) => item !== undefined);
+    // }
+
+    console.log("selectedSkills", selectedSkillItems);
+
+
 
     const locationOptional = this.props.values.workArrangment.key === 3 && this.props.values.province.key === "0" ;
     const locationMandatory = this.props.values.workArrangment.key !== 3 && this.props.values.province.key === "0";
