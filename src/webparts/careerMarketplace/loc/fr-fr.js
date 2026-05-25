@@ -26,7 +26,7 @@ define([], function() {
       "departmentField":"Ministère",
       "workEmail":"Adresse courriel professionnelle",
       "apply_Email":"Adresse courriel pour les candidatures",
-      "apply_Email_Instructions":"Les candidatures seront envoyées à cette adresse courriel. Par défaut, il s’agit de votre adresse courriel au travail, mais vous pouvez entrer une autre adresse courriel valide. Utilisez une  .",
+      "apply_Email_Instructions":"Les candidatures seront envoyées à cette adresse courriel. Par défaut, il s’agit de votre adresse courriel au travail, mais vous pouvez entrer une autre adresse courriel valide. Utilisez une ",
       "apply_Email_Instructions_bold":"boîte de réception contrôlée",
       "apply_Email_Instructions_b":"accessible uniquement aux personnes autorisées à examiner les candidatures. Cela aide à protéger les renseignements personnels des personnes candidates.",
 
@@ -49,7 +49,7 @@ define([], function() {
       "job_Type_description": "Conseils et des définitions sur chaque type d’occasion",
       "program_Area":"Secteur de programme",
       "programArea_description": "À l’aide du menu déroulant, sélectionnez le domaine de travail qui correspond le mieux à votre occasion.",
-      "programArea_description_bold": "Cette information ne sera pas affichée dans l’annonce. ",
+      "programArea_description_bold": " Cette information ne sera pas affichée dans l’annonce. ",
       "programArea_description_b": "Elle sert uniquement à la production de rapports internes.",
       "classification_Code":"Code de classification",
       "classification_Code_description":"Le cas échéant, À l’aide du menu déroulant, identifiez la classification requise pour votre occasion.",

@@ -37,3 +37,5 @@ react-quill
 react-mentions
 @pnp/spfx-controls-teact
 @pnp/spfx-property-controls
+fast-uri
+js-cookie
