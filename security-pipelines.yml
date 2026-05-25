@@ -15,6 +15,8 @@ jobs:
 - job:
   displayName: Run Dependency Scan
   steps:
+  
+  - checkout: self
 
   - script: |
       npm audit --omit=dev --audit-level=high --json > npm-audit.json || true
@@ -22,49 +24,43 @@ jobs:
 
       if [ -f ignored-packages.txt ]; then
         echo "Using ignored-packages.txt..."
-        ignored=$(jq -R . ignored-packages.txt | jq -s .)
+        ignored=$(jq -R . < ignored-packages.txt | jq -s .)
       else
         echo "ignored-packages.txt not found. Proceeding without ignored packages."
         ignored='[]'
       fi
-      
-        high=$(jq --argjson ignored "$ignored" '
-          [.vulnerabilities[]
-            | select(.name as $name | ($ignored | index($name) | not))
-            | .via[]
-            | select(type=="object")
-            | select(.name as $v | ($ignored | index($v) | not))
-            | select(.severity == "high")
-          ] | length' npm-audit.json)
+
+      high=$(jq --argjson ignored "$ignored" '
+        [.vulnerabilities
+          | to_entries[]
+          | select(.value.name as $name | ($ignored | index($name)) | not)
+          | select(.value.severity == "high")
+        ] | length' npm-audit.json)
 
       critical=$(jq --argjson ignored "$ignored" '
-        [.vulnerabilities[]
-          | select(.name as $name | ($ignored | index($name) | not))
-          | .via[]
-          | select(type=="object")
-          | select(.name as $v | ($ignored | index($v) | not))
-          | select(.severity == "critical")
+        [.vulnerabilities
+          | to_entries[]
+          | select(.value.name as $name | ($ignored | index($name)) | not)
+          | select(.value.severity == "critical")
         ] | length' npm-audit.json)
 
       echo "High vulnerabilities (excluding ignored packages): $high"
       echo "Critical vulnerabilities (excluding ignored packages): $critical"
-
+      
       echo ""
       echo "Affected packages (excluding ignored):"
       echo "------------------------------------"
-
+      
       jq -r --argjson ignored "$ignored" '
-        .vulnerabilities[]
-        | select(.name as $name | ($ignored | index($name) | not))
-        | .via[]
-        | select(type=="object")
-        | select(.name as $v | ($ignored | index($v) | not))
-        | select(.severity == "high" or .severity == "critical")
-        | .name
+        .vulnerabilities
+        | to_entries[]
+        | select(.value.name as $name | ($ignored | index($name)) | not)
+        | select(.value.severity == "high" or .value.severity == "critical")
+        | .value.name
       ' npm-audit.json | sort -u | while read pkg; do
         echo "$pkg"
       done
-
+      
       echo "------------------------------------"
 
       if [ "$high" -gt 0 ] || [ "$critical" -gt 0 ]; then
@@ -85,13 +81,23 @@ jobs:
 
   - script: |
       npm install -g retire
-      retire --outputformat json --outputpath retire-report.json || true
+
+      # Apply ignored-packages.txt to Retire.js scan using --ignore flags
+      RETIRE_IGNORE_FLAGS=""
+      if [ -f ignored-packages.txt ]; then
+        echo "Applying ignored-packages.txt to Retire.js scan..."
+        while IFS= read -r pkg || [ -n "$pkg" ]; do
+          # Skip blank lines and comments
+          [[ -z "$pkg" || "$pkg" == \#* ]] && continue
+          RETIRE_IGNORE_FLAGS="$RETIRE_IGNORE_FLAGS --ignore \"$pkg\""
+        done < ignored-packages.txt
+      fi
+
+      eval retire --outputformat json --outputpath retire-report.json $RETIRE_IGNORE_FLAGS || true
       cat retire-report.json
 
-      # Check if vulnerabilities array is not empty
-      vulns=$(jq '.data | map(.results | length) | add' retire-report.json)
+      vulns=$(jq '.data | map(.results | length) | add // 0' retire-report.json)
       echo "Retire.js vulnerabilities found: $vulns"
-
       if [ "$vulns" -gt 0 ]; then
         echo "##vso[task.logissue type=error]Retire.js discovered one or more vulnerabilities."
         echo "##vso[task.complete result=Failed;]Retire.js failed due to vulnerabilities."
@@ -103,6 +109,7 @@ jobs:
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Retire.js report'
+    condition: always()
     inputs:
       PathtoPublish: 'retire-report.json'
       ArtifactName: 'RetireJsReport'
