@@ -39,3 +39,8 @@ react-mentions
 @pnp/spfx-property-controls
 fast-uri
 js-cookie
+@nuvemerudita/react-controls
+react-overflow-list
+react-use
+postcss
+uuid
