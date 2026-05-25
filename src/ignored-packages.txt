@@ -35,8 +35,7 @@ markdown-to-jsx
 quill
 react-quill
 react-mentions
-@pnp/spfx-controls-teact
+@pnp/spfx-controls-react
 @pnp/spfx-property-controls
-@xmldom/xmldom
 fast-uri
 js-cookie
