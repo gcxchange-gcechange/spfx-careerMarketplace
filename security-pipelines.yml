@@ -17,10 +17,11 @@ jobs:
   steps:
   
   - checkout: self
- 
+
   - script: |
       npm audit --omit=dev --audit-level=high --json > npm-audit.json || true
       cat npm-audit.json
+
       if [ -f ignored-packages.txt ]; then
         echo "Using ignored-packages.txt..."
         ignored=$(jq -R . < ignored-packages.txt | jq -s .)
@@ -28,22 +29,21 @@ jobs:
         echo "ignored-packages.txt not found. Proceeding without ignored packages."
         ignored='[]'
       fi
- 
+
       high=$(jq --argjson ignored "$ignored" '
-        [.vulnerabilities[]
-          | select(.name as $name | ($ignored | index($name)) | not)
-          | .via[]
-          | select(type=="object")
-          | select(.severity == "high")
+        [.vulnerabilities
+          | to_entries[]
+          | select(.value.name as $name | ($ignored | index($name)) | not)
+          | select(.value.severity == "high")
         ] | length' npm-audit.json)
+
       critical=$(jq --argjson ignored "$ignored" '
-        [.vulnerabilities[]
-          | select(.name as $name | ($ignored | index($name)) | not)
-          | .via[]
-          | select(type=="object")
-          | select(.severity == "critical")
+        [.vulnerabilities
+          | to_entries[]
+          | select(.value.name as $name | ($ignored | index($name)) | not)
+          | select(.value.severity == "critical")
         ] | length' npm-audit.json)
-        
+
       echo "High vulnerabilities (excluding ignored packages): $high"
       echo "Critical vulnerabilities (excluding ignored packages): $critical"
       
@@ -52,18 +52,17 @@ jobs:
       echo "------------------------------------"
       
       jq -r --argjson ignored "$ignored" '
-        .vulnerabilities[]
-        | select(.name as $name | ($ignored | index($name)) | not)
-        | .via[]
-        | select(type=="object")
-        | select(.severity == "high" or .severity == "critical")
-        | .name
+        .vulnerabilities
+        | to_entries[]
+        | select(.value.name as $name | ($ignored | index($name)) | not)
+        | select(.value.severity == "high" or .value.severity == "critical")
+        | .value.name
       ' npm-audit.json | sort -u | while read pkg; do
         echo "$pkg"
       done
       
       echo "------------------------------------"
-      
+
       if [ "$high" -gt 0 ] || [ "$critical" -gt 0 ]; then
         echo "##vso[task.logissue type=error]npm audit found $high high and $critical critical vulnerabilities."
         echo "##vso[task.complete result=Failed;]npm audit failed due to high/critical vulnerabilities."
@@ -72,17 +71,18 @@ jobs:
         echo "No high or critical vulnerabilities found."
       fi
     displayName: 'Run npm audit'
- 
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish npm audit report'
     condition: always()
     inputs:
       PathtoPublish: 'npm-audit.json'
       ArtifactName: 'NpmAuditReport'
- 
+
   - script: |
       npm install -g retire
-      # Build --ignore flags dynamically if the file exists.
+
+      # Apply ignored-packages.txt to Retire.js scan using --ignore flags
       RETIRE_IGNORE_FLAGS=""
       if [ -f ignored-packages.txt ]; then
         echo "Applying ignored-packages.txt to Retire.js scan..."
@@ -92,9 +92,10 @@ jobs:
           RETIRE_IGNORE_FLAGS="$RETIRE_IGNORE_FLAGS --ignore \"$pkg\""
         done < ignored-packages.txt
       fi
+
       eval retire --outputformat json --outputpath retire-report.json $RETIRE_IGNORE_FLAGS || true
       cat retire-report.json
-      # Check if vulnerabilities array is not empty
+
       vulns=$(jq '.data | map(.results | length) | add // 0' retire-report.json)
       echo "Retire.js vulnerabilities found: $vulns"
       if [ "$vulns" -gt 0 ]; then
@@ -105,11 +106,10 @@ jobs:
         echo "No vulnerabilities found by Retire.js."
       fi
     displayName: 'Run Retire.js scan'
- 
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Retire.js report'
     condition: always()
     inputs:
       PathtoPublish: 'retire-report.json'
       ArtifactName: 'RetireJsReport'
- 
