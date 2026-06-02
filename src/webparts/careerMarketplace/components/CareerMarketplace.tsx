@@ -810,7 +810,7 @@ console.log("BODY", postOptions.body)
     }
 
     // const matchSecurityField = this.state.security 
-    console.log("item", item)
+    console.log("ITEM:", item)
 
     this.setState((prevState) => ({
       values: {
@@ -820,8 +820,8 @@ console.log("BODY", postOptions.body)
         jobTitleFr: {...prevState.values.jobTitleFr, value: item.JobTitleFr},
         jobDescriptionEn: {...prevState.values.jobDescriptionEn, value: item.JobDescriptionEn},
         jobDescriptionFr: {...prevState.values.jobDescriptionFr, value: item.JobDescriptionFr}, 
-        jobType: {...prevState.values.jobType, Guid: `item.${this.props.jobTypeColumn}[0].TermGuid`, Label: `item.${this.props.jobTypeColumn}[0].Label`},
-        programArea : {...prevState.values.programArea,  key: `item.${this.props.programAreaColumn}?.[0]?.TermGuid` || `item.${this.props.programAreaColumn}?.[0].TermGuid`, text: `item.${this.props.programAreaColumn}[0].Label` || `item.${this.props.programAreaColumn}[0].Label`},
+        jobType: {...prevState.values.jobType, Guid: item[this.props.jobTypeColumn]?.[0]?.TermGuid, Label: item[this.props.jobTypeColumn]?.[0]?.Label},
+        programArea : {...prevState.values.programArea,  key: item[this.props.programAreaColumn]?.[0]?.TermGuid || '', text: item[this.props.programAreaColumn]?.[0]?.Label || ''},
         classificationCode: {...prevState.values.classificationCode, key: item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{...prevState.values.classificationLevel, key: item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
         classificationLevelIds: item.ClassificationCode.ClassificationLevelIds,
