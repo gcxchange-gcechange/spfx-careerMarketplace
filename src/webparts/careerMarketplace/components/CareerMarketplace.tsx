@@ -719,7 +719,6 @@ console.log("BODY", postOptions.body)
         "JobDescriptionFr", 
         `${this.props.jobTypeColumn}`, 
         `${this.props.programAreaColumn}`,
-        "Program_Area",
         "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
         "NumberOfOpportunities",
         "ApplicationDeadlineDate",
