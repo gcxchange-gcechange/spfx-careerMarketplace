@@ -1,3 +1,13 @@
 lodash
 swiper
 validator
+@microsoft/sp-adaptive-card-extension-base
+@nuvemerudita/react-controls
+@pnp/spfx-controls-react
+@pnp/spfx-property-controls
+@xmldom/xmldom
+adaptivecards
+fast-uri
+js-cookie
+react-overflow-list
+react-use
