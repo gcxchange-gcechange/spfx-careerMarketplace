@@ -821,7 +821,10 @@ console.log("BODY", postOptions.body)
         jobDescriptionEn: {...prevState.values.jobDescriptionEn, value: item.JobDescriptionEn},
         jobDescriptionFr: {...prevState.values.jobDescriptionFr, value: item.JobDescriptionFr}, 
         jobType: {...prevState.values.jobType, Guid: item[this.props.jobTypeColumn]?.[0]?.TermGuid, Label: item[this.props.jobTypeColumn]?.[0]?.Label},
-        programArea : {...prevState.values.programArea,  key: item[this.props.programAreaColumn]?.[0]?.TermGuid || '', text: item[this.props.programAreaColumn]?.[0]?.Label || ''},
+        programArea : this.props.environment === "prod" ? 
+        {...prevState.values.programArea,  key: item[this.props.programAreaColumn]?.TermGuid, text: item[this.props.programAreaColumn]?.Label} 
+        :
+        {...prevState.values.programArea,  key: item[this.props.programAreaColumn]?.[0]?.TermGuid || '', text: item[this.props.programAreaColumn]?.[0]?.Label || ''},
         classificationCode: {...prevState.values.classificationCode, key: item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
         classificationLevel:{...prevState.values.classificationLevel, key: item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
         classificationLevelIds: item.ClassificationCode.ClassificationLevelIds,
