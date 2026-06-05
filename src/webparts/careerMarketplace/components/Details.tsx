@@ -64,7 +64,7 @@ export interface IDetailsProps {
   };
   jobTypeProps: any;
   inlineFieldErrors?: any[];
-  jobOppId: string;
+  jobOppId: string |undefined;
 }
 
 export default class Details extends React.Component<IDetailsProps> {
@@ -273,6 +273,8 @@ export default class Details extends React.Component<IDetailsProps> {
 
 
 
+    console.log("jobType", this.props.values.jobType)
+    console.log("ProgramArea", this.props.programArea)
 
     return (
       <>

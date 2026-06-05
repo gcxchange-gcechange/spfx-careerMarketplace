@@ -16,7 +16,7 @@ import { SPFI } from '@pnp/sp';
 import PageTitle from './PageTitle';
 import * as moment from 'moment';
 import Complete from './Complete';
-import { toTitleCase } from './Functions';
+import { getEnvConfig, toTitleCase } from './Functions';
 import { RefObject } from 'react';
 import GraphService from '../../../services/GraphService';
 import { SelectLanguage } from './SelectLanguage';
@@ -26,6 +26,7 @@ import ReviewPage from './ReviewPage';
 import InitialPage from './InitialPage';
 import ErrorPagePostRemoval from './ErrorPagePostRemoval';
 
+
 export default class CareerMarketplace extends React.Component<ICareerMarketplaceProps, ICareerMarketplaceState> {
 
   private alertRef: RefObject<HTMLDivElement>;
@@ -34,7 +35,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   private navigationDirection = 'next';
   public strings = SelectLanguage(this.props.prefLang);
   private _sp: SPFI;
-  
+
+  private config = getEnvConfig(this.props.environment, this.props)
  
 
 
@@ -96,7 +98,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         durationLength: {value: 1, pageNumber: 2},
         duration: {key: "", text: "" , pageNumber: 2},
         deadline: threeMonthsLater,
-        skills:[{pageNumber: 3}],
+        skills:[{pageNumber: 3, value: "", text: ""}],
         workSchedule: {key: "", text: "" , pageNumber: 3},
         workArrangment: {key: "", text: "" , pageNumber: 3 }, 
         province: {key: "", text: "" , pageNumber: 3},
@@ -282,6 +284,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   private submit = (): void => {
+
+
+     
     const dateStr = this.state.values.deadline; 
     const momentDate = moment(dateStr, "YYYY-MM-DD")
       .set({
@@ -306,7 +311,9 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state.values.languageRequirements[0].oralFR.text;
  
  
-    const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
+    const skills = this.state.values.skills.slice(1).map(item => (item.value.toString()));
+    //const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
+    console.log("skills", skills)
     const errorPageSkills = this.state.values.skills.filter(item => Object.keys(item).includes('text')).map(item => (item.text));
 
     const postDetailsObject = {
@@ -345,6 +352,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       requestHeaders.append("Content-type", "application/json");
       requestHeaders.append("Cache-Control", "no-cache");
       let responseText: string = "";
+
       
       const postOptions: IHttpClientOptions= {
         headers: requestHeaders,
@@ -379,14 +387,16 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }`,
       };
 
-      console.log("BODY", postOptions.body)
+
+
+console.log("BODY", postOptions.body)
       try {
         this.setState({isLoading: true, postDetails: postDetailsObject}, () => {
         this.props.context.aadHttpClientFactory
-        .getClient(this.props.clientId)
+        .getClient(this.config.clientId)
         .then((client: AadHttpClient): void => {
           client
-          .post(this.props.jobOpportunityId ? this.props. editJobApiUrl : this.props.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
+          .post(this.props.jobOpportunityId ? this.config.editJobApiUrl : this.config.createJobApiUrl, AadHttpClient.configurations.v1, postOptions)
           .then((response: HttpClientResponse) => {
             console.log("RESPONSE", response)
             if (response.status) {
@@ -619,7 +629,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         values: {
           ...prevState.values,
           skills: skillExists
-            ? prevState.values.skills.filter((item) => item.value !== value.key) 
+            ? prevState.values.skills.filter((item: any) => item.value !== value.key) 
             : [...prevState.values.skills, {value: value.key, text:value.text}],  
         },
       }));
@@ -682,60 +692,89 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   
   public approvedStaffingChecked = (event:string, checked: boolean):void => {
 
-      this.setState({ approvedStaffing: checked})
+      this.setState({ approvedStaffing: checked
+
+      })
   }
 
   public handleCopyBtn = (value: any):void  => {
    console.log("txt", value)
   }
 
+
   public async _populateEditableFields(): Promise<void> {
-    const item = await this._sp.web.lists.getByTitle("JobOpportunity").items.getById(Number(this.props.jobOpportunityId))
-    .select(
-      "Department",  "Department/NameEn",  "Department/NameFr", "Department/ID", 
-      "JobTitleFr", 
-      "JobTitleEn", 
-      "JobDescriptionEn", 
-      "JobDescriptionFr", 
-      "JobType", 
-      "ProgramArea",
-      "Program_Area",
-      "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "ClassificationCode/ClassificationLevelIds",
-      "ClassificationLevel/ID","ClassificationLevel/NameFr",
-      "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
-      "NumberOfOpportunities",
-      "ApplicationDeadlineDate",
-      "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
-      "City/ID", "City/NameEn", "City/NameFr", 
-      "SecurityClearance/ID", 
-      "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
-      "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
-      "Skills/ID"
-   
-    )
-    .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement", "Skills")();
-    console.log("item",item)
+
+    let item:any  = {};
+
+    const items = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId))
+    
+      .select(
+        "City/ID", "City/NameEn", "City/NameFr", 
+        "ClassificationCode", "ClassificationCode/ID", "ClassificationCode/NameEn", "ClassificationCode/NameFr", "ClassificationCode/ClassificationLevelIds",
+        "ClassificationLevel/ID","ClassificationLevel/NameFr",
+        "Department",  "Department/NameEn",  "Department/NameFr", "Department/ID", 
+        "JobTitleFr", 
+        "JobTitleEn", 
+        "JobDescriptionEn", 
+        "JobDescriptionFr", 
+        `${this.props.jobTypeColumn}`, 
+        `${this.props.programAreaColumn}`,
+        "Duration/ID","DurationQuantity","Duration/NameEn","Duration/NameFr",
+        "NumberOfOpportunities",
+        "ApplicationDeadlineDate",
+        "WorkArrangement/ID", "WorkArrangement/NameEn", "WorkArrangement/NameFr", 
+        "SecurityClearance/ID", 
+        "WorkSchedule/ID","WorkSchedule/NameEn", "WorkSchedule/NameFr",
+        "LanguageRequirement/ID", "LanguageRequirement/NameEn", "LanguageRequirement/NameFr", "LanguageComprehension",
+      )
+      .expand("Department", "ClassificationCode", "ClassificationLevel", "Duration", "WorkArrangement", "City", "SecurityClearance", "WorkSchedule","LanguageRequirement")();
+
+    item = items;
+
+    console.log("items", items)
+
+   const skillsValues: { value: number, text: string;   }[] = [];
+    // const skillsID :any[] =[] 
+    // const skillsText : any[] = []
+    const querySkills = await this._sp.web.lists.getById(this.props.list).items.getById(Number(this.props.jobOpportunityId)).select("Skills/ID").expand("Skills")(); 
+    
+    if (querySkills?.SKills?.length !== 0) {
+      const skills = await  Promise.all (
+        querySkills.Skills.map((skill: any) => 
+        this._sp.web.lists.getByTitle("Skills").items.getById(skill.ID)()
+        )
+      )
+
+      skills.forEach((element: any) => {
+
+        skillsValues.push({
+          value: element.ID,
+          text: this.props.prefLang === "fr-fr"
+            ? element.TitleFr
+            : element.TitleEN
+        });
+        
+       });
+
+    }
+
+    console.log("SKILLSID", skillsValues)
+
     const cityId = item.City.ID;
-
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
- 
     const regionDetails = await this._sp.web.lists.getByTitle("Region").items.getById(cityData.RegionId)();
-
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
-    // const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items();
-    // console.log("classificatioCode", classificationCode);
-    // console.log("classificationCodeID", item.ClassificationCode.ID)
-    // const getClassificationCodeList = classificationCode.filter(levelItem  => levelItem.ID === item.ClassificationCode.ID);
-    // console.log("classificationCodeList", getClassificationCodeList)
- 
+
+    console.log("Index", getIndex[0])
 
    
     if (item.LanguageRequirement.ID === 3) {
 
       const languageComprehensionArray= item.LanguageComprehension?.split("") 
+      console.log("LC", languageComprehensionArray)
  
-      if(languageComprehensionArray.length !== 0) {
+      if (languageComprehensionArray.length !== 0) {
        
          getIndex.push ( languageComprehensionArray.map((letter:string) => {
           if (letter === 'A') {
@@ -754,7 +793,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       }
     }
 
-    const skills = item.Skills.map((item:any) => ({ value: item.ID}));
+ 
+
 
     const timeZone = require('moment-timezone');
 
@@ -768,8 +808,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       return languageValue === 'fr-fr' ? value.NameFr : value.NameEn
     }
 
-    // const matchSecurityField = this.state.security
- 
+    // const matchSecurityField = this.state.security 
+    console.log("ITEM:", item)
 
     this.setState((prevState) => ({
       values: {
@@ -779,17 +819,26 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         jobTitleFr: {...prevState.values.jobTitleFr, value: item.JobTitleFr},
         jobDescriptionEn: {...prevState.values.jobDescriptionEn, value: item.JobDescriptionEn},
         jobDescriptionFr: {...prevState.values.jobDescriptionFr, value: item.JobDescriptionFr}, 
-        jobType: {...prevState.values.jobType, Guid: item.JobType[0].TermGuid, Label: item.JobType[0].Label},
-        programArea : {...prevState.values.programArea,  key: item.Program_Area?.[0]?.TermGuid || item.ProgramArea?.[0].TermGuid, text: item.Program_Area[0].Label || item.ProgramArea[0].Label},
-        classificationCode: {...prevState.values.classificationCode, key:item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
-        classificationLevel:{...prevState.values.classificationLevel, key:item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
+        jobType: {...prevState.values.jobType, Guid: item[this.props.jobTypeColumn]?.[0]?.TermGuid, Label: item[this.props.jobTypeColumn]?.[0]?.Label},
+        programArea : this.props.environment === "prod" ? 
+        {...prevState.values.programArea,  key: item[this.props.programAreaColumn]?.TermGuid, text: item[this.props.programAreaColumn]?.Label} 
+        :
+        {...prevState.values.programArea,  key: item[this.props.programAreaColumn]?.[0]?.TermGuid || '', text: item[this.props.programAreaColumn]?.[0]?.Label || ''},
+        classificationCode: {...prevState.values.classificationCode, key: item.ClassificationCode.ID , text: evaluateLanguage(this.props.prefLang, item.ClassificationCode)},
+        classificationLevel:{...prevState.values.classificationLevel, key: item.ClassificationLevel.ID, text: item.ClassificationLevel.NameFr},
         classificationLevelIds: item.ClassificationCode.ClassificationLevelIds,
         // classificationLevelIds: getClassificationCodeList.length !== 0 ? getClassificationCodeList[0].ClassificationLevelIds : "",
         numberOfOpportunities: {value: item.NumberOfOpportunities, pageNumber: 2},
         duration:{...prevState.values.duration, key: item.Duration.ID, text: evaluateLanguage(this.props.prefLang, item.Duration)},
         durationLength: {...prevState.values.durationLength, value:item.DurationQuantity},
-        deadline: new Date(formattedDate),
-        skills: skills,
+        deadline: new Date(formattedDate),      
+        //skills: [...prevState.values.skills, {value: skillsValues}],  
+        skills: skillsValues.map((skill, index) => ({
+          pageNmber: 3,
+          value: skillsValues[index]?.value ?? skill.value,
+          text: skillsValues[index]?.text ?? skill.text
+        })),
+        // skills: [{...prevState.values.skills, values:skillsValues}],
         province: {...prevState.values.province, key:provinceData.ID, text: evaluateLanguage(this.props.prefLang, provinceData)},
         region: {...prevState.values.region, key: regionDetails.Id, text: evaluateLanguage(this.props.prefLang, regionDetails) , provinceId:regionDetails.ProvinceId},
         city:{...prevState.values.city, key: cityData.ID, text: evaluateLanguage(this.props.prefLang, cityData), regionID: cityData.RegionId},
@@ -821,14 +870,17 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
   }
 
   public async _populateDropDowns(): Promise<void> {
+
+    console.log("JOBTERMID",this.config.jobTypeTermId)
     
     const {currentPage} = this.state;
     const parameters = [
       [
-        this.props.jobTypeTermId,
-        this.props.programAreaTermId,
+        this.config.jobTypeTermId,
+        this.config.programAreaTermId,
       ]  
     ];
+
   
     if (currentPage === 1  ) {
       const departments = await this._sp.web.lists.getByTitle('Department').items.top(200)();
@@ -853,7 +905,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
       const duration = await this._sp.web.lists.getByTitle('Duration').items();
       const durationData = duration.map((data: any) => ({key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn}))
 
-      GraphService._sets(parameters[0]).then(async (data: any) => {
+      GraphService._sets(parameters[0], this.props).then(async (data: any) => {
 
         const processLabels = (dataIndex: number):any[] => {
             return data[dataIndex].flatMap((items: any) =>
@@ -1083,8 +1135,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
 
   public async componentDidMount(): Promise<void> {
-
-    
+   
     await this._populateDropDowns();
     await this._getUser();
     await this.getDropdownElements();
@@ -1155,26 +1206,30 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     }
 
 
-    if(this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
-      this.setState((prevState) => ({
-        values: {
-          ...prevState.values,
-          languageRequirements: [
-            {
-              ...prevState.values.languageRequirements[0],
-              readingEN:{ key: "", text: "" },
-              readingFR: { key: "", text: "" },
-              writtenEN: { key: "", text: "" },
-              writtenFR:  { key: "", text: "" },
-              oralEN: { key: "", text: "" },
-              oralFR: { key: "", text: "" },
+    if ( this.props.jobOpportunityId === undefined) {
 
-            }
-          ]
-        
-        }
-      }))
+      if (this.state.values.languageRequirements[0].language !==  prevState.values.languageRequirements[0].language) {
+        this.setState((prevState) => ({
+          values: {
+            ...prevState.values,
+            languageRequirements: [
+              {
+                ...prevState.values.languageRequirements[0],
+                readingEN:{ key: "", text: "" },
+                readingFR: { key: "", text: "" },
+                writtenEN: { key: "", text: "" },
+                writtenFR:  { key: "", text: "" },
+                oralEN: { key: "", text: "" },
+                oralFR: { key: "", text: "" },
+  
+              }
+            ]
+          
+          }
+        }))
+      }
     }
+
 
   }
 
@@ -1229,6 +1284,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     // const customSpacingStackTokens: IStackTokens = {
     //   childrenGap: '3%',
     // };
+
 
     const myTheme = createTheme({
       palette: {
@@ -1312,6 +1368,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         title: 'Requirements',
         content: (
           <Requirements
+            jobOpportunityId={this.props.jobOpportunityId}
             language = {this.state.language}
             security = {this.state.security}
             workArrangment = {this.state.wrkArrangement}
@@ -1366,6 +1423,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
             handlePageNumber={this.handlePageNumber}
             securityList={this.state.security}
             skillsList={this.state.skillsList}
+            editSkills = {this.state.values.skills}
+            jobOpportunityId={this.props.jobOpportunityId}
           />
           </>
         ),
@@ -1376,6 +1435,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     const items = steps.map((item) => ({ key: item.step, title: "" }));
 
     const isButtonDisabled = !(this.state.approvedStaffing && this.state.isNonJobSeeker);
+
+    const domainUrl = this.props.environment === "dev" ? "https://devgcx.sharepoint.com" : "https://gcxgce.sharepoint.com"
     
 
     return (
@@ -1392,7 +1453,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
 
                     <Stack horizontal horizontalAlign="space-between" wrap>
                       {this.state.jobOpportunityId !== ''  && (
-                        <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={ `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`} onClick={() => ( `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`)} />
+                        <CustomButton id="view" name={this.strings.view} buttonType="secondary" url={ `${domainUrl}${this.props.baseUrl}JobOpportunityId=${this.state.jobOpportunityId}`} onClick={() => ( `https://devgcx.sharepoint.com/sites/CM-test/SitePages/Job-Opportunity.aspx?JobOpportunityId=${this.state.jobOpportunityId}`)} />
                       )}
                       <CustomButton id="home" name={this.strings.complete_button} buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />
                     </Stack>
@@ -1417,7 +1478,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
                   <>
                     
                     {
-                      this.props.jobOpportunityId !== "" && this.state.jobOpportunityOwner === false ? (
+                      this.props.jobOpportunityId !== undefined && this.state.jobOpportunityOwner === false ? (
                         <>
                           <h2>You are not the owner</h2>
                           <CustomButton id="home" name="Go on, git! 🤠" buttonType="primary" url={this.props.url} onClick={() => (this.props.url)} />

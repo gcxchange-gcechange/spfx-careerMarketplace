@@ -40,7 +40,7 @@ export interface ICareerMarketplaceState {
       jobDescriptionFr: {value: string, pageNumber: number};
       numberOfOpportunities: any;
       deadline: Date | undefined;
-      skills: any[],
+      skills: any[];
       jobType: { Label: string; Guid: string; pageNumber: number };
       programArea: any,
       classificationCode: any,
