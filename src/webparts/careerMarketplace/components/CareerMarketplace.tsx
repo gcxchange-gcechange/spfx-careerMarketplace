@@ -895,7 +895,7 @@ console.log("BODY", postOptions.body)
 
     } else if (currentPage === 2) {
 
-      const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items.top(800)();
+      const classificationCode = await  this._sp.web.lists.getByTitle('ClassificationCode').items.orderBy(this.props.prefLang === 'fr-fr' ?"NameFr": "NameEn").top(800)();
       const classificationCodeResults = classificationCode.map((data:any) => ({ key: data.Id, text: this.props.prefLang === 'fr-fr' ? data.NameFr: data.NameEn, classificationLevelIds: data.ClassificationLevelIds }));
 
       const classificationLevel = await this._sp.web.lists.getByTitle('ClassificationLevel').items();
