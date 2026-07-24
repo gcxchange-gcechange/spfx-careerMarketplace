@@ -12,3 +12,4 @@ js-cookie
 react-overflow-list
 react-use
 linkify-it
+postcss
