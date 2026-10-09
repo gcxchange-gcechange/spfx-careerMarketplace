@@ -311,9 +311,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state.values.languageRequirements[0].oralFR.text;
  
  
-    const skills = this.state.values.skills.slice(1).map(item => (item.value.toString()));
+    const skills = this.state.values.skills.map(item => (item.value.toString()));
     //const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
-    console.log("skills", skills)
     const errorPageSkills = this.state.values.skills.filter(item => Object.keys(item).includes('text')).map(item => (item.text));
 
     const postDetailsObject = {
@@ -758,7 +757,7 @@ console.log("BODY", postOptions.body)
 
     }
 
-    console.log("SKILLSID", skillsValues)
+    console.log("SKILLSID-populatedFunction", skillsValues)
 
     const cityId = item.City.ID;
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
