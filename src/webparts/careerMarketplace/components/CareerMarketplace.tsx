@@ -1482,9 +1482,13 @@ console.log("BODY", postOptions.body)
                          {/*Always render Initial page first */}
                           {currentPage === 0 && (
                             <>
-                              <InitialPage prefLang={ this.props.prefLang } currentPage={currentPage} checkedField={this.checkedField} checkedApprovedStaffing={this.approvedStaffingChecked} approvedStaffing={this.state.approvedStaffing} nonJobSeeker={this.state.isNonJobSeeker}/>
+                              <InitialPage prefLang={ this.props.prefLang }  jobOpportunityId={this.props.jobOpportunityId} currentPage={currentPage} checkedField={this.checkedField} checkedApprovedStaffing={this.approvedStaffingChecked} approvedStaffing={this.state.approvedStaffing} nonJobSeeker={this.state.isNonJobSeeker}/>
                               <Stack horizontalAlign='end'>
-                                <CustomButton id="next" name={ this.strings.InitialPage_next_btn } buttonType="primary" onClick={() => this.next()} disabled={isButtonDisabled} />
+                                {this.props.jobOpportunityId !== undefined ? 
+                                <CustomButton id="next" name={ this.strings.InitialPageEdit_next_btn } buttonType="primary" onClick={() => this.next()} disabled={isButtonDisabled} /> 
+                                : <CustomButton id="next" name={ this.strings.InitialPage_next_btn } buttonType="primary" onClick={() => this.next()} disabled={isButtonDisabled} />
+                                }
+                                
                               </Stack>
                             </>
                           )}

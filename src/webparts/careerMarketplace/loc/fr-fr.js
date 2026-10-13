@@ -5,17 +5,17 @@ define([], function() {
 
        //Initial Page
       "InitialPage_title1":"Avant de créer une opportunité",
-      "InitialPage_para1":"Sur GCXchange Marché de Carrières, ",  
+      "InitialPage_para1":"Dans GCÉchange Marché de Carrières, ", 
+      "InitialPageEdit_title1":"Avant de modifier une opportunité", 
       "InitialPage_para1_a":"seules les offres d'emploi peuvent être créées ",
       "InitialPage_para1_b": "afin de respecter nos exigences en matière de confidentialité.",  
-      "InitialPage_para2":"Veuillez confirmer qu'il s'agit bien d'une opportunité et non d'une poste de recherche d'emploi. Les publications qui ne respectent pas cette règle seront supprimées.",   
-      "InitalPage_checkbox_txt":"Je confirme qu'il s'agit bien d'une opportunité et non d'une poste de recherche d'emploi",
-      "InitialPage_para2":"Veuillez confirmer qu'il s'agit bien d'une opportunité et non d'une poste de recherche d'emploi. Les publications qui ne respectent pas cette règle seront supprimées.",   
-      "InitalPage_checkbox_txt":"Je confirme qu'il s'agit bien d'une opportunité et non d'une poste de recherche d'emploi",
+      "InitialPage_para2":"Veuillez confirmer qu'il s'agit bien d'une opportunité et non d'un poste de recherche d'emploi. Les publications qui ne respectent pas cette règle seront supprimées.",   
+      "InitalPage_checkbox_txt":"Je confirme qu'il s'agit bien d'une opportunité et non d'un poste de recherche d'emploi",
       "InitialPage_next_btn":"Continuer à créer une opportunité",
+      "InitialPageEdit_next_btn":"Continuer à modifier une opportunité",
       "approved_staffing":"Effectifs approuvés",
       "approved_staffing_description":"Vous êtes responsable de vous assurer que votre opportunité est conforme aux mandats d’effectifs fournis par votre service des ressources humaines.",
-      "approved_staffing_checkbox":"Oui",
+      "approved_staffing_checkbox":"Oui ",
       "approved_staffing_label_description":"cette opportunité est conforme aux mandats d’effectifs fournis par mon service des ressources humaines.",
 
 
