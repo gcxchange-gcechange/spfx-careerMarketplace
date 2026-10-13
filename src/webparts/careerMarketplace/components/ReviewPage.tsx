@@ -52,7 +52,6 @@ export default class ReviewPage extends React.Component<IReviewPageProps> {
 
 
 
-        console.log("PROPS:", this.props)
         
             const disabledField: Partial<ITextFieldStyles>={
               root: {

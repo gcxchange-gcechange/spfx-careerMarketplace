@@ -88,7 +88,7 @@ export default class Requirements extends React.Component<IRequirementsProps> {
     const disabledField = this.props.values.languageRequirements[0].language.key !== 3  || this.props.currentPage === 4;
 
 
-    console.log("PROPS:", this.props.values.skills);
+    console.log("PROPS-Skills:", this.props.values.skills);
 
 
 

@@ -93,7 +93,6 @@ define([], function() {
       //Page 4 - Review and Submit
       "reviewSubmit_title": "Revoir et soumettre",
       "reviewSubmit_para1":"Veuillez lire attentivement les informations ci-dessous avant de soumettre votre opportunité.",
-      "reviewSubmit_para1":"Veuillez lire attentivement les informations ci-dessous avant de soumettre votre opportunité.",
       "duration_length":"Durée de la possibilité d’emploi",
       "duration_time_period": "Durée de l'opportunité",
       "location": "Lieu",
