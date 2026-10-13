@@ -72,7 +72,7 @@ export const validate = (value: any, language:any, fieldName?: string ) : string
 }
 
 export const validateNumericField = (value: any, language:string, fieldName: string) : string| JSX.Element | undefined => {
-    console.log('Value:', value)
+
 
     const min: number = 1;
     const max:number = 60;
@@ -107,7 +107,7 @@ export const validateNumericField = (value: any, language:string, fieldName: str
 }
 
 export const validateEmail = (value: string, language: string, fieldName: string) : string | JSX.Element | undefined => {
-console.log("value", value)
+
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const isValid = regex.test(value);
 

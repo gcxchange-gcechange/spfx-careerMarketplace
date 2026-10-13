@@ -12,6 +12,7 @@ checkedField:(event:any, isChecked?: boolean) => void;
 checkedApprovedStaffing:(event: any, isChecked: boolean) => void;
 approvedStaffing: boolean;
 nonJobSeeker: boolean;
+jobOpportunityId: string | undefined;
 }
 
 export default class InitialPage extends React.Component<IInitialPageProps> {
@@ -35,7 +36,7 @@ export default class InitialPage extends React.Component<IInitialPageProps> {
     const _renderLabel = ():IRenderFunction<ICheckboxProps> => {
       return (props?: ICheckboxProps) => (
           <p>
-           <strong>{this.strings.approved_staffing_checkbox}</strong> {this.strings.approved_staffing_label_description}
+           {this.strings.approved_staffing_checkbox}{this.strings.approved_staffing_label_description}
           </p>
       );
     }
@@ -44,7 +45,7 @@ export default class InitialPage extends React.Component<IInitialPageProps> {
 
     return (
       <>      
-        <h2>{this.strings.InitialPage_title1}</h2>
+        <h2>{this.props.jobOpportunityId !== undefined ? this.strings.InitialPageEdit_title1 : this.strings.InitialPage_title1}</h2>
         <p>{this.strings.InitialPage_para1}<strong>{this.strings.InitialPage_para1_a}</strong>{this.strings.InitialPage_para1_b}</p>
         <p><strong>{this.strings.InitialPage_para2}</strong></p>
 

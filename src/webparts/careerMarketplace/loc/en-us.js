@@ -5,15 +5,17 @@ define([], function() {
 
     //Initial Page
     "InitialPage_title1":"Before you create a post",
+    "InitialPageEdit_title1":"Before you edit an opportunity (or post)?",
     "InitialPage_para1":"In GCXchange Career Marketplace ",
     "InitialPage_para1_a":"only opportunities can be created ",
     "InitialPage_para1_b": "to comply with our privacy requirements.",  
     "InitialPage_para2":"Confirm this is an opportunity and not a job-seeking post. Posts that don’t follow this rule will be removed.",   
     "InitalPage_checkbox_txt":"I confirm this is an opportunity and not a job-seeking post.",   
     "InitialPage_next_btn":"Continue to create post",
+    "InitialPageEdit_next_btn":"Continue to edit an opportunity",
     "approved_staffing":"Approved staffing",
     "approved_staffing_description":"You are responsible for ensuring that your opportunity aligns with the staffing mandates provided by your human resources department.",
-    "approved_staffing_checkbox":"Yes,",
+    "approved_staffing_checkbox":"Yes, ",
     "approved_staffing_label_description":"this opportunity aligns with the staffing mandates provided by my human resources department.",
 
 

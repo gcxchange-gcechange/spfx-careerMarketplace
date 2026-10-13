@@ -273,9 +273,6 @@ export default class Details extends React.Component<IDetailsProps> {
 
 
 
-    console.log("jobType", this.props.values.jobType)
-    console.log("ProgramArea", this.props.programArea)
-
     return (
       <>
         {this.props.currentPage === 2 && (

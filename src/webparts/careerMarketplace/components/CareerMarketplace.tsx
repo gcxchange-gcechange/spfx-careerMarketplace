@@ -159,8 +159,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         fieldName: fieldName,
         value: fieldData
       }));
-
-    console.log("pageFields", currentPgFields)
+ 
 
       const isDeployment = this.state.values.jobType.Guid === this.props.jobTypeDeploymentTerms[0].id;
       const isRemote = this.state.values.workArrangment.key === 3;
@@ -180,7 +179,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
         }
 
         if (field.fieldName === "applyEmail") {
-          console.log("field", field)
+ 
           const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
           //const outlookRegex =  /^[a-zA-Z0-9._%+-]+@(outlook|hotmail|live)\.com$/i;
            const isValid = regex.test(value.value);
@@ -199,7 +198,7 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     
         if (Array.isArray(value)) {
           if (field.fieldName === "skills" && field.value.length === 1) {
-            console.log('fieldName', field.fieldName)
+ 
             checkValues.push({key: field.fieldName, value: value})
           }
           if (field.fieldName === "languageRequirements") {
@@ -311,9 +310,8 @@ export default class CareerMarketplace extends React.Component<ICareerMarketplac
     this.state.values.languageRequirements[0].oralFR.text;
  
  
-    const skills = this.state.values.skills.slice(1).map(item => (item.value.toString()));
-    //const skills = this.state.values.skills.filter(item => Object.keys(item).includes('value')).map(item => (item.value.toString()));
-    console.log("skills", skills)
+    const skills = (this.state.values.skills[0].value === "" ? this.state.values.skills.slice(1) : this.state.values.skills).map(item => (item.value.toString()));
+ 
     const errorPageSkills = this.state.values.skills.filter(item => Object.keys(item).includes('text')).map(item => (item.text));
 
     const postDetailsObject = {
@@ -731,7 +729,7 @@ console.log("BODY", postOptions.body)
 
     item = items;
 
-    console.log("items", items)
+    // console.log("items", items)
 
    const skillsValues: { value: number, text: string;   }[] = [];
     // const skillsID :any[] =[] 
@@ -758,7 +756,6 @@ console.log("BODY", postOptions.body)
 
     }
 
-    console.log("SKILLSID", skillsValues)
 
     const cityId = item.City.ID;
     const cityData = await this._sp.web.lists.getByTitle("City").items.getById(cityId)();
@@ -766,13 +763,11 @@ console.log("BODY", postOptions.body)
     const provinceData = await this._sp.web.lists.getByTitle("Province").items.getById(regionDetails.ProvinceId)(); 
     const getIndex: any[] =  [];
 
-    console.log("Index", getIndex[0])
-
    
     if (item.LanguageRequirement.ID === 3) {
 
       const languageComprehensionArray= item.LanguageComprehension?.split("") 
-      console.log("LC", languageComprehensionArray)
+ 
  
       if (languageComprehensionArray.length !== 0) {
        
@@ -866,12 +861,11 @@ console.log("BODY", postOptions.body)
       }
 
     }))
-    console.log("state", this.state.values)
+ 
   }
 
   public async _populateDropDowns(): Promise<void> {
-
-    console.log("JOBTERMID",this.config.jobTypeTermId)
+ 
     
     const {currentPage} = this.state;
     const parameters = [
@@ -1488,9 +1482,13 @@ console.log("BODY", postOptions.body)
                          {/*Always render Initial page first */}
                           {currentPage === 0 && (
                             <>
-                              <InitialPage prefLang={ this.props.prefLang } currentPage={currentPage} checkedField={this.checkedField} checkedApprovedStaffing={this.approvedStaffingChecked} approvedStaffing={this.state.approvedStaffing} nonJobSeeker={this.state.isNonJobSeeker}/>
+                              <InitialPage prefLang={ this.props.prefLang }  jobOpportunityId={this.props.jobOpportunityId} currentPage={currentPage} checkedField={this.checkedField} checkedApprovedStaffing={this.approvedStaffingChecked} approvedStaffing={this.state.approvedStaffing} nonJobSeeker={this.state.isNonJobSeeker}/>
                               <Stack horizontalAlign='end'>
-                                <CustomButton id="next" name={ this.strings.InitialPage_next_btn } buttonType="primary" onClick={() => this.next()} disabled={isButtonDisabled} />
+                                {this.props.jobOpportunityId !== undefined ? 
+                                <CustomButton id="next" name={ this.strings.InitialPageEdit_next_btn } buttonType="primary" onClick={() => this.next()} disabled={isButtonDisabled} /> 
+                                : <CustomButton id="next" name={ this.strings.InitialPage_next_btn } buttonType="primary" onClick={() => this.next()} disabled={isButtonDisabled} />
+                                }
+                                
                               </Stack>
                             </>
                           )}
