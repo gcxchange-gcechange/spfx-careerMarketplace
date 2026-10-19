@@ -13,3 +13,7 @@ react-overflow-list
 react-use
 linkify-it
 postcss
+browserslist
+maplibre-gl
+nanoid
+source-map-js
