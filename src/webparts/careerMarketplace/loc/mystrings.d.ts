@@ -4,12 +4,14 @@ declare interface ICareerMarketplaceWebPartStrings {
 
   //Initial Page
   "InitialPage_title1":string;
+  "InitialPageEdit_title1": string;
   "InitialPage_para1":string;
   "InitialPage_para1_a":string;
   "InitialPage_para1_b":string;
   "InitialPage_para2":string;
   "InitalPage_checkbox_txt":string;  
   "InitialPage_next_btn":string;
+  "InitialPageEdit_next_btn": string;
   "approved_staffing": string;
   "approved_staffing_description":string,
   "approved_staffing_checkbox": string,
