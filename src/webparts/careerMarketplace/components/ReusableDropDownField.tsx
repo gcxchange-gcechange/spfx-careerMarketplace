@@ -10,7 +10,7 @@ export interface IReusableDropdownFieldProps {
   name: string;
   title?: string;
   options?: any[];
-  onChange: (event: any, item: any) => void;
+  onChange: (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption, index?:number) => void;
   readOnly?: boolean;
   disabled?: boolean;
   selectedKey?: string[];

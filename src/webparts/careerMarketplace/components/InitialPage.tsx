@@ -8,8 +8,8 @@ import styles from './CareerMarketplace.module.scss';
 export interface IInitialPageProps {
 currentPage: number;
 prefLang:string;
-checkedField:(event:any, isChecked?: boolean) => void;
-checkedApprovedStaffing:(event: any, isChecked: boolean) => void;
+checkedField:(event?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean) => void;
+checkedApprovedStaffing:(event?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean ) => void
 approvedStaffing: boolean;
 nonJobSeeker: boolean;
 jobOpportunityId: string | undefined;
@@ -18,16 +18,14 @@ jobOpportunityId: string | undefined;
 export default class InitialPage extends React.Component<IInitialPageProps> {
     public strings = SelectLanguage(this.props.prefLang)
 
-    public _onChange = ( event: any, isChecked:boolean ): void => {
-        const eventName = event.target.id;
-      
-        this.props.checkedField( eventName, isChecked) 
+    public _onChange = ( event?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?:boolean ): void => {
+        this.props.checkedField( event,  checked) 
     }
 
 
-    public _onCheckedApprovedStaffing = (event: any, isChecked: boolean): void => {
-      const eventName = event.target.id;
-      this.props.checkedApprovedStaffing(eventName, isChecked);
+    public _onCheckedApprovedStaffing = (event?: React.FormEvent<HTMLElement | HTMLInputElement>, checked?: boolean): void => {
+     
+      this.props.checkedApprovedStaffing(event, checked);
     }
 
 

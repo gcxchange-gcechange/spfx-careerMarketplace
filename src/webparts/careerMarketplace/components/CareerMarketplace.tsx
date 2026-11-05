@@ -7,14 +7,14 @@ import type { ICareerMarketplaceProps } from './ICareerMarketplaceProps';
 import { Steps } from"antd";
 import CustomButton from './CustomButton';
 import PosterInfo from './PosterInfo';
-import {   Link, Spinner, SpinnerSize, Stack,   ThemeProvider,  createTheme } from '@fluentui/react';
+import {   IComboBox, IComboBoxOption, IDropdownOption, Link, Spinner, SpinnerSize, Stack,   ThemeProvider,  createTheme } from '@fluentui/react';
 import Details from './Details';
 import Requirements from './Requirements';
 import {AadHttpClient, IHttpClientOptions, HttpClientResponse} from '@microsoft/sp-http';
 import { getSP } from '../../../pnpConfig';
 import { SPFI } from '@pnp/sp';
 import PageTitle from './PageTitle';
-import * as moment from 'moment';
+import moment from 'moment';
 import Complete from './Complete';
 import { getEnvConfig, toTitleCase } from './Functions';
 import { RefObject } from 'react';
@@ -428,8 +428,13 @@ console.log("BODY", postOptions.body)
 
 
 
-  public handleOnChangeTextField = (event: any, value: string): void => {
-    const eventName = event;
+  public handleOnChangeTextField = (fieldName: any, newValue?: string): void => {
+
+    console.log("EVENT:", fieldName );
+    console.log("NV", newValue)
+
+    const eventName = fieldName;
+    const value = newValue ?? "";
     const trimmedInputValue = value.trim();
 
       if (eventName === "jobDescriptionEn" && value === "") {
@@ -452,16 +457,16 @@ console.log("BODY", postOptions.body)
         }));
       }
 
-      // if (eventName === "applyEmail") {
+      if (eventName === "applyEmail") {
        
-      //     this.setState((prevState) => ({
-      //       values: {
-      //         ...prevState.values,
-      //         applyEmail: {...prevState.values.applyEmail, value: ""}
-      //       }
-      //     }))
+          this.setState((prevState) => ({
+            values: {
+              ...prevState.values,
+              applyEmail: {...prevState.values.applyEmail, value: ""}
+            }
+          }))
 
-      // } 
+      } 
 
 
       this.setState((prevState) => ({
@@ -494,7 +499,26 @@ console.log("BODY", postOptions.body)
     }))
   }
 
-  public handleDropDownItem = (valueName: any, value: any):void => {
+
+
+  public handleDepartmentField = (event: React.FormEvent<IComboBox>, option: IComboBoxOption): void => {
+
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        department: {
+          ...prevState.values.department,
+          key: option.key,
+          text: option.text
+        }
+      }
+    }))
+  };
+
+  public handleDropDownItem = (event: any, value: IDropdownOption):void => {
+    const valueName= event;
+    console.log("valueNameDD", valueName)
+  
 
     const langEvaluationdIds = ['readingEN', 'writtenEN', 'oralEN','readingFR', 'writtenFR', 'oralFR'];
 
@@ -596,7 +620,7 @@ console.log("BODY", postOptions.body)
       }  
     else  if (valueName === "jobType") {
       
-      const deployment = value.key === this.props.jobTypeDeploymentTerms[0]?.id
+      const deployment = value?.key === this.props.jobTypeDeploymentTerms[0]?.id
 
       if (deployment) {
         this.setState((prevState) => ({
@@ -612,7 +636,7 @@ console.log("BODY", postOptions.body)
       this.setState((prevState) => ({
         values: {
           ...prevState.values,
-          jobType: {...prevState.values.jobType, Guid: value.key, Label: value.text} , 
+          jobType: {...prevState.values.jobType, Guid: value?.key, Label: value?.text} , 
             
         },    
       }));
@@ -621,14 +645,14 @@ console.log("BODY", postOptions.body)
 
     else if( valueName === "skills") {
       const findSkillItem = [...this.state.values.skills];
-      const skillExists = findSkillItem.some((item: any) => item.value === value.key);
+      const skillExists = findSkillItem.some((item: any) => item.value === value?.key);
       this.setState((prevState) => ({
         hasTouchedSkillCombo: true,
         values: {
           ...prevState.values,
           skills: skillExists
-            ? prevState.values.skills.filter((item: any) => item.value !== value.key) 
-            : [...prevState.values.skills, {value: value.key, text:value.text}],  
+            ? prevState.values.skills.filter((item: any) => item.value !== value?.key) 
+            : [...prevState.values.skills, {value: value?.key, text:value?.text}],  
         },
       }));
     }  
@@ -637,15 +661,15 @@ console.log("BODY", postOptions.body)
       this.setState((prevState) => {
 
         //check if the province changed
-        const provinceChanged = prevState.values.province?.key !== value.key;
+        const provinceChanged = prevState.values.province?.key !== value?.key;
 
         return {
           values: {
             ...prevState.values,
             province: {
               ...prevState.values.province,
-              key: value.key,
-              text: value.text
+              key: value?.key,
+              text: value?.text
             },
 
             region: provinceChanged
@@ -682,17 +706,15 @@ console.log("BODY", postOptions.body)
     }
   }
 
-  public checkedField = (event:string, checked: boolean):void => {
+  public checkedField = (event: any, checked?: boolean):void => {
 
-      this.setState({ isNonJobSeeker: checked})
+      this.setState({ isNonJobSeeker: checked ?? false})
 
   }
   
-  public approvedStaffingChecked = (event:string, checked: boolean):void => {
+  public approvedStaffingChecked = (event: any, checked?: boolean):void => {
 
-      this.setState({ approvedStaffing: checked
-
-      })
+      this.setState({ approvedStaffing: checked ?? false })
   }
 
   public handleCopyBtn = (value: any):void  => {
@@ -1319,7 +1341,8 @@ console.log("BODY", postOptions.body)
             items={this.state.departmentList} 
             userInfo={this.props.userDisplayName} 
             currentPage= {this.state.currentPage}
-            handleDropDownItem={this.handleDropDownItem}
+            //handleDropDownItem={this.handleDropDownItem}
+            handleDepartmentField={this.handleDepartmentField}
             handleOnChange={this.handleOnChangeTextField}
             readOnly= {false}
             values={this.state.values}

@@ -12,8 +12,9 @@ import { validateEmail  } from "./Validations";
 
 export interface IPosterInfoProps {
   prefLang: string;
-  handleDropDownItem: (event: any, item: any) => void;
-  handleOnChange: (event: string, newValue: string) => void;
+  //handleDropDownItem: (event: React.FormEvent<HTMLDivElement> | string, option: IDropdownOption) => void;
+  handleDepartmentField: (event: React.FormEvent<IComboBox> , option: IComboBoxOption, value?: string) => void;
+  handleOnChange: (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => void;
   items: IDropdownOption[];
   userInfo: string;
   currentPage: number;
@@ -34,30 +35,30 @@ export default class PosterInfo extends React.Component<IPosterInfoProps> {
   
   public strings = SelectLanguage(this.props.prefLang);
   
-  public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
-    const eventName = event.target.id;
+  // public onChangeDropDownItem = (event: any, option?: IDropdownOption): void => {
+  //   const eventName = event.target.id;
 
-    if (item) {
-      this.props.handleDropDownItem(eventName, item);
-    }
+  //   if (option) {
+  //     this.props.handleDropDownItem(eventName, option);
+  //   }
+  // };
+
+  public onChangeComboItem = (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string): void => {
+
+    const selectedOption = option ?? { key: "department-input", text: value ?? "" };
+
+
+    console.log(" value:", selectedOption)
+
+      this.props.handleDepartmentField(event, selectedOption);
+    
   };
 
-  public onChangeComboItem = (event: React.FormEvent<IComboBox>,  item?: IComboBoxOption, index?: number, value?: string): void => {
+    public  onChangeEmail = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: any): void => {
+      //const eventName = event.currentTarget.name;
+      const inputValue = newValue ?? "";
 
-    const selectedValue = item ? item.key : "department-input";
-    const selectedText = item ? item.text : value;
-
-
-    if (item) {
-      this.props.handleDropDownItem("department", { key: selectedValue, text: selectedText });
-    }
-  };
-
-    public  onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
-      const eventName = event.target.name;
-      const inputValue = value;
-
-        this.props.handleOnChange(eventName, inputValue);
+        this.props.handleOnChange(event, inputValue);
       
     }
   

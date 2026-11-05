@@ -18,12 +18,13 @@ import {
   Stack,
   StackItem,
 } from "@fluentui/react";
-import * as moment from "moment";
+import moment from "moment";
 import { validateNumericField, validateEmpty } from "./Validations";
 import styles from "./CareerMarketplace.module.scss";
 import { SelectLanguage } from "./SelectLanguage";
 import { isInvalid, getLocalizedString } from "./Functions";
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
+
 
 
 
@@ -40,7 +41,7 @@ export interface IDetailsProps {
   duration: any[];
   currentPage: number;
   handleDropDownItem: (event: any, item: any) => void;
-  handleOnChange: (event: string, newValue?: string) => void;
+  handleOnChange: (event: any, value?: string) => void | undefined;
   handleOnDateChange: (date: Date) => void;
   handleDurationLength: (value: string) => void;
   handleNumberofOpp: (value: string) => void;
@@ -70,12 +71,27 @@ export interface IDetailsProps {
 export default class Details extends React.Component<IDetailsProps> {
   public strings = SelectLanguage(this.props.prefLang);
 
-  public onChangeTextValue = (event: React.ChangeEvent<HTMLInputElement>, value: any): void => {
-    const eventName = event.target.name;
-    const inputValue = value;
+  private onChangeTextValue = ( event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string): void => {
 
-    this.props.handleOnChange(eventName, inputValue);
-  };
+  const fieldName = event.currentTarget.name;
+  const value = newValue ?? "";
+
+  console.log("FIELDNAME", fieldName)
+
+  // Update field dynamically
+  this.props.handleOnChange(fieldName, value)
+
+};
+
+  // public onChangeTextValue = (event: string, value: any): void => {
+  //   console.log("EVENT:", event)
+  //   const eventName = event;
+  //   const inputValue = value;
+
+  //   console.log(event);
+
+  //   this.props.handleOnChange(eventName, inputValue);
+  // };
 
 
   private convertToParagraph = (value: string): string => {
@@ -132,26 +148,28 @@ export default class Details extends React.Component<IDetailsProps> {
 
 
 
-  public onChangeDropDownItem = (event: any, item: IDropdownOption): void => {
-    const eventId = event.target.id;
+  public onChangeDropDownItem = (event:React.FormEvent<HTMLDivElement>, option?: IDropdownOption): void => {
 
-    if (item) {
-      this.props.handleDropDownItem(eventId, item);
+    const fieldName = event.currentTarget.id.split("-")[0];
+    console.log("FIELDNAME", fieldName)
+
+    if (option) {
+      this.props.handleDropDownItem(fieldName, option);
     }
   };
 
-  public onSelectedDate = (date: Date | undefined): void => {
+  public onSelectedDate = (date: Date | null | undefined): void => {
     if (date) {
       this.props.handleOnDateChange(date);
     }
   };
 
-  public onChangeClassificationCode = (event: React.FormEvent<IComboBox>, item?: IClassificationLevelOption, index?: number, value?: string): void => {
-    const selectedValue = item ? item.key : "classificationCode-input";
-    const selectedText = item ? item.text : value;
-    this.props.values.classificationLevelIds = item ? item.classificationLevelIds : "";
+  public onChangeClassificationCode = (event: React.FormEvent<IComboBox>, option?: IComboBoxOption, index?: number, value?: string): void => {
+    const selectedValue = option ? option.key : "classificationCode-input";
+    const selectedText = option ? option.text : value;
+    this.props.values.classificationLevelIds = option ? (option as IClassificationLevelOption).classificationLevelIds : "";
 
-    if (item) {
+    if (option) {
       this.props.handleDropDownItem("classificationCode", { key: selectedValue, text: selectedText });
     }
   };
