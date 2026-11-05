@@ -552,11 +552,11 @@ export default class Details extends React.Component<IDetailsProps> {
                 this.props.handleNumberofOpp('');
                 return;
               }
+              //if value is a decimal round to the nearest integer
+              if (!Number.isInteger(Number(val))) val = Math.round(Number(val));
               //if values are not within the 1-60
               if (val < 1) val = 1;
               if (val > 60) val = 60;
-              //if value is a decimal round to the nearest integer
-              if (!Number.isInteger(Number(val))) val = Math.round(Number(val));
 
               this.props.handleNumberofOpp(val.toString());
             }}
@@ -654,11 +654,11 @@ export default class Details extends React.Component<IDetailsProps> {
                       this.props.handleDurationLength('');
                       return;
                     }
+                    //if value is a decimal round to the nearest integer
+                    if (!Number.isInteger(Number(val))) val = Math.round(Number(val));
                     //if values are not within the 1-60
                     if (val < 1) val = 1;
                     if (val > 60) val = 60;
-                    //if value is a decimal round to the nearest integer
-                    if (!Number.isInteger(Number(val))) val = Math.round(Number(val));
 
                     this.props.handleDurationLength(val.toString());
                   }}
