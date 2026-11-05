@@ -1,13 +1,14 @@
 {
   "@microsoft/generator-sharepoint": {
     "plusBeta": false,
+    "useGulp": false,
     "isCreatingSolution": true,
-    "nodeVersion": "22.19.0",
+    "nodeVersion": "22.23.4",
     "sdksVersions": {
       "@microsoft/microsoft-graph-client": "3.0.2",
       "@microsoft/teams-js": "2.24.0"
     },
-    "version": "1.21.1",
+    "version": "1.22.2",
     "libraryName": "career-marketplace",
     "libraryId": "9565bac2-0225-42ba-b1b9-9fb5aaf9ec85",
     "environment": "spo",

@@ -33,7 +33,7 @@ export interface ICareerMarketplaceState {
       
     values: {
       applyEmail: {value: any, pageNumber: number};
-      department: { key: string; text: string; pageNumber: number };
+      department: { key: any; text: string; pageNumber: number };
       jobTitleEn: {value: string, pageNumber: number};
       jobTitleFr: {value: string, pageNumber: number};
       jobDescriptionEn: {value: string, pageNumber: number};
@@ -41,7 +41,7 @@ export interface ICareerMarketplaceState {
       numberOfOpportunities: any;
       deadline: Date | undefined;
       skills: any[];
-      jobType: { Label: string; Guid: string; pageNumber: number };
+      jobType: { Label: string; Guid: any; pageNumber: number };
       programArea: any,
       classificationCode: any,
       classificationLevel: any,
