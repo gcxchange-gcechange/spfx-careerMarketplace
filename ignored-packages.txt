@@ -17,3 +17,4 @@ browserslist
 maplibre-gl
 nanoid
 source-map-js
+markdown-it
