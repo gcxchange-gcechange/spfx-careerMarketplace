@@ -535,8 +535,15 @@ export default class Details extends React.Component<IDetailsProps> {
             name={"numberOfOpportunities"}
             min={1}
             max={60}
+            step={1}
             value={numberOfOpportunities.value}
             aria-describedby="numberOfOpportunities-error"
+            onKeyDown={(e) => {
+              // prevent user from typing decimals
+              if (e.key === '.' || e.key === ',') {
+                e.preventDefault();
+              }
+            }}
             onChange={(e) => {
               let val = Number(e.target.value);
 
@@ -548,6 +555,8 @@ export default class Details extends React.Component<IDetailsProps> {
               //if values are not within the 1-60
               if (val < 1) val = 1;
               if (val > 60) val = 60;
+              //if value is a decimal round to the nearest integer
+              if (!Number.isInteger(Number(val))) val = Math.round(Number(val));
 
               this.props.handleNumberofOpp(val.toString());
             }}
@@ -630,6 +639,13 @@ export default class Details extends React.Component<IDetailsProps> {
                   name={"durationLength"}
                   min={1}
                   max={60}
+                  step={1}
+                  onKeyDown={(e) => {
+                    // prevent user from typing decimals
+                    if (e.key === '.' || e.key === ',') {
+                      e.preventDefault();
+                    }
+                  }}
                   onChange={(e) => {
                     let val = Number(e.target.value);
 
@@ -641,6 +657,8 @@ export default class Details extends React.Component<IDetailsProps> {
                     //if values are not within the 1-60
                     if (val < 1) val = 1;
                     if (val > 60) val = 60;
+                    //if value is a decimal round to the nearest integer
+                    if (!Number.isInteger(Number(val))) val = Math.round(Number(val));
 
                     this.props.handleDurationLength(val.toString());
                   }}
