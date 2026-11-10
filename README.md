@@ -6,7 +6,7 @@ This project is a SharePoint web part featuring a multi-step form that allows us
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.21.1-green.svg)
+![version](https://img.shields.io/badge/version-1.22.2-green.svg)
 ![Node.js](https://img.shields.io/badge/Node.js-v122+-green.svg)
 
 ## Applies to
@@ -56,9 +56,10 @@ const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/your-site.asp
 
 ## Version history
 
-| Version | Date             | Comments        |
-| ------- | ---------------- | --------------- |
-| 1.0     | October 1, 2025  | Initial release |
+| Version | Date             | Comments            |
+| ------- | ---------------- | --------------------|
+| 1.0     | October 1, 2025  | Initial release     |
+| 1.1     | November 5, 2026 | SPFX Upgrade 1.22.2 |
 
 
 ## Disclaimer
@@ -68,14 +69,23 @@ const baseJobOpportunityUrl = "https://devgcx.sharepoint.com/sites/your-site.asp
 ---
 
 ## Minimal Path to Awesome
-
 - Clone this repository
 - Ensure that you are at the solution folder
-- [sharepoint environment](https://learn.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment):
-  - `npm install -g gulp-cli yo @microsoft/generator-sharepoint --global`
-- generate the certificate; `gulp trust-dev-cert`
-- in the command-line run:
-  - **npm install**
-  - **gulp serve**
+- To install the dependencies, in the command-line run:
+  - `npm install -g @rushstack/heft`
+  - `npm install`
+- To debug in the front end:
+  - go to the `serve.json` file and update `initialPage` to `https://your-domain-name.sharepoint.com/_layouts/15/workbench.aspx`
+  - In the command-line run:
+    - `npm run start`
+    - You will need to add your client id and azure function to the clientId and url classs members in the SCW.tsx file.
+- To deploy:
+  - In the command-line run:
+    - `npm run  build `
+  - Add the webpart to your tenant app store
+- Approve the web API permissions
+- Add the Webpart to a page
+- Modify the property pane according to your requirements
+
 
 
